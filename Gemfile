@@ -7,6 +7,8 @@ gem 'bootstrap-sass', '3.1.1.0'
 gem 'font-awesome-rails', '4.0.3.1'
 gem 'jquery-easing-rails', '0.0.1'
 gem 'bcrypt-ruby', '3.1.2'
+gem 'musicbrainz', '0.7.6'
+gem 'wikipedia-client', '1.3.0'
 
 group :development do
   gem 'sqlite3', '1.3.8'
