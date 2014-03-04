@@ -5,6 +5,12 @@ describe User do
   before do
       @user = User.new(name: "Example User", email: "user@example.com",
                      password: "foobar", password_confirmation: "foobar", role: "test")
+      @beta_user = User.new(email: "user2@example.com", role: "beta")
+      @non_beta_guest_user = User.new(email: "user3@example.com", role:"fail")
+      @bad_role_user = User.new(name: "Example User4", email: "user4@example.com",
+                     password: "foobar", password_confirmation: "foobar", role: "fail")
+      @no_role_user = User.new(name: "Example User5", email: "user5@example.com",
+                     password: "foobar", password_confirmation: "foobar")
   end
 
   subject { @user }
@@ -30,7 +36,7 @@ describe User do
   end
 
   describe "when name is too long" do
-    before { @user.name = "a" * 51 }
+    before { @user.name = "a" * 31 }
     it { should_not be_valid }
   end
 
@@ -112,5 +118,30 @@ describe User do
       it { should_not eq user_for_invalid_password }
       specify { expect(user_for_invalid_password).to be_false }
     end
+  end
+
+  describe "when the user's role is beta" do
+    subject { @beta_user }
+
+    # it.role { should eq "beta" }
+    it { should be_valid }
+  end
+
+  describe "when the user's role isn't beta or guest but lacks name and pass" do
+    subject { @non_beta_guest_user }
+
+    it { should be_invalid }
+  end
+
+  describe "when the user's role is invalid" do
+    subject { @bad_role_user }
+
+    it { should be_invalid }
+  end
+
+  describe "when the user has no role" do
+    subject { @no_role_user }
+
+    it { should be_invalid }
   end
 end

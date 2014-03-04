@@ -17,4 +17,5 @@
 //= require jquery.easing
 //= require analytics
 //= require grayscale
+//= require flash
 //= require_tree .
