@@ -83,6 +83,7 @@ input {
   display:inline;
   margin-right: 10px;
   padding-left: 5px;
+  border-radius:2px;
 }
 
 .light {
@@ -330,12 +331,30 @@ input {
     border: 1px solid #28c3ab;
     outline: 0;
     color: #000;
-    background-color: #28c3ab;
+    background-color: white;
+    opacity:.3;
 }
 
 .btn-huge {
     padding: 25px;
     font-size: 26px;
+}
+
+.btn-beta {
+    border: 2px solid #fff;
+    color: #fff;
+    background: 0 0;
+    -webkit-transition: background .3s ease-in-out;
+    -moz-transition: background .3s ease-in-out;
+    transition: background .3s ease-in-out;
+    border-radius:0;
+}
+
+.btn-beta:hover,
+.btn-beta:focus {
+    outline: 0;
+    color: #fff;
+    background: rgba(255,255,255,.3);
 }
 
 .banner-social-buttons {
