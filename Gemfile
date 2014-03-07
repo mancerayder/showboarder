@@ -17,6 +17,7 @@ gem 'turbolinks', '1.1.1'
 gem 'jbuilder', '1.0.2'
 gem 'newrelic_rpm', '3.7.2.195'
 gem 'figaro', '0.7.0'
+gem 'devise', '3.2.3'
 
 group :development do
   gem 'sqlite3', '1.3.8'
