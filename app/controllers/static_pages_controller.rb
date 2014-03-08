@@ -1,11 +1,11 @@
 class StaticPagesController < ApplicationController
   def home
-    @user = User.new(user_params)
+    @guest = Guest.new(guest_params)
   end
 end
 
 private
 
-  def user_params
-    params.fetch(:user, {})
+  def guest_params
+    params.fetch(:guest, {})
   end

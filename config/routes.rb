@@ -1,7 +1,9 @@
 Showboarder::Application.routes.draw do
+  # get "guests/new"
+  # get "guests/create"
   # get "users/new"
   devise_for :users
-  resources :users
+  resources :users, :guests
   # get "users/new"
   root to: 'static_pages#home'
   # The priority is based upon order of creation: first created -> highest priority.

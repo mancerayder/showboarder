@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  validates :name, presence: true, unique: true, length: { minimum: 4, maximum: 20 }
+  # validates :name, presence: true, unique: true, length: { minimum: 4, maximum: 20 }
   # before_save { email.downcase! }
   # VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   # validates :email, presence:   true,
