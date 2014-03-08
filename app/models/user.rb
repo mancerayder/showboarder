@@ -11,12 +11,13 @@ class User < ActiveRecord::Base
       where(conditions).first
     end
   end
+
+  validates :name, presence: true, unique: true, length: { minimum: 4, maximum: 20 }
   # before_save { email.downcase! }
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  validates :email, presence:   true,
-                    format:     { with: VALID_EMAIL_REGEX },
-                    uniqueness: { case_sensitive: false }
-  validates :role, presence: true
+  # VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  # validates :email, presence:   true,
+  #                   format:     { with: VALID_EMAIL_REGEX },
+  #                   uniqueness: { case_sensitive: false }
   # validates_inclusion_of :role, in: %w( test beta guest customer member admin ), message: "role %{value} is not predefined"
   # has_secure_password validations: false
 
