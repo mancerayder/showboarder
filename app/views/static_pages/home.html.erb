@@ -54,6 +54,7 @@
                         <% flash.each do |key, value| %>
                           <div id="flash" class="alert alert-<%= key %>"><%= value %></div>
                         <% end %>
+                        <%= link_to 'Sign out', destroy_user_session_path, method:"delete" %>
                         <div class="page-scroll">
                             <a href="#about" class="btn btn-circle">
                                 <i class="fa fa-angle-double-down animated"></i>

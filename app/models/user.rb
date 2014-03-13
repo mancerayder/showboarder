@@ -1,16 +1,37 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:login]
+  devise :omniauthable, :omniauth_providers => [:facebook, :twitter]
 
   attr_accessor :login
 
-  def self.find_first_by_auth_conditions(warden_conditions)
-    conditions = warden_conditions.dup
-    if login = conditions.delete(:login)
-      where(conditions).where(["lower(name) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+  def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
+    data = auth.extra.raw_info
+    if user = User.where(:email => data.email).first
+      user
     else
-      where(conditions).first
+      user = User.new
+      user
     end
   end
+
+  def self.find_for_twitter_oauth(auth, signed_in_resource=nil)
+    data = auth.extra.raw_info
+    if user = User.where(:email => data.email).first
+      user
+    else
+      user = User.new
+      user
+    end
+  end
+
+  # def self.find_first_by_auth_conditions(warden_conditions)
+  #   conditions = warden_conditions.dup
+  #   if login = conditions.delete(:login)
+  #     where(conditions).where(["lower(name) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+  #   else
+  #     where(conditions).first
+  #   end
+  # end
 
   # validates :name, presence: true, unique: true, length: { minimum: 4, maximum: 20 }
   # before_save { email.downcase! }

@@ -18,6 +18,8 @@ gem 'jbuilder', '1.0.2'
 gem 'newrelic_rpm', '3.7.2.195'
 gem 'figaro', '0.7.0'
 gem 'devise', '3.2.3'
+gem 'omniauth-facebook', '1.6.0'
+gem 'omniauth-twitter', '1.0.1'
 
 group :development do
   gem 'sqlite3', '1.3.8'
