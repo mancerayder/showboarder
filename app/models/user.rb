@@ -1,25 +1,23 @@
 class User < ActiveRecord::Base
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:login]
-  devise :omniauthable, :omniauth_providers => [:facebook, :twitter]
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable, :confirmable
+  devise :omniauthable, :omniauth_providers => [:facebook]
 
   attr_accessor :login
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
-    data = auth.extra.raw_info
-    if user = User.where(:email => data.email).first
+    if user = User.where(:email => auth.info.email).first
       user
     else
-      user = User.new
-      user
-    end
-  end
-
-  def self.find_for_twitter_oauth(auth, signed_in_resource=nil)
-    data = auth.extra.raw_info
-    if user = User.where(:email => data.email).first
-      user
-    else
-      user = User.new
+      user = User.create(name:auth.info.name,
+        provider:auth.provider,
+        facebook_url:auth.info.urls.Facebook,
+        uid:auth.uid,
+        email:auth.info.email,
+        image:auth.info.image,
+        nickname:auth.info.nickname,
+        location:auth.info.location,
+        password:Devise.friendly_token[0,20])
       user
     end
   end

@@ -4,7 +4,7 @@ Showboarder::Application.routes.draw do
   # get "users/new"
   # devise_for :users do
   #   get "/signup", :to => "devise/registrations#new"
-  # end
+  # end 
   devise_for :users, :path => '', :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   resources :users, :guests
