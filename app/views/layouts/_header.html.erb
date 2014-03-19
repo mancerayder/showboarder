@@ -24,13 +24,15 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
       <ul class="nav navbar-nav">
-
-
       
+      <% if not current_page?(root_path) %>
         <li>
           <%= link_to 'create a showboard', new_user_registration_path %>
         </li>
-
+        <li>
+          <%= link_to 'about', about_path %>
+        </li>
+      <% end %>
         <li>
           <%= link_to 'log in', new_user_session_path %>
         </li>
