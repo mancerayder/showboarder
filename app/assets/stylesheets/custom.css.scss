@@ -60,14 +60,6 @@ input {
   height: auto !important;
 }
 
-// .beta-form{
-//   width:auto;
-//   display:inline;
-//   margin-right: 10px;
-//   padding-left: 5px;
-//   border-radius:2px;
-// }
-
 .light {
   font-weight: 400;
 }
@@ -140,6 +132,11 @@ input {
   float:right;
 }
 
+.fa-twitter{
+  line-height:10px;
+  font-size:22px;
+}
+
 .fa-bars {
   font-size: 22px;
 }
@@ -171,8 +168,6 @@ input {
 .intro-text {
   font-size: 16px;
 }
-
-
 
 .btn-circle {
   width: 70px;
@@ -376,6 +371,18 @@ body {
   padding-top: 20px;
   padding-bottom: 20px;
   background-color:rgba(255,255,255,.1);
+}
+
+ul.dropdown-menu,
+ul.dropdown-menu a {
+  color:white;
+  background-color: #0A0A0A;
+  max-width:124px;
+}
+
+ul.dropdown-menu li {
+  padding-top: 7px;
+  padding-bottom: 7px;
 }
 
 @media(min-width:767px) {

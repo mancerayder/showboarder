@@ -1,8 +1,11 @@
 class StaticPagesController < ApplicationController
   def home
-    @guest = Guest.new(guest_params)
+    # @guest = Guest.new(guest_params)
   end
 end
+
+  def about
+  end
 
 private
 
