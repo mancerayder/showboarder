@@ -17,6 +17,25 @@ class UsersController < ApplicationController
     end
   end
 
+  def boarder!(board, role)
+    user_board.create!(board_id: board.id, role:role)
+  end
+
+  def boarder?(board)
+    user_board.find_by(board_id: board.id)
+  end
+
+  def unboard!(board)
+    user_board.find_by(board_id: board.id).destroy
+  end
+
+  def board_role(board)
+    user_board
+  end
+
+  def boards
+    Board.from_boards_boarded_by(self)
+  end
 private
 
   def user_params

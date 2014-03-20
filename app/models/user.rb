@@ -23,6 +23,26 @@ class User < ActiveRecord::Base
     end
   end
 
+  def boarder?(board)
+    user_board.find_by(board_id: board.id)
+  end
+
+  def role?(board)
+    user_board.find_by(board_id: board.id).role
+  end
+
+  def is_owner?(board)
+    user_board.find_by(board_id: board.id).role.eql?("owner")
+  end
+
+  def is_admin?(board)
+    user_board.find_by(board_id: board.id).role.eql?("admin")
+  end
+
+  def is_staff?(board)
+    user_board.find_by(board_id: board.id).role.eql?("staff")
+  end        
+
   # def self.find_first_by_auth_conditions(warden_conditions)
   #   conditions = warden_conditions.dup
   #   if login = conditions.delete(:login)
