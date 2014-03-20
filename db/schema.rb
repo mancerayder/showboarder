@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140320180040) do
+ActiveRecord::Schema.define(version: 20140320232941) do
 
   create_table "boards", force: true do |t|
     t.string   "name",                 default: "", null: false
@@ -38,6 +38,19 @@ ActiveRecord::Schema.define(version: 20140320180040) do
   end
 
   add_index "guests", ["email"], name: "index_guests_on_email", unique: true
+
+  create_table "shows", force: true do |t|
+    t.boolean  "confirmed"
+    t.datetime "date"
+    t.datetime "announce_date"
+    t.datetime "door_time"
+    t.datetime "show_time"
+    t.float    "price_adv"
+    t.float    "price_door"
+    t.integer  "age_min"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "user_boards", force: true do |t|
     t.integer  "boarder_id"

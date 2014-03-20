@@ -12,6 +12,7 @@ class Board < ActiveRecord::Base
   has_many :boarders, through: :reverse_relationships, source: :boarder
   has_many :shows, dependent: :destroy
   has_many :stages, dependent: :destroy
+  has_many :pictures, dependent: :destroy
 
 
   def boarder!(user, role)
