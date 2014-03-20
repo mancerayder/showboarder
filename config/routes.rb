@@ -1,4 +1,8 @@
 Showboarder::Application.routes.draw do
+  get "shows/create"
+  get "shows/destroy"
+  get "shows/show"
+  get "shows/update"
   get "user_board/create"
   get "user_board/destroy"
   get "boards/create"
