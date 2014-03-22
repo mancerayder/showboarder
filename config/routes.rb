@@ -7,7 +7,7 @@ Showboarder::Application.routes.draw do
   # end 
   devise_for :users, :path => '', :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
-  resources :users, :guests, :shows, :show_boards
+  resources :users, :guests, :boards, :show_boards
   # get "users/new"
   root to: 'static_pages#home'
   match '/about',   to: 'static_pages#about',   via: 'get'

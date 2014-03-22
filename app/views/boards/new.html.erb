@@ -1,0 +1,14 @@
+
+<br>
+<br>
+<br>
+hello
+<br>
+<%= form_for(@board) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+
+  <%= f.submit "Create board", class: "btn btn-large btn-primary" %>
+<% end %>
