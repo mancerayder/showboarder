@@ -24,6 +24,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def boarder!(board)
+    user_boards.create!(board_id: board.id)
+  end
+
+  def unboard!(other_user)
+    user_boards.find_by(board_id: board.id).destroy
+  end  
+
   # def self.find_first_by_auth_conditions(warden_conditions)
   #   conditions = warden_conditions.dup
   #   if login = conditions.delete(:login)
