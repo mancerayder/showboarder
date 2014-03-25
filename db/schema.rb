@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20140322003519) do
   create_table "user_boards", force: true do |t|
     t.integer  "boarder_id"
     t.integer  "board_id"
+    t.string   "role",       default: "", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

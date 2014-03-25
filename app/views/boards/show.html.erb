@@ -1,5 +1,6 @@
 <%= @board.name %>
 <% if current_user.boarder?(@board) %>
+<%= current_user.board_role(@board) %>
 yay!
 <% else %>
 boooooo!

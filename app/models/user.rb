@@ -24,8 +24,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def boarder!(board)
-    user_boards.create!(board_id: board.id)
+  def boarder!(board, role)
+    user_boards.create!(board_id: board.id, role: role)
   end
 
   def unboard!(board)
@@ -34,6 +34,10 @@ class User < ActiveRecord::Base
 
   def boarder?(board)
     user_boards.find_by(board_id: board.id)
+  end
+
+  def board_role(board)
+    user_boards.find_by(board_id: board.id).role
   end
 
   # def self.find_first_by_auth_conditions(warden_conditions)
