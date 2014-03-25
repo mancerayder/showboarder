@@ -1,9 +1,12 @@
 class CreateUserBoards < ActiveRecord::Migration
   def change
     create_table :user_boards do |t|
-      t.belongs_to :user
-      t.belongs_to :board
+      t.integer :boarder_id
+      t.integer :board_id
       t.timestamps
     end
+    add_index :user_boards, :boarder_id
+    add_index :user_boards, :board_id
+    add_index :user_boards, [:boarder_id, :board_id], unique: true    
   end
 end

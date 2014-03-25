@@ -2,8 +2,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
   devise :omniauthable, :omniauth_providers => [:facebook]
-  has_many :user_boards
-  has_many :boards, through: :user_boards
+  has_many :user_boards, foreign_key: "boarder_id", dependent: :destroy
+  has_many :boards, through: :user_boards, source: :board
 
   attr_accessor :login
 
@@ -28,9 +28,13 @@ class User < ActiveRecord::Base
     user_boards.create!(board_id: board.id)
   end
 
-  def unboard!(other_user)
+  def unboard!(board)
     user_boards.find_by(board_id: board.id).destroy
-  end  
+  end
+
+  def boarder?(board)
+    user_boards.find_by(board_id: board.id)
+  end
 
   # def self.find_first_by_auth_conditions(warden_conditions)
   #   conditions = warden_conditions.dup

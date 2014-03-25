@@ -1,0 +1,6 @@
+<%= @board.name %>
+<% if current_user.boarder?(@board) %>
+yay!
+<% else %>
+boooooo!
+<% end %>
