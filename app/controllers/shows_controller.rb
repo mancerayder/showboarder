@@ -5,7 +5,7 @@ class ShowsController < ApplicationController
   end
 
   def create
-    @board = Board.find(params[:id])
+    @board = Board.find_by(params[:id])
     if current_user.board_role(@board) == "owner" || current_user.board_role(@board) == "manager"
       @show = @board.shows.new(show_params)
       if @show.save
