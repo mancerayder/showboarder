@@ -1,0 +1,12 @@
+<li>
+  <%= link_to "#{show.id}", show, class: "btn btn-default btn-lg btn-front" %>
+<!--   <span class="timestamp">
+    Created <%= time_ago_in_words(board.created_at) %> ago.
+  </span> -->
+  <%= show.id %>
+  <% if current_user.board_role(show.board) == "owner" %>
+    <%= link_to "delete", board, method: :delete, id: show.id,
+                                     data: { confirm: "You sure?" },
+                                     title: show.id %>
+  <% end %>
+</li>

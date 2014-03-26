@@ -1,4 +1,9 @@
 Showboarder::Application.routes.draw do
+  get "show/new"
+  get "show/create"
+  get "show/show"
+  get "show/update"
+  get "show/destroy"
   # get "guests/new"
   # get "guests/create"
   # get "users/new"
@@ -7,7 +12,7 @@ Showboarder::Application.routes.draw do
   # end 
   devise_for :users, :path => '', :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
-  resources :users, :guests, :boards, :show_boards
+  resources :users, :guests, :boards, :show_boards, :shows
   # get "users/new"
   root to: 'static_pages#home'
   match '/about',   to: 'static_pages#about',   via: 'get'

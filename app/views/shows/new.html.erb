@@ -1,0 +1,21 @@
+<h1>Add a show</h1>
+<br>
+<%= form_for(@show) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  
+  <%= f.label :price_door %>
+  <%= f.text_field :price_door, :class => 'cost', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0) %>
+
+  <%= f.submit "Add show", class: "btn btn-large btn-primary" %>
+<% end %>
+<!-- 
+      t.integer :board_id
+      t.integer :stage_id
+      t.string :state
+      t.datetime :datetime_announce
+      t.datetime :datetime_door
+      t.datetime :datetime_show
+      t.float :price_adv
+      t.float :price_door
+      t.boolean :pwyw, :null => false, :default => false
+      t.boolean :for_sale -->

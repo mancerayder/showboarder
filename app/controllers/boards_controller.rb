@@ -22,6 +22,17 @@ class BoardsController < ApplicationController
     @board = Board.find(params[:id])
   end
 
+  def destroy
+    @board = Board.find(params[:id])
+    if current_user.board_role(@board) == "owner"
+      @board.destroy
+      flash[:success] = "You have deleted #{@board.name}!"
+    else
+      flash[:error] = "Sorry, you are not the owner of #{@board.name} and therefore you cannot delete it!"
+    end
+    redirect_to root_path
+  end
+
   private
 
     def board_params

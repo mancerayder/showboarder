@@ -1,8 +1,28 @@
+
 <section class="intro">
     <div class="intro-body">
         <div class="container">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
+                  <% if user_signed_in? %>
+
+                  <%= render 'shared/new_showboard_button' %>
+
+                  <% if @boards %>
+                  <ul class="board-list">
+                    <%= render 'shared/user_board_list' %>
+                  </ul>
+                  <% end %>
+
+                  <% if @shows %>
+                  <h1><%= @board.name %></h1>
+                  <%= render 'shared/board_shows_list' %>
+
+
+                  <% end %>
+
+
+                  <% else %>
                     <h1 class="brand-heading">Showboarder</h1>
                     <p class="intro-text">List, promote, and sell <i>fee free</i> tickets to shows at your venue.</p>
                       <div class="col-sm-6">
@@ -12,6 +32,7 @@
                       <div class="col-sm-6">
                         <%= link_to "Learn More", about_path, class: "btn btn-default btn-lg btn-front" %>
                       </div>
+                      <% end %>
                 </div>
             </div>
         </div>

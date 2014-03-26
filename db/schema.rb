@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140322003519) do
+ActiveRecord::Schema.define(version: 20140326000820) do
 
   create_table "boards", force: true do |t|
     t.string   "name"
@@ -26,6 +26,35 @@ ActiveRecord::Schema.define(version: 20140322003519) do
   end
 
   add_index "guests", ["email"], name: "index_guests_on_email", unique: true
+
+  create_table "shows", force: true do |t|
+    t.integer  "board_id"
+    t.integer  "stage_id"
+    t.string   "state"
+    t.datetime "datetime_announce"
+    t.datetime "datetime_door"
+    t.datetime "datetime_show"
+    t.float    "price_adv"
+    t.float    "price_door"
+    t.boolean  "pwyw",              default: false, null: false
+    t.boolean  "for_sale"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "shows", ["board_id", "datetime_show"], name: "index_shows_on_board_id_and_datetime_show"
+  add_index "shows", ["board_id"], name: "index_shows_on_board_id"
+  add_index "shows", ["stage_id", "datetime_show"], name: "index_shows_on_stage_id_and_datetime_show"
+  add_index "shows", ["stage_id"], name: "index_shows_on_stage_id"
+
+  create_table "stages", force: true do |t|
+    t.string   "name"
+    t.integer  "board_id"
+    t.integer  "stage_id"
+    t.integer  "capacity"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "user_boards", force: true do |t|
     t.integer  "boarder_id"
