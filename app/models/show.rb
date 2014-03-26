@@ -1,5 +1,5 @@
 class Show < ActiveRecord::Base
-  belongs_to :board
-  has_and_belongs_to_many :stages
-
+  belongs_to :stage
+  belongs_to :show
+  
 end
