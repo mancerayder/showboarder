@@ -3,6 +3,7 @@ class Board < ActiveRecord::Base
   has_many :boarders, through: :user_boards, source: :boarder
   has_many :stages
   has_many :shows
+  validates :vanity_url, presence: true, length: {minimum:6, maximum:30}
 
   # has_many :reverse_user_boards, foreign_key: "board_id",
   #                                  class_name:  "UserBoard",

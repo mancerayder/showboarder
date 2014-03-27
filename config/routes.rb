@@ -1,9 +1,9 @@
 Showboarder::Application.routes.draw do
-  get "show/new"
-  get "show/create"
-  get "show/show"
-  get "show/update"
-  get "show/destroy"
+  # get "show/new"
+  # get "show/create"
+  # get "show/show"
+  # get "show/update"
+  # get "show/destroy"
   # get "guests/new"
   # get "guests/create"
   # get "users/new"
@@ -12,10 +12,16 @@ Showboarder::Application.routes.draw do
   # end 
   devise_for :users, :path => '', :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
-  resources :users, :guests, :boards, :show_boards, :shows
+  resources :users, :guests
+
+  resources :boards do
+    resources :show_boards
+    resources :shows
+  end
   # get "users/new"
   root to: 'static_pages#home'
   match '/about',   to: 'static_pages#about',   via: 'get'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
