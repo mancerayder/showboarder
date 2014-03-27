@@ -1,6 +1,6 @@
 <h1>Add a show</h1>
 <br>
-<%= form_for(@show) do |f| %>
+<%= form_for [@board, @show] do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   
   <%= f.label :price_door %>

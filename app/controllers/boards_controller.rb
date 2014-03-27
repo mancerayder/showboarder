@@ -20,6 +20,7 @@ class BoardsController < ApplicationController
 
   def show
     @board = Board.find_by_vanity_url(params[:id])
+    @shows = @board.shows.paginate(page: params[:page])
   end
 
   def destroy
@@ -36,6 +37,6 @@ class BoardsController < ApplicationController
   private
 
     def board_params
-      params.require(:board).permit(:name, :boarder)
+      params.require(:board).permit(:name, :vanity_url)
     end
 end

@@ -5,7 +5,7 @@ class Board < ActiveRecord::Base
   has_many :shows
   validates :vanity_url, presence: true, length: {minimum:4, maximum:30}
   before_save { self.vanity_url = vanity_url.downcase }
-  validates_format_of :username, :with => /^[-a-z0-9_.]+$/
+  validates_format_of :vanity_url, :with => /[-a-z0-9_.]/
   
   # has_many :reverse_user_boards, foreign_key: "board_id",
   #                                  class_name:  "UserBoard",

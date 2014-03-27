@@ -1,17 +1,17 @@
 class ShowsController < ApplicationController
 
   def new
-    @board = Board.find(params[:id])
+    @board = Board.find_by_vanity_url(params[:board_id])
     @show = @board.shows.new
   end
 
   def create
-    @board = Board.find(params[:id])
+    @board = Board.find_by_vanity_url(params[:board_id])
     if current_user.board_role(@board) == "owner" || current_user.board_role(@board) == "manager"
       @show = @board.shows.new(show_params)
       if @show.save
         flash[:success] = "You have added a show!"
-        redirect_to @show
+        redirect_to [@board, @show]
       else
         render 'new'
       end  
