@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20140326000820) do
 
   create_table "boards", force: true do |t|
     t.string   "name"
+    t.string   "vanity_url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -34,9 +35,9 @@ ActiveRecord::Schema.define(version: 20140326000820) do
     t.datetime "datetime_announce"
     t.datetime "datetime_door"
     t.datetime "datetime_show"
-    t.float    "price_adv"
-    t.float    "price_door"
-    t.boolean  "pwyw",              default: false, null: false
+    t.decimal  "price_adv",         precision: 8, scale: 2
+    t.decimal  "price_door",        precision: 8, scale: 2
+    t.boolean  "pwyw",                                      default: false, null: false
     t.boolean  "for_sale"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -50,7 +51,6 @@ ActiveRecord::Schema.define(version: 20140326000820) do
   create_table "stages", force: true do |t|
     t.string   "name"
     t.integer  "board_id"
-    t.integer  "stage_id"
     t.integer  "capacity"
     t.datetime "created_at"
     t.datetime "updated_at"

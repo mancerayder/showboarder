@@ -19,11 +19,11 @@ class BoardsController < ApplicationController
   end
 
   def show
-    @board = Board.find(params[:id])
+    @board = Board.find_by_vanity_url(params[:id])
   end
 
   def destroy
-    @board = Board.find(params[:id])
+    @board = Board.find_by_vanity_url(params[:id])
     if current_user.board_role(@board) == "owner"
       @board.destroy
       flash[:success] = "You have deleted #{@board.name}!"
