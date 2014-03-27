@@ -15,7 +15,7 @@
                   <% end %>
 
                   <% if @shows %>
-                  <h1><%= @board.name %></h1>
+                  <h1><%= link_to @board.name, @board %></h1>
                   <%= render 'shared/board_shows_list' %>
 
 
