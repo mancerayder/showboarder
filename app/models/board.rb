@@ -14,4 +14,12 @@ class Board < ActiveRecord::Base
   def to_param
     vanity_url
   end
+
+  def boarder?(user)
+    user_boards.find_by(boarder_id: user.id)
+  end
+
+  def board_role(user)
+    user_boards.find_by(boarder_id: user.id).role
+  end
 end

@@ -1,4 +1,5 @@
 class ShowsController < ApplicationController
+  load_and_authorize_resource
 
   def new
     @board = Board.find_by_vanity_url(params[:board_id])
