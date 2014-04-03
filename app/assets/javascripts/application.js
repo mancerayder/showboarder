@@ -19,3 +19,4 @@
 //= require grayscale
 //= require flash
 //= require_tree .
+//= require gmaps

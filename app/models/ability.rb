@@ -31,15 +31,15 @@ class Ability
 
     can :read, Show, :state => "public"
 
-    can :crud, Ticket do |ticket|
-      user.user_boards.where(board_id:ticket.show.board.id, role:"manager").length > 0
-    end
+    # can :crud, Ticket do |ticket|
+    #   user.user_boards.where(board_id:ticket.show.board.id, role:"manager").length > 0
+    # end
 
-    can :crud, Ticket do |ticket|
-      user.user_boards.where(board_id:ticket.show.board.id, role:"owner").length > 0
-    end
+    # can :crud, Ticket do |ticket|
+    #   user.user_boards.where(board_id:ticket.show.board.id, role:"owner").length > 0
+    # end
 
-    can :read, Ticket, :user_id => user.id
+    # can :read, Ticket, :user_id => user.id
 
     # can :crud, :all
     # can :manage, :all

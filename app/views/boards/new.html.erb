@@ -1,13 +1,26 @@
 hello
-<br>
-<%= form_for(@board) do |f| %>
-  <%= render 'shared/error_messages', object: f.object %>
-  
-  <%= f.label :name %>
-  <%= f.text_field :name %>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <br>
+      <%= form_for(@board) do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
+        
+        <%= f.label :name %>
+        <%= f.text_field :name %>
 
-  <%= f.label :vanity_url %>
-  <%= f.text_field :vanity_url %>
+        <%= f.label :vanity_url %>
+        <%= f.text_field :vanity_url %>
 
-  <%= f.submit "Create board", class: "btn btn-large btn-primary" %>
-<% end %>
+        <%= f.submit "Create board", class: "btn btn-large btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <input id="pac-input" class="controls" type="text" placeholder="Enter a location">
+      <div id="map-canvas"></div>
+    </div>
+  </div>
+</div>

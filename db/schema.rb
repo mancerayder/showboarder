@@ -15,7 +15,10 @@ ActiveRecord::Schema.define(version: 20140326000820) do
 
   create_table "boards", force: true do |t|
     t.string   "name"
+    t.string   "state",      default: "private", null: false
     t.string   "vanity_url"
+    t.string   "email"
+    t.string   "phone"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
