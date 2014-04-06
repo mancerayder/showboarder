@@ -22,12 +22,14 @@ class Ability
     end
 
     can :crud, Show do |show|
-      user.user_boards.where(board_id:show.board.id, role:"owner").length > 0
+      user.user_boards.where(board_id:show.board_id, role:"owner").length > 0
     end
 
-    can :crud, Show do |show|
-      user.user_boards.where(board_id:show.board.id, role:"manager").length > 0
-    end
+    # can :crud, Show do |show|
+    #     user.user_boards.where(board_id:show.board_id, role:"manager").length > 0
+    # end
+
+    # can :crud, Show
 
     can :read, Show, :state => "public"
 

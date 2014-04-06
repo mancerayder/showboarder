@@ -15,8 +15,8 @@ Showboarder::Application.routes.draw do
   resources :users, :guests
 
   resources :boards do
-    resources :show_boards
     resources :shows
+    resources :stages
   end
   # get "users/new"
   root to: 'static_pages#home'

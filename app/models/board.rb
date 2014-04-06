@@ -6,6 +6,8 @@ class Board < ActiveRecord::Base
   validates :vanity_url, presence: true, length: {minimum:4, maximum:30}
   before_save { self.vanity_url = vanity_url.downcase }
   validates_format_of :vanity_url, :with => /[-a-z0-9_.]/
+  accepts_nested_attributes_for :stages
+  accepts_nested_attributes_for :shows
   
   # has_many :reverse_user_boards, foreign_key: "board_id",
   #                                  class_name:  "UserBoard",

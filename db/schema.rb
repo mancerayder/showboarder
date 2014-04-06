@@ -46,15 +46,11 @@ ActiveRecord::Schema.define(version: 20140326000820) do
     t.datetime "updated_at"
   end
 
-  add_index "shows", ["board_id", "datetime_show"], name: "index_shows_on_board_id_and_datetime_show"
-  add_index "shows", ["board_id"], name: "index_shows_on_board_id"
-  add_index "shows", ["stage_id", "datetime_show"], name: "index_shows_on_stage_id_and_datetime_show"
-  add_index "shows", ["stage_id"], name: "index_shows_on_stage_id"
-
   create_table "stages", force: true do |t|
     t.string   "name"
     t.integer  "board_id"
     t.integer  "capacity"
+    t.string   "places_reference"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -59,6 +59,7 @@ input, textarea, select, .uneditable-input {
 
 input {
   height: auto !important;
+  margin-bottom:25px;
 }
 
 .light {
@@ -437,6 +438,9 @@ ul.dropdown-menu li {
 //   font-weight: 300;
 // }
 
+label {
+  display:block;
+}
 
 @media(min-width:767px) {
   .content-section {

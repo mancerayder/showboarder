@@ -1,4 +1,6 @@
 <%= @board.name %>
+<br>
+<%= @board.stages.first.places_reference %>
 <%= render 'shared/new_show_button' %>
 
 <% if current_user.boarder?(@board) %>
@@ -7,6 +9,5 @@ yay!
 <% else %>
 boooooo!
 <% end %>
-
 <%= render @shows %>
 <%= will_paginate @shows %>

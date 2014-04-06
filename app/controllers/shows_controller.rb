@@ -1,23 +1,22 @@
 class ShowsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource :board, :find_by => :vanity_url
+  load_and_authorize_resource :show, :through => :board
 
   def new
     @board = Board.find_by_vanity_url(params[:board_id])
     @show = @board.shows.new
+    puts @show.board_id
+    puts "zopzop"
   end
 
   def create
     @board = Board.find_by_vanity_url(params[:board_id])
-    if current_user.board_role(@board) == "owner" || current_user.board_role(@board) == "manager"
-      @show = @board.shows.new(show_params)
-      if @show.save
-        flash[:success] = "You have added a show!"
-        redirect_to [@board, @show]
-      else
-        render 'new'
-      end  
+    @show = @board.shows.new(show_params)
+    if @show.save
+      flash[:success] = "You have added a show!"
+      redirect_to [@board, @show]
     else
-      redirect_to root_path
+      render 'new'
     end
   end
 
@@ -34,6 +33,6 @@ class ShowsController < ApplicationController
   private
 
     def show_params
-      params.require(:show).permit(:state, :datetime_announce, :datetime_door, :datetime_show, :price_adv, :price_door, :pwyw)
+      params.require(:show).permit(:state, :datetime_announce, :datetime_door, :datetime_show, :price_adv, :price_door, :board, :pwyw)
     end
 end

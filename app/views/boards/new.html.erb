@@ -1,26 +1,33 @@
-hello
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
-      <br>
+    <h2>Create a new Showboard</h1>
       <%= form_for(@board) do |f| %>
         <%= render 'shared/error_messages', object: f.object %>
         
-        <%= f.label :name %>
+        <%= f.label :name, "Board Name" %>
         <%= f.text_field :name %>
 
         <%= f.label :vanity_url %>
-        <%= f.text_field :vanity_url %>
+        showboarder.com/ <%= f.text_field :vanity_url %>
+
+        <%= f.fields_for :stages do |ff| %>
+
+          <%= ff.label :places_reference, "Location" %>
+          <%= ff.text_field :places_reference, :id => "pac-input", :class=>"controls", :placeholder => "Enter a location" %>
+          <div id="map-canvas"></div>
+
+        <% end %>
 
         <%= f.submit "Create board", class: "btn btn-large btn-primary" %>
       <% end %>
     </div>
   </div>
-  <div class="row">
+<!--   <div class="row">
     <div class="col-sm-12">
       <input id="pac-input" class="controls" type="text" placeholder="Enter a location">
       <div id="map-canvas"></div>
     </div>
-  </div>
+  </div> -->
 </div>

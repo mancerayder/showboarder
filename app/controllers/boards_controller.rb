@@ -4,18 +4,19 @@ class BoardsController < ApplicationController
 
   def new
     @board = Board.new
+    @board.stages.build
   end
 
   def create
     @board = Board.new(board_params)
     # current_user.user_boards.create(:board_id => @board.id)
-
     if @board.save
+      # @stage1.first.name = @board.name
       current_user.boarder!(@board, "owner")
       flash[:success] = "You have created a new Showboard!"
       redirect_to @board
     else
-      render 'new'
+      render 'boards/new'
     end    
   end
 
@@ -26,18 +27,14 @@ class BoardsController < ApplicationController
 
   def destroy
     @board = Board.find_by_vanity_url(params[:id])
-    if current_user.board_role(@board) == "owner"
-      @board.destroy
-      flash[:success] = "You have deleted #{@board.name}!"
-    else
-      flash[:error] = "Sorry, you are not the owner of #{@board.name} and therefore you cannot delete it!"
-    end
+    @board.destroy
+    flash[:success] = "You have deleted #{@board.name}!"
     redirect_to root_path
   end
 
   private
 
     def board_params
-      params.require(:board).permit(:name, :vanity_url)
+      params.require(:board).permit(:name, :vanity_url, :places_reference, {stages_attributes: [:id, :name, :places_reference, :board ]})
     end
 end

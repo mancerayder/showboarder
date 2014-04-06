@@ -1,8 +1,8 @@
 class CreateShows < ActiveRecord::Migration
   def change
     create_table :shows do |t|
-      t.integer :board_id
-      t.integer :stage_id
+      t.belongs_to :board
+      t.belongs_to :stage
       t.string :state
       t.datetime :datetime_announce
       t.datetime :datetime_door
@@ -14,10 +14,5 @@ class CreateShows < ActiveRecord::Migration
 
       t.timestamps
     end
-
-    add_index :shows, [:board_id, :datetime_show]
-    add_index :shows, [:stage_id, :datetime_show]
-    add_index :shows, :board_id
-    add_index :shows, :stage_id
   end
 end
