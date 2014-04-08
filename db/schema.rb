@@ -51,6 +51,8 @@ ActiveRecord::Schema.define(version: 20140326000820) do
     t.integer  "board_id"
     t.integer  "capacity"
     t.string   "places_reference"
+    t.string   "places_formatted_address_short"
+    t.text     "places_json"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

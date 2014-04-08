@@ -14,9 +14,15 @@
 
         <%= f.fields_for :stages do |ff| %>
 
-          <%= ff.label :places_reference, "Location" %>
-          <%= ff.text_field :places_reference, :id => "pac-input", :class=>"controls", :placeholder => "Enter a location" %>
+          <%= ff.label :places_formatted_address_short, "Location" %>
+          <%= ff.text_field :places_formatted_address_short, :id => "pac-input", :class=>"controls", :placeholder => "Enter a location" %>
           <div id="map-canvas"></div>
+
+          <div id="map-plz">
+            Please make sure the appropriate location is pinned on the map above before continuing.
+          </div>
+
+          <%= ff.hidden_field :places_reference %>
 
         <% end %>
 

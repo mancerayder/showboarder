@@ -21,6 +21,7 @@ gem 'devise', '3.2.3'
 gem 'omniauth-facebook', '1.6.0'
 gem 'will_paginate', '3.0.4'
 gem 'cancancan', '1.7.1'
+gem 'google_places', '0.20.0'
 
 group :development do
   gem 'sqlite3', '1.3.8'

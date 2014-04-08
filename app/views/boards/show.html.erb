@@ -1,6 +1,6 @@
 <%= @board.name %>
 <br>
-<%= @board.stages.first.places_reference %>
+<%= @board.stages.first.places_formatted_address_short %>
 <%= render 'shared/new_show_button' %>
 
 <% if current_user.boarder?(@board) %>
@@ -9,5 +9,8 @@ yay!
 <% else %>
 boooooo!
 <% end %>
+<%= @board.stages.first.places_reference %>
+<br>
+<%= @board.stages.first.places_json %>
 <%= render @shows %>
 <%= will_paginate @shows %>

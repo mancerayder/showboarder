@@ -5,6 +5,8 @@ class CreateStages < ActiveRecord::Migration
       t.belongs_to :board
       t.integer :capacity
       t.string :places_reference
+      t.string :places_formatted_address_short
+      t.text :places_json
 
       t.timestamps
     end

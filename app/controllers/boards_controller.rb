@@ -12,6 +12,11 @@ class BoardsController < ApplicationController
     # current_user.user_boards.create(:board_id => @board.id)
     if @board.save
       # @stage1.first.name = @board.name
+      puts "flobflob"
+      puts current_user
+      @board.stages.first.places_gather
+      puts "flibflab"
+      puts current_user
       current_user.boarder!(@board, "owner")
       flash[:success] = "You have created a new Showboard!"
       redirect_to @board
@@ -35,6 +40,6 @@ class BoardsController < ApplicationController
   private
 
     def board_params
-      params.require(:board).permit(:name, :vanity_url, :places_reference, {stages_attributes: [:id, :name, :places_reference, :board ]})
+      params.require(:board).permit(:name, :vanity_url, :places_reference, {stages_attributes: [:id, :name, :places_reference, :board, :places_json ]})
     end
 end

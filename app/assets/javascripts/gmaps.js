@@ -1,6 +1,6 @@
 function initialize(lat, lng, zoom, field) {
   var mapOptions = {
-    center: new google.maps.LatLng(35.850033, -95.6500523),
+    center: new google.maps.LatLng(39.850033, -95.6500523),
     zoom: 4
   };
   var map = new google.maps.Map(document.getElementById('map-canvas'),
@@ -56,8 +56,10 @@ function initialize(lat, lng, zoom, field) {
       ].join(' ');
     }
 
+    $('#board_stages_attributes_0_places_reference').val(place.reference)
+    $('#map-plz').css("color","green")
     console.log(place);
-    console.log(place.photos[1].getUrl)
+    
 
     infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
     infowindow.open(map, marker);
