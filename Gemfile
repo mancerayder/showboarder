@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 #ruby-gemset=showboarder
 
-gem 'rails', '4.0.3'
+gem 'rails', '4.1.0'
 gem 'bootstrap-sass', '3.1.1.0'
 gem 'font-awesome-rails', '4.0.3.1'
 gem 'jquery-easing-rails', '0.0.1'
