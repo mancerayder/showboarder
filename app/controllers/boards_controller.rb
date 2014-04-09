@@ -12,11 +12,7 @@ class BoardsController < ApplicationController
     # current_user.user_boards.create(:board_id => @board.id)
     if @board.save
       # @stage1.first.name = @board.name
-      puts "flobflob"
-      puts current_user
       @board.stages.first.places_gather
-      puts "flibflab"
-      puts current_user
       current_user.boarder!(@board, "owner")
       flash[:success] = "You have created a new Showboard!"
       redirect_to @board

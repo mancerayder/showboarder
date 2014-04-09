@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140326000820) do
+ActiveRecord::Schema.define(version: 20140408215115) do
 
   create_table "boards", force: true do |t|
     t.string   "name"
@@ -30,6 +30,33 @@ ActiveRecord::Schema.define(version: 20140326000820) do
   end
 
   add_index "guests", ["email"], name: "index_guests_on_email", unique: true
+
+  create_table "places", force: true do |t|
+    t.string   "formatted_address"
+    t.string   "formatted_phone_number"
+    t.float    "lat"
+    t.float    "lng"
+    t.string   "international_phone_number"
+    t.string   "name"
+    t.text     "opening_hours"
+    t.string   "photo1"
+    t.string   "photo2"
+    t.string   "photo3"
+    t.string   "photo4"
+    t.string   "photo5"
+    t.integer  "price_level"
+    t.float    "rating"
+    t.string   "tz"
+    t.integer  "utc_offset"
+    t.string   "vicinity"
+    t.string   "website"
+    t.string   "reference"
+    t.integer  "stage_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "places", ["stage_id"], name: "index_places_on_stage_id"
 
   create_table "shows", force: true do |t|
     t.integer  "board_id"
