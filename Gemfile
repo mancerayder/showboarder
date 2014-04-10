@@ -23,6 +23,7 @@ gem 'cancancan', '1.7.1'
 gem 'google_places', '0.20.0'
 gem 'sprockets-rails', '2.1.1'
 gem 'figaro', '0.7.0'
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
 
 group :development do
   gem 'sqlite3', '1.3.8'
@@ -42,4 +43,3 @@ group :production do
   gem 'pg', '0.15.1'
   gem 'rails_12factor', '0.0.2'
 end
-

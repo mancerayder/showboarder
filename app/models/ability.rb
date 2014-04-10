@@ -10,15 +10,25 @@ class Ability
     end
 
     can :crud, Board do |board|
-      user.user_boards.where(board_id:board.id, role:"owner").length > 0
+      user.user_boards.where(board_id:board.id, role:"manager").length > 0
     end
 
-    can :create, Board
+    can :crud, Board do |board|
+      user.user_boards.where(board_id:board.id, role:"owner").length > 0
+    end    
+
+    if user.id
+        can :create, Board
+    end
 
     can :read, Board, :state => "public"
 
     can :read, :update, Board do |board|
-      user.user_boards.where(board_id:board.id, role:"manager").length > 0
+      user.user_boards.where(board_id:board.id, role:"coordinator").length > 0
+    end
+
+    can :crud, Show do |show|
+      user.user_boards.where(board_id:show.board_id, role:"manager").length > 0
     end
 
     can :crud, Show do |show|

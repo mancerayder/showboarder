@@ -1,0 +1,12 @@
+<%= form_tag board_charges_path(@board, :charge_type => "sb1") do %>
+  <article>
+    <label class="amount">
+      <span>Enable fee-free ticketing on all shows on this Showboard for a flat rate of $25/month</span>
+    </label>
+  </article>
+
+  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+          data-description="A month's subscription"
+          data-amount=@amount></script>
+<% end %>

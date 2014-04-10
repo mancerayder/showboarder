@@ -2,9 +2,12 @@
 <br>
 <%= @board.stages.first.places_formatted_address_short %>
 <%= render 'shared/new_show_button' %>
-
+<% if not @board.paid %>
+<%= render 'enable_ticketing_button'%>
+<% end %>
 <% if current_user.boarder?(@board) %>
 <%= current_user.board_role(@board) %>
+
 yay!
 <% else %>
 boooooo!

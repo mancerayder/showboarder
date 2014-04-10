@@ -8,6 +8,7 @@ class CreateUserBoards < ActiveRecord::Migration
     end
     add_index :user_boards, :boarder_id
     add_index :user_boards, :board_id
-    add_index :user_boards, [:boarder_id, :board_id], unique: true    
+    add_index :user_boards, [:boarder_id, :board_id], unique: true
+    add_index :user_boards, [:board_id, :role]
   end
 end

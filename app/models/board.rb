@@ -24,4 +24,8 @@ class Board < ActiveRecord::Base
   def board_role(user)
     user_boards.find_by(boarder_id: user.id).role
   end
+
+  def paid
+    user_boards.where(board_id:self.id, role:"owner").length > 0
+  end
 end

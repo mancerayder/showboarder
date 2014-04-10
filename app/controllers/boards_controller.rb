@@ -1,7 +1,5 @@
 class BoardsController < ApplicationController
-  # before_filter :authenticate_user!
   load_and_authorize_resource :board, :find_by => :vanity_url
-
   def new
     @board = Board.new
     @board.stages.build
@@ -13,7 +11,7 @@ class BoardsController < ApplicationController
     if @board.save
       # @stage1.first.name = @board.name
       @board.stages.first.places_gather
-      current_user.boarder!(@board, "owner")
+      current_user.boarder!(@board, "manager")
       flash[:success] = "You have created a new Showboard!"
       redirect_to @board
     else

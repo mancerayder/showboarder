@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 20140408215115) do
     t.string   "vanity_url"
     t.string   "email"
     t.string   "phone"
+    t.integer  "paid_tier"
+    t.datetime "paid_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -46,7 +48,6 @@ ActiveRecord::Schema.define(version: 20140408215115) do
     t.string   "photo5"
     t.integer  "price_level"
     t.float    "rating"
-    t.string   "tz"
     t.integer  "utc_offset"
     t.string   "vicinity"
     t.string   "website"
@@ -62,13 +63,18 @@ ActiveRecord::Schema.define(version: 20140408215115) do
     t.integer  "board_id"
     t.integer  "stage_id"
     t.string   "state"
-    t.datetime "datetime_announce"
-    t.datetime "datetime_door"
-    t.datetime "datetime_show"
-    t.decimal  "price_adv",         precision: 8, scale: 2
-    t.decimal  "price_door",        precision: 8, scale: 2
-    t.boolean  "pwyw",                                      default: false, null: false
+    t.datetime "announce_at"
+    t.datetime "door_at"
+    t.datetime "show_at"
+    t.decimal  "price_adv",       precision: 8, scale: 2
+    t.decimal  "price_door",      precision: 8, scale: 2
+    t.boolean  "pwyw",                                    default: false, null: false
     t.boolean  "for_sale"
+    t.boolean  "rsvp_only"
+    t.boolean  "ticketed"
+    t.integer  "custom_capacity"
+    t.integer  "payer_id"
+    t.datetime "paid_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -92,6 +98,7 @@ ActiveRecord::Schema.define(version: 20140408215115) do
     t.datetime "updated_at"
   end
 
+  add_index "user_boards", ["board_id", "role"], name: "index_user_boards_on_board_id_and_role"
   add_index "user_boards", ["board_id"], name: "index_user_boards_on_board_id"
   add_index "user_boards", ["boarder_id", "board_id"], name: "index_user_boards_on_boarder_id_and_board_id", unique: true
   add_index "user_boards", ["boarder_id"], name: "index_user_boards_on_boarder_id"
@@ -112,6 +119,7 @@ ActiveRecord::Schema.define(version: 20140408215115) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.string   "stripe_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "provider"

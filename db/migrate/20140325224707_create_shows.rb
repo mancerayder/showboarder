@@ -4,13 +4,18 @@ class CreateShows < ActiveRecord::Migration
       t.belongs_to :board
       t.belongs_to :stage
       t.string :state
-      t.datetime :datetime_announce
-      t.datetime :datetime_door
-      t.datetime :datetime_show
+      t.datetime :announce_at
+      t.datetime :door_at
+      t.datetime :show_at
       t.decimal :price_adv, :precision => 8, :scale => 2
       t.decimal :price_door, :precision => 8, :scale => 2
       t.boolean :pwyw, :null => false, :default => false
       t.boolean :for_sale
+      t.boolean :rsvp_only
+      t.boolean :ticketed
+      t.integer :custom_capacity
+      t.integer :payer_id
+      t.datetime :paid_at
 
       t.timestamps
     end

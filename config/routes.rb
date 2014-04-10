@@ -15,7 +15,10 @@ Showboarder::Application.routes.draw do
   resources :users, :guests
 
   resources :boards do
-    resources :shows
+    resources :charges
+    resources :shows do
+      resources :charges
+    end
     resources :stages
   end
   # get "users/new"
