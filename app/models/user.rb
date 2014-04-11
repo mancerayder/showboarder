@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   devise :omniauthable, :omniauth_providers => [:facebook]
   has_many :user_boards, foreign_key: "boarder_id", dependent: :destroy
   has_many :boards, through: :user_boards, source: :board
-  has_many :tickets
+  has_many :tickets, as: :ticket_owner
 
   attr_accessor :login
 

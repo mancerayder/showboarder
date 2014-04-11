@@ -2,7 +2,7 @@ class CreateTickets < ActiveRecord::Migration
   def change
     create_table :tickets do |t|
       t.string :token, unique: true
-      t.belongs_to :user, index: true
+      t.references :ticket_owner, polymorphic: true
       t.belongs_to :show, index: true
       t.string :state
       t.string :tier

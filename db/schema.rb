@@ -11,22 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140408215115) do
+ActiveRecord::Schema.define(version: 20140411010407) do
 
   create_table "boards", force: true do |t|
     t.string   "name"
-    t.string   "state",      default: "private", null: false
+    t.string   "state",         default: "private", null: false
     t.string   "vanity_url"
     t.string   "email"
     t.string   "phone"
     t.integer  "paid_tier"
     t.datetime "paid_at"
+    t.string   "referral_code"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "guests", force: true do |t|
     t.string   "email"
+    t.integer  "ticket_owner_id"
+    t.string   "ticket_owner_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -89,6 +92,26 @@ ActiveRecord::Schema.define(version: 20140408215115) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "tickets", force: true do |t|
+    t.string   "token"
+    t.integer  "ticket_owner_id"
+    t.string   "ticket_owner_type"
+    t.integer  "show_id"
+    t.string   "state"
+    t.string   "tier"
+    t.string   "seat"
+    t.string   "buy_method"
+    t.datetime "bought_at"
+    t.datetime "canceled_at"
+    t.decimal  "price",             precision: 8, scale: 2
+    t.integer  "referral_band_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tickets", ["referral_band_id"], name: "index_tickets_on_referral_band_id"
+  add_index "tickets", ["show_id"], name: "index_tickets_on_show_id"
 
   create_table "user_boards", force: true do |t|
     t.integer  "boarder_id"
