@@ -1,5 +1,6 @@
-class ChargesController < ApplicationController
+class SubscribeController < ApplicationController
   load_and_authorize_resource :board, :find_by => :vanity_url
+
 
   def new
     @board = Board.find_by_vanity_url(params[:board_id])
@@ -14,13 +15,21 @@ class ChargesController < ApplicationController
 
       @board = Board.find_by_vanity_url(params[:board_id])
 
-      customer = Stripe::Customer.create(
-        :card => token,
-        :plan => "sb1",
-        :email => current_user.email
-      )
+      if current_user.stripe_id
+        customer = Stripe::Customer.retrieve(current_user.stripe_id)
+        subscription = customer.subscriptions.create(
+          :plan => "sb1"
+          )
+      else
+        customer = Stripe::Customer.create(
+          :card => token,
+          :plan => "sb1",
+          :email => current_user.email
+        )
 
-      current_user.update_attributes(stripe_id:customer.id)
+        current_user.update_attributes(stripe_id:customer.id)
+      end
+
       @board.user_boards.find_by(boarder_id:current_user.id).update_attributes(role:"owner")
       @board.update_attributes(paid_at:Time.now)
 
@@ -31,7 +40,6 @@ class ChargesController < ApplicationController
       end
     end
   end
-
 
   # def new
   # end

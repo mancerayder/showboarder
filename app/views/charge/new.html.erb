@@ -1,7 +1,7 @@
-<%= form_tag board_charges_path(@board, :charge_type => "sb1") do %>
+<%= form_tag board_show_charge_path(@board, @show, :charge_type => "sb2") do %>
   <article>
     <label class="amount">
-      <span>Enable fee-free ticketing on all shows on this Showboard for a flat rate of $25/month</span>
+      <span>Enable fee-free ticketing on this single show for a one-time flat-rate charge of $10</span>
     </label>
   </article>
 

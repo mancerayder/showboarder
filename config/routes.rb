@@ -15,9 +15,11 @@ Showboarder::Application.routes.draw do
   resources :users, :guests
 
   resources :boards do
-    resources :charges
+    resources :subscribe, only: [:create]
+    match '/subscribe', to: 'subscribe#new', via: 'get'
     resources :shows do
-      resources :charges
+      resources :charge, only: [:create]
+      match '/charge', to: 'charge#new', via: 'get'
     end
     resources :stages
   end

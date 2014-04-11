@@ -8,6 +8,7 @@ class CreateBoards < ActiveRecord::Migration
       t.string :phone
       t.integer :paid_tier
       t.datetime :paid_at
+      t.string :referral_code
 
       t.timestamps
     end
