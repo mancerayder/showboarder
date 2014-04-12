@@ -6,13 +6,14 @@ class ShowsController < ApplicationController
     @board = Board.find_by_vanity_url(params[:board_id])
     @show = @board.shows.new
     puts @show.board_id
-    puts "zopzop"
   end
 
   def create
     @board = Board.find_by_vanity_url(params[:board_id])
     @show = @board.shows.new(show_params)
+    @show.stage = @board.stages.first
     if @show.save
+      @show.make_tickets
       flash[:success] = "You have added a show!"
       redirect_to [@board, @show]
     else

@@ -98,10 +98,12 @@ ActiveRecord::Schema.define(version: 20140411010407) do
     t.integer  "ticket_owner_id"
     t.string   "ticket_owner_type"
     t.integer  "show_id"
-    t.string   "state"
+    t.string   "state",                                     default: "open"
     t.string   "tier"
     t.string   "seat"
     t.string   "buy_method"
+    t.string   "claim_method"
+    t.datetime "reserved_at"
     t.datetime "bought_at"
     t.datetime "canceled_at"
     t.decimal  "price",             precision: 8, scale: 2
@@ -111,6 +113,7 @@ ActiveRecord::Schema.define(version: 20140411010407) do
   end
 
   add_index "tickets", ["referral_band_id"], name: "index_tickets_on_referral_band_id"
+  add_index "tickets", ["show_id", "reserved_at"], name: "index_tickets_on_show_id_and_reserved_at"
   add_index "tickets", ["show_id"], name: "index_tickets_on_show_id"
 
   create_table "user_boards", force: true do |t|

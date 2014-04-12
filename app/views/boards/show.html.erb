@@ -5,13 +5,21 @@
 <% if not @board.paid %>
 <%= render 'enable_ticketing_button'%>
 <% end %>
-<% if current_user.boarder?(@board) %>
-<%= current_user.board_role(@board) %>
 
-yay!
+<br>
+role <%= current_user.board_role(@board) %>
+<br>
+capacity <%= @board.stages.first.capacity %>
+<br>
+<% if current_user.boarder?(@board) %>
+
+
+boarder
 <% else %>
-boooooo!
+not boarder
 <% end %>
+<br>
+
 <%= @board.stages.first.places_reference %>
 <br>
 <%= @board.stages.first.places_json %>

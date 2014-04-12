@@ -24,6 +24,7 @@ gem 'google_places', '0.20.0'
 gem 'sprockets-rails', '2.1.1'
 gem 'figaro', '0.7.0'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
+gem 'rufus-scheduler', '3.0.7'
 
 group :development do
   gem 'sqlite3', '1.3.8'

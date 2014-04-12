@@ -13,6 +13,8 @@
         showboarder.com/ <%= f.text_field :vanity_url %>
 
         <%= f.fields_for :stages do |ff| %>
+          <%= ff.label :capacity, "Capacity" %>
+          <%= ff.text_field :capacity, :val => ff.object.capacity.to_i %>
 
           <%= ff.label :places_formatted_address_short, "Location" %>
           <%= ff.text_field :places_formatted_address_short, :id => "pac-input", :class=>"controls", :placeholder => "Enter a location" %>
