@@ -1,5 +1,5 @@
 class Ticket < ActiveRecord::Base
-  belongs_to :user, dependent: :destroy
+  belongs_to :user
   belongs_to :show, dependent: :destroy
   belongs_to :referral_band
 

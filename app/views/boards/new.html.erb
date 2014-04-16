@@ -2,34 +2,25 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
-    <h2>Create a new Showboard</h1>
-      <%= form_for(@board) do |f| %>
-        <%= render 'shared/error_messages', object: f.object %>
-        
-        <%= f.label :name, "Board Name" %>
-        <%= f.text_field :name %>
+      <h2>Create a new Showboard</h2>
 
-        <%= f.label :vanity_url %>
-        showboarder.com/ <%= f.text_field :vanity_url %>
+      <%= simple_form_for @board do |f| %>
+      <%= f.input :name, label: 'Board Name' %>
+      <%= f.input :vanity_url, label: 'Vanity Url' %>
+      <%= f.simple_fields_for :stages do |ff| %>
 
-        <%= f.fields_for :stages do |ff| %>
-          <%= ff.label :capacity, "Capacity" %>
-          <%= ff.text_field :capacity, :val => ff.object.capacity.to_i %>
-
-          <%= ff.label :places_formatted_address_short, "Location" %>
-          <%= ff.text_field :places_formatted_address_short, :id => "pac-input", :class=>"controls", :placeholder => "Enter a location" %>
-          <div id="map-canvas"></div>
-
-          <div id="map-plz">
-            Please make sure the appropriate location is pinned on the map above before continuing.
-          </div>
-
-          <%= ff.hidden_field :places_reference %>
-
+        <%= ff.input :capacity, label:'Capacity' %>
+        <%= ff.input :places_formatted_address_short, label:'Location', :placeholder => "Enter a location", input_html: { :id => "pac-input", :class=>"controls"} %>
+        <div id="map-canvas"></div>
+        <div id="map-plz">
+          Please make sure the appropriate location is pinned on the map above before continuing.
+        </div>
+        <%= ff.input :places_reference, as:"hidden" %>
         <% end %>
 
-        <%= f.submit "Create board", class: "btn btn-large btn-primary" %>
+      <%= f.button :submit %>
       <% end %>
+
     </div>
   </div>
 <!--   <div class="row">

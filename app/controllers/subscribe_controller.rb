@@ -1,7 +1,6 @@
 class SubscribeController < ApplicationController
   load_and_authorize_resource :board, :find_by => :vanity_url
 
-
   def new
     @board = Board.find_by_vanity_url(params[:board_id])
   end

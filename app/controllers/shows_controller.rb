@@ -13,7 +13,9 @@ class ShowsController < ApplicationController
     @show = @board.shows.new(show_params)
     @show.stage = @board.stages.first
     if @show.save
-      @show.make_tickets
+      if @show.ticketed
+        @show.make_tickets
+      end
       flash[:success] = "You have added a show!"
       redirect_to [@board, @show]
     else

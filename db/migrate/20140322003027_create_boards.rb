@@ -6,7 +6,7 @@ class CreateBoards < ActiveRecord::Migration
       t.string :vanity_url, presence: true, uniqueness: { case_sensitive: false }
       t.string :email
       t.string :phone
-      t.integer :paid_tier
+      t.integer :paid_tier, null:false, default:0
       t.datetime :paid_at
       t.string :referral_code
 

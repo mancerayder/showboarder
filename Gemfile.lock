@@ -178,6 +178,9 @@ GEM
     sdoc (0.3.20)
       json (>= 1.1.3)
       rdoc (~> 3.10)
+    simple_form (3.0.2)
+      actionpack (~> 4.0)
+      activemodel (~> 4.0)
     sprockets (2.11.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -235,6 +238,7 @@ DEPENDENCIES
   rufus-scheduler (= 3.0.7)
   sass-rails (= 4.0.3)
   sdoc (= 0.3.20)
+  simple_form (= 3.0.2)
   sprockets-rails (= 2.1.1)
   sqlite3 (= 1.3.8)
   stripe!
