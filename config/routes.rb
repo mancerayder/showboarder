@@ -28,6 +28,7 @@ Showboarder::Application.routes.draw do
   # get "users/new"
   
   match '/about',   to: 'static_pages#about',   via: 'get'
+  mount StripeEvent::Engine => '/stripewebhook'
 
   # match ':id', to: 'boards#show', via: 'get'
 
