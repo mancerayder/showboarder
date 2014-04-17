@@ -37,6 +37,7 @@ class ChargeController < ApplicationController
       end
 
       @show.update_attributes(payer_id:current_user.id, paid_at:Time.now)
+      @show.tickets_make
 
       redirect_to @show.board, :notice => "You have successfully enabled ticketing for this show!"
       rescue Stripe::CardError => e
