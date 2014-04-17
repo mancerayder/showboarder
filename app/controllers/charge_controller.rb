@@ -23,7 +23,7 @@ class ChargeController < ApplicationController
           :customer => customer.id,
           :amount => @amount,
           :currency => "usd",
-          :description => "Single show ticketing"
+          :description => @show.id
           )
       else
         customer = Stripe::Customer.create(

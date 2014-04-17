@@ -17,7 +17,8 @@ class SubscribeController < ApplicationController
       if current_user.stripe_id
         customer = Stripe::Customer.retrieve(current_user.stripe_id)
         subscription = customer.subscriptions.create(
-          :plan => "sb1"
+          :plan => "sb1",
+          :description => @board.vanity_url
           )
       else
         customer = Stripe::Customer.create(
@@ -31,6 +32,7 @@ class SubscribeController < ApplicationController
 
       @board.user_boards.find_by(boarder_id:current_user.id).update_attributes(role:"owner")
       @board.update_attributes(paid_at:Time.now)
+
 
       redirect_to @board, :notice => "You have successfully enabled ticketing for this board!"
       rescue Stripe::CardError => e
