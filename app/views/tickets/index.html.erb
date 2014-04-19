@@ -1,5 +1,5 @@
 testing123
 
-<%= form_tag board_show_reserve_path(@board, @show) %>
+<%= form_tag board_show_reserve_path(@board, @show, :charge_type => "sb3") %>
   <%= number_field_tag "quantity", params[:quantity] %>
 <%= submit_tag "Checkout", :class => "blue_button disabled", :id => "checkout_button" %>
