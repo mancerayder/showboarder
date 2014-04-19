@@ -51,6 +51,8 @@ class Ability
     #   user.user_boards.where(board_id:ticket.show.board.id, role:"owner").length > 0
     # end
 
+    can :crud, Ticket
+
     # can :read, Ticket, :user_id => user.id
 
     # can :crud, :all

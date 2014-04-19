@@ -2,6 +2,8 @@
 <%= link_to "Back to Showboard", @show.board %>
 <br>
 <%= render 'enable_ticketing_button' %>
+<br>
+<%= link_to "Buy Tickets", board_show_tickets_path(@board, @show) %>
 
 <p>Find me in app/views/show/show.html.erb</p>
 <%= @show.price_door %>

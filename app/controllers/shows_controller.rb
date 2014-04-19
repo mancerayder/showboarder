@@ -5,7 +5,6 @@ class ShowsController < ApplicationController
   def new
     @board = Board.find_by_vanity_url(params[:board_id])
     @show = @board.shows.new
-    puts @show.board_id
   end
 
   def create
