@@ -2,6 +2,9 @@ class TicketsController < ApplicationController
   def new
     @board = Board.find_by_vanity_url(params[:board_id])
     @show = Show.find(params[:show_id])
+    @quantity = params[:quantity]
+    # @amount = @show.price_adv * BigDecimal.new(@quantity)
+    @amount = ((@show.price_adv * BigDecimal.new(@quantity)) * 100).to_i
   end
 
   # def reserve
@@ -14,7 +17,7 @@ class TicketsController < ApplicationController
   #     redirect_to current_user
   #   end
   # end
-  def reserve
+  def create
    if params[:charge_type] == "sb3"
       begin
       @show = Show.find(params[:show_id])
@@ -22,10 +25,12 @@ class TicketsController < ApplicationController
       @quantity = params[:quantity]
       # puts "froop" + @quantity.to_s
       # puts "frop" + @show.price_adv.to_s
-      @amount = @show.price_adv.to_i * @quantity.to_i * 10
+      @amount = ((@show.price_adv * BigDecimal.new(@quantity)) * 100).to_i
       @board = Board.find_by_vanity_url(params[:board_id])
       buyer_id = 0
       buyer_type = ""
+
+      @show.tickets_state(@quantity, "reserved", buyer_id, buyer_type)
 
       if current_user.stripe_id
         customer = Stripe::Customer.retrieve(current_user.stripe_id)
@@ -38,18 +43,23 @@ class TicketsController < ApplicationController
       else
         customer = Stripe::Customer.create(
           :card => token,
-          :amount => @amount,
           :email => current_user.email,
           :description => "Single show ticketing - new"
         )
+        charge = Stripe::Charge.create(
+          :customer => customer.id,
+          :amount => @amount,
+          :currency => "usd",
+          :description => @show.id.to_s + " " + @quantity.to_s
+          )
 
         current_user.update_attributes(stripe_id:customer.id)
       end
 
       @show.update_attributes(payer_id:current_user.id, paid_at:Time.now)
-      @show.tickets_make
+      
 
-      redirect_to @show.board, :notice => "You have successfully enabled ticketing for this show!"
+      redirect_to @show.board, :notice => "Enjoy the show!"
       rescue Stripe::CardError => e
         flash[:error] = e.message
         redirect_to root_path

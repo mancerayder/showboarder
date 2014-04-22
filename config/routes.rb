@@ -19,9 +19,9 @@ Showboarder::Application.routes.draw do
     resources :subscribe, only: [:create]
     match '/subscribe', to: 'subscribe#new', via: 'get'
     resources :shows do
-      resources :tickets
-      match '/reserve', to:'tickets#reserve', via: 'post'
-      # match '/tickets', to: 'tickets#new', via: 'get'
+      resources :tickets, only: [:create]
+      # match '/reserve', to:'tickets#reserve', via: 'post'
+      match '/tickets', to: 'tickets#new', via: 'get'
       resources :charge, only: [:create]
       match '/charge', to: 'charge#new', via: 'get'
     end
