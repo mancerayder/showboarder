@@ -1,9 +1,12 @@
 <h1>Show#show</h1>
 <%= link_to "Back to Showboard", @show.board %>
 <br>
+<% if current_user.boarder?(@show.board) %>
 <%= render 'enable_ticketing_button' %>
+<% end %>
 <br>
-<%= link_to "Buy Tickets", board_show_tickets_path(@board, @show) %>
+<!-- <%= link_to "Buy Tickets", board_show_tickets_path(@board, @show) %> -->
+<%= render 'buy_tickets_button' %>
 
 <p>Find me in app/views/show/show.html.erb</p>
-<%= @show.price_door %>
+$<%= @show.price_adv.to_i %>

@@ -3,8 +3,8 @@
 <%= form_for [@board, @show] do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   
-  <%= f.label :price_door %>
-  <%= f.text_field :price_door, :class => 'cost', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0) %>
+  <%= f.label :price_adv %>
+  <%= f.text_field :price_adv, :class => 'cost', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0) %>
 
   <%= f.submit "Add show", class: "btn btn-large btn-primary" %>
 <% end %>

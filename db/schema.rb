@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20140411010407) do
     t.string   "vanity_url"
     t.string   "email"
     t.string   "phone"
-    t.integer  "paid_tier"
+    t.integer  "paid_tier",     default: 0,         null: false
     t.datetime "paid_at"
     t.string   "referral_code"
     t.datetime "created_at"

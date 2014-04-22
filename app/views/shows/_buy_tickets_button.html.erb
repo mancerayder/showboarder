@@ -1,0 +1,4 @@
+<!-- <%= link_to "Enable ticketing for this Showboard", board_subscribe_path(@board) %> -->
+<%= form_tag board_show_reserve_path(@board, @show, :charge_type => "sb3") %>
+  <%= number_field_tag "quantity", params[:quantity] %>
+<%= submit_tag "Buy Tickets", :class => "blue_button disabled", :id => "checkout_button" %>

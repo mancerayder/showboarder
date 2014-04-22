@@ -13,14 +13,15 @@ Showboarder::Application.routes.draw do
   devise_for :users, :path => '/users', :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   root to: 'static_pages#home'
 
-  resources :users, :guests, :tickets
+  resources :users, :guests
 
   resources :boards, path:'' do
     resources :subscribe, only: [:create]
     match '/subscribe', to: 'subscribe#new', via: 'get'
-    resources :shows, path:'' do
+    resources :shows do
       resources :tickets
       match '/reserve', to:'tickets#reserve', via: 'post'
+      # match '/tickets', to: 'tickets#new', via: 'get'
       resources :charge, only: [:create]
       match '/charge', to: 'charge#new', via: 'get'
     end
