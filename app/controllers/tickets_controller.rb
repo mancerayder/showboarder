@@ -30,7 +30,7 @@ class TicketsController < ApplicationController
       buyer_id = 0
       buyer_type = ""
 
-      @show.tickets_state(@quantity, "reserved", buyer_id, buyer_type)
+      @show.tickets_state("reserved", @quantity, buyer_id, buyer_type)
 
       if current_user.stripe_id
         customer = Stripe::Customer.retrieve(current_user.stripe_id)
@@ -45,7 +45,7 @@ class TicketsController < ApplicationController
           :card => token,
           :email => current_user.email,
           :description => "Single show ticketing - new"
-        )
+          )
         charge = Stripe::Charge.create(
           :customer => customer.id,
           :amount => @amount,
@@ -56,7 +56,7 @@ class TicketsController < ApplicationController
         current_user.update_attributes(stripe_id:customer.id)
       end
 
-      @show.update_attributes(payer_id:current_user.id, paid_at:Time.now)
+      @show.tickets_state("owned", @quantity, buyer_id, buyer_type)
       
 
       redirect_to @show.board, :notice => "Enjoy the show!"

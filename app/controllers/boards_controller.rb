@@ -11,6 +11,7 @@ class BoardsController < ApplicationController
     if @board.save
       # @stage1.first.name = @board.name
       @board.stages.first.places_gather
+      @board.update_attributes(ticketed:true)
       current_user.boarder!(@board, "manager")
       flash[:success] = "You have created a new Showboard!"
       redirect_to @board

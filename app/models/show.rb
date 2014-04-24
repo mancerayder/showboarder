@@ -12,8 +12,7 @@ class Show < ActiveRecord::Base
 
     puts self.stage.capacity.to_i
     (1..capacity).each do |t|
-
-      self.tickets.create
+      self.tickets.create(price:self.price_adv)
     end
   end
 

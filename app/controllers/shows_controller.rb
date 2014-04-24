@@ -11,7 +11,9 @@ class ShowsController < ApplicationController
     @board = Board.find_by_vanity_url(params[:board_id])
     @show = @board.shows.new(show_params)
     @show.stage = @board.stages.first
+    @show.update_attributes(ticketed:true)
     if @show.save
+      @show.update_attributes(ticketed:true)
       if @show.ticketed
         @show.tickets_make
       end
