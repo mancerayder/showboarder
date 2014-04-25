@@ -46,12 +46,54 @@ class Show < ActiveRecord::Base
     end
   end
 
-  def tickets_state(state, quantity, buyer_id, buyer_type)
+  # def tickets_state(state, quantity, buyer_id, buyer_type)
+  #   if self.unsold_count <= quantity
+  #     #go through tickets of state that should be changed by state and change state buyer_id and buyer_type as appropriate via ticket state method 
+  #     self.tickets.each do |t|
+  #       if state == "reserved"
+  #         if t.state == "open"
+  #           t.update_attributes(state:state,ticket_owner_id:buyer_id, ticket_owner_type:buyer_type)
+  #           quantity = quantity - 1
+  #         end
+  #       end
+  #       if state == "owned"
+  #         if t.state == ("open" || "canceled")
+  #           t.update_attributes(state:state,ticket_owner_id:buyer_id, ticket_owner_type:buyer_type)
+  #           quantity = quantity - 1
+  #         end
+  #       end
+  #       break if quantity == 1
+  #     end
+  #   else
+  #     flash[:error] = "Sorry, not enough tickets are available at this time."
+  #     redirect to show_path(@show)
+  #   end
+  # end
+
+  def tickets_reserve(quantity, buyer_id, buyer_type)
     if self.unsold_count <= quantity
-      (1..quantity)
       #go through tickets of state that should be changed by state and change state buyer_id and buyer_type as appropriate via ticket state method 
+      self.tickets.each do |t|
+        if t.state == "open"
+          t.update_attributes(state:"reserved",ticket_owner_id:buyer_id, ticket_owner_type:buyer_type, reserved_at:Time.now)
+          quantity = quantity - 1
+        end
+        break if quantity == 0
+      end
     else
       flash[:error] = "Sorry, not enough tickets are available at this time."
+      redirect to show_path(@show)
+    end
+  end
+
+  def tickets_buy(quantity, buyer_id, buyer_type)
+    reserved = Ticket.where(show_id:self.id, state:"reserved", ticket_owner_id:buyer_id, ticket_owner_type:buyer_type)
+    if reserved.length >= quantity
+      (0..quantity-1).each do |t|
+        reserved[t].update_attributes(state:"owned", bought_at:Time.now, buy_method:"online")
+      end
+    else
+      flash[:error] = "Sorry, not enough tickets are reserved by this user or guest."
       redirect to show_path(@show)
     end
   end

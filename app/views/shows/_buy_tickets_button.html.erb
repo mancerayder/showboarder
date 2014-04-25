@@ -1,8 +1,3 @@
-<!-- <%= link_to "Enable ticketing for this Showboard", board_subscribe_path(@board) %> -->
-<!-- <%= form_tag board_show_tickets_path(@board, @show) %>
-  <%= number_field_tag "quantity", params[:quantity] %>
-<%= submit_tag "Buy Tickets", :class => "blue_button disabled", :id => "checkout_button" %> -->
-
 <%= form_tag board_show_tickets_path(@board, @show, :charge_type => "sb3") do %>
   <article>
     <label class="amount">
@@ -11,15 +6,19 @@
   </article>
   <%= label(:ticket, :quantity) %>
   <%= number_field_tag 'quantity', params[:quantity] %>
-  <%= label(:user, :email, "Enter your email address (please double check):") %>
-  <%= email_field_tag 'email', current_user.email, disabled: :disabled %>
+  <br>
+  <% if user_signed_in? %>
+  Logged in as <%= current_user.email %>.
   <br>
   Not <%= current_user.email %>? <%= link_to  "Sign Out", destroy_user_session_path, method: "delete" %>.
+  <% else %>
+  <%= label(:user, :email, "Enter your email address (please double check):") %>
+  <%= email_field_tag 'email', current_user.email, disabled: :disabled %>
+  <% end %>
   <br>
   <br>
-
   <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
           data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
-          data-description="A month's subscription"
+          data-description="Purchase ticket/s"
           data-amount=@amount></script>
 <% end %>

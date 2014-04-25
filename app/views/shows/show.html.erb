@@ -2,7 +2,10 @@
 <%= link_to "Back to Showboard", @show.board %>
 <br>
 <% if current_user.boarder?(@show.board) %>
+<% if user_signed_in? %>
 <%= render 'enable_ticketing_button' %>
+<% end %>
+
 <% end %>
 <br>
 <!-- <%= link_to "Buy Tickets", board_show_tickets_path(@board, @show) %> -->

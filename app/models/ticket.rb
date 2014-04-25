@@ -12,7 +12,7 @@ class Ticket < ActiveRecord::Base
     end
   end
 
-  def state(state, ticket_owner_id, ticket_owner_type)
+  def state_change(state, ticket_owner_id, ticket_owner_type)
     self.update_attributes(state:state,ticket_owner_id:ticket_owner_id, ticket_owner_type: ticket_owner_type)
     if state == "reserved"
       self.update_attributes(state:state,reserved_at:Time.now)
