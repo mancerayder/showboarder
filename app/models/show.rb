@@ -20,7 +20,7 @@ class Show < ActiveRecord::Base
     unsold = 0
     self.tickets.each do |t|
       if t.state == "owned"
-        unsold_count = unsold_count + 1
+        unsold = unsold + 1
       end
     end
     return unsold
@@ -75,14 +75,14 @@ class Show < ActiveRecord::Base
       #go through tickets of state that should be changed by state and change state buyer_id and buyer_type as appropriate via ticket state method 
       self.tickets.each do |t|
         if t.state == "open"
-          t.update_attributes(state:"reserved",ticket_owner_id:buyer_id, ticket_owner_type:buyer_type, reserved_at:Time.now)
+          t.update_attributes(state:"reserved", ticket_owner_id:buyer_id, ticket_owner_type:buyer_type, reserved_at:Time.now)
           quantity = quantity - 1
         end
         break if quantity == 0
       end
     else
-      flash[:error] = "Sorry, not enough tickets are available at this time."
-      redirect to show_path(@show)
+      raise "Sorry, not enough tickets are available at this time."
+      # redirect to show_path(@show)
     end
   end
 
@@ -93,8 +93,8 @@ class Show < ActiveRecord::Base
         reserved[t].update_attributes(state:"owned", bought_at:Time.now, buy_method:"online")
       end
     else
-      flash[:error] = "Sorry, not enough tickets are reserved by this user or guest."
-      redirect to show_path(@show)
+      raise "Sorry, not enough tickets are reserved by this user or guest."
+      # redirect to show_path(@show)
     end
   end
 end

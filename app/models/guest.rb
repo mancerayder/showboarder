@@ -3,5 +3,5 @@ class Guest < ActiveRecord::Base
   validates :email, presence:   true,
                     format:     { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
-  has_many :tickets, as: :ticket_owner
+  has_many :tickets, as: :owner
 end

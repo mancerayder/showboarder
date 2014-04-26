@@ -13,7 +13,7 @@
   Not <%= current_user.email %>? <%= link_to  "Sign Out", destroy_user_session_path, method: "delete" %>.
   <% else %>
   <%= label(:user, :email, "Enter your email address (please double check):") %>
-  <%= email_field_tag 'email', current_user.email, disabled: :disabled %>
+  <%= email_field_tag 'email', params[:email] %>
   <% end %>
   <br>
   <br>

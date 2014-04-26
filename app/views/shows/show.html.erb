@@ -1,8 +1,8 @@
 <h1>Show#show</h1>
 <%= link_to "Back to Showboard", @show.board %>
 <br>
-<% if current_user.boarder?(@show.board) %>
 <% if user_signed_in? %>
+<% if current_user.boarder?(@show.board) %>
 <%= render 'enable_ticketing_button' %>
 <% end %>
 
