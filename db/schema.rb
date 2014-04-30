@@ -146,6 +146,8 @@ ActiveRecord::Schema.define(version: 20140411010407) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.string   "stripe_id"
+    t.integer  "ticket_owner_id"
+    t.string   "ticket_owner_type"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "provider"

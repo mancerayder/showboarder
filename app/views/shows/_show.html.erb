@@ -2,9 +2,11 @@
   <%= link_to "#{show.id}", [@board, show], class: "btn btn-default btn-lg btn-front" %>
 
   <%= show.id %>
+  <% if user_signed_in? %>
   <% if current_user.board_role(show.board) == "owner" %>
     <%= link_to "delete", [@board, show], method: :delete, id: show.id,
                                      data: { confirm: "You sure?" },
                                      title: show.id %>
+  <% end %>
   <% end %>
 </li>

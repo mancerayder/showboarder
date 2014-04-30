@@ -5,7 +5,7 @@ class Ticket < ActiveRecord::Base
   belongs_to :referral_band
 
   def buy_or_die
-    scheduler.in '15m' do
+    Rufus::Scheduler.singleton.in '15m' do
       if self.state == "reserved"
         self.update_attributes(ticket_owner_id: nil, ticket_owner_type: nil, state:"open")
       end
@@ -29,5 +29,13 @@ class Ticket < ActiveRecord::Base
     if state == "open"
       self.update_attributes(state:state,canceled_at:Time.now)
     end
+  end
+
+  def owner(user_or_guest)
+    self.update_attributes(ticket_owner_type:user_or_guest.class.to_s, ticket_owner_id:user_or_guest.id)
+  end
+
+  def make_open
+    self.update_attributes(ticket_owner_type:nil, ticket_owner_id:nil, state:"open")
   end
 end

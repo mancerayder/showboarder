@@ -34,7 +34,6 @@ class DeviseCreateUsers < ActiveRecord::Migration
       ## extras
 
       t.string :stripe_id
-      t.references :ticket_owner, polymorphic: true
 
 
       t.timestamps

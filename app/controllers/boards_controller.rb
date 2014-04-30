@@ -11,7 +11,7 @@ class BoardsController < ApplicationController
     if @board.save
       # @stage1.first.name = @board.name
       @board.stages.first.places_gather
-      @board.update_attributes(ticketed:true)
+      @board.update_attributes(paid_tier:1, state:"public")
       current_user.boarder!(@board, "manager")
       flash[:success] = "You have created a new Showboard!"
       redirect_to @board
@@ -35,6 +35,6 @@ class BoardsController < ApplicationController
   private
 
     def board_params
-      params.require(:board).permit(:name, :vanity_url, :places_reference, {stages_attributes: [:id, :name, :places_reference, :capacity, :board, :places_json ]})
+      params.require(:board).permit(:name, :vanity_url, :places_reference, :paid_tier, {stages_attributes: [:id, :name, :places_reference, :capacity, :board, :places_json ]})
     end
 end

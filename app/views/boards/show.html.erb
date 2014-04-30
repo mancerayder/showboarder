@@ -1,25 +1,30 @@
 <%= @board.name %>
 <br>
 <%= @board.stages.first.places_formatted_address_short %>
+<% if user_signed_in? %>
+<% if current_user.boarder?(@board) %>
 <%= render 'shared/new_show_button' %>
 <% if not @board.paid %>
-<%= render 'enable_ticketing_button'%>
+
 <% end %>
 
 <br>
+<% if user_signed_in? %>
 role <%= current_user.board_role(@board) %>
+<% end %>
 <br>
 capacity <%= @board.stages.first.capacity %>
 <br>
-<% if current_user.boarder?(@board) %>
 
+
+<%= render 'enable_ticketing_button'%>
 
 boarder
 <% else %>
 not boarder
 <% end %>
 <br>
-
+<% end %>
 <%= @board.stages.first.places_reference %>
 <br>
 <%= @board.stages.first.places_json %>

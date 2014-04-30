@@ -17,13 +17,7 @@ class Show < ActiveRecord::Base
   end
 
   def unsold_count
-    unsold = 0
-    self.tickets.each do |t|
-      if t.state == "owned"
-        unsold = unsold + 1
-      end
-    end
-    return unsold
+    return self.tickets.where(state:"open").count
   end
 
   def tickets_adjust(quantity)
@@ -43,6 +37,34 @@ class Show < ActiveRecord::Base
         flash[:error] = "Sorry, you cannot adjust capacity below the amount of tickets that have already sold."
         redirect_to show_path(@show)
       end
+    end
+  end
+
+  def tickets_reserve(quantity, buyer_id, buyer_type)
+    if self.unsold_count >= quantity
+      #go through tickets of state that should be changed by state and change state buyer_id and buyer_type as appropriate via ticket state method 
+      open = Ticket.where(show_id:self.id, state:"open")
+      (0..quantity-1).each do |c|
+        t = open[c]
+
+        t.update_attributes(state:"reserved", ticket_owner_id:buyer_id, ticket_owner_type:buyer_type, reserved_at:Time.now)
+        t.buy_or_die
+      end
+    else
+      raise "Sorry, not enough tickets are available at this time."
+      # redirect to show_path(@show)
+    end
+  end
+
+  def tickets_buy(quantity, buyer_id, buyer_type)
+    reserved = Ticket.where(show_id:self.id, state:"reserved", ticket_owner_id:buyer_id, ticket_owner_type:buyer_type)
+    if reserved.length >= quantity
+      (0..quantity-1).each do |t|
+        reserved[t].update_attributes(state:"owned", bought_at:Time.now, buy_method:"online")
+      end
+    else
+      raise "Sorry, not enough tickets are reserved by this user or guest."
+      # redirect to show_path(@show)
     end
   end
 
@@ -69,32 +91,4 @@ class Show < ActiveRecord::Base
   #     redirect to show_path(@show)
   #   end
   # end
-
-  def tickets_reserve(quantity, buyer_id, buyer_type)
-    if self.unsold_count <= quantity
-      #go through tickets of state that should be changed by state and change state buyer_id and buyer_type as appropriate via ticket state method 
-      self.tickets.each do |t|
-        if t.state == "open"
-          t.update_attributes(state:"reserved", ticket_owner_id:buyer_id, ticket_owner_type:buyer_type, reserved_at:Time.now)
-          quantity = quantity - 1
-        end
-        break if quantity == 0
-      end
-    else
-      raise "Sorry, not enough tickets are available at this time."
-      # redirect to show_path(@show)
-    end
-  end
-
-  def tickets_buy(quantity, buyer_id, buyer_type)
-    reserved = Ticket.where(show_id:self.id, state:"reserved", ticket_owner_id:buyer_id, ticket_owner_type:buyer_type)
-    if reserved.length >= quantity
-      (0..quantity-1).each do |t|
-        reserved[t].update_attributes(state:"owned", bought_at:Time.now, buy_method:"online")
-      end
-    else
-      raise "Sorry, not enough tickets are reserved by this user or guest."
-      # redirect to show_path(@show)
-    end
-  end
 end
