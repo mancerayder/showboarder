@@ -10,6 +10,13 @@ class User < ActiveRecord::Base
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     if user = User.where(:email => auth.info.email).first
+      user.update_attributes(name:auth.info.name,
+        provider:auth.provider,
+        facebook_url:auth.info.urls.Facebook,
+        uid:auth.uid,
+        image:auth.info.image,
+        nickname:auth.info.nickname,
+        location:auth.info.location,)
       user
     else
       user = User.create(name:auth.info.name,
@@ -23,6 +30,9 @@ class User < ActiveRecord::Base
         password:Devise.friendly_token[0,20])
       user
     end
+  end
+
+  def self.find_for_stripe_oauth(auth, signed_in_resource=nil)
   end
 
   def boarder!(board, role)

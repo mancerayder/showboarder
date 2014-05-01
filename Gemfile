@@ -28,6 +28,7 @@ gem 'rufus-scheduler', '3.0.7'
 gem 'simple_form', '3.0.2'
 gem 'stripe_event', '1.1.0'
 gem 'omniauth-stripe-connect', '2.3.0'
+gem 'retina_tag', '1.3.1'
 
 group :development do
   gem 'sqlite3', '1.3.8'

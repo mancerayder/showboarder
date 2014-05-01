@@ -20,3 +20,4 @@
 //= require flash
 //= require_tree .
 //= require gmaps
+//= require retina_tag

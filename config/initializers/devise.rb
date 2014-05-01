@@ -229,6 +229,22 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   config.omniauth :facebook, ENV["FACEBOOK_ID"], ENV["FACEBOOK_SECRET"]
+
+  if Rails.env.development?
+    config.omniauth :stripe_connect,
+    ENV['STRIPE_CONNECT_CLIENT_ID_DEV'],
+    ENV['STRIPE_DEV_KEY'],
+    :scope => 'read_write', # or :scope => 'read_only'
+    :stripe_landing => 'login' # or :stripe_landing => 'register'
+  end
+
+  if Rails.env.production?
+    config.omniauth :stripe_connect,
+    ENV['STRIPE_CONNECT_CLIENT_ID'],
+    ENV['STRIPE_LIVE_KEY'],
+    :scope => 'read_write', # or :scope => 'read_only'
+    :stripe_landing => 'login' # or :stripe_landing => 'register'
+  end
   #, :scope => 'user,public_repo'
 
   # ==> Warden configuration
