@@ -10,13 +10,14 @@ class User < ActiveRecord::Base
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     if user = User.where(:email => auth.info.email).first
-      user.update_attributes(name:auth.info.name,
+      user.update_attributes(
+        name:auth.info.name,
         provider:auth.provider,
         facebook_url:auth.info.urls.Facebook,
         uid:auth.uid,
         image:auth.info.image,
         nickname:auth.info.nickname,
-        location:auth.info.location,)
+        location:auth.info.location)
       user
     else
       user = User.create(name:auth.info.name,
@@ -33,6 +34,19 @@ class User < ActiveRecord::Base
   end
 
   def self.find_for_stripe_oauth(auth, signed_in_resource=nil)
+    if user = User.where(email:auth.info.email).first
+      user.update_attributes(
+        stripe_uid:auth.uid,
+        stripe_scope:auth.info.stripe_scope,
+        stripe_livemode:auth.info.livemode,
+        stripe_publishable_key:auth.info.stripe_publishable_key,
+        stripe_token:auth.credentials.token,
+        stripe_token_type:auth.info.raw_info.token_type
+        )
+      user
+    else
+      raise "Please sign up for a Showboarder account before connecting with Stripe."
+    end
   end
 
   def boarder!(board, role)

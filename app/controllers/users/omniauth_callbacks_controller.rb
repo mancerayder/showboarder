@@ -13,8 +13,16 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def stripe_connect
-    # Delete the code inside of this method and write your own.
-    # The code below is to show you where to access the data.
-    raise request.env["omniauth.auth"].to_yaml
+    @user = User.find_for_facebook_oauth(request.env["omniauth.auth"])
+
+    if @user.persisted?
+      set_flash_message(:notice, :success, :kind => "Stripe") if is_navigational_format?
+      redirect_to @user.boards.first
+    else
+      flash[:error] = "Please create a Showboarder account before connecting with Stripe."
+      redirect_to new_user_registration_url
+    end
+
+    # raise request.env["omniauth.auth"].to_yaml
   end  
 end

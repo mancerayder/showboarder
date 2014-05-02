@@ -23,3 +23,7 @@ doc/
 # Ignore application configuration
 /config/application.yml
 /config/secrets.yml
+showboarder.com.csr
+showboarder.com.key
+/www_showboarder_com
+www_showboarder_com.crt
