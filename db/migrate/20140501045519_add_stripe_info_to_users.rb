@@ -6,5 +6,6 @@ class AddStripeInfoToUsers < ActiveRecord::Migration
     add_column :users, :stripe_publishable_key, :string
     add_column :users, :stripe_token, :string    
     add_column :users, :stripe_token_type, :string
+    add_column :users, :stripe_recipient_id, :string
   end
 end

@@ -33,21 +33,21 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.find_for_stripe_oauth(auth, signed_in_resource=nil)
-    if user = User.where(email:auth.info.email).first
-      user.update_attributes(
-        stripe_uid:auth.uid,
-        stripe_scope:auth.info.stripe_scope,
-        stripe_livemode:auth.info.livemode,
-        stripe_publishable_key:auth.info.stripe_publishable_key,
-        stripe_token:auth.credentials.token,
-        stripe_token_type:auth.info.raw_info.token_type
-        )
-      user
-    else
-      raise "Please sign up for a Showboarder account before connecting with Stripe."
-    end
-  end
+  # def self.find_for_stripe_oauth(auth, signed_in_resource=nil)
+  #   if user = User.where(email:auth.info.email).first
+  #     user.update_attributes(
+  #       stripe_uid:auth.uid,
+  #       stripe_scope:auth.info.stripe_scope,
+  #       stripe_livemode:auth.info.livemode,
+  #       stripe_publishable_key:auth.info.stripe_publishable_key,
+  #       stripe_token:auth.credentials.token,
+  #       stripe_token_type:auth.info.raw_info.token_type
+  #       )
+  #     user
+  #   else
+  #     raise "Please sign up for a Showboarder account before connecting with Stripe."
+  #   end
+  # end
 
   def boarder!(board, role)
     user_boards.create!(board_id: board.id, role: role)
