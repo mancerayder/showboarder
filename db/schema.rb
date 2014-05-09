@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140501045519) do
+ActiveRecord::Schema.define(version: 20140509224829) do
 
   create_table "boards", force: true do |t|
     t.string   "name"
@@ -115,6 +115,17 @@ ActiveRecord::Schema.define(version: 20140501045519) do
   add_index "tickets", ["referral_band_id"], name: "index_tickets_on_referral_band_id"
   add_index "tickets", ["show_id", "reserved_at"], name: "index_tickets_on_show_id_and_reserved_at"
   add_index "tickets", ["show_id"], name: "index_tickets_on_show_id"
+
+  create_table "transactions", force: true do |t|
+    t.integer  "actioner_id"
+    t.string   "actioner_type"
+    t.integer  "actionee_id"
+    t.string   "actionee_type"
+    t.string   "state_before"
+    t.string   "state_after"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "user_boards", force: true do |t|
     t.integer  "boarder_id"
