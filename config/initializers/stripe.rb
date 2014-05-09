@@ -35,4 +35,4 @@ Stripe.api_key = Rails.configuration.stripe[:secret_key]
 #   events.all do |event|
 #     # Handle all event types - logging, etc.
 #   end
-end
+# end
