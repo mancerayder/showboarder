@@ -5,6 +5,7 @@ class CreateTransactions < ActiveRecord::Migration
       t.references :actionee, polymorphic: true
       t.string :state_before
       t.string :state_after      
+      t.string :error
 
       t.timestamps
     end

@@ -4,6 +4,30 @@ class Ticket < ActiveRecord::Base
   belongs_to :show, dependent: :destroy
   belongs_to :referral_band
 
+  include AASM
+
+  aasm column: 'state', skip_validation_on_save: true do
+    state :open, initial: true
+    state :reserved
+    state :owned
+
+    event :process, after: :charge_card do
+      transitions from: :pending, to: :processing
+    end
+
+    event :finish, after: :send_receipt do
+      transitions from: :processing, to: :finished
+    end
+
+    event :fail do
+      transitions from: :processing, to: :errored
+    end
+
+    event :refund, after: :send_refund_email do
+      transitions from: :finished, to: :refunded
+    end
+  end
+
   def buy_or_die
     Rufus::Scheduler.singleton.in '15m' do
       if self.state == "reserved"

@@ -4,6 +4,7 @@ class CreateShows < ActiveRecord::Migration
       t.belongs_to :board
       t.belongs_to :stage
       t.string :state
+      t.string :error
       t.datetime :announce_at
       t.datetime :door_at
       t.datetime :show_at

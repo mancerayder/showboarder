@@ -9,9 +9,6 @@ class CreateTickets < ActiveRecord::Migration
       t.string :seat
       t.string :buy_method
       t.string :claim_method
-      t.datetime :reserved_at
-      t.datetime :bought_at
-      t.datetime :canceled_at
       t.decimal :price, :precision => 8, :scale => 2
       t.belongs_to :referral_band, index: true
 
