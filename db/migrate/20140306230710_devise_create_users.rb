@@ -34,6 +34,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       ## extras
 
       t.string :stripe_id
+      t.string :name
 
 
       t.timestamps

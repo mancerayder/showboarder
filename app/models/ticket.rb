@@ -4,37 +4,60 @@ class Ticket < ActiveRecord::Base
   belongs_to :show, dependent: :destroy
   belongs_to :referral_band
 
-  include AASM
+  # include AASM
 
-  aasm column: 'state', skip_validation_on_save: true do
-    state :open, initial: true
-    state :reserved
-    state :owned
+  # aasm column: 'state', skip_validation_on_save: true do
+  #   state :open, initial: true
+  #   state :reserved
+  #   state :owned
 
-    event :process, after: :charge_card do
-      transitions from: :pending, to: :processing
-    end
+  #   event :process, after: :charge_card do
+  #     transitions from: :open, to: :reserved
+  #     transact(ticket_owner, "open", "reserved", '')
+  #   end
 
-    event :finish, after: :send_receipt do
-      transitions from: :processing, to: :finished
-    end
+  #   event :finish, after: :send_receipt do
+  #     transitions from: :reserved, to: :owned
+  #     transact(ticket_owner, "reserved", "owned", '')
+  #   end
 
-    event :fail do
-      transitions from: :processing, to: :errored
-    end
+  #   event :fail do
+  #     transitions from: :processing, to: :open
+  #   end
 
-    event :refund, after: :send_refund_email do
-      transitions from: :finished, to: :refunded
-    end
-  end
+  #   event :refund, after: :send_refund_email do
+  #     transitions from: :finished, to: :open
+  #   end
+  # end
 
   def buy_or_die
     Rufus::Scheduler.singleton.in '15m' do
       if self.state == "reserved"
+        transact(ticket_owner, "reserved", "open", "Your reservation for this ticket has expired.")
         self.update_attributes(ticket_owner_id: nil, ticket_owner_type: nil, state:"open")
       end
     end
   end
+
+  # def transact(actioner, state_before, state_after, error)
+  #   Transaction.create(actioner_type:actioner.class.to_s, actioner_id:actioner.id, state_before:state_before, state_after:state_after, error:error, actionee_type:self.class.to_s, actionee_id:self.id)
+  # end
+
+  # def transaction_last(owner)
+  #   Transaction.where(actioner_type:owner.class.to_s, actioner_id:owner.id, actionee_type:"Ticket", actionee_id:self.id).order(:created_at).last
+  # end
+
+  # def transaction_last
+  #   Transaction.where(actionee_type:"Ticket", actionee_id:self.id).order(:created_at).last
+  # end
+
+  # def transactions(owner)
+  #   Transaction.where(actioner_type:owner.class.to_s, actioner_id:owner.id, actionee_type:"Ticket", actionee_id:self.id)
+  # end
+
+  # def transactions_all
+  #   Transaction.where(actionee_type:"Ticket", actionee_id:self.id)
+  # end
 
   def state_change(state, ticket_owner_id, ticket_owner_type)
     self.update_attributes(state:state,ticket_owner_id:ticket_owner_id, ticket_owner_type: ticket_owner_type)

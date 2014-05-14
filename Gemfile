@@ -30,6 +30,8 @@ gem 'simple_form', '3.0.2'
 gem 'omniauth-stripe-connect', '2.3.0'
 gem 'retina_tag', '1.3.1'
 gem 'aasm', '3.1.1'
+gem 'sidekiq', '3.0.2'
+gem 'paper_trail', '3.0.2' #, git: 'https://github.com/airblade/paper_trail', branch: 'rails4'
 
 group :development do
   gem 'sqlite3', '1.3.8'

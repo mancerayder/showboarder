@@ -6,6 +6,9 @@
   <div><%= f.label :email %><br />
   <%= f.email_field :email, :autofocus => true %></div>
 
+  <div><%= f.label :name, "Full Name (Used for will call - must match your photo ID)" %> <br />
+  <%= f.text_field :name %>
+
   <div><%= f.label :password %><br />
   <%= f.password_field :password %></div>
 
