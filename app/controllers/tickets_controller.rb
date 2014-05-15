@@ -48,7 +48,7 @@ class TicketsController < ApplicationController
         @show.tickets_reserve(@quantity, buyer_id, buyer_type)
       else
         flash[:error] = "Sorry, not enough tickets are available at this time."
-        redirect_to @show
+        redirect_to :back
       end
 
       if user_signed_in?
@@ -96,6 +96,7 @@ class TicketsController < ApplicationController
       redirect_to @show.board, :notice => "Enjoy the show!"
       rescue Stripe::CardError => e
         flash[:error] = e.message
+
         redirect_to root_path
       end
     end
