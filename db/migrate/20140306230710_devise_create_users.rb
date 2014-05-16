@@ -35,6 +35,9 @@ class DeviseCreateUsers < ActiveRecord::Migration
 
       t.string :stripe_id
       t.string :name
+      t.date :card_expiration
+      t.string :card_type
+      t.string :card_last4
 
 
       t.timestamps
