@@ -9,21 +9,29 @@ Showboarder::Application.routes.draw do
   # get "users/new"
   # devise_for :users do
   #   get "/signup", :to => "devise/registrations#new"
-  # end 
+  # end
+
+  
+  # match '/buy/:permalink'    => 'transactions#create',   via: :post, as: :buy
+
   devise_for :users, :path => '/users', :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   root to: 'static_pages#home'
 
   resources :users, :guests
 
   resources :boards, path:'' do
-    resources :subscribe, only: [:create]
-    match '/subscribe', to: 'subscribe#new', via: 'get'
+    match '/subscribe'    => 'boards#subscribe',      via: :get
+    match '/subscribe'    => 'transactions#subscribe',      via: :post
+    # resources :subscribe, only: [:create]
+    # match '/subscribe', to: 'subscribe#new', via: 'get'
     resources :shows do
+      match '/charge'    => 'shows#charge',      via: :get
+      match '/charge'    => 'transactions#charge',      via: :post
       resources :tickets, only: [:create]
       # match '/reserve', to:'tickets#reserve', via: 'post'
       match '/tickets', to: 'tickets#new', via: 'get'
       resources :charge, only: [:create]
-      match '/charge', to: 'charge#new', via: 'get'
+      # match '/charge', to: 'charge#new', via: 'get'
     end
     resources :stages
   end

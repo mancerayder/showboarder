@@ -1,8 +1,13 @@
 class BoardsController < ApplicationController
   load_and_authorize_resource :board, :find_by => :vanity_url
+
   def new
     @board = Board.new
     @board.stages.build
+  end
+
+  def subscribe
+    @board = Board.find_by_vanity_url(params[:board_id])
   end
 
   def create

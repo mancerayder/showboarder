@@ -23,6 +23,11 @@ class ShowsController < ApplicationController
     end
   end
 
+  def charge
+    @board = Board.find_by_vanity_url(params[:board_id])
+    @show = Show.find_by(params[:id])
+  end
+
   def show
     @show = Show.find(params[:id])
   end

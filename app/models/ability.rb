@@ -9,11 +9,11 @@ class Ability
       can :manage, :all
     end
 
-    can :crud, Board do |board|
+    can :manage, Board do |board|
       user.user_boards.where(board_id:board.id, role:"manager").length > 0
     end
 
-    can :crud, Board do |board|
+    can :manage, Board do |board|
       user.user_boards.where(board_id:board.id, role:"owner").length > 0
     end    
 
@@ -27,11 +27,11 @@ class Ability
       user.user_boards.where(board_id:board.id, role:"coordinator").length > 0
     end
 
-    can :crud, Show do |show|
+    can :manage, Show do |show|
       user.user_boards.where(board_id:show.board_id, role:"manager").length > 0
     end
 
-    can :crud, Show do |show|
+    can :manage, Show do |show|
       user.user_boards.where(board_id:show.board_id, role:"owner").length > 0
     end
 

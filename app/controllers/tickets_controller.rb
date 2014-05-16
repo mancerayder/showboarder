@@ -44,12 +44,12 @@ class TicketsController < ApplicationController
         buyer_type = "Guest"
       end
 
-      if @show.unsold_count >= @quantity
-        @show.tickets_reserve(@quantity, buyer_id, buyer_type)
-      else
-        flash[:error] = "Sorry, not enough tickets are available at this time."
-        redirect_to :back
-      end
+      # if @show.unsold_count >= @quantity
+      #   @show.tickets_reserve(@quantity, buyer_id, buyer_type)
+      # else
+      #   flash[:error] = "Sorry, not enough tickets are available at this time."
+      #   redirect_to :back
+      # end
 
       if user_signed_in?
         if current_user.stripe_id
