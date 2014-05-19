@@ -46,14 +46,21 @@ class Show < ActiveRecord::Base
 
   def tickets_reserve(quantity, buyer_id, buyer_type)
     if self.unsold_count >= quantity
+      reserve_code = ""
       #go through tickets of state that should be changed by state and change state buyer_id and buyer_type as appropriate via ticket state method 
       open = Ticket.where(show_id:self.id, state:"open")
       (0..quantity-1).each do |c|
         t = open[c]
-
-        t.update_attributes(state:"reserved", ticket_owner_id:buyer_id, ticket_owner_type:buyer_type, reserved_at:Time.now)
+        h = SecureRandom.hex(8)
+        t.update_attributes(state:"reserved", ticket_owner_id:buyer_id, ticket_owner_type:buyer_type, reserved_at:Time.now, reserve_code: h)
         t.buy_or_die
+        if reserve_code == ""
+          reserve_code = h
+        else
+          reserve_code = reserve_code + "-" + h
+        end
       end
+      return reserve_code
     else
       raise "Sorry, not enough tickets are available at this time."
       # redirect to show_path(@show)

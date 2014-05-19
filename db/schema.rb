@@ -28,8 +28,7 @@ ActiveRecord::Schema.define(version: 20140509224829) do
 
   create_table "guests", force: true do |t|
     t.string   "email"
-    t.integer  "ticket_owner_id"
-    t.string   "ticket_owner_type"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -66,6 +65,7 @@ ActiveRecord::Schema.define(version: 20140509224829) do
     t.integer  "board_id"
     t.integer  "stage_id"
     t.string   "state"
+    t.string   "error"
     t.datetime "announce_at"
     t.datetime "door_at"
     t.datetime "show_at"
@@ -103,17 +103,16 @@ ActiveRecord::Schema.define(version: 20140509224829) do
     t.string   "seat"
     t.string   "buy_method"
     t.string   "claim_method"
-    t.datetime "reserved_at"
-    t.datetime "bought_at"
-    t.datetime "canceled_at"
     t.decimal  "price",             precision: 8, scale: 2
     t.integer  "referral_band_id"
+    t.string   "reserve_code",                              default: ""
+    t.date     "reserved_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "tickets", ["referral_band_id"], name: "index_tickets_on_referral_band_id"
-  add_index "tickets", ["show_id", "reserved_at"], name: "index_tickets_on_show_id_and_reserved_at"
+  add_index "tickets", ["show_id", "reserve_code"], name: "index_tickets_on_show_id_and_reserve_code"
   add_index "tickets", ["show_id"], name: "index_tickets_on_show_id"
 
   create_table "transactions", force: true do |t|
@@ -123,9 +122,19 @@ ActiveRecord::Schema.define(version: 20140509224829) do
     t.string   "actionee_type"
     t.string   "state_before"
     t.string   "state_after"
+    t.text     "error"
+    t.string   "stripe_id"
+    t.string   "stripe_token"
+    t.integer  "amount"
+    t.integer  "fee_amount"
+    t.integer  "coupon_id"
+    t.integer  "affiliate_id"
+    t.text     "customer_address"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "transactions", ["actioner_id", "actioner_type"], name: "index_transactions_on_actioner_id_and_actioner_type"
 
   create_table "user_boards", force: true do |t|
     t.integer  "boarder_id"
@@ -157,14 +166,15 @@ ActiveRecord::Schema.define(version: 20140509224829) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.string   "stripe_id"
-    t.integer  "ticket_owner_id"
-    t.string   "ticket_owner_type"
+    t.string   "name"
+    t.date     "card_expiration"
+    t.string   "card_type"
+    t.string   "card_last4"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "provider"
     t.string   "uid"
     t.string   "nickname"
-    t.string   "name"
     t.string   "image"
     t.string   "location"
     t.string   "facebook_url"
@@ -175,6 +185,7 @@ ActiveRecord::Schema.define(version: 20140509224829) do
     t.string   "stripe_publishable_key"
     t.string   "stripe_token"
     t.string   "stripe_token_type"
+    t.string   "stripe_recipient_id"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true

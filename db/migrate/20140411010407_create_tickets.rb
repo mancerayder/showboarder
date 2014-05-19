@@ -11,9 +11,12 @@ class CreateTickets < ActiveRecord::Migration
       t.string :claim_method
       t.decimal :price, :precision => 8, :scale => 2
       t.belongs_to :referral_band, index: true
+      t.string :reserve_code, default: ""
+      t.date :reserved_at
 
       t.timestamps
     end
-    add_index :tickets, [:show_id, :reserved_at]
+
+    add_index :tickets, [:show_id, :reserve_code]
   end
 end

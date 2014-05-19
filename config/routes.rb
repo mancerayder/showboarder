@@ -27,9 +27,12 @@ Showboarder::Application.routes.draw do
     resources :shows do
       match '/charge'    => 'shows#charge',      via: :get
       match '/charge'    => 'transactions#charge',      via: :post
-      resources :tickets, only: [:create]
+      # resources :tickets, only: [:create]
       # match '/reserve', to:'tickets#reserve', via: 'post'
-      match '/tickets', to: 'tickets#new', via: 'get'
+      match '/tickets', to: 'tickets#new', via: :get
+      match '/checkout', to: 'shows#checkout', via: :get
+      match '/checkout', to: 'transactions#checkout', via: :post
+      match '/reserve', to: 'tickets#reserve', via: :post
       resources :charge, only: [:create]
       # match '/charge', to: 'charge#new', via: 'get'
     end

@@ -1,0 +1,24 @@
+<%= form_tag board_show_tickets_path(@board, @show, :charge_type => "sb3") do %>
+  <article>
+    <label class="amount">
+      <span>Purchase <%= @quantity %> tickets for <%= @amount %></span>
+    </label>
+  </article>
+  <%= label(:ticket, :quantity) %>
+  <%= number_field_tag 'quantity', params[:quantity] %>
+  <br>
+  <% if user_signed_in? %>
+  Logged in as <%= current_user.email %>.
+  <br>
+  Not <%= current_user.email %>? <%= link_to  "Sign Out", destroy_user_session_path, method: "delete" %>.
+  <% else %>
+  <%= label(:user, :email, "Enter your email address (please double check):") %>
+  <%= email_field_tag 'email', params[:email] %>
+  <% end %>
+  <br>
+  <br>
+  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+          data-description="Purchase ticket/s"
+          data-amount=@amount></script>
+<% end %>

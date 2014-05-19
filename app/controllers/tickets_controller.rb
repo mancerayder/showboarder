@@ -17,6 +17,16 @@ class TicketsController < ApplicationController
   #     redirect_to current_user
   #   end
   # end
+
+  def reserve
+    @show = Show.find(params[:show_id])
+    @quantity = params[:quantity].to_i
+
+    @reserve_code = @show.tickets_reserve(@quantity, nil, nil)
+
+    redirect_to board_show_checkout_path(@show.board, @show, reserve_code:@reserve_code, show_id:@show.id)
+  end
+
   def create
     if params[:charge_type] == "sb3"
       begin

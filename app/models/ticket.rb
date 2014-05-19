@@ -34,14 +34,14 @@ class Ticket < ActiveRecord::Base
     Rufus::Scheduler.singleton.in '15m' do
       if self.state == "reserved"
         transact(ticket_owner, "reserved", "open", "Your reservation for this ticket has expired.")
-        self.update_attributes(ticket_owner_id: nil, ticket_owner_type: nil, state:"open")
+        self.update_attributes(ticket_owner_id: nil, ticket_owner_type: nil, state:"open", reserve_code: "")
       end
     end
   end
 
-  # def transact(actioner, state_before, state_after, error)
-  #   Transaction.create(actioner_type:actioner.class.to_s, actioner_id:actioner.id, state_before:state_before, state_after:state_after, error:error, actionee_type:self.class.to_s, actionee_id:self.id)
-  # end
+  def transact(actioner, state_before, state_after)
+    Transaction.create(actioner_id:actioner.id, actioner_type:actioner.class.to_s, actionee_id:self.id, actionee_type:"Show", state_before:state_before, state_after:state_after)
+  end
 
   # def transaction_last(owner)
   #   Transaction.where(actioner_type:owner.class.to_s, actioner_id:owner.id, actionee_type:"Ticket", actionee_id:self.id).order(:created_at).last

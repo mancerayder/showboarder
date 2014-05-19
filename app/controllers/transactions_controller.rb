@@ -1,6 +1,14 @@
 class TransactionsController < ApplicationController
-  def reserve
-    @show = Show.find_by(params[:show_id])
+  # def reserve
+  #   @show = Show.find_by(params[:show_id])
+  # end
+  def checkout
+    reserve_code = params[:reserve_code]
+    show_id  = params[:show_id]
+    @tickets = []
+    reserve_code.split("-").each do |c|
+      @tickets << Ticket.where(show_id:show_id, reserve_code:c).first
+    end
   end
 
   def subscribe

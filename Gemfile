@@ -32,6 +32,7 @@ gem 'retina_tag', '1.3.1'
 gem 'aasm', '3.1.1'
 gem 'sidekiq', '3.0.2'
 gem 'paper_trail', '3.0.2' #, git: 'https://github.com/airblade/paper_trail', branch: 'rails4'
+gem 'jquery-countdown-rails'
 
 group :development do
   gem 'sqlite3', '1.3.8'

@@ -7,6 +7,15 @@ class ShowsController < ApplicationController
     @show = @board.shows.new
   end
 
+  def checkout
+    reserve_code = params[:reserve_code]
+    show_id  = params[:show_id]
+    @tickets = []
+    reserve_code.split("-").each do |c|
+      @tickets << Ticket.where(show_id:show_id, reserve_code:c).first
+    end
+  end
+
   def create
     @board = Board.find_by_vanity_url(params[:board_id])
     @show = @board.shows.new(show_params)
