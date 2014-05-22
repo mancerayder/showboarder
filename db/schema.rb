@@ -106,7 +106,7 @@ ActiveRecord::Schema.define(version: 20140509224829) do
     t.decimal  "price",             precision: 8, scale: 2
     t.integer  "referral_band_id"
     t.string   "reserve_code",                              default: ""
-    t.date     "reserved_at"
+    t.datetime "reserved_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

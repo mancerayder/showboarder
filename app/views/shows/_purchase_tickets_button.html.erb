@@ -1,11 +1,9 @@
 <%= form_tag board_show_tickets_path(@board, @show, :charge_type => "sb3") do %>
   <article>
     <label class="amount">
-      <span>Purchase <%= @quantity %> tickets for <%= @amount %></span>
+      <span>Purchase <%= @tickets.count %> tickets for <%= number_to_currency(@amount, unit:"$") %></span>
     </label>
   </article>
-  <%= label(:ticket, :quantity) %>
-  <%= number_field_tag 'quantity', params[:quantity] %>
   <br>
   <% if user_signed_in? %>
   Logged in as <%= current_user.email %>.

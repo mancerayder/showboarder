@@ -14,7 +14,7 @@ Showboarder::Application.routes.draw do
   
   # match '/buy/:permalink'    => 'transactions#create',   via: :post, as: :buy
 
-  devise_for :users, :path => '/users', :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  devise_for :users, :path => '/users', :controllers => { :sessions => "users/sessions", :registrations => "users/registrations", :omniauth_callbacks => "users/omniauth_callbacks" }
   root to: 'static_pages#home'
 
   resources :users, :guests

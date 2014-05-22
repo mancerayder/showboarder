@@ -4,10 +4,10 @@ class TransactionsController < ApplicationController
   # end
   def checkout
     reserve_code = params[:reserve_code]
-    show_id  = params[:show_id]
+    @show = find_by(params[:show_id])
     @tickets = []
     reserve_code.split("-").each do |c|
-      @tickets << Ticket.where(show_id:show_id, reserve_code:c).first
+      @tickets << Ticket.where(show_id:@show.id, reserve_code:c).first
     end
   end
 

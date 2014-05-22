@@ -8,11 +8,41 @@ class ShowsController < ApplicationController
   end
 
   def checkout
-    reserve_code = params[:reserve_code]
-    show_id  = params[:show_id]
-    @tickets = []
-    reserve_code.split("-").each do |c|
-      @tickets << Ticket.where(show_id:show_id, reserve_code:c).first
+    @show = Show.find_by(params[:id])
+    if user_signed_in?
+      tickets = Ticket.where(ticket_owner_id:current_user.id, ticket_owner_type:current_user.class.to_s)
+      tickets.each do |t|
+        if t.expired?
+          t.make_open
+        end
+      end
+      @tickets = Ticket.where(ticket_owner_id:current_user.id, ticket_owner_type:current_user.class.to_s)
+    else
+      @reserve_code = ""
+      @tickets = []
+      if params[:reserve_code]
+        @reserve_code = params[:reserve_code]
+        @reserve_code.split("-").each do |c|
+          t = Ticket.where(show_id:@show.id, reserve_code:c).first
+          if t && !t.expired?
+            @tickets << t
+          elsif t
+            t.make_open("Reservation expired before state change")
+          else
+            next
+          end
+        end
+      end
+      
+    end
+    @amount = 0
+
+    @tickets.each do |t|
+      @amount = @amount + t.price
+    end
+
+    if @amount == 0
+      redirect_to board_show_path(@show.board, @show)
     end
   end
 

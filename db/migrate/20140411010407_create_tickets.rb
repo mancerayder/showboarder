@@ -12,7 +12,7 @@ class CreateTickets < ActiveRecord::Migration
       t.decimal :price, :precision => 8, :scale => 2
       t.belongs_to :referral_band, index: true
       t.string :reserve_code, default: ""
-      t.date :reserved_at
+      t.datetime :reserved_at
 
       t.timestamps
     end
