@@ -51,7 +51,7 @@ class Show < ActiveRecord::Base
       open = Ticket.where(show_id:self.id, state:"open")
       (0..quantity-1).each do |c|
         t = open[c]
-        h = SecureRandom.hex(8)
+        h = SecureRandom.hex(8).to_s + "_" + self.id.to_s
         t.update_attributes(state:"reserved", ticket_owner_id:reserver_id, ticket_owner_type:reserver_type, reserved_at:DateTime.now, reserve_code: h)
         t.buy_or_die
         if reserve_code == ""
@@ -78,6 +78,15 @@ class Show < ActiveRecord::Base
     else
       raise "Sorry, not enough tickets are reserved by this user or guest."
       # redirect to show_path(@show)
+    end
+  end
+
+  def tickets_clear_expired_reservations
+    reserved = Ticket.where(show_id:self.id, state:"reserved")
+    reserved.each do |t|
+      if t.expired?
+        t.make_open
+      end
     end
   end
 

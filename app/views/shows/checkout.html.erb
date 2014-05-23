@@ -4,10 +4,10 @@
 
 Have an account?
 <br>
-<%= link_to 'Log in and Purchase', new_user_session_path(@show, :reserve_code => @reserve_code) %>
+<%= link_to 'Log in and Purchase', new_user_session_path(:show => @show, :reserve_code => @reserve_code) %>
 <br><br>
 Don't have an account?
-<%= link_to 'Register and purchase', new_user_registration_path(@show, :reserve_code => @reserve_code) %>
+<%= link_to 'Register and purchase', new_user_registration_path(:show => @show, :reserve_code => @reserve_code) %>
 <br>
 or continue and purchase as a guest
 <br>

@@ -1,16 +1,17 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   def new
-    build_resource({})
-    respond_with self.resource
     @reserve_code = ""
-    @show = Show.new
+    @reserve_show = 0
     if params[:reserve_code]
       @reserve_code = params[:reserve_code]
     end
 
     if params[:show]
-      @show = params[:show]
+      @reserve_show = params[:show]
     end
+
+    build_resource({})
+    respond_with self.resource
   end
 
   # POST /resource
@@ -36,7 +37,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def resource_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :provider, :facebook_url, :uid, :nickname, :location, :image)
+    params.require(:user).permit(:name, :reserve_code, :reserve_show, :email, :password, :password_confirmation, :provider, :facebook_url, :uid, :nickname, :location, :image)
   end
   private :resource_params
 end

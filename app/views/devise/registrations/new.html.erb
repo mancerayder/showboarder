@@ -15,7 +15,20 @@
   <div><%= f.label :password_confirmation %><br />
   <%= f.password_field :password_confirmation %></div>
 
+  <% if @reserve_show != 0 %>
+
+  <%= f.hidden_field :reserve_show, :value => @reserve_show %>
+
+  <%= f.hidden_field :reserve_code, :value => @reserve_code %>
+
+  <% end %>
+
   <div><%= f.submit "Sign up" %></div>
 <% end %>
+
+<%= @reserve_code || "doop1" %>
+<br>
+<%= @reserve_show || "doop2" %>
+<br>
 
 <%= render "devise/shared/links" %>

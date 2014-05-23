@@ -27,7 +27,7 @@ class TicketsController < ApplicationController
       redirect_to board_show_checkout_path(@show.board, @show)
     else
       @reserve_code = @show.tickets_reserve(@quantity, nil, nil)
-      redirect_to board_show_checkout_path(@show.board, @show, reserve_code:@reserve_code, show_id:@show.id)
+      redirect_to board_show_checkout_path(@show.board, @show, reserve_code:@reserve_code)
     end
   end
 
