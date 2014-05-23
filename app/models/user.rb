@@ -66,6 +66,22 @@ class User < ActiveRecord::Base
     user_boards.find_by(board_id: board.id).role
   end
 
+  def tickets_reserved_assign
+    if self.reserve_code?
+      self.reserve_code.split("-").each do |c|
+        t = Ticket.where(show_id:c.split("_")[1].to_i, reserve_code:c).first
+        if t && !t.expired?
+          t.owner(self)
+        elsif t
+          t.make_open("Reservation expired before state change")
+        else
+          next
+        end
+      end
+      self.update(reserve_code:nil)
+    end
+  end
+
   # def self.find_first_by_auth_conditions(warden_conditions)
   #   conditions = warden_conditions.dup
   #   if login = conditions.delete(:login)

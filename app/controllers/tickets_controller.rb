@@ -21,6 +21,7 @@ class TicketsController < ApplicationController
   def reserve
     @show = Show.find_by(params[:show_id])
     @quantity = params[:quantity].to_i
+    @show.tickets_clear_expired_reservations
 
     if user_signed_in?
       @show.tickets_reserve(@quantity, current_user.id, current_user.class.to_s)

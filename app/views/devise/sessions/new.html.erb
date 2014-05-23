@@ -15,6 +15,12 @@
     <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
   <% end -%>
 
+  <% if @reserve_code != "" %>
+
+  <%= f.hidden_field :reserve_code, :value => @reserve_code %>
+
+  <% end %>  
+
   <div><%= f.submit "Sign in" %></div>
 <% end %>
 

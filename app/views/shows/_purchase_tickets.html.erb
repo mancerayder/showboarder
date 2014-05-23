@@ -4,6 +4,9 @@
       <span>Purchase <%= @tickets.count %> tickets for <%= number_to_currency(@amount, unit:"$") %></span>
     </label>
   </article>
+  <%= number_to_currency(@amount, unit:"$") %>
+  <br>
+  <%= number_to_stripe(@amount) %>
   <br>
   <% if user_signed_in? %>
   Logged in as <%= current_user.email %>.
@@ -18,5 +21,5 @@
   <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
           data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
           data-description="Purchase ticket/s"
-          data-amount=@amount></script>
+          data-amount=<%= number_to_stripe(@amount) %>></script>
 <% end %>

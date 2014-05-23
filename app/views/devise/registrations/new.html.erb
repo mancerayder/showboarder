@@ -15,9 +15,7 @@
   <div><%= f.label :password_confirmation %><br />
   <%= f.password_field :password_confirmation %></div>
 
-  <% if @reserve_show != 0 %>
-
-  <%= f.hidden_field :reserve_show, :value => @reserve_show %>
+  <% if @reserve_code != "" %>
 
   <%= f.hidden_field :reserve_code, :value => @reserve_code %>
 

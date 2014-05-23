@@ -1,13 +1,8 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   def new
     @reserve_code = ""
-    @reserve_show = 0
     if params[:reserve_code]
       @reserve_code = params[:reserve_code]
-    end
-
-    if params[:show]
-      @reserve_show = params[:show]
     end
 
     build_resource({})
@@ -21,6 +16,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     resource_saved = resource.save
     yield resource if block_given?
     if resource_saved
+      resource.tickets_reserved_assign
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_flashing_format?
         sign_up(resource_name, resource)
@@ -37,7 +33,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def resource_params
-    params.require(:user).permit(:name, :reserve_code, :reserve_show, :email, :password, :password_confirmation, :provider, :facebook_url, :uid, :nickname, :location, :image)
+    params.require(:user).permit(:name, :reserve_code, :email, :password, :password_confirmation, :provider, :facebook_url, :uid, :nickname, :location, :image)
   end
   private :resource_params
 end
