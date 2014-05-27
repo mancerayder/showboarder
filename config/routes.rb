@@ -21,12 +21,12 @@ Showboarder::Application.routes.draw do
 
   resources :boards, path:'' do
     match '/subscribe'    => 'boards#subscribe',      via: :get
-    match '/subscribe'    => 'transactions#subscribe',      via: :post
+    match '/subscribe'    => 'transactions#board_ticketed',      via: :post
     # resources :subscribe, only: [:create]
     # match '/subscribe', to: 'subscribe#new', via: 'get'
     resources :shows do
       match '/charge'    => 'shows#charge',      via: :get
-      match '/charge'    => 'transactions#charge',      via: :post
+      match '/charge'    => 'transactions#show_ticketed',      via: :post
       # resources :tickets, only: [:create]
       # match '/reserve', to:'tickets#reserve', via: 'post'
       match '/tickets', to: 'tickets#new', via: :get

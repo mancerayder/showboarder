@@ -40,14 +40,14 @@ class Ticket < ActiveRecord::Base
   end
 
   def expired?
-    if (DateTime.now - DateTime.parse(self.reserved_at.to_s)) > (DateTime.now - (DateTime.now - 15.minutes))
+    if ((DateTime.now - DateTime.parse(self.reserved_at.to_s)) > (DateTime.now - (DateTime.now - 15.minutes))) || (self.state != "reserved")
       true
     else
       false
     end
   end
 
-  def transact(actioner, state_before, state_after, error)
+  def transact(actioner, state_before, state_after, error = "")
     if actioner != nil
       actioner_id = actioner.id
       actioner_type = actioner.class.to_s
@@ -75,23 +75,33 @@ class Ticket < ActiveRecord::Base
   #   Transaction.where(actionee_type:"Ticket", actionee_id:self.id)
   # end
 
-  def state_change(state, ticket_owner_id, ticket_owner_type)
-    self.update_attributes(state:state,ticket_owner_id:ticket_owner_id, ticket_owner_type: ticket_owner_type)
-    if state == "reserved"
-      self.update_attributes(state:state,reserved_at:DateTime.now)
-      self.buy_or_die
+  # def state_change(state, ticket_owner_id, ticket_owner_type)
+  #   self.update_attributes(state:state,ticket_owner_id:ticket_owner_id, ticket_owner_type: ticket_owner_type)
+  #   if state == "reserved"
+  #     self.update_attributes(state:state,reserved_at:DateTime.now)
+  #     self.buy_or_die
+  #   end
+  #   if state == "owned"
+  #     if (self.state == "reserved") || (self.ticket_owner_id != ticket_owner_id)
+  #       self.update_attributes(state:state,bought_at:DateTime.now)
+  #     else
+  #       flash[:error] = "Sorry, your reservation timer for this ticket has expired or you are not the reserver.  Please purchase within 15 minutes of reserving."
+  #       redirect_to show_path(self.show)
+  #     end
+  #   end
+  #   if state == "open"
+  #     self.update_attributes(state:state,canceled_at:DateTime.now)
+  #   end
+  # end
+
+  def buy(user_or_guest)
+    if self.expired?
+      self.make_open
+      raise "The reservation for this ticket has expired"
     end
-    if state == "bought"
-      if (self.state == "reserved") || (self.ticket_owner_id != ticket_owner_id)
-        self.update_attributes(state:state,bought_at:DateTime.now)
-      else
-        flash[:error] = "Sorry, your reservation timer for this ticket has expired or you are not the reserver.  Please purchase within 15 minutes of reserving."
-        redirect_to show_path(self.show)
-      end
-    end
-    if state == "open"
-      self.update_attributes(state:state,canceled_at:DateTime.now)
-    end
+    self.transact(user_or_guest, self.state, "owned")
+    self.reload
+    self.update(state:"owned", ticket_owner_id:user_or_guest.id, ticket_owner_type:user_or_guest.class.to_s)
   end
 
   def owner(user_or_guest)

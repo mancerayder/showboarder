@@ -1,25 +1,26 @@
-<%= form_tag board_show_tickets_path(@board, @show, :charge_type => "sb3") do %>
-  <article>
-    <label class="amount">
-      <span>Purchase <%= @tickets.count %> tickets for <%= number_to_currency(@amount, unit:"$") %></span>
-    </label>
-  </article>
-  <%= number_to_currency(@amount, unit:"$") %>
-  <br>
-  <%= number_to_stripe(@amount) %>
-  <br>
-  <% if user_signed_in? %>
-  Logged in as <%= current_user.email %>.
-  <br>
-  Not <%= current_user.email %>? <%= link_to  "Sign Out", destroy_user_session_path, method: "delete" %>.
-  <% else %>
-  <%= label(:user, :email, "Enter your email address (please double check):") %>
-  <%= email_field_tag 'email', params[:email] %>
-  <% end %>
-  <br>
-  <br>
-  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
-          data-description="Purchase ticket/s"
-          data-amount=<%= number_to_stripe(@amount) %>></script>
+<span>Purchase <%= @tickets.count %> tickets for <%= number_to_currency(@amount, unit:"$") %></span>
+<br>
+<% if user_signed_in? %>
+
+Logged in as <%= current_user.email %>.
+<br>
+Not <%= current_user.email %>? <%= link_to  "Sign Out", destroy_user_session_path, method: "delete" %>.
+<br>
+<%= render 'tickets_form1' %>
+
+<% else %>
+Have an account?
+<br>
+<%= link_to 'Log in and Purchase', new_user_session_path(:reserve_code => @reserve_code) %>
+<br><br>
+Don't have an account?
+<%= link_to 'Register and purchase', new_user_registration_path(:reserve_code => @reserve_code) %>
+<br>
+or continue and purchase as a guest
+<br>
+<br>
+
+
+<%= render 'tickets_form2' %>
+
 <% end %>
