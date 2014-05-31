@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140523004527) do
+ActiveRecord::Schema.define(version: 20140529013703) do
 
   create_table "boards", force: true do |t|
     t.string   "name"
@@ -185,7 +185,7 @@ ActiveRecord::Schema.define(version: 20140523004527) do
     t.string   "stripe_token_type"
     t.string   "stripe_recipient_id"
     t.string   "reserve_code"
-    t.integer  "reserve_show"
+    t.string   "recipient_id"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true

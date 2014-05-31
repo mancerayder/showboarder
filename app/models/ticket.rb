@@ -3,6 +3,7 @@ class Ticket < ActiveRecord::Base
   belongs_to :ticket_owner, polymorphic: true
   belongs_to :show, dependent: :destroy
   belongs_to :referral_band
+  has_many :carts, through: :tickets_carts
 
   # include AASM
 
@@ -32,9 +33,11 @@ class Ticket < ActiveRecord::Base
 
   def buy_or_die
     Rufus::Scheduler.singleton.in '15m' do
+      self.reload
       if self.state == "reserved"
         transact(ticket_owner, "reserved", "open", "Your reservation for this ticket has expired.")
-        self.make_open
+        self.reload
+        self.make_open("Scheduled reservation expiration")
       end
     end
   end
