@@ -3,7 +3,7 @@ class Ticket < ActiveRecord::Base
   belongs_to :ticket_owner, polymorphic: true
   belongs_to :show, dependent: :destroy
   belongs_to :referral_band
-  has_many :carts, through: :tickets_carts
+  has_and_belongs_to_many :carts
 
   # include AASM
 

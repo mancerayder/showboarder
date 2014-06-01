@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140529013703) do
+ActiveRecord::Schema.define(version: 20140531010702) do
 
   create_table "boards", force: true do |t|
     t.string   "name"
@@ -24,6 +24,17 @@ ActiveRecord::Schema.define(version: 20140529013703) do
     t.string   "referral_code"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "carts", force: true do |t|
+    t.string   "reserve_code", default: ""
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "carts_tickets", id: false, force: true do |t|
+    t.integer "cart_id"
+    t.integer "ticket_id"
   end
 
   create_table "guests", force: true do |t|
