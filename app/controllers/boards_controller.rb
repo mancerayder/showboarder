@@ -1,9 +1,24 @@
 class BoardsController < ApplicationController
   load_and_authorize_resource :board, :find_by => :vanity_url
 
+
   def new
     @board = Board.new
     @board.stages.build
+  end
+
+  def payout
+    @board = Board.find_by_vanity_url(params[:board_id])
+
+
+    if current_user.boarder?(@board)
+
+
+
+    else
+      flash[:error] = "Sorry, you must be logged in to an account with management privileges for this board in order to access this page."
+      redirect_to @board
+    end
   end
 
   def subscribe

@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
   # end
 
   def boarder!(board, role)
-    user_boards.create!(board_id: board.id, role: role)
+    user_boards.create(board_id: board.id, role: role)
   end
 
   def unboard!(board)
@@ -64,6 +64,10 @@ class User < ActiveRecord::Base
 
   def board_role(board)
     user_boards.find_by(board_id: board.id).role
+  end
+
+  def board_role_assign(board, role)
+    user_boards.find_by(board_id: board.id).update(role: role)
   end
 
   def tickets_reserved_assign
