@@ -116,14 +116,12 @@ ActiveRecord::Schema.define(version: 20140531010702) do
     t.string   "claim_method"
     t.decimal  "price",             precision: 8, scale: 2
     t.integer  "referral_band_id"
-    t.string   "reserve_code",                              default: ""
     t.datetime "reserved_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "tickets", ["referral_band_id"], name: "index_tickets_on_referral_band_id"
-  add_index "tickets", ["show_id", "reserve_code"], name: "index_tickets_on_show_id_and_reserve_code"
   add_index "tickets", ["show_id"], name: "index_tickets_on_show_id"
 
   create_table "transactions", force: true do |t|

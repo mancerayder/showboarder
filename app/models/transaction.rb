@@ -1,4 +1,7 @@
 class Transaction < ActiveRecord::Base
+
+  # has_paper_trail
+
   belongs_to :actioner, polymorphic: true
   belongs_to :actionee, polymorphic: true
 

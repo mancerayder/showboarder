@@ -12,19 +12,17 @@ class ShowsController < ApplicationController
     @show.tickets_clear_expired_reservations
     if user_signed_in?
       @tickets = Ticket.where(ticket_owner_id:current_user.id, ticket_owner_type:current_user.class.to_s, state:"reserved")
-      # tickets.each do |t|
-      #   if t.expired?
-      #     t.make_open
-      #   end
-      # end
-      # @tickets = Ticket.where(ticket_owner_id:current_user.id, ticket_owner_type:current_user.class.to_s)
     else
       @reserve_code = ""
       @tickets = []
       if params[:reserve_code]
         @reserve_code = params[:reserve_code]
-        @reserve_code.split("-").each do |c|
-          t = Ticket.where(show_id:c.split("_")[1].to_i, reserve_code:c).first
+
+        cart = Cart.find_by_reserve_code(@reserve_code)
+
+        carted = cart.tickets
+
+        carted.each do |t|
           if t && !t.expired?
             @tickets << t
           elsif t

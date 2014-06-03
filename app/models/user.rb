@@ -68,8 +68,8 @@ class User < ActiveRecord::Base
 
   def tickets_reserved_assign
     if self.reserve_code?
-      self.reserve_code.split("-").each do |c|
-        t = Ticket.where(show_id:c.split("_")[1].to_i, reserve_code:c).first
+      cart = Cart.find_by_reserve_code(self.reserve_code)
+      cart.tickets.each do |t|
         if t && !t.expired?
           t.owner(self)
         elsif t

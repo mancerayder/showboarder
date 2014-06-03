@@ -17,6 +17,9 @@ Showboarder::Application.routes.draw do
   devise_for :users, :path => '/users', :controllers => { :sessions => "users/sessions", :registrations => "users/registrations", :omniauth_callbacks => "users/omniauth_callbacks" }
   root to: 'static_pages#home'
 
+  # match '/settings/profile' => 'settings#profile', via: :get
+  # match '/settings/boards' => 'settings#boards', via: :get
+
   resources :users, :guests
 
   resources :boards, path:'' do

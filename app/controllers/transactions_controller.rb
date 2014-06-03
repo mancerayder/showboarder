@@ -37,8 +37,11 @@ class TransactionsController < ApplicationController
         @tickets = []
         if params[:reserve_code]
           @reserve_code = params[:reserve_code]
-          @reserve_code.split("-").each do |c|
-            t = Ticket.where(show_id:c.split("_")[1].to_i, reserve_code:c).first
+
+          cart = Cart.find_by_reserve_code(@reserve_code)
+          carted = cart.tickets
+
+          carted.each do |t|
             if t && !t.expired?
               @tickets << t
             elsif t

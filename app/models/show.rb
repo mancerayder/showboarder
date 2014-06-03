@@ -9,13 +9,12 @@ class Show < ActiveRecord::Base
   end
 
   def tickets_make
-    if self.custom_capacity
+    if self.custom_capacity?
       capacity = self.custom_capacity.to_i
     else
       capacity = self.board.stages.first.capacity.to_i
     end
 
-    puts self.stage.capacity.to_i
     (1..capacity).each do |t|
       self.tickets.create(price:self.price_adv)
     end
@@ -47,26 +46,24 @@ class Show < ActiveRecord::Base
 
   def tickets_reserve(quantity, reserver_id = nil, reserver_type = nil)
     if self.unsold_count >= quantity
+
       reserve_code = ""
       #go through tickets of state that should be changed by state and change state buyer_id and buyer_type as appropriate via ticket state method 
       open = Ticket.where(show_id:self.id, state:"open")
-      (0..quantity-1).each do |c|
-        t = open[c]
-        h = SecureRandom.hex(8).to_s + "_" + self.id.to_s
-        t.update_attributes(state:"reserved", ticket_owner_id:reserver_id, ticket_owner_type:reserver_type, reserved_at:DateTime.now, reserve_code: h)
+
+      cart = Cart.create(tickets:open[0..(quantity-1)])
+
+      cart.tickets.each do |t|
+        
+        t.update_attributes(state:"reserved", ticket_owner_id:reserver_id, ticket_owner_type:reserver_type, reserved_at:DateTime.now)
         t.buy_or_die
-        if reserve_code == ""
-          reserve_code = h
-        else
-          reserve_code = reserve_code + "-" + h
-        end
+
       end
       if reserver_id == nil
-        return reserve_code
+        return cart.reserve_code
       end
     else
       raise "Sorry, not enough tickets are available at this time."
-      # redirect to show_path(@show)
     end
   end
 

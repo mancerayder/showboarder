@@ -1,4 +1,6 @@
 class Ticket < ActiveRecord::Base
+  # has_paper_trail
+
   belongs_to :user
   belongs_to :ticket_owner, polymorphic: true
   belongs_to :show, dependent: :destroy
@@ -114,6 +116,6 @@ class Ticket < ActiveRecord::Base
   def make_open(error = "Make open")
     self.transact(self.ticket_owner, self.state.to_s, "open", error)
     self.reload
-    self.update_attributes(ticket_owner_type: nil, ticket_owner_id: nil, state:"open", reserved_at: nil, reserve_code:nil)
+    self.update_attributes(ticket_owner_type: nil, ticket_owner_id: nil, state:"open", reserved_at: nil)
   end
 end
