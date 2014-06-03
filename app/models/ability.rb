@@ -13,15 +13,15 @@ class Ability
       user.user_boards.where(board_id:board.id, role:"manager").length > 0
     end
 
-    can :manage, Board do |board|
-      user.user_boards.where(board_id:board.id, role:"owner").length > 0
-    end    
+    # can :crud, Board do |board|
+    #   user.user_boards.where(board_id:board.id, role:"owner").length > 0
+    # end    
 
     if user.id
-        can :create, Board
+      can :create, Board
     end
 
-    can :read, Board, :state => "public"
+    # can :read, Board, :state => "public"
 
     can :read, :update, Board do |board|
       user.user_boards.where(board_id:board.id, role:"coordinator").length > 0

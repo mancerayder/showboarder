@@ -10,10 +10,7 @@ class BoardsController < ApplicationController
   def payout
     @board = Board.find_by_vanity_url(params[:board_id])
 
-
-    if current_user.boarder?(@board)
-
-
+    if current_user && current_user.boarder?(@board)
 
     else
       flash[:error] = "Sorry, you must be logged in to an account with management privileges for this board in order to access this page."
