@@ -39,7 +39,6 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string :card_type
       t.string :card_last4
 
-
       t.timestamps
     end
 

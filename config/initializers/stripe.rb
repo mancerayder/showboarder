@@ -1,3 +1,5 @@
+require 'uri'
+
 if Rails.env.development?
   Rails.configuration.stripe = {
     :publishable_key => ENV['STRIPE_TEST_KEY_PUBLISHABLE'],

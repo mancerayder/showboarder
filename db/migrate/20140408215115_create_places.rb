@@ -25,3 +25,7 @@ class CreatePlaces < ActiveRecord::Migration
     end
   end
 end
+
+      # current_user.stripe_id = auth_hash['uid']
+      # current_user.stripe_access_key = auth_hash['credentials']['token']
+      # current_user.stripe_publishable_key

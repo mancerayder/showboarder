@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140531010702) do
+ActiveRecord::Schema.define(version: 20140604011859) do
 
   create_table "boards", force: true do |t|
     t.string   "name"
@@ -180,13 +180,15 @@ ActiveRecord::Schema.define(version: 20140531010702) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "provider"
-    t.string   "uid"
-    t.string   "nickname"
-    t.string   "image"
-    t.string   "location"
+    t.string   "facebook_uid"
+    t.string   "facebook_nickname"
+    t.string   "facebook_email"
+    t.string   "facebook_image"
+    t.string   "facebook_location"
     t.string   "facebook_url"
     t.integer  "timezone"
     t.string   "stripe_uid"
+    t.string   "stripe_email"
     t.string   "stripe_scope"
     t.boolean  "stripe_livemode"
     t.string   "stripe_publishable_key"
@@ -195,6 +197,7 @@ ActiveRecord::Schema.define(version: 20140531010702) do
     t.string   "stripe_recipient_id"
     t.string   "reserve_code"
     t.string   "recipient_id"
+    t.string   "stripe_access_key"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true

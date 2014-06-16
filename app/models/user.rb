@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
-  devise :omniauthable, :omniauth_providers => [:facebook]
+  devise :omniauthable, :omniauth_providers => [:facebook, :stripe_connect]
   has_many :user_boards, foreign_key: "boarder_id", dependent: :destroy
   has_many :boards, through: :user_boards, source: :board
   has_many :tickets, as: :ticket_owner
@@ -12,43 +12,42 @@ class User < ActiveRecord::Base
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     if user = User.where(:email => auth.info.email).first
       user.update_attributes(
+        facebook_email:auth.info.email,
         name:auth.info.name,
         provider:auth.provider,
         facebook_url:auth.info.urls.Facebook,
-        uid:auth.uid,
-        image:auth.info.image,
-        nickname:auth.info.nickname,
+        facebook_uid:auth.uid,
+        facebook_image:auth.info.image,
+        facebook_nickname:auth.info.nickname,
         location:auth.info.location)
       user
     else
       user = User.create(name:auth.info.name,
+        facebook_email:auth.info.email,
         provider:auth.provider,
         facebook_url:auth.info.urls.Facebook,
-        uid:auth.uid,
+        facebook_uid:auth.uid,
         email:auth.info.email,
-        image:auth.info.image,
-        nickname:auth.info.nickname,
-        location:auth.info.location,
+        facebook_image:auth.info.image,
+        facebook_nickname:auth.info.nickname,
+        facebook_location:auth.info.location,
         password:Devise.friendly_token[0,20])
       user
     end
   end
 
-  # def self.find_for_stripe_oauth(auth, signed_in_resource=nil)
-  #   if user = User.where(email:auth.info.email).first
-  #     user.update_attributes(
-  #       stripe_uid:auth.uid,
-  #       stripe_scope:auth.info.stripe_scope,
-  #       stripe_livemode:auth.info.livemode,
-  #       stripe_publishable_key:auth.info.stripe_publishable_key,
-  #       stripe_token:auth.credentials.token,
-  #       stripe_token_type:auth.info.raw_info.token_type
-  #       )
-  #     user
-  #   else
-  #     raise "Please sign up for a Showboarder account before connecting with Stripe."
-  #   end
-  # end
+  def self.find_for_stripe_oauth(auth, signed_in_resource)
+    signed_in_resource.update_attributes(
+      stripe_email:auth.info.email,
+      stripe_uid:auth.uid,
+      stripe_scope:auth.info.stripe_scope,
+      stripe_livemode:auth.info.livemode,
+      stripe_publishable_key:auth.info.stripe_publishable_key,
+      stripe_token:auth.credentials.token,
+      stripe_token_type:auth.extra.raw_info.token_type
+      )
+    signed_in_resource
+  end
 
   def boarder!(board, role)
     user_boards.create(board_id: board.id, role: role)

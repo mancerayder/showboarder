@@ -5,11 +5,13 @@ Showboarder::Application.routes.draw do
 
   resources :users do
     match '/boards' => 'users#boards', via: :get
+    match '/stripe-connect' => 'users#stripe_connect', via: :get
+
   end
 
   resources :boards, path:'' do
-    match '/payout' => 'boards#payout', via: :get
-    match '/payout' => 'transactions#payout', via: :post
+    # match '/payout' => 'boards#payout', via: :get
+    # match '/payout' => 'transactions#payout', via: :post
     match '/subscribe'    => 'boards#subscribe',      via: :get
     match '/subscribe'    => 'transactions#board_ticketed',      via: :post
     resources :shows do
@@ -23,6 +25,8 @@ Showboarder::Application.routes.draw do
     end
     resources :stages
   end
+  
+  # get '/auth/stripe_connect/callback', to: 'users/omniauth_callbacks#stripe_connect'
   
   match '/about',   to: 'static_pages#about',   via: 'get'
   # mount StripeEvent::Engine => '/stripewebhook'

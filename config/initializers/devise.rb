@@ -230,10 +230,12 @@ Devise.setup do |config|
   # up on your models and hooks.
   config.omniauth :facebook, ENV["FACEBOOK_ID"], ENV["FACEBOOK_SECRET"]
 
+  # config.omniauth :stripe_connect, ENV['STRIPE_CONNECT_CLIENT_ID_DEV'], ENV['STRIPE_TEST_KEY']
+
   if Rails.env.development?
     config.omniauth :stripe_connect,
     ENV['STRIPE_CONNECT_CLIENT_ID_DEV'],
-    ENV['STRIPE_DEV_KEY'],
+    ENV['STRIPE_TEST_KEY'],
     :scope => 'read_write', # or :scope => 'read_only'
     :stripe_landing => 'login' # or :stripe_landing => 'register'
   end
@@ -245,6 +247,7 @@ Devise.setup do |config|
     :scope => 'read_write', # or :scope => 'read_only'
     :stripe_landing => 'login' # or :stripe_landing => 'register'
   end
+
   #, :scope => 'user,public_repo'
 
   # ==> Warden configuration

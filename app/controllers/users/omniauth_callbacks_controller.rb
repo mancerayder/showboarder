@@ -1,6 +1,5 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def facebook
-    # You need to implement the method below in your model (e.g. app/models/user.rb)
     @user = User.find_for_facebook_oauth(request.env["omniauth.auth"])
 
     if @user.persisted?
@@ -13,7 +12,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def stripe_connect
-    @user = User.find_for_facebook_oauth(request.env["omniauth.auth"])
+    @user = User.find_for_stripe_oauth(request.env["omniauth.auth"], current_user)
 
     if @user.persisted?
       set_flash_message(:notice, :success, :kind => "Stripe") if is_navigational_format?

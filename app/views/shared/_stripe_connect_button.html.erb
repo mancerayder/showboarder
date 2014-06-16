@@ -1,0 +1,9 @@
+<% if Rails.env.development? %>
+  <%= link_to image_tag('stripe-connect-button.png',:height=>33), "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=" + ENV['STRIPE_CONNECT_CLIENT_ID_DEV'].to_s %>
+<% end %>
+
+<% if Rails.env.production? %>
+  <%= link_to image_tag('stripe-connect-button.png',:height=>33), "https://connect.stripe.com/oauth/authorize?response_type=code&client_id=" + ENV['STRIPE_CONNECT_CLIENT_ID'].to_s %>
+<% end %>
+
+<%= link_to "stripe", user_omniauth_authorize_path(:stripe_connect) %>

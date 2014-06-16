@@ -3,6 +3,14 @@ class UsersController < ApplicationController
 #     @user = User.new
 #   end
 
+  def stripe_connect
+    @user = current_user
+  end
+
+  def boards
+    @boards = current_user.boards.paginate(page: params[:page])
+  end
+
 #   def create
 #     @user = User.new(user_params)
 #     if @user.save
