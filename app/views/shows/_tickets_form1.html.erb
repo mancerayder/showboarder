@@ -1,5 +1,5 @@
 <div class="well payment-well" style="background: black">
-  <%= form_tag board_show_checkout_path(@board, @show, :charge_type => "sb3"), :class => '', :id => 'payment-form' do %>
+  <%= form_tag board_show_checkout_path(@board, @show), :class => '', :id => 'payment-form' do %>
 
   <div class="row">
     <input autofocus="true" type="email" name="email" id="email" value=<%= current_user.email %> class="payment-input"/>

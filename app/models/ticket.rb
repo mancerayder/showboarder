@@ -104,7 +104,7 @@ class Ticket < ActiveRecord::Base
       self.make_open
       raise "The reservation for this ticket has expired"
     end
-    self.transact(user_or_guest, self.state, "owned")
+    # self.transact(user_or_guest, self.state, "owned")
     self.reload
     self.update(state:"owned", ticket_owner_id:user_or_guest.id, ticket_owner_type:user_or_guest.class.to_s)
   end
@@ -114,7 +114,7 @@ class Ticket < ActiveRecord::Base
   end
 
   def make_open(error = "Make open")
-    self.transact(self.ticket_owner, self.state.to_s, "open", error)
+    # self.transact(self.ticket_owner, self.state.to_s, "open", error)
     self.reload
     self.update_attributes(ticket_owner_type: nil, ticket_owner_id: nil, state:"open", reserved_at: nil)
   end

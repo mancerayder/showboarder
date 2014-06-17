@@ -3,10 +3,10 @@ class CreateTransactions < ActiveRecord::Migration
     create_table :transactions do |t|
       t.references :actioner, polymorphic: true
       t.references :actionee, polymorphic: true
-      t.string :state_before
-      t.string :state_after      
+      # t.string :state_before
+      # t.string :state_after      
       t.string :error
-      t.string :stripe_id
+      # t.string :stripe_id
       t.string :stripe_token
       t.text :error
       t.integer :amount
@@ -14,6 +14,8 @@ class CreateTransactions < ActiveRecord::Migration
       t.integer :coupon_id
       t.integer :affiliate_id
       t.text :customer_address
+      t.string :guid
+      t.text :state
 
       t.timestamps
     end

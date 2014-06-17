@@ -43,6 +43,10 @@ class ShowsController < ApplicationController
     if @amount == 0
       redirect_to board_show_path(@show.board, @show)
     end
+
+    @transaction = Transaction.new
+
+
   end
 
   def create
@@ -61,7 +65,7 @@ class ShowsController < ApplicationController
     end
   end
 
-  def charge
+  def ticketed
     @board = Board.find_by_vanity_url(params[:board_id])
     @show = Show.find_by(params[:id])
   end

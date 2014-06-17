@@ -18,7 +18,7 @@ class BoardsController < ApplicationController
     end
   end
 
-  def subscribe
+  def ticketed
     @board = Board.find_by_vanity_url(params[:board_id])
   end
 

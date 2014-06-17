@@ -11,179 +11,161 @@ class TransactionsController < ApplicationController
   #   end
   # end
 
+  def status
+    @transaction = Transaction.where(guid: params[:guid]).first
+    render nothing: true, status: 404 and return unless @transaction
+    render json: {guid: @transaction.guid, status: @transaction.state, error: @transaction.error}
+  end  
+
   def checkout
-    if params[:charge_type] == "sb3"
-      begin
-      @show = Show.find(params[:show_id])
-      token = params[:stripeToken]
-      @board = Board.find_by_vanity_url(params[:board_id])
-      @buyer = nil
+    begin
+    @show = Show.find(params[:show_id])
+    token = params[:stripeToken]
+    @board = Board.find_by_vanity_url(params[:board_id])
+    @buyer = nil
 
-      @amount = 0
+    @amount = 0
 
-      if user_signed_in?
-        @tickets = Ticket.where(ticket_owner_id:current_user.id, ticket_owner_type:current_user.class.to_s, state:"reserved")
-        @buyer = current_user
-      else
-        @email = params[:email].downcase
+    if user_signed_in? #find the reserved tickets, clear the expired ones, make a cart
 
-        if User.find_by_email(@email)
-          flash[:error] = "A user has already registered with that email address. Please log in."
-          redirect_to :back
+      reserved_tickets = Ticket.where(ticket_owner_id:current_user.id, ticket_owner_type:current_user.class.to_s, state:"reserved")
+      @buyer = current_user
+      reserved_tickets.each do |t|
+        if t && !t.expired?
+            @tickets << t
+        elsif t
+          t.make_open("Reservation expired before state change")
+        else
+          next
         end
+      end
+      @cart = Cart.create(tickets:@tickets)
 
-        @buyer = Guest.find_or_create_by(email:@email)
-        @reserve_code = ""
-        @tickets = []
-        if params[:reserve_code]
-          @reserve_code = params[:reserve_code]
+    else #find the cart, clear the expired ones, re-save the cart
 
-          cart = Cart.find_by_reserve_code(@reserve_code)
-          carted = cart.tickets
+      @email = params[:email].downcase
 
-          carted.each do |t|
-            if t && !t.expired?
-              @tickets << t
-            elsif t
-              t.make_open("Reservation expired before state change")
-            else
-              next
-            end
+      if User.find_by_email(@email)
+        flash[:error] = "A user has already registered with that email address. Please log in."
+        redirect_to :back
+      end
+
+      @buyer = Guest.find_or_create_by(email:@email)
+      @reserve_code = ""
+      @tickets = []
+      if params[:reserve_code]
+        @reserve_code = params[:reserve_code]
+
+        @cart = Cart.find_by_reserve_code(@reserve_code)
+
+        @cart.tickets.each do |t|
+          if t && !t.expired?
+            @tickets << t
+          elsif t
+            t.make_open("Reservation expired before state change")
+          else
+            next
           end
         end
+
+        @cart.tickets = @tickets
       end
+    end
 
-      @tickets.each do |t|
-        @amount = @amount + (t.price * 100).to_i
-      end
+    @cart.tickets.each do |t|
+      @amount = @amount + (t.price * 100).to_i
+    end
 
-      if user_signed_in?
-        if current_user.stripe_id
-          customer = Stripe::Customer.retrieve(current_user.stripe_id)
-          charge = Stripe::Charge.create(
-            :customer => customer.id,
-            :amount => @amount,
-            :currency => "usd",
-            :description => @show.id.to_s + " " + @quantity.to_s
-            )
-        else
-          customer = Stripe::Customer.create(
-            :card => token,
-            :email => current_user.email,
-            :description => "Single show ticketing - new"
-            )
-          charge = Stripe::Charge.create(
-            :customer => customer.id,
-            :amount => @amount,
-            :currency => "usd",
-            :description => @show.id.to_s + " " + @quantity.to_s
-            )
+    @transaction = Transaction.create_for_cart(
+      actioner: @buyer,
+      actionee: @cart,
+      stripe_token: params[:stripeToken],
+      amount: @amount
+      )    
 
-          current_user.update_attributes(stripe_id:customer.id)
-        end
-      else
+    if @transaction.save
+      @transaction.queue_job!
+    end
 
-        customer = Stripe::Customer.create(
-            :card => token,
-            :email => @buyer.email,
-            :description => "Single show ticketing - new"
-            )
-          charge = Stripe::Charge.create(
-            :customer => customer.id,
-            :amount => @amount,
-            :currency => "usd",
-            :description => @show.id.to_s + " " + @quantity.to_s + " " + @buyer.id.to_s + " " + @buyer.class.to_s
-            )
-      end
+    redirect_to @show.board, :notice => "Enjoy the show!"
+    rescue Stripe::CardError => e
+      flash[:error] = e.message
 
-      @tickets.each do |t|
-        t.buy(@buyer)
-      end
-
-      redirect_to @show.board, :notice => "Enjoy the show!"
-      rescue Stripe::CardError => e
-        flash[:error] = e.message
-
-        redirect_to root_path
-      end
+      redirect_to root_path
     end
   end
 
   def board_ticketed
-    if params[:charge_type] == "sb1"
-      begin
-      token = params[:stripeToken]
+    begin
+    token = params[:stripeToken]
 
-      @amount = "2500"
+    @amount = "2500"
 
-      @board = Board.find_by_vanity_url(params[:board_id])
+    @board = Board.find_by_vanity_url(params[:board_id])
 
-      if current_user.stripe_id
-        customer = Stripe::Customer.retrieve(current_user.stripe_id)
-        subscription = customer.subscriptions.create(
-          :plan => "sb1"
-          )
-      else
-        customer = Stripe::Customer.create(
-          :card => token,
-          :plan => "sb1",
-          :email => current_user.email
+    if current_user.stripe_id
+      customer = Stripe::Customer.retrieve(current_user.stripe_id)
+      subscription = customer.subscriptions.create(
+        :plan => "sb1"
         )
+    else
+      customer = Stripe::Customer.create(
+        :card => token,
+        :plan => "sb1",
+        :email => current_user.email
+      )
 
-        current_user.update_attributes(stripe_id:customer.id)
-      end
+      current_user.update_attributes(stripe_id:customer.id)
+    end
 
-      @board.user_boards.find_by(boarder_id:current_user.id).update_attributes(role:"owner")
-      @board.update_attributes(paid_at:Time.now)
+    @board.user_boards.find_by(boarder_id:current_user.id).update_attributes(role:"owner")
+    @board.update_attributes(paid_at:Time.now)
 
 
-      redirect_to @board, :notice => "You have successfully enabled ticketing for this board!"
-      rescue Stripe::CardError => e
-        flash[:error] = e.message
-        redirect_to board_charges_path(@board)
-      end
+    redirect_to @board, :notice => "You have successfully enabled ticketing for this board!"
+    rescue Stripe::CardError => e
+      flash[:error] = e.message
+      redirect_to board_charges_path(@board)
     end
   end
 
   def show_ticketed
-    if params[:charge_type] == "sb2"
-      begin
-      token = params[:stripeToken]
+    begin
+    token = params[:stripeToken]
 
-      @amount = "1000"
+    @amount = "1000"
 
-      @board = Board.find_by_vanity_url(params[:board_id])
-      @show = Show.find_by(params[:id])
+    @board = Board.find_by_vanity_url(params[:board_id])
+    @show = Show.find_by(params[:id])
 
-      if current_user.stripe_id
-        customer = Stripe::Customer.retrieve(current_user.stripe_id)
-        charge = Stripe::Charge.create(
-          :customer => customer.id,
-          :amount => @amount,
-          :currency => "usd",
-          :description => @show.id
-          )
-      else
-        customer = Stripe::Customer.create(
-          :card => token,
-          :amount => @amount,
-          :email => current_user.email,
-          :description => "Single show ticketing - new"
+    if current_user.stripe_id
+      customer = Stripe::Customer.retrieve(current_user.stripe_id)
+      charge = Stripe::Charge.create(
+        :customer => customer.id,
+        :amount => @amount,
+        :currency => "usd",
+        :description => @show.id
         )
+    else
+      customer = Stripe::Customer.create(
+        :card => token,
+        :amount => @amount,
+        :email => current_user.email,
+        :description => "Single show ticketing - new"
+      )
 
-        current_user.update_attributes(stripe_id:customer.id)
-      end
-
-      @show.update_attributes(payer_id:current_user.id, paid_at:Time.now)
-      @show.transact(current_user, "open", "paid")
-      @show.tickets_make
-
-
-      redirect_to @show.board, :notice => "You have successfully enabled ticketing for this show!"
-      rescue Stripe::CardError => e
-        flash[:error] = e.message
-        redirect_to board_charges_path(@board)
-      end
+      current_user.update_attributes(stripe_id:customer.id)
     end
-  end  
+
+    @show.update_attributes(payer_id:current_user.id, paid_at:Time.now)
+    @show.transact(current_user, "open", "paid")
+    @show.tickets_make
+
+
+    redirect_to @show.board, :notice => "You have successfully enabled ticketing for this show!"
+    rescue Stripe::CardError => e
+      flash[:error] = e.message
+      redirect_to board_charges_path(@board)
+    end
+  end 
 end

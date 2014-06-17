@@ -2,6 +2,8 @@ Showboarder::Application.routes.draw do
 
   devise_for :users, :path => '/users', :controllers => { :sessions => "users/sessions", :registrations => "users/registrations", :omniauth_callbacks => "users/omniauth_callbacks" }
   root to: 'static_pages#home'
+  
+  match '/status/:guid'      => 'transactions#status',   via: :get,  as: :status
 
   resources :users do
     match '/boards' => 'users#boards', via: :get
@@ -12,11 +14,11 @@ Showboarder::Application.routes.draw do
   resources :boards, path:'' do
     # match '/payout' => 'boards#payout', via: :get
     # match '/payout' => 'transactions#payout', via: :post
-    match '/subscribe'    => 'boards#subscribe',      via: :get
-    match '/subscribe'    => 'transactions#board_ticketed',      via: :post
+    match '/ticketed'    => 'boards#ticketed',      via: :get
+    match '/ticketed'    => 'transactions#board_ticketed',      via: :post
     resources :shows do
-      match '/charge'    => 'shows#charge',      via: :get
-      match '/charge'    => 'transactions#show_ticketed',      via: :post
+      match '/ticketed'    => 'shows#ticketed',      via: :get
+      match '/ticketed'    => 'transactions#show_ticketed',      via: :post
       match '/tickets', to: 'tickets#new', via: :get
       match '/checkout', to: 'shows#checkout', via: :get
       match '/checkout', to: 'transactions#checkout', via: :post

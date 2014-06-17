@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140604011859) do
+ActiveRecord::Schema.define(version: 20140617205834) do
 
   create_table "boards", force: true do |t|
     t.string   "name"
@@ -129,16 +129,15 @@ ActiveRecord::Schema.define(version: 20140604011859) do
     t.string   "actioner_type"
     t.integer  "actionee_id"
     t.string   "actionee_type"
-    t.string   "state_before"
-    t.string   "state_after"
     t.text     "error"
-    t.string   "stripe_id"
     t.string   "stripe_token"
     t.integer  "amount"
     t.integer  "fee_amount"
     t.integer  "coupon_id"
     t.integer  "affiliate_id"
     t.text     "customer_address"
+    t.string   "guid"
+    t.text     "state"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -203,5 +202,17 @@ ActiveRecord::Schema.define(version: 20140604011859) do
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+
+  create_table "versions", force: true do |t|
+    t.string   "item_type",      null: false
+    t.integer  "item_id",        null: false
+    t.string   "event",          null: false
+    t.string   "whodunnit"
+    t.text     "object"
+    t.datetime "created_at"
+    t.text     "object_changes"
+  end
+
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
 
 end
