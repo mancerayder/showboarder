@@ -40,13 +40,11 @@ class ShowsController < ApplicationController
       @amount = @amount + t.price
     end
 
-    if @amount == 0
+    if @tickets.count == 0
       redirect_to board_show_path(@show.board, @show)
     end
 
     @transaction = Transaction.new
-
-
   end
 
   def create

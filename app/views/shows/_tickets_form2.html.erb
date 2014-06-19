@@ -1,5 +1,8 @@
 <div class="well payment-well" style="background: grey">
   <%= form_tag board_show_checkout_path(@board, @show), :class => '', :id => 'payment-form' do %>
+  <% if coupon %>
+    <input type="hidden" name="coupon_code" value="<%= coupon.code %>" />
+  <% end %>
   <div class="row">
     <label class="control-label" for="email">Email <span class="label pull-right" style="margin-right: 8px">Secure <img src="<%= asset_path('lock.png') %>" style="height: 13px"></span></label>
     <input autofocus="true" type="email" name="email" id="email" placeholder="you@example.com" class="payment-input"/>
@@ -22,17 +25,17 @@
     </div>
   </div>
   <div class="row" style="margin-top: 20px">
-    <div class="price" style="margin-top: 20px; float: left"><%= @amount %></div>
+    <div class="price" style="margin-top: 20px; float: left"><%= amount %></div>
     <div style="float: right; margin-right: 8px">
       <div class="btn btn-success btn-large" disabled="disabled" style="display: none; width: 143px; height: 41px;" id="spinner-button"><img src="<%= asset_path('green_spinner_2.gif') %>"></div>
-      <button type="submit" class="btn btn-success btn-large" id="pay-button">Send Me the Book<br><small>Instant Download</small></button>
+      <button type="submit" class="btn btn-success btn-large" id="pay-button">Purchase<br>Tickets</button>
     </div>
   </div>
   <% end %>
 </div>
 <div class="row">
-  <div id="payment-errors" class="alert" style="<%= @transaction.errors.any? ? '' : 'display: none;' %>">
-    <% @transaction.errors.full_messages.each do |msg| %>
+  <div id="payment-errors" class="alert" style="<%= transaction.errors.any? ? '' : 'display: none;' %>">
+    <% transaction.errors.full_messages.each do |msg| %>
       <span><%= msg %></span>
     <% end %>
   </div>
@@ -99,6 +102,7 @@
           type: "POST",
           url: "<%= board_show_checkout_path(@board, @show) %>",
           data: $('#payment-form').serialize(),
+          console.log(data)
           success: function(data) { poll(data.guid, 60) },
           error: function(data) { showError(data.responseJSON.error) }
         });
@@ -114,6 +118,7 @@
     }
 
     function poll(guid, num_retries_left) {
+      console.log("Polling...");
       if (num_retries_left == 0) {
         showError("This seems to be taking too long. Email <a href=\"contact@showboarder.com\">contact@showboarder.com</a> and reference transaction <strong>" + guid );
         return;

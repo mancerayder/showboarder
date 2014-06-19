@@ -100,57 +100,59 @@ class Transaction < ActiveRecord::Base
     end
   end
 
-  def charge_card #needs to be changed
-    save!
-    begin
-      customer = Stripe::Customer.create(
-        card: self.stripe_token,
-        email: self.email
-      )
+  # def charge_card #needs to be changed
+  #   save!
+  #   begin
+  #     customer = Stripe::Customer.create(
+  #       card: self.stripe_token,
+  #       email: self.email
+  #     )
 
-      charge = Stripe::Charge.create(
-        amount: self.amount,
-        currency: "usd",
-        customer: customer.id,
-        description: self.guid,
-      )
+  #     charge = Stripe::Charge.create(
+  #       amount: self.amount,
+  #       currency: "usd",
+  #       customer: customer.id,
+  #       description: self.guid,
+  #     )
 
-      if charge.respond_to?(:fee)
-        fee = charge.fee
-      else
-        balance = Stripe::BalanceTransaction.retrieve(charge.balance_transaction)
-        fee = balance.fee
-      end
+  #     if charge.respond_to?(:fee)
+  #       fee = charge.fee
+  #     else
+  #       balance = Stripe::BalanceTransaction.retrieve(charge.balance_transaction)
+  #       fee = balance.fee
+  #     end
 
-      self.update_attributes(
-        stripe_id:       charge.id,
-        card_last4:      charge.card.last4,
-        card_expiration: Date.new(charge.card.exp_year, charge.card.exp_month, 1),
-        card_type:       charge.card.type,
-        fee_amount:      fee
-      )
-      self.finish!
-    rescue Stripe::StripeError => e
-      self.update_attributes(error: e.message)
-      self.fail!
-    end
-  end
+  #     self.update_attributes(
+  #       stripe_id:       charge.id,
+  #       card_last4:      charge.card.last4,
+  #       card_expiration: Date.new(charge.card.exp_year, charge.card.exp_month, 1),
+  #       card_type:       charge.card.type,
+  #       fee_amount:      fee
+  #     )
+  #     self.finish!
+  #   rescue Stripe::StripeError => e
+  #     self.update_attributes(error: e.message)
+  #     self.fail!
+  #   end
+  # end
 
   def self.create_for_cart(options={}) #needs to be changed
     transaction = new do |t|
       t.actioner = options[:actioner]
       t.actionee = options[:actionee]
       t.stripe_token = options[:stripe_token]
-      t.opt_in = options[:opt_in]
-      t.affiliate_id = options[:affiliate].try(:id)
-
-      if options[:coupon_id]
-        t.coupon = Coupon.find(options[:coupon_id])
-        t.amount = options[:product].price * (1 - t.coupon.percent_off / 100.0)
-      else
-        t.amount = options[:product].price
-      end
+      t.amount = options[:amount]
     end
+      # t.opt_in = options[:opt_in]
+    #   t.affiliate_id = options[:affiliate].try(:id)
+
+    #   if options[:coupon_id]
+    #     t.coupon = Coupon.find(options[:coupon_id])
+    #     t.amount = options[:product].price * (1 - t.coupon.percent_off / 100.0)
+    #   else
+    #     t.amount = options[:product].price
+    #   end
+    # end
     transaction
   end
 
@@ -167,7 +169,7 @@ class Transaction < ActiveRecord::Base
   def populate_guid
     if new_record?
       while !valid? || self.guid.nil?
-        self.guid = SecureRandom.random_number(1_000_000_000).to_s(32)
+        self.guid = SecureRandom.random_number(1_000_000_000_000_000_000).to_s(32)
       end
     end
   end

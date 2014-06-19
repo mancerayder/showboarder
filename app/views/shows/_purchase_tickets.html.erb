@@ -6,7 +6,7 @@ Logged in as <%= current_user.email %>.
 <br>
 Not <%= current_user.email %>? <%= link_to  "Sign Out", destroy_user_session_path, method: "delete" %>.
 <br>
-<%= render 'tickets_form2' %>
+<%= render 'tickets_form2', :permalink => @transaction.guid, :transaction => @transaction, :amount => @amount, :coupon => @coupon %>
 
 <% else %>
 Have an account?
@@ -21,6 +21,6 @@ or continue and purchase as a guest
 <br>
 
 
-<%= render 'tickets_form1' %>
+<%= render 'tickets_form1', :permalink => @transaction.guid, :transaction => @transaction, :amount => @amount, :coupon => @coupon %>
 
 <% end %>

@@ -23,6 +23,7 @@ class TransactionsController < ApplicationController
     token = params[:stripeToken]
     @board = Board.find_by_vanity_url(params[:board_id])
     @buyer = nil
+    @tickets = []
 
     @amount = 0
 
@@ -87,7 +88,14 @@ class TransactionsController < ApplicationController
       @transaction.queue_job!
     end
 
-    redirect_to @show.board, :notice => "Enjoy the show!"
+    if @transaction.save
+      @transaction.queue_job!
+      render json: { guid: @transaction.guid }
+    else
+      render json: { error: @sale.errors.full_messages.join(". ") }, status: 400
+    end    
+
+    # redirect_to @show.board, :notice => "Enjoy the show!"
     rescue Stripe::CardError => e
       flash[:error] = e.message
 
