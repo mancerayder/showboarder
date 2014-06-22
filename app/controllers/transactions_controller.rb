@@ -11,6 +11,11 @@ class TransactionsController < ApplicationController
   #   end
   # end
 
+  def show
+    @transaction = Transaction.find_by!(guid: params[:guid])
+    # @product = @sale.product
+  end
+
   def status
     @transaction = Transaction.where(guid: params[:guid]).first
     render nothing: true, status: 404 and return unless @transaction
@@ -18,9 +23,9 @@ class TransactionsController < ApplicationController
   end  
 
   def checkout
-    begin
     @show = Show.find(params[:show_id])
     token = params[:stripeToken]
+    puts token
     @board = Board.find_by_vanity_url(params[:board_id])
     @buyer = nil
     @tickets = []
@@ -73,20 +78,11 @@ class TransactionsController < ApplicationController
       end
     end
 
-    @cart.tickets.each do |t|
-      @amount = @amount + (t.price * 100).to_i
-    end
-
     @transaction = Transaction.create_for_cart(
       actioner: @buyer,
       actionee: @cart,
-      stripe_token: params[:stripeToken],
-      amount: @amount
-      )    
-
-    if @transaction.save
-      @transaction.queue_job!
-    end
+      stripe_token: token,
+      )
 
     if @transaction.save
       @transaction.queue_job!
@@ -94,16 +90,28 @@ class TransactionsController < ApplicationController
     else
       render json: { error: @sale.errors.full_messages.join(". ") }, status: 400
     end    
-
-    # redirect_to @show.board, :notice => "Enjoy the show!"
-    rescue Stripe::CardError => e
-      flash[:error] = e.message
-
-      redirect_to root_path
-    end
   end
 
-  def board_ticketed
+  def board_ticketed #new version for transactions
+    @board = Board.find_by_vanity_url(params[:board_id])
+    token = params[:stripeToken]
+
+    @transaction = Transaction.create_for_board(
+      actioner: current_user,
+      actionee: @board,
+      plan: "sb1",
+      stripe_token: token
+      )
+
+    if @transaction.save
+      @transaction.queue_job!
+      render json: { guid: @transaction.guid }
+    else
+      render json: { error: @sale.errors.full_messages.join(". ") }, status: 400
+    end      
+  end
+
+  def board_ticketed #old version
     begin
     token = params[:stripeToken]
 
@@ -128,7 +136,6 @@ class TransactionsController < ApplicationController
 
     @board.user_boards.find_by(boarder_id:current_user.id).update_attributes(role:"owner")
     @board.update_attributes(paid_at:Time.now)
-
 
     redirect_to @board, :notice => "You have successfully enabled ticketing for this board!"
     rescue Stripe::CardError => e
@@ -166,7 +173,6 @@ class TransactionsController < ApplicationController
     end
 
     @show.update_attributes(payer_id:current_user.id, paid_at:Time.now)
-    @show.transact(current_user, "open", "paid")
     @show.tickets_make
 
 
@@ -175,5 +181,5 @@ class TransactionsController < ApplicationController
       flash[:error] = e.message
       redirect_to board_charges_path(@board)
     end
-  end 
+  end
 end

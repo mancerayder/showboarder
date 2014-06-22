@@ -22,3 +22,4 @@
 //= require gmaps
 //= require retina_tag
 //= require jquery.countdown
+//= require jquery.payment

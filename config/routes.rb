@@ -4,6 +4,7 @@ Showboarder::Application.routes.draw do
   root to: 'static_pages#home'
   
   match '/status/:guid'      => 'transactions#status',   via: :get,  as: :status
+  match '/confirm/:guid'     => 'transactions#show',     via: :get,  as: :confirm
 
   resources :users do
     match '/boards' => 'users#boards', via: :get

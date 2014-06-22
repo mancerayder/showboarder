@@ -6,8 +6,9 @@ class CreateTransactions < ActiveRecord::Migration
       # t.string :state_before
       # t.string :state_after      
       t.string :error
-      # t.string :stripe_id
+      t.string :stripe_id
       t.string :stripe_token
+      t.string :stripe_token_type
       t.text :error
       t.integer :amount
       t.integer :fee_amount
@@ -16,6 +17,7 @@ class CreateTransactions < ActiveRecord::Migration
       t.text :customer_address
       t.string :guid
       t.text :state
+      t.text :plan
 
       t.timestamps
     end

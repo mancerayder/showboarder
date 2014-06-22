@@ -40,13 +40,16 @@
     <% end %>
   </div>
 </div>
+
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
   $(function(){
+    console.log('froop26')
   
     Stripe.setPublishableKey('<%= Rails.configuration.stripe[:publishable_key] %>');
 
     $('#number').payment('formatCardNumber');
+    console.log('froop25');
     $('#cvc').payment('formatCardCVC');
     $('#exp-month').payment('restrictNumeric');
     $('#exp-year').payment('restrictNumeric');
@@ -102,7 +105,6 @@
           type: "POST",
           url: "<%= board_show_checkout_path(@board, @show) %>",
           data: $('#payment-form').serialize(),
-          console.log(data)
           success: function(data) { poll(data.guid, 60) },
           error: function(data) { showError(data.responseJSON.error) }
         });
@@ -124,6 +126,7 @@
         return;
       }
       $.get("/status/" + guid, function(data) {
+        <% puts "froop19" %>
         if (data.status === "finished") {
           window.location = "/confirm/" + guid;
         } else if (data.status === "errored") {

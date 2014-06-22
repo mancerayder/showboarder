@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140617205834) do
+ActiveRecord::Schema.define(version: 20140622224343) do
 
   create_table "boards", force: true do |t|
     t.string   "name"
@@ -130,6 +130,7 @@ ActiveRecord::Schema.define(version: 20140617205834) do
     t.integer  "actionee_id"
     t.string   "actionee_type"
     t.text     "error"
+    t.string   "stripe_id"
     t.string   "stripe_token"
     t.integer  "amount"
     t.integer  "fee_amount"
@@ -140,6 +141,7 @@ ActiveRecord::Schema.define(version: 20140617205834) do
     t.text     "state"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "plan"
   end
 
   create_table "user_boards", force: true do |t|
@@ -194,8 +196,8 @@ ActiveRecord::Schema.define(version: 20140617205834) do
     t.string   "stripe_token"
     t.string   "stripe_token_type"
     t.string   "stripe_recipient_id"
+    t.string   "stripe_recipient_email"
     t.string   "reserve_code"
-    t.string   "recipient_id"
     t.string   "stripe_access_key"
   end
 
