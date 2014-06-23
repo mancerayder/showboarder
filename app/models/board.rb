@@ -18,6 +18,10 @@ class Board < ActiveRecord::Base
     vanity_url
   end
 
+  def owner
+    User.find_by_id(user_boards.find_by(board_id:self.id, role:"owner").boarder_id)
+  end
+
   def boarder?(user)
     user_boards.find_by(boarder_id: user.id)
   end

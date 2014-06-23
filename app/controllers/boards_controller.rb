@@ -19,6 +19,8 @@ class BoardsController < ApplicationController
   end
 
   def ticketed
+    @transaction = Transaction.new
+    @amount = 2500
     @board = Board.find_by_vanity_url(params[:board_id])
   end
 

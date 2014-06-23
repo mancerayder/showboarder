@@ -15,7 +15,7 @@ class Ability
 
     # can :crud, Board do |board|
     #   user.user_boards.where(board_id:board.id, role:"owner").length > 0
-    # end    
+    # end
 
     if user.id
       can :create, Board

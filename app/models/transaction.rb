@@ -110,13 +110,15 @@ class Transaction < ActiveRecord::Base
             :email => actioner.stripe_email
           )
 
-          current_user.update_attributes(stripe_id:customer.id)
+          actioner.update_attributes(stripe_id:customer.id)
+          self.update_attributes(stripe_subscription_id:customer.subscriptions.first.id)
         end
 
-        @board.user_boards.find_by(boarder_id:current_user.id).update_attributes(role:"owner")
-        @board.update_attributes(paid_at:Time.now)
+        actioner.board_role_assign(actionee, "owner")
+        # actionee.user_boards.find_by(boarder_id:actioner.id).update_attributes(role:"owner")
+        actionee.update_attributes(paid_at:Time.now)
 
-        redirect_to @board, :notice => "You have successfully enabled ticketing for this board!"
+        
       #######################################################################
       ######################### FOR SHOW PURCHASE ###########################
       #######################################################################

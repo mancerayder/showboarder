@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140622224343) do
+ActiveRecord::Schema.define(version: 20140623223226) do
 
   create_table "boards", force: true do |t|
     t.string   "name"
@@ -142,6 +142,7 @@ ActiveRecord::Schema.define(version: 20140622224343) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "plan"
+    t.string   "stripe_subscription_id"
   end
 
   create_table "user_boards", force: true do |t|

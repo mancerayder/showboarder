@@ -16,8 +16,9 @@ class CreateTransactions < ActiveRecord::Migration
       t.integer :affiliate_id
       t.text :customer_address
       t.string :guid
-      t.text :state
-      t.text :plan
+      t.string :state
+      t.string :plan
+      t.string :stripe_subscription_id
 
       t.timestamps
     end
