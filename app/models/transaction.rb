@@ -75,24 +75,6 @@ class Transaction < ActiveRecord::Base
 
         actionee.tickets.each do |t| # separate tickets by board owners
           owners[t.show.board.owner.stripe_access_key] = owners[t.show.board.owner.stripe_access_key] << t.guid
-          # access_key = t.show.board.owner.stripe_access_key
-
-          # connect_token = Stripe::Token.create({
-          #     customer:customer.id
-          #   }, access_key
-          # )
-
-          # if charge = Stripe::Charge.create(
-          #   {
-          #     card: connect_token.id,
-          #     amount: (t.price*100).to_i,
-          #     currency: "usd",
-          #     description: "Ticket purchase.  GUID: " + t.guid + " SHOW: " + t.show.id.to_s + " BOARD: " + t.show.board.name + " CART HOLDS: " + actionee.tickets.count.to_s + " TRANSACTION: " + self.guid
-          #   },
-          #   access_key
-          # )
-
-          #   t.buy(actioner)
         end
 
         owners.each do |o| # go through owners and make a charge for each one
