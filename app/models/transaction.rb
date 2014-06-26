@@ -1,5 +1,5 @@
 class Transaction < ActiveRecord::Base
-  has_paper_trail
+  # has_paper_trail
 
   belongs_to :actioner, polymorphic: true
   belongs_to :actionee, polymorphic: true
@@ -40,8 +40,8 @@ class Transaction < ActiveRecord::Base
       ########################## FOR TICKET PURCHASE ########################
       #######################################################################
       if self.actionee_type == "Cart"
+        owners = Hash.new { |hash, key| hash[key] =  []}
         if actioner.class.to_s == "User"
-
           if actioner.stripe_id?
             customer = Stripe::Customer.retrieve(actioner.stripe_id)
             
@@ -73,42 +73,78 @@ class Transaction < ActiveRecord::Base
             )
         end
 
-        actionee.tickets.each do |t|
-          access_key = t.show.board.owner.stripe_access_key
+        actionee.tickets.each do |t| # separate tickets by board owners
+          owners[t.show.board.owner.stripe_access_key] = owners[t.show.board.owner.stripe_access_key] << t.guid
+          # access_key = t.show.board.owner.stripe_access_key
+
+          # connect_token = Stripe::Token.create({
+          #     customer:customer.id
+          #   }, access_key
+          # )
+
+          # if charge = Stripe::Charge.create(
+          #   {
+          #     card: connect_token.id,
+          #     amount: (t.price*100).to_i,
+          #     currency: "usd",
+          #     description: "Ticket purchase.  GUID: " + t.guid + " SHOW: " + t.show.id.to_s + " BOARD: " + t.show.board.name + " CART HOLDS: " + actionee.tickets.count.to_s + " TRANSACTION: " + self.guid
+          #   },
+          #   access_key
+          # )
+
+          #   t.buy(actioner)
+        end
+
+        owners.each do |o| # go through owners and make a charge for each one
+          tickets_by_owner = []
+          amount = 0
+          desc_b = ""
+          desc_s = ""
+          desc_t = ""
+
+          owners[o[0]].each do |t| #go through the tickets for the owner to make the charge
+            ticket = Ticket.find_by(guid:t)
+            tickets_by_owner << ticket
+            desc_b = desc_b + ticket.show.board.name.to_s + " "
+            desc_s = desc_s + ticket.show.id.to_s + " "
+            desc_t = desc + t.to_s
+            amount = amount + (ticket.price*100).to_i
+          end
 
           connect_token = Stripe::Token.create({
               customer:customer.id
-            }, access_key
+            }, o[0]
           )
 
-        
           if charge = Stripe::Charge.create(
             {
               card: connect_token.id,
-              amount: (t.price*100).to_i,
+              amount: amount,
               currency: "usd",
-              description: "Ticket purchase" #maybe add more detail here
+              description: "Ticket purchase. BOARDS: " + desc_b + "SHOWS: " + desc_s + "TICKETS: " + desc_t + "TRANSACTION" + self.guid.to_s
             },
             access_key
           )
-
-            t.buy(actioner) 
+            tickets_by_owner.each do |t|
+              t.buy(actioner)
+            end
           end
-        end
 
-        self.update_attributes(
-          stripe_id:       charge.id
-        )
+        end        
 
-        if actioner.class.to_s == "User"
-          self.actioner.update_attributes(
-            stripe_id:customer.id,
-            card_last4:      charge.card.last4,
-            stripe_email:customer.email.downcase,
-            card_expiration: Date.new(charge.card.exp_year, charge.card.exp_month, 1),
-            card_type:       charge.card.type,      
-            )
-        end
+        # self.update_attributes(
+        #   stripe_id:       charge.id
+        # )
+
+        # if actioner.class.to_s == "User"
+        #   self.actioner.update_attributes(
+        #     stripe_id:customer.id,
+        #     card_last4:      charge.card.last4,
+        #     stripe_email:customer.email.downcase,
+        #     card_expiration: Date.new(charge.card.exp_year, charge.card.exp_month, 1),
+        #     card_type:       charge.card.type,      
+        #     )
+        # end
 
       #######################################################################
       ######################## FOR BOARD SUBSCRIPTION #######################
