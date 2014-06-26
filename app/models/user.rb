@@ -37,13 +37,14 @@ class User < ActiveRecord::Base
   end
 
   def self.find_for_stripe_oauth(auth, signed_in_resource)
+    puts "froop33"
+    puts auth.to_yaml
     signed_in_resource.update_attributes(
-      stripe_email:auth.info.email,
-      stripe_uid:auth.uid,
-      stripe_scope:auth.info.stripe_scope,
+      stripe_recipient_id:auth.uid,
+      stripe_scope:auth.info.scope,
       stripe_livemode:auth.info.livemode,
       stripe_publishable_key:auth.info.stripe_publishable_key,
-      stripe_token:auth.credentials.token,
+      stripe_access_key:auth.credentials.token,
       stripe_token_type:auth.extra.raw_info.token_type
       )
     signed_in_resource

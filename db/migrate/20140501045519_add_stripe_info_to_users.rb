@@ -1,6 +1,5 @@
 class AddStripeInfoToUsers < ActiveRecord::Migration
   def change
-    add_column :users, :stripe_uid, :string
     add_column :users, :stripe_email, :string
     add_column :users, :stripe_scope, :string
     add_column :users, :stripe_livemode, :boolean

@@ -21,7 +21,7 @@ class Ability
       can :create, Board
     end
 
-    # can :read, Board, :state => "public"
+    can :read, Board, :state => "public"
 
     can :read, :update, Board do |board|
       user.user_boards.where(board_id:board.id, role:"coordinator").length > 0

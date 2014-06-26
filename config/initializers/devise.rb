@@ -1,4 +1,4 @@
-# Use this hook to configure devise mailer, warden hooks and so forth.
+  # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
@@ -21,6 +21,7 @@ Devise.setup do |config|
   # available as additional gems.
   require 'devise/orm/active_record'
   require 'omniauth-facebook'
+  require 'omniauth-stripe-connect'
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
@@ -236,16 +237,14 @@ Devise.setup do |config|
     config.omniauth :stripe_connect,
     ENV['STRIPE_CONNECT_CLIENT_ID_DEV'],
     ENV['STRIPE_TEST_KEY'],
-    :scope => 'read_write', # or :scope => 'read_only'
-    :stripe_landing => 'login' # or :stripe_landing => 'register'
+    :scope => 'read_write' # or :scope => 'read_only'
   end
 
   if Rails.env.production?
     config.omniauth :stripe_connect,
     ENV['STRIPE_CONNECT_CLIENT_ID'],
     ENV['STRIPE_LIVE_KEY'],
-    :scope => 'read_write', # or :scope => 'read_only'
-    :stripe_landing => 'login' # or :stripe_landing => 'register'
+    :scope => 'read_write' # or :scope => 'read_only'
   end
 
   #, :scope => 'user,public_repo'

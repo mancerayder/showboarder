@@ -52,8 +52,8 @@ class ShowsController < ApplicationController
     @show = @board.shows.new(show_params)
     @show.stage = @board.stages.first
     if @show.save
-      @show.update_attributes(ticketed:true, state:"public")
-      if @show.ticketed
+      @show.update_attributes(ticketing_type:"paid", state:"public") # this needs to be set on create based on params
+      if @show.ticketing_type == "paid"
         @show.tickets_make
       end
       flash[:success] = "You have added a show!"

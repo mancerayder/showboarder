@@ -3,6 +3,9 @@
 <%= form_for [@board, @show] do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   
+  <%= f.label :ticketing_type %>
+  <%= f.select :ticketing_type, options_for_select(%w[Free RSVP paid pwyw]) %>
+
   <%= f.label :price_adv %>
   <%= f.text_field :price_adv, :class => 'cost', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0) %>
 

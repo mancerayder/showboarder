@@ -37,7 +37,6 @@ class Ticket < ActiveRecord::Base
     Rufus::Scheduler.singleton.in '15m' do
       self.reload
       if self.state == "reserved"
-        transact(ticket_owner, "reserved", "open", "Your reservation for this ticket has expired.")
         self.reload
         self.make_open("Scheduled reservation expiration")
       end

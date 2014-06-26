@@ -3,14 +3,16 @@ require 'uri'
 if Rails.env.development?
   Rails.configuration.stripe = {
     :publishable_key => ENV['STRIPE_TEST_KEY_PUBLISHABLE'],
-    :secret_key      => ENV['STRIPE_TEST_KEY']
+    :secret_key      => ENV['STRIPE_TEST_KEY'],
+    # :scope => 'read_write', # or :scope => 'read_only'
   }
 end
 
 if Rails.env.production?
   Rails.configuration.stripe = {
     :publishable_key => ENV['STRIPE_LIVE_KEY_PUBLISHABLE'],
-    :secret_key      => ENV['STRIPE_LIVE_KEY']
+    :secret_key      => ENV['STRIPE_LIVE_KEY'],
+    # :scope => 'read_write', # or :scope => 'read_only'
   }
 end
 

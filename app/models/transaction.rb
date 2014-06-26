@@ -41,6 +41,7 @@ class Transaction < ActiveRecord::Base
       #######################################################################
       if self.actionee_type == "Cart"
         if actioner.class.to_s == "User"
+
           if actioner.stripe_id?
             customer = Stripe::Customer.retrieve(actioner.stripe_id)
             
@@ -53,40 +54,55 @@ class Transaction < ActiveRecord::Base
             customer.card = self.stripe_token
             customer.save
 
+          else
+
+            customer = Stripe::Customer.create(
+              card: self.stripe_token,
+              email: actioner.stripe_email,
+              description: actionee.tickets.count.to_s + " ticket purchase" #maybe add more detail here
+            )
+            
+            actioner.update(stripe_id:customer.id)
+
           end
         else
-
           customer = Stripe::Customer.create(
-            card: self.stripe_token,
-            email: actioner.stripe_email,
-            description: actionee.tickets.count.to_s + " ticket purchase" #maybe add more detail here
-          )
-          
-          if actioner_type == "User"
-            actioner.update(stripe_id:customer.id)
-          end
-
+              card: self.stripe_token,
+              email: actioner.stripe_email,
+              description: actionee.tickets.count.to_s + " ticket purchase" #maybe add more detail here
+            )
         end
 
-        if charge = Stripe::Charge.create(
-          customer: customer.id,
-          amount: amount,
-          currency: "usd",
-          description: actionee.tickets.count.to_s + " ticket purchase" #maybe add more detail here
+        actionee.tickets.each do |t|
+          access_key = t.show.board.owner.stripe_access_key
+
+          connect_token = Stripe::Token.create({
+              customer:customer.id
+            }, access_key
           )
 
-          actionee.tickets.each do |t|
-            t.buy(actioner)
-          end
+        
+          if charge = Stripe::Charge.create(
+            {
+              card: connect_token.id,
+              amount: (t.price*100).to_i,
+              currency: "usd",
+              description: "Ticket purchase" #maybe add more detail here
+            },
+            access_key
+          )
 
-          self.update_attributes(
-            stripe_id:       charge.id
-          )        
+            t.buy(actioner) 
+          end
         end
+
+        self.update_attributes(
+          stripe_id:       charge.id
+        )
 
         if actioner.class.to_s == "User"
           self.actioner.update_attributes(
-            stripe_uid:customer.id,
+            stripe_id:customer.id,
             card_last4:      charge.card.last4,
             stripe_email:customer.email.downcase,
             card_expiration: Date.new(charge.card.exp_year, charge.card.exp_month, 1),
@@ -105,7 +121,7 @@ class Transaction < ActiveRecord::Base
             )
         else
           customer = Stripe::Customer.create(
-            :card => token,
+            :card => stripe_token,
             :plan => plan,
             :email => actioner.stripe_email
           )
@@ -123,13 +139,14 @@ class Transaction < ActiveRecord::Base
       ######################### FOR SHOW PURCHASE ###########################
       #######################################################################
       elsif actionee_type == "Show"
+        # if actioner.stripe_id
 
       end
-      self.finish!    
+      self.finish!
     rescue Stripe::StripeError => e
       self.update_attributes(error: e.message)
       self.fail!
-    end      
+    end
   end
 
   def self.create_for_cart(options={}) #needs to be changed

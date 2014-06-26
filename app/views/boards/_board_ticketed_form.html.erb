@@ -44,12 +44,10 @@
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
   $(function(){
-    console.log('froop26')
   
     Stripe.setPublishableKey('<%= Rails.configuration.stripe[:publishable_key] %>');
 
     $('#number').payment('formatCardNumber');
-    console.log('froop25');
     $('#cvc').payment('formatCardCVC');
     $('#exp-month').payment('restrictNumeric');
     $('#exp-year').payment('restrictNumeric');
@@ -126,7 +124,7 @@
         return;
       }
       $.get("/status/" + guid, function(data) {
-        console.log(data)
+
         if (data.status === "finished") {
           window.location = "/confirm/" + guid;
         } else if (data.status === "errored") {

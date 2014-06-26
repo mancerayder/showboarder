@@ -11,9 +11,10 @@ class CreateShows < ActiveRecord::Migration
       t.decimal :price_adv, :precision => 8, :scale => 2
       t.decimal :price_door, :precision => 8, :scale => 2
       t.boolean :pwyw, :null => false, :default => false
-      t.boolean :for_sale
-      t.boolean :rsvp_only
-      t.boolean :ticketed
+      # t.boolean :for_sale
+      # t.boolean :rsvp_only
+      # t.boolean :ticketed
+      t.string :ticketing_type, :default => "none"
       t.integer :custom_capacity
       t.integer :payer_id
       t.datetime :paid_at

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140623223226) do
+ActiveRecord::Schema.define(version: 20140617205834) do
 
   create_table "boards", force: true do |t|
     t.string   "name"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20140623223226) do
 
   create_table "guests", force: true do |t|
     t.string   "email"
+    t.string   "stripe_email"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -82,10 +83,8 @@ ActiveRecord::Schema.define(version: 20140623223226) do
     t.datetime "show_at"
     t.decimal  "price_adv",       precision: 8, scale: 2
     t.decimal  "price_door",      precision: 8, scale: 2
-    t.boolean  "pwyw",                                    default: false, null: false
-    t.boolean  "for_sale"
-    t.boolean  "rsvp_only"
-    t.boolean  "ticketed"
+    t.boolean  "pwyw",                                    default: false,  null: false
+    t.string   "ticketing_type",                          default: "none"
     t.integer  "custom_capacity"
     t.integer  "payer_id"
     t.datetime "paid_at"
@@ -132,17 +131,18 @@ ActiveRecord::Schema.define(version: 20140623223226) do
     t.text     "error"
     t.string   "stripe_id"
     t.string   "stripe_token"
+    t.string   "stripe_token_type"
     t.integer  "amount"
     t.integer  "fee_amount"
     t.integer  "coupon_id"
     t.integer  "affiliate_id"
     t.text     "customer_address"
     t.string   "guid"
-    t.text     "state"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "state"
     t.string   "plan"
     t.string   "stripe_subscription_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "user_boards", force: true do |t|
@@ -189,7 +189,6 @@ ActiveRecord::Schema.define(version: 20140623223226) do
     t.string   "facebook_location"
     t.string   "facebook_url"
     t.integer  "timezone"
-    t.string   "stripe_uid"
     t.string   "stripe_email"
     t.string   "stripe_scope"
     t.boolean  "stripe_livemode"

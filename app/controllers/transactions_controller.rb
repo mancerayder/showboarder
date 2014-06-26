@@ -108,7 +108,7 @@ class TransactionsController < ApplicationController
       render json: { guid: @transaction.guid }
     else
       render json: { error: @sale.errors.full_messages.join(". ") }, status: 400
-    end      
+    end
   end
 
   # def board_ticketed #old version
