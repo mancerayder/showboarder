@@ -1,1 +1,9 @@
+<% if !@user.stripe_access_key? %>
+Step 1: Make/connect your stripe acount
 <%= render 'shared/stripe_connect_button' %>
+
+<% else %>
+
+Your showboarder account has a connected stripe account.
+
+<% end %>

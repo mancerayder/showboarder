@@ -5,7 +5,7 @@
 <% if current_user.boarder?(@board) %>
 <%= render 'shared/new_show_button' %>
 
-<% if not @board.paid %>
+<% if !@board.paid? %>
 <% end %>
 
 <br>

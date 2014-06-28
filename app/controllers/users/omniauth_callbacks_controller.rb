@@ -16,7 +16,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     if @user.persisted?
       set_flash_message(:notice, :success, :kind => "Stripe") if is_navigational_format?
-      redirect_to @user.boards.first
+      redirect_to board_ticketed_path(@user.boards.first)
     else
       flash[:error] = "Please create a Showboarder account before connecting with Stripe."
       redirect_to new_user_registration_url

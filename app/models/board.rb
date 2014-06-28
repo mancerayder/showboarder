@@ -30,7 +30,12 @@ class Board < ActiveRecord::Base
     user_boards.find_by(boarder_id: user.id).role
   end
 
-  def paid
-    user_boards.where(board_id:self.id, role:"owner").length > 0
+  def paid?
+    # user_boards.where(board_id:self.id, role:"owner").length > 0
+    if self.paid_tier != 0
+      return true
+    else
+      return false
+    end
   end
 end

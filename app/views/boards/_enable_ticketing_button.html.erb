@@ -1,1 +1,7 @@
-<%= link_to "Enable ticketing for this Showboard", board_ticketed_path(@board) %>
+<% if @board.paid_tier == 0 %>
+  <% if current_user.stripe_access_key %>
+    <%= link_to "Enable ticketing for this Showboard", board_ticketed_path(@board) %>
+  <% else %>
+    <%= link_to user_stripe_connect_path(current_user) %>
+  <% end %>
+<% end %>
