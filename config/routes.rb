@@ -2,6 +2,7 @@ Showboarder::Application.routes.draw do
 
   devise_for :users, :path => '/users', :controllers => { :sessions => "users/sessions", :registrations => "users/registrations", :omniauth_callbacks => "users/omniauth_callbacks" }
   root to: 'static_pages#home'
+  match '/about',   to: 'static_pages#about',   via: 'get'
   
   match '/status/:guid'      => 'transactions#status',   via: :get,  as: :status
   match '/confirm/:guid'     => 'transactions#show',     via: :get,  as: :confirm
@@ -29,9 +30,11 @@ Showboarder::Application.routes.draw do
     resources :stages
   end
   
+  resources :stripe_events, only: [:create]
+
   # get '/auth/stripe_connect/callback', to: 'users/omniauth_callbacks#stripe_connect'
   
-  match '/about',   to: 'static_pages#about',   via: 'get'
+  
   # mount StripeEvent::Engine => '/stripewebhook'
 
   # match ':id', to: 'boards#show', via: 'get'

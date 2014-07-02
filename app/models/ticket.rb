@@ -9,6 +9,10 @@ class Ticket < ActiveRecord::Base
   validates_uniqueness_of :guid
 
   before_save :populate_guid
+  
+  def to_param
+    guid
+  end
 
   def populate_guid
     if new_record?

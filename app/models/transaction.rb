@@ -3,10 +3,15 @@ class Transaction < ActiveRecord::Base
 
   belongs_to :actioner, polymorphic: true
   belongs_to :actionee, polymorphic: true
+  has_many :charges
 
   validates_uniqueness_of :guid
 
   before_save :populate_guid  
+
+  def to_param
+    guid
+  end
 
   include AASM
 
@@ -33,6 +38,8 @@ class Transaction < ActiveRecord::Base
       transitions from: :finished, to: :refunded
     end
   end
+
+  
 
   def charge_card #new version
     begin
@@ -110,6 +117,8 @@ class Transaction < ActiveRecord::Base
             tickets_by_owner.each do |t|
               t.buy(actioner)
             end
+
+            Charge.create(transaction_id:self.id, stripe_id:charge.id) # create charge object that belongs to this transaction
           end
         end        
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140626210308) do
+ActiveRecord::Schema.define(version: 20140702025315) do
 
   create_table "boards", force: true do |t|
     t.string   "name"
@@ -35,6 +35,13 @@ ActiveRecord::Schema.define(version: 20140626210308) do
   create_table "carts_tickets", id: false, force: true do |t|
     t.integer "cart_id"
     t.integer "ticket_id"
+  end
+
+  create_table "charges", force: true do |t|
+    t.integer  "transaction_id"
+    t.string   "stripe_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "guests", force: true do |t|
@@ -99,6 +106,13 @@ ActiveRecord::Schema.define(version: 20140626210308) do
     t.string   "places_reference"
     t.string   "places_formatted_address_short"
     t.text     "places_json"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "stripe_events", force: true do |t|
+    t.string   "stripe_id"
+    t.string   "stripe_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
