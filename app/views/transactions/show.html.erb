@@ -1,7 +1,7 @@
 <h1>Thanks!</h1>
 
-<p>Thanks for buying "<%= @transaction.actionee.class.to_s %>". You'll receive a confirmation email shortly with your receipt and download link.</p>
+<p>Thanks for buying "<%= @sale.actionee.class.to_s %>". You'll receive a confirmation email shortly with your receipt and download link.</p>
 
-<% if @transaction.actionee.class.to_s == "Board" || @transaction.actionee.class.to_s == "Show" %>
-  Return to <%= link_to @transaction.actionee.class.to_s, @transaction.actionee %>
+<% if @sale.actionee.class.to_s == "Board" || @sale.actionee.class.to_s == "Show" %>
+  Return to <%= link_to @sale.actionee.class.to_s, @sale.actionee %>
 <% end %>

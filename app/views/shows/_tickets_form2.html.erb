@@ -34,8 +34,8 @@
   <% end %>
 </div>
 <div class="row">
-  <div id="payment-errors" class="alert" style="<%= transaction.errors.any? ? '' : 'display: none;' %>">
-    <% transaction.errors.full_messages.each do |msg| %>
+  <div id="payment-errors" class="alert" style="<%= sale.errors.any? ? '' : 'display: none;' %>">
+    <% sale.errors.full_messages.each do |msg| %>
       <span><%= msg %></span>
     <% end %>
   </div>
@@ -120,7 +120,7 @@
     function poll(guid, num_retries_left) {
       console.log("Polling...")
       if (num_retries_left == 0) {
-        showError("This seems to be taking too long. Email <a href=\"contact@showboarder.com\">contact@showboarder.com</a> and reference transaction <strong>" + guid );
+        showError("This seems to be taking too long. Email <a href=\"contact@showboarder.com\">contact@showboarder.com</a> and reference sale <strong>" + guid );
         return;
       }
       $.get("/status/" + guid, function(data) {

@@ -49,7 +49,7 @@ class Ticket < ActiveRecord::Base
       actioner_type = nil
     end
 
-    Transaction.create(actioner_id:actioner_id, actioner_type:actioner_type, actionee_id:self.id, actionee_type:"Ticket", state_before:state_before, state_after:state_after, error:error)
+    Sale.create(actioner_id:actioner_id, actioner_type:actioner_type, actionee_id:self.id, actionee_type:"Ticket", state_before:state_before, state_after:state_after, error:error)
   end
 
   def buy(user_or_guest)

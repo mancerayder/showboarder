@@ -4,8 +4,8 @@ Showboarder::Application.routes.draw do
   root to: 'static_pages#home'
   match '/about',   to: 'static_pages#about',   via: 'get'
   
-  match '/status/:guid'      => 'transactions#status',   via: :get,  as: :status
-  match '/confirm/:guid'     => 'transactions#show',     via: :get,  as: :confirm
+  match '/status/:guid'      => 'sales#status',   via: :get,  as: :status
+  match '/confirm/:guid'     => 'sales#show',     via: :get,  as: :confirm
 
   resources :users do
     match '/boards' => 'users#boards', via: :get
@@ -15,15 +15,15 @@ Showboarder::Application.routes.draw do
 
   resources :boards, path:'' do
     # match '/payout' => 'boards#payout', via: :get
-    # match '/payout' => 'transactions#payout', via: :post
+    # match '/payout' => 'sales#payout', via: :post
     match '/ticketed'    => 'boards#ticketed',      via: :get
-    match '/ticketed'    => 'transactions#board_ticketed',      via: :post
+    match '/ticketed'    => 'sales#board_ticketed',      via: :post
     resources :shows do
       match '/ticketed'    => 'shows#ticketed',      via: :get
-      match '/ticketed'    => 'transactions#show_ticketed',      via: :post
+      match '/ticketed'    => 'sales#show_ticketed',      via: :post
       match '/tickets', to: 'tickets#new', via: :get
       match '/checkout', to: 'shows#checkout', via: :get
-      match '/checkout', to: 'transactions#checkout', via: :post
+      match '/checkout', to: 'sales#checkout', via: :post
       match '/reserve', to: 'tickets#reserve', via: :post
       resources :charge, only: [:create]
     end

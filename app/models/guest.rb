@@ -4,5 +4,5 @@ class Guest < ActiveRecord::Base
                     format:     { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
   has_many :tickets, as: :ticket_owner
-  has_many :transactions, as: :actioner
+  has_many :sales, as: :actioner
 end

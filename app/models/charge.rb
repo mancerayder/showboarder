@@ -1,3 +1,3 @@
 class Charge < ActiveRecord::Base
-  belongs_to :transaction
+  belongs_to :sale
 end

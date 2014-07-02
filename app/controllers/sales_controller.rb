@@ -1,4 +1,4 @@
-class TransactionsController < ApplicationController
+class SalesController < ApplicationController
   # def reserve
   #   @show = Show.find_by(params[:show_id])
   # end
@@ -12,14 +12,14 @@ class TransactionsController < ApplicationController
   # end
 
   def show
-    @transaction = Transaction.find_by!(guid: params[:guid])
+    @sale = Sale.find_by!(guid: params[:guid])
     # @product = @sale.product
   end
 
   def status
-    @transaction = Transaction.where(guid: params[:guid]).first
-    render nothing: true, status: 404 and return unless @transaction
-    render json: {guid: @transaction.guid, status: @transaction.state, error: @transaction.error}
+    @sale = Sale.where(guid: params[:guid]).first
+    render nothing: true, status: 404 and return unless @sale
+    render json: {guid: @sale.guid, status: @sale.state, error: @sale.error}
   end  
 
   def checkout
@@ -77,34 +77,34 @@ class TransactionsController < ApplicationController
       end
     end
 
-    @transaction = Transaction.create_for_cart(
+    @sale = Sale.create_for_cart(
       actioner: @buyer,
       actionee: @cart,
       stripe_token: token,
       )
 
-    if @transaction.save
-      @transaction.queue_job!
-      render json: { guid: @transaction.guid }
+    if @sale.save
+      @sale.queue_job!
+      render json: { guid: @sale.guid }
     else
       render json: { error: @sale.errors.full_messages.join(". ") }, status: 400
     end    
   end
 
-  def board_ticketed #new version for transactions
+  def board_ticketed #new version for sales
     @board = Board.find_by_vanity_url(params[:board_id])
     token = params[:stripeToken]
 
-    @transaction = Transaction.create_for_board(
+    @sale = Sale.create_for_board(
       actioner: current_user,
       actionee: @board,
       plan: "sb1",
       stripe_token: token
       )
 
-    if @transaction.save
-      @transaction.queue_job!
-      render json: { guid: @transaction.guid }
+    if @sale.save
+      @sale.queue_job!
+      render json: { guid: @sale.guid }
     else
       render json: { error: @sale.errors.full_messages.join(". ") }, status: 400
     end

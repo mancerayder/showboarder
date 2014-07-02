@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20140702025315) do
   end
 
   create_table "charges", force: true do |t|
-    t.integer  "transaction_id"
+    t.integer  "sale_id"
     t.string   "stripe_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -138,7 +138,7 @@ ActiveRecord::Schema.define(version: 20140702025315) do
   add_index "tickets", ["referral_band_id"], name: "index_tickets_on_referral_band_id"
   add_index "tickets", ["show_id"], name: "index_tickets_on_show_id"
 
-  create_table "transactions", force: true do |t|
+  create_table "sales", force: true do |t|
     t.integer  "actioner_id"
     t.string   "actioner_type"
     t.integer  "actionee_id"

@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe TransactionsController do
+describe SalesController do
 
 end

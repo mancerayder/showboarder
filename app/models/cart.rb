@@ -1,6 +1,6 @@
 class Cart < ActiveRecord::Base
   has_and_belongs_to_many :tickets
-  has_many :transactions, as: :actionee
+  has_many :sales, as: :actionee
 
   before_save :populate_reserve_code
 

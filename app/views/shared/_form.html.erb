@@ -127,7 +127,7 @@
 
     function poll(guid, num_retries_left) {
       if (num_retries_left == 0) {
-        showError("This seems to be taking too long. Email <a href=\"help@petekeen.net\">help@petekeen.net</a> and reference transaction <strong>" + guid + "</strong> and I'll take a look.");
+        showError("This seems to be taking too long. Email <a href=\"help@petekeen.net\">help@petekeen.net</a> and reference sale <strong>" + guid + "</strong> and I'll take a look.");
         return;
       }
       $.get("/status/" + guid, function(data) {

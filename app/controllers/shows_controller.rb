@@ -44,7 +44,7 @@ class ShowsController < ApplicationController
       redirect_to board_show_path(@show.board, @show)
     end
 
-    @transaction = Transaction.new
+    @sale = Sale.new
   end
 
   def create

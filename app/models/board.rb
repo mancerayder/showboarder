@@ -8,7 +8,7 @@ class Board < ActiveRecord::Base
   validates_format_of :vanity_url, :with => /[-a-z0-9_.]/
   accepts_nested_attributes_for :stages
   accepts_nested_attributes_for :shows
-  has_many :transactions, as: :actionee
+  has_many :sales, as: :actionee
   
   # has_many :reverse_user_boards, foreign_key: "board_id",
   #                                  class_name:  "UserBoard",

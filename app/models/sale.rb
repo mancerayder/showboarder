@@ -1,4 +1,4 @@
-class Transaction < ActiveRecord::Base
+class Sale < ActiveRecord::Base
   # has_paper_trail
 
   belongs_to :actioner, polymorphic: true
@@ -118,7 +118,7 @@ class Transaction < ActiveRecord::Base
               t.buy(actioner)
             end
 
-            Charge.create(transaction_id:self.id, stripe_id:charge.id) # create charge object that belongs to this transaction
+            Charge.create(sale_id:self.id, stripe_id:charge.id) # create charge object that belongs to this sale
           end
         end        
 
@@ -176,7 +176,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def self.create_for_cart(options={})
-    transaction = new do |t|
+    sale = new do |t|
       t.actioner = options[:actioner]
       t.actionee = options[:actionee]
       t.stripe_token = options[:stripe_token]
@@ -198,11 +198,11 @@ class Transaction < ActiveRecord::Base
     #     t.amount = options[:product].price
     #   end
     # end
-    transaction
+    sale
   end
 
   def self.create_for_board(options={})
-    transaction = new do |t|
+    sale = new do |t|
       t.actioner = options[:actioner]
       t.actionee = options[:actionee]
       t.stripe_token = options[:stripe_token]
@@ -210,7 +210,7 @@ class Transaction < ActiveRecord::Base
       t.amount = 2500
     end
 
-    transaction
+    sale
   end
 
   def self.create_for_show(options={})

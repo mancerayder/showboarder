@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   has_many :user_boards, foreign_key: "boarder_id", dependent: :destroy
   has_many :boards, through: :user_boards, source: :board
   has_many :tickets, as: :ticket_owner
-  has_many :transactions, as: :actioner
+  has_many :sales, as: :actioner
 
   attr_accessor :login
 

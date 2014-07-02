@@ -1,6 +1,6 @@
-class CreateTransactions < ActiveRecord::Migration
+class CreateSales < ActiveRecord::Migration
   def change
-    create_table :transactions do |t|
+    create_table :sales do |t|
       t.references :actioner, polymorphic: true
       t.references :actionee, polymorphic: true
       # t.string :state_before

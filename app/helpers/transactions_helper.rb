@@ -1,2 +1,2 @@
-module TransactionsHelper
+module SalesHelper
 end

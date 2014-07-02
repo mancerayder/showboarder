@@ -2,11 +2,11 @@ class Show < ActiveRecord::Base
   belongs_to :stage, dependent: :destroy
   belongs_to :board, dependent: :destroy
   has_many :tickets
-  has_many :transactions, as: :actionee
+  has_many :sales, as: :actionee
   validates :ticketing_type, presence: true
 
   def transact(actioner, state_before, state_after)
-    Transaction.create(actioner_id:actioner.id, actioner_type:actioner.class.to_s, actionee_id:self.id, actionee_type:"Show", state_before:state_before, state_after:state_after)
+    Sale.create(actioner_id:actioner.id, actioner_type:actioner.class.to_s, actionee_id:self.id, actionee_type:"Show", state_before:state_before, state_after:state_after)
   end
 
   def tickets_make  # needs to account for paid, pwyw, rsvp_only
