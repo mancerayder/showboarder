@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :registerable, :async,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
   devise :omniauthable, :omniauth_providers => [:facebook, :stripe_connect]
   has_many :user_boards, foreign_key: "boarder_id", dependent: :destroy
@@ -37,8 +37,6 @@ class User < ActiveRecord::Base
   end
 
   def self.find_for_stripe_oauth(auth, signed_in_resource)
-    puts "froop33"
-    puts auth.to_yaml
     signed_in_resource.update_attributes(
       stripe_recipient_id:auth.uid,
       stripe_scope:auth.info.scope,

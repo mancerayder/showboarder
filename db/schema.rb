@@ -80,6 +80,28 @@ ActiveRecord::Schema.define(version: 20140702025315) do
 
   add_index "places", ["stage_id"], name: "index_places_on_stage_id"
 
+  create_table "sales", force: true do |t|
+    t.integer  "actioner_id"
+    t.string   "actioner_type"
+    t.integer  "actionee_id"
+    t.string   "actionee_type"
+    t.text     "error"
+    t.string   "stripe_id"
+    t.string   "stripe_token"
+    t.string   "stripe_token_type"
+    t.integer  "amount"
+    t.integer  "fee_amount"
+    t.integer  "coupon_id"
+    t.integer  "affiliate_id"
+    t.text     "customer_address"
+    t.string   "guid"
+    t.string   "state"
+    t.string   "plan"
+    t.string   "stripe_subscription_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "shows", force: true do |t|
     t.integer  "board_id"
     t.integer  "stage_id"
@@ -137,28 +159,6 @@ ActiveRecord::Schema.define(version: 20140702025315) do
 
   add_index "tickets", ["referral_band_id"], name: "index_tickets_on_referral_band_id"
   add_index "tickets", ["show_id"], name: "index_tickets_on_show_id"
-
-  create_table "sales", force: true do |t|
-    t.integer  "actioner_id"
-    t.string   "actioner_type"
-    t.integer  "actionee_id"
-    t.string   "actionee_type"
-    t.text     "error"
-    t.string   "stripe_id"
-    t.string   "stripe_token"
-    t.string   "stripe_token_type"
-    t.integer  "amount"
-    t.integer  "fee_amount"
-    t.integer  "coupon_id"
-    t.integer  "affiliate_id"
-    t.text     "customer_address"
-    t.string   "guid"
-    t.string   "state"
-    t.string   "plan"
-    t.string   "stripe_subscription_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "user_boards", force: true do |t|
     t.integer  "boarder_id"

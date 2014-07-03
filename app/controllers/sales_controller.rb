@@ -50,7 +50,7 @@ class SalesController < ApplicationController
 
       @email = params[:email].downcase
 
-      if User.find_by_email(@email)
+      if User.find_by_stripe_email(@email)
         flash[:error] = "A user has already registered with that email address. Please log in."
         redirect_to :back
       end

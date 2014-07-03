@@ -27,11 +27,11 @@ class StripeEventsController < ApplicationController
     end
   end
 
-  # def stripe_charge_dispute_created(charge)
-  #   sale = Sale.find_by(stripe_id: charge.id)
-  #   return unless sale
-  #   AdminMailer.delay.dispute(sale.id)
-  # end
+  def stripe_charge_dispute_created(charge)
+    charge = Charge.find_by(stripe_id: charge.id)
+    return unless sale
+    AdminMailer.delay.dispute(charge.id)
+  end
 
   # def stripe_charge_refunded(charge)
   #   sale = Sale.find_by(stripe_id: charge.id)

@@ -47,6 +47,7 @@ class Sale < ActiveRecord::Base
       ########################## FOR TICKET PURCHASE ########################
       #######################################################################
       if self.actionee_type == "Cart"
+        charge = nil
         owners = Hash.new { |hash, key| hash[key] =  []} # hash so tickets in cart can be grouped by board owner for efficient stripe charge creation
         if actioner.class.to_s == "User"
           if actioner.stripe_id?
@@ -65,7 +66,7 @@ class Sale < ActiveRecord::Base
 
             customer = Stripe::Customer.create(
               card: self.stripe_token,
-              email: actioner.stripe_email,
+              email: actioner.email,
               description: actionee.tickets.count.to_s + " ticket purchase. TRANSACTION : " + self.guid.to_s #maybe add more detail here
             )
             
@@ -75,7 +76,7 @@ class Sale < ActiveRecord::Base
         else
           customer = Stripe::Customer.create(
               card: self.stripe_token,
-              email: actioner.stripe_email,
+              email: actioner.email,
               description: actionee.tickets.count.to_s + " ticket purchase. TRANSACTION : " + self.guid.to_s #maybe add more detail here
             )
         end
@@ -118,7 +119,7 @@ class Sale < ActiveRecord::Base
               t.buy(actioner)
             end
 
-            Charge.create(sale_id:self.id, stripe_id:charge.id) # create charge object that belongs to this sale
+            Charge.create(sale:self, stripe_id:charge.id) # create charge object that belongs to this sale
           end
         end        
 
@@ -130,7 +131,7 @@ class Sale < ActiveRecord::Base
           self.actioner.update_attributes(
             stripe_id:customer.id,
             card_last4:      charge.card.last4,
-            stripe_email:customer.email.downcase,
+            email:customer.email.downcase,
             card_expiration: Date.new(charge.card.exp_year, charge.card.exp_month, 1),
             card_type:       charge.card.type,      
             )
@@ -149,7 +150,7 @@ class Sale < ActiveRecord::Base
           customer = Stripe::Customer.create(
             :card => stripe_token,
             :plan => plan,
-            :email => actioner.stripe_email
+            :email => actioner.email
           )
 
           actioner.update_attributes(stripe_id:customer.id)
@@ -157,8 +158,8 @@ class Sale < ActiveRecord::Base
         end
 
         actioner.board_role_assign(actionee, "owner")
+        actionee.update(paid_tier:1, paid_at:Time.now)
         # actionee.user_boards.find_by(boarder_id:actioner.id).update_attributes(role:"owner")
-        actionee.update_attributes(paid_at:Time.now)
         self.finish!        
         
       #######################################################################
@@ -176,10 +177,10 @@ class Sale < ActiveRecord::Base
   end
 
   def self.create_for_cart(options={})
-    sale = new do |t|
-      t.actioner = options[:actioner]
-      t.actionee = options[:actionee]
-      t.stripe_token = options[:stripe_token]
+    sale = new do |s|
+      s.actioner = options[:actioner]
+      s.actionee = options[:actionee]
+      s.stripe_token = options[:stripe_token]
       # total = 0
 
       # t.actionee.tickets.each do |e|
@@ -202,12 +203,12 @@ class Sale < ActiveRecord::Base
   end
 
   def self.create_for_board(options={})
-    sale = new do |t|
-      t.actioner = options[:actioner]
-      t.actionee = options[:actionee]
-      t.stripe_token = options[:stripe_token]
-      t.plan = options[:plan]
-      t.amount = 2500
+    sale = new do |s|
+      s.actioner = options[:actioner]
+      s.actionee = options[:actionee]
+      s.stripe_token = options[:stripe_token]
+      s.plan = options[:plan]
+      s.amount = 2500
     end
 
     sale

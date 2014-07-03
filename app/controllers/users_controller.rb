@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 #     @user = User.new(user_params)
 #     if @user.save
 #       # sign_in @user
-#       # UserMailer.beta_welcome_email(@user).deliver
+#       # UserMailer.beta_welcome(@user).deliver
 #       AdminMailer.beta_application(@user).deliver
 #       flash[:success] = "Thank you for submitting your application! The Showboarder team will contact you soon with more information about the beta!"
 #       redirect_to root_path
