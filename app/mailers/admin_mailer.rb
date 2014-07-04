@@ -7,6 +7,9 @@ class AdminMailer < ActionMailer::Base
     mail(subject: "New beta Signup: #{@user.email}")
   end
 
-  def dispute
+  def dispute(charge_id)
+    @charge = Charge.find_by_id(charge_id)
+    @sale = charge.sale
+    mail(subject: "ALERT: Charge Disputed!")
   end
 end

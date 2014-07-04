@@ -40,13 +40,16 @@ ActiveRecord::Schema.define(version: 20140702025315) do
   create_table "charges", force: true do |t|
     t.integer  "sale_id"
     t.string   "stripe_id"
+    t.integer  "actionee_id"
+    t.string   "actionee_type"
+    t.integer  "amount",        default: 0
+    t.string   "state",         default: "charged"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "guests", force: true do |t|
     t.string   "email"
-    t.string   "stripe_email"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -89,7 +92,6 @@ ActiveRecord::Schema.define(version: 20140702025315) do
     t.string   "stripe_id"
     t.string   "stripe_token"
     t.string   "stripe_token_type"
-    t.integer  "amount"
     t.integer  "fee_amount"
     t.integer  "coupon_id"
     t.integer  "affiliate_id"
@@ -204,7 +206,6 @@ ActiveRecord::Schema.define(version: 20140702025315) do
     t.string   "facebook_location"
     t.string   "facebook_url"
     t.integer  "timezone"
-    t.string   "stripe_email"
     t.string   "stripe_scope"
     t.boolean  "stripe_livemode"
     t.string   "stripe_publishable_key"

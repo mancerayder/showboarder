@@ -86,7 +86,7 @@ class Sale < ActiveRecord::Base
         end
 
         owners.each do |o| # go through owners and make a charge for each one
-          tickets_by_owner = [] #array to temporarily store tickets for each owner to avoid having to look them up in the database by GUID again
+          tickets_by_owner = Cart.create #array to temporarily store tickets for each owner to avoid having to look them up in the database by GUID again
           amount = 0
           desc_b = "" #these build pieces of the description string with each ticket.  _b board _s show _t ticket
           desc_s = ""
@@ -94,7 +94,7 @@ class Sale < ActiveRecord::Base
 
           owners[o[0]].each do |t| #go through the tickets for the owner to make the charge
             ticket = Ticket.find_by(guid:t)
-            tickets_by_owner << ticket
+            tickets_by_owner.tickets << ticket
             desc_b = desc_b + ticket.show.board.name.to_s + " "
             desc_s = desc_s + ticket.show.id.to_s + " "
             desc_t = desc_t + t.to_s + " "
@@ -115,11 +115,11 @@ class Sale < ActiveRecord::Base
             },
             o[0]
           )
-            tickets_by_owner.each do |t|
+            tickets_by_owner.tickets.each do |t|
               t.buy(actioner)
             end
 
-            Charge.create(sale:self, stripe_id:charge.id) # create charge object that belongs to this sale
+            Charge.create(sale:self, stripe_id:charge.id, amount:amount, actionee:tickets_by_owner) # create charge object that belongs to this sale
           end
         end        
 
@@ -167,7 +167,8 @@ class Sale < ActiveRecord::Base
       #######################################################################
       elsif actionee_type == "Show"
         # if actioner.stripe_id
-        self.finish!
+        self.update_attributes(error:"Sorry, this transaction is currently unsupported")
+        self.fail!
       end
 
     rescue Stripe::StripeError => e
@@ -216,7 +217,6 @@ class Sale < ActiveRecord::Base
 
   def self.create_for_show(options={})
   end
-
 
   def queue_job!
     PaymentsWorker.perform_async(guid)

@@ -1,6 +1,7 @@
 class Cart < ActiveRecord::Base
   has_and_belongs_to_many :tickets
   has_many :sales, as: :actionee
+  has_many :charges, as: :actionee
 
   before_save :populate_reserve_code
 
@@ -11,6 +12,14 @@ class Cart < ActiveRecord::Base
   #     end
   #   end
   # end
+
+  def amount
+    amount = 0
+    tickets.each do |t|
+      amount = amount + (ticket.price*100).to_i
+    end
+    amount
+  end
 
   def populate_reserve_code
     if new_record?
