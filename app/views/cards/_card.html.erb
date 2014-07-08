@@ -1,0 +1,9 @@
+<div class="row">
+<% if card.default? %>
+<label class="btn btn-primary active">
+<% else %>
+<label class="btn btn-primary">
+<% end %>
+  <input type="radio" name="options" id="<%= card.last4 %>" checked> <%= card.last4 %>
+</label>
+</div>

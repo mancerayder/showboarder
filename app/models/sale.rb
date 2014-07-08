@@ -127,13 +127,20 @@ class Sale < ActiveRecord::Base
           stripe_id:       charge.id
         )
 
+        Card.create(user_id:actioner.id,
+          stripe_id:charge.card.id,
+          last4:charge.card.last4,
+          expiration:Date.new(charge.card.exp_year, charge.card.exp_month, 1),
+          type: charge.card.type
+          )
+
         if actioner.class.to_s == "User"
           self.actioner.update_attributes(
             stripe_id:customer.id,
-            card_last4:      charge.card.last4,
+            # card_last4:      charge.card.last4,
             email:customer.email.downcase,
-            card_expiration: Date.new(charge.card.exp_year, charge.card.exp_month, 1),
-            card_type:       charge.card.type,      
+            # card_expiration: Date.new(charge.card.exp_year, charge.card.exp_month, 1),
+            # card_type:       charge.card.type,      
             )
         end
         self.finish!

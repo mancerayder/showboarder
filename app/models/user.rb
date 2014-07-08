@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   has_many :boards, through: :user_boards, source: :board
   has_many :tickets, as: :ticket_owner
   has_many :sales, as: :actioner
+  has_many :cards, dependent: :destroy
 
   attr_accessor :login
 
@@ -82,6 +83,18 @@ class User < ActiveRecord::Base
       end
       self.update(reserve_code:nil)
     end
+  end
+
+  def cards_sorted
+    cards_sorted = []
+    self.cards.each do |c|
+      if c.stripe_id == self.stripe_default_card
+        cards_sorted.unshift(c)
+      else
+        cards_sorted << c
+      end
+    end
+    cards_sorted
   end
 
   # def self.find_first_by_auth_conditions(warden_conditions)

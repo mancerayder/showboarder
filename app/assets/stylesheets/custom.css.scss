@@ -499,3 +499,32 @@ label {
   background-color: rgba(255,255,255,.2);
   width:90px;
 }
+
+.payment-well {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 0px !important;
+}
+
+.payment-well .row {
+  width: 280;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.payment-well .payment-input {
+  width: 280px;
+}
+
+.payment-quote {
+  font-family: 'Droid Sans', helvetica, arial, sans-serif;
+  font-size: 0.8em;
+  line-height: 105%;
+}
+
+.price {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 10px;
+}

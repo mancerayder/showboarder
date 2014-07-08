@@ -5,25 +5,15 @@
   <% end %>
   <div class="row">
     <label class="control-label" for="email">Email <span class="label pull-right" style="margin-right: 8px">Secure <img src="<%= asset_path('lock.png') %>" style="height: 13px"></span></label>
-    <input autofocus="true" type="email" name="email" id="email" placeholder="you@example.com" class="payment-input"/>
+    <input autofocus="true" type="email" name="email" id="email" value="<%= current_user.email %>" disabled="disabled" class="payment-input"/>
   </div>
-  <div class="row">
-    <label class="control-label" for="number">Card Number</label>
-    <input type="text" size="20" data-stripe="number" id="number" placeholder="1234 5678 9012 3456" pattern="[\d ]*" class="payment-input"/>
-  </div>
-  <div class="row">
-    <div style="float: left">
-      <label class="control-label" for="cvc">CVC</label>
-      <input type="text" style="width: 3em" size="3" data-stripe="cvc" id="cvc" placeholder="123" pattern="\d*"/>
-      <img id="card-image" src="<%= asset_path('credit.png') %>" style="height: 30px; padding-left: 10px; margin-top: -10px">
-    </div>
-    <div style="float: right; margin-right: 8px">
-      <label class="control-label">Exp (MM/YYYY)</label>
-      <input style="width: 2em" type="text" size="2" id="exp-month" data-stripe="exp-month" placeholder="MM" pattern="\d*"/>
-      <span> / </span>
-      <input style="width: 3em" type="text" size="4" id="exp-year" data-stripe="exp-year" placeholder="YYYY" pattern="\d*"/>
-    </div>
-  </div>
+  
+  <% if @cards.count == 0 %>
+  <%= render 'shared/no_cards_form' %>
+  <% else %>
+  <%= render 'shared/card_chooser_adder' %>
+  <% end %>
+
   <div class="row" style="margin-top: 20px">
     <div class="price" style="margin-top: 20px; float: left"><%= amount %></div>
     <div style="float: right; margin-right: 8px">
