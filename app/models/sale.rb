@@ -68,8 +68,7 @@ class Sale < ActiveRecord::Base
               card: self.stripe_token,
               email: actioner.email,
               description: actionee.tickets.count.to_s + " ticket purchase. TRANSACTION : " + self.guid.to_s #maybe add more detail here
-            )
-            
+            )            
             actioner.update(stripe_id:customer.id)
 
           end
@@ -131,7 +130,7 @@ class Sale < ActiveRecord::Base
           stripe_id:charge.card.id,
           last4:charge.card.last4,
           expiration:Date.new(charge.card.exp_year, charge.card.exp_month, 1),
-          type: charge.card.type
+          brand: charge.card.type
           )
 
         if actioner.class.to_s == "User"
