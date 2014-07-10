@@ -8,7 +8,7 @@
     <input autofocus="true" type="email" name="email" id="email" value="<%= current_user.email %>" disabled="disabled" class="payment-input"/>
   </div>
   
-  <% if @cards.count == 0 %>
+  <% if @cards.count == 0 || current_user.stripe_id == nil %>
   <%= render 'shared/no_cards_form' %>
   <% else %>
   <%= render 'shared/card_chooser_adder' %>

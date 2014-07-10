@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140709012445) do
+ActiveRecord::Schema.define(version: 20140710223305) do
 
   create_table "boards", force: true do |t|
     t.string   "name"
@@ -155,6 +155,23 @@ ActiveRecord::Schema.define(version: 20140709012445) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "subscriptions", force: true do |t|
+    t.integer  "sale_id"
+    t.string   "stripe_id"
+    t.integer  "actionee_id"
+    t.integer  "amount"
+    t.string   "plan"
+    t.string   "state"
+    t.integer  "user_id"
+    t.datetime "paid_until"
+    t.datetime "paid_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "subscriptions", ["actionee_id"], name: "index_subscriptions_on_actionee_id"
+  add_index "subscriptions", ["sale_id"], name: "index_subscriptions_on_sale_id"
 
   create_table "tickets", force: true do |t|
     t.string   "token"

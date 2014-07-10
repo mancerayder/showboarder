@@ -88,9 +88,9 @@ class User < ActiveRecord::Base
   def cards_sorted
     cards_sorted = []
     self.cards.each do |c|
-      if c.stripe_id == self.stripe_default_card
+      if c.stripe_id == self.stripe_default_card && ["confirmed", "expired"].include?(c.state)
         cards_sorted.unshift(c)
-      else
+      elsif ["confirmed", "expired"].include?(c.state)
         cards_sorted << c
       end
     end

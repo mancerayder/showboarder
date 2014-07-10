@@ -5,7 +5,7 @@
   <% end %>
   <div class="row">
     <label class="control-label" for="email">Email <span class="label pull-right" style="margin-right: 8px">Secure <img src="<%= asset_path('lock.png') %>" style="height: 13px"></span></label>
-    <input autofocus="true" type="email" name="email" id="email" placeholder="you@example.com" class="payment-input"/>
+    <input autofocus="true" type="email" name="email" id="email" value="<%= current_user.email %>" disabled="disabled" class="payment-input"/>
   </div>
   <div class="row">
     <label class="control-label" for="number">Card Number</label>

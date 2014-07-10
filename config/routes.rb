@@ -5,6 +5,7 @@ Showboarder::Application.routes.draw do
   match '/about',   to: 'static_pages#about',   via: 'get'
   
   match '/status/:guid'      => 'sales#status',   via: :get,  as: :status
+  match '/card_status/:guid' => 'cards#status',   via: :get,  as: :card_status
   match '/confirm/:guid'     => 'sales#show',     via: :get,  as: :confirm
 
   resources :users do
@@ -31,6 +32,7 @@ Showboarder::Application.routes.draw do
   end
   
   resources :stripe_events, only: [:create]
+  resources :cards, only: [:create]
 
   # get '/auth/stripe_connect/callback', to: 'users/omniauth_callbacks#stripe_connect'
   

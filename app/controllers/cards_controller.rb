@@ -1,7 +1,13 @@
-class ApplicationController < ActionController::Base
+class CardsController < ActionController::Base
   def new
     @card = Card.new
   end
+
+  def status
+    @card = Card.where(guid: params[:guid]).first
+    render nothing: true, status: 404 and return unless @card
+    render json: {guid: @card.guid, status: @card.state, error: @card.error}
+  end  
 
   def create
     token = params[:stripeToken]

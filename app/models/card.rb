@@ -2,22 +2,31 @@ class Card < ActiveRecord::Base
   belongs_to :user
 
   validates_uniqueness_of :guid
-  before_save :populate_guid    
+  before_save :populate_guid
+
+  def to_param
+    guid
+  end
 
   include AASM
 
   aasm column: 'state', skip_validation_on_save: true do
     state :pending, initial: true
+    state :processing
     state :confirmed
     state :errored
     state :expired
 
     event :process, after: :add_to_customer do
-      transitions from: :pending, to: :confirmed
+      transitions from: :pending, to: :processing
+    end
+
+    event :finish do
+      transitions from: :processing, to: :confirmed
     end
 
     event :fail do
-      transitions from: :pending, to: :errored
+      transitions from: :processing, to: :errored
     end
 
     event :expire do
@@ -48,6 +57,8 @@ class Card < ActiveRecord::Base
           last4: added_card.last4,
           brand: added_card.type
           )
+
+        self.finish!
       end
 
     rescue Stripe::StripeError => e

@@ -17,7 +17,6 @@ class CreateSales < ActiveRecord::Migration
       t.string :guid
       t.string :state
       t.string :plan
-      t.string :stripe_subscription_id
 
       t.timestamps
     end

@@ -4,6 +4,7 @@ class Sale < ActiveRecord::Base
   belongs_to :actioner, polymorphic: true
   belongs_to :actionee, polymorphic: true
   has_many :charges
+  has_one :subscription
 
   validates_uniqueness_of :guid
 
@@ -149,31 +150,35 @@ class Sale < ActiveRecord::Base
       elsif actionee_type == "Board"
         if actioner.stripe_id
           customer = Stripe::Customer.retrieve(actioner.stripe_id)
-          subscription = customer.subscriptions.create(
-            plan: plan
-            )
+
         else
           customer = Stripe::Customer.create(
             :card => stripe_token,
-            :plan => plan,
             :email => actioner.email
           )
 
           actioner.update_attributes(stripe_id:customer.id)
-          self.update_attributes(stripe_subscription_id:customer.subscriptions.first.id)
         end
 
-        actioner.board_role_assign(actionee, "owner")
-        actionee.update(paid_tier:1, paid_at:Time.now)
-        # actionee.user_boards.find_by(boarder_id:actioner.id).update_attributes(role:"owner")
-        self.finish!        
+        if subscription = customer.subscriptions.create(
+            plan: plan
+            )
+
+          actioner.board_role_assign(actionee, "owner")
+          actionee.update(paid_tier:1, paid_at:Time.now)
+          Subcription.create(user:user, board:actionee, paid_at: DateTime.now, paid_until: DateTime.now + 1.month, plan: plan, stripe_id: subscription.id)
+          # actionee.user_boards.find_by(boarder_id:actioner.id).update_attributes(role:"owner")
+          self.finish!
+        end       
         
       #######################################################################
       ######################### FOR SHOW PURCHASE ###########################
-      #######################################################################
+      ###################### Might support this later #######################
+
+
       elsif actionee_type == "Show"
         # if actioner.stripe_id
-        self.update_attributes(error:"Sorry, this transaction is currently unsupported")
+        self.update_attributes(error:"Sorry, this transaction is currently unsupported") 
         self.fail!
       end
 
@@ -215,7 +220,6 @@ class Sale < ActiveRecord::Base
       s.actionee = options[:actionee]
       s.stripe_token = options[:stripe_token]
       s.plan = options[:plan]
-      s.amount = 2500
     end
 
     sale

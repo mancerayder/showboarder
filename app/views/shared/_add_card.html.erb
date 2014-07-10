@@ -1,41 +1,139 @@
-<div class="panel-group" id="accordion">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-          Collapsible Group Item #1
-        </a>
-      </h4>
-    </div>
-    <div id="collapseOne" class="panel-collapse collapse in">
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-          Collapsible Group Item #2
-        </a>
-      </h4>
-    </div>
-    <div id="collapseTwo" class="panel-collapse collapse">
-      <div class="panel-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+<div class="row">
+  <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#card-form">Add Card</button>
+
+  <div id="card-form" class="collapse out well">
+    <%= form_tag cards_path(@card), :class => '', :id => 'card-form' do %>
+
+      <div class="row">
+        <label class="control-label" for="number">Card Number</label>
+        <input type="text" size="20" data-stripe="number" id="number" placeholder="1234 5678 9012 3456" pattern="[\d ]*" class="payment-input"/>
+      </div>
+      <div class="row">
+        <div style="float: left">
+          <label class="control-label" for="cvc">CVC</label>
+          <input type="text" style="width: 3em" size="3" data-stripe="cvc" id="cvc" placeholder="123" pattern="\d*"/>
+          <img id="card-image" src="<%= asset_path('credit.png') %>" style="height: 30px; padding-left: 10px; margin-top: -10px">
+        </div>
+        <div style="float: right; margin-right: 8px">
+          <label class="control-label">Exp (MM/YYYY)</label>
+          <input style="width: 2em" type="text" size="2" id="exp-month" data-stripe="exp-month" placeholder="MM" pattern="\d*"/>
+          <span> / </span>
+          <input style="width: 3em" type="text" size="4" id="exp-year" data-stripe="exp-year" placeholder="YYYY" pattern="\d*"/>
+        </div>
+      </div>
+    <% end %>
+    <div class="row" style="margin-top: 20px">
+      <div style="float: right; margin-right: 8px">
+        <div class="btn btn-success btn-large" disabled="disabled" style="display: none; width: 143px; height: 41px;" id="card-spinner-button"><img src="<%= asset_path('green_spinner_2.gif') %>"></div>
+        <button type="submit" class="btn btn-success btn-large" id="card-button">Add Card</button>
       </div>
     </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-          Collapsible Group Item #3
-        </a>
-      </h4>
-    </div>
-    <div id="collapseThree" class="panel-collapse collapse">
-      <div class="panel-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+    <div class="row">
+      <div id="card-errors" class="alert" style="<%= @card.errors.any? ? '' : 'display: none;' %>">
+        <% @card.errors.full_messages.each do |msg| %>
+          <span><%= msg %></span>
+        <% end %>
       </div>
     </div>
   </div>
 </div>
+
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript">
+  $(function(){
+
+    var zoop = $(':submit')
+
+    console.log(zoop)
+  
+    Stripe.setPublishableKey('<%= Rails.configuration.stripe[:publishable_key] %>');
+
+    $('#number').payment('formatCardNumber');
+    $('#cvc').payment('formatCardCVC');
+    $('#exp-month').payment('restrictNumeric');
+    $('#exp-year').payment('restrictNumeric');
+    $('#number').keyup(function(event) {
+      var number = $('#number').val();
+      var cardType = $.payment.cardType(number);
+      var img = $('#card-image')[0];
+      if (cardType === 'visa') {
+        $('#cvc').attr("placeholder", "123");
+        img.src = "<%= asset_path('visa.png') %>";
+      } else if (cardType === 'mastercard') {
+        $('#cvc').attr("placeholder", "123");
+        img.src = "<%= asset_path('mastercard.png') %>";
+      } else if (cardType === 'discover') {
+        $('#cvc').attr("placeholder", "123");
+        img.src = "<%= asset_path('discover.png') %>";
+      } else if (cardType === 'amex') {
+        $('#cvc').attr("placeholder", "1234");
+        img.src = "<%= asset_path('amex.png') %>";
+      } else if (cardType === 'dinersclub') {
+        $('#cvc').attr("placeholder", "123");
+        img.src = "<%= asset_path('diners.png') %>";
+      } else if (cardType === 'maestro') {
+        $('#cvc').attr("placeholder", "123");
+        img.src = "<%= asset_path('maestro.png') %>";
+      } else if (cardType === 'laser') {
+        $('#cvc').attr("placeholder", "123");
+        img.src = "<%= asset_path('laser.png') %>";
+      } else {
+        $('#cvc').attr("placeholder", "123");
+        img.src = "<%= asset_path('credit.png')%>";
+      }
+    });
+
+    $('#card-button').click(function(event) {
+      var form = $('#card-form');
+      form.find('card-button').prop('disabled', true);
+      Stripe.createToken(form, stripeCardResponseHandler);
+      $('#card-button').hide();
+      $('#card-spinner-button').show();
+      $('#card-button').prop('disabled', false);
+      return false;
+    });
+
+    function stripeCardResponseHandler(status, response) {
+      var form = $('#card-form');
+      if (response.error) {
+        showCardError(response.error.message);
+      } else {
+        var token = response.id;
+        form.append($('<input type="hidden" name="stripeToken">').val(token));
+        $.ajax({
+          type: "POST",
+          url: "<%= cards_path(@card) %>",
+          data: $('#card-form').serialize(),
+          success: function(data) { cardPoll(data.guid, 60) },
+          error: function(data) { showCardError(data.responseJSON.error) }
+        });
+      }
+    }
+
+    function showCardError(error) {
+      var form = $('#card-form');
+      $('#card-errors').html(error);
+      $('#card-errors').show();
+      $('#card-button').show();
+      $('#card-spinner-button').hide();
+    }
+
+    function cardPoll(guid, num_retries_left) {
+      console.log("Polling card...")
+      if (num_retries_left == 0) {
+        showCardError("This seems to be taking too long. Email <a href=\"contact@showboarder.com\">contact@showboarder.com</a> and reference that it was a card for sale <strong>" + guid );
+        return;
+      }
+      $.get("/card_status/" + guid, function(data) {
+        if (data.status === "confirmed") {
+          var cardsList = $('#cards-list')
+          cardsList.html() = "ITWERKED" + cardsList.html()
+        } else if (data.status === "errored") {
+          showCardError(data.error)
+        } else {
+          setTimeout(function() { cardPoll(guid, num_retries_left - 1) }, 500);
+        }
+      });
+    }
+  });
+</script>

@@ -10,6 +10,7 @@ class ShowsController < ApplicationController
   def checkout
     @show = Show.find_by(params[:id])
     @show.tickets_clear_expired_reservations
+    @card = Card.new
     if user_signed_in?
       @tickets = Ticket.where(ticket_owner_id:current_user.id, ticket_owner_type:current_user.class.to_s, state:"reserved")
       @cards = current_user.cards_sorted
