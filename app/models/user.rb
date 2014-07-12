@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :tickets, as: :ticket_owner
   has_many :sales, as: :actioner
   has_many :cards, dependent: :destroy
+  has many :charges, as: :actioner
 
   attr_accessor :login
 

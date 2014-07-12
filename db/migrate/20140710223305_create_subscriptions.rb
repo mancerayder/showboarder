@@ -1,7 +1,7 @@
 class CreateSubscriptions < ActiveRecord::Migration
   def change
     create_table :subscriptions do |t|
-      t.belongs_to :sale, index: true
+      t.belongs_to :sale
       t.string :stripe_id
       t.belongs_to :board
       t.integer :amount

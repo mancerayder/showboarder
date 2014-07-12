@@ -1,5 +1,6 @@
 class Charge < ActiveRecord::Base
   belongs_to :sale
+  belongs_to :actioner, polymorphic: true
   belongs_to :actionee, polymorphic: true
   has_paper_trail
 

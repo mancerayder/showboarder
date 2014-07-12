@@ -1,16 +1,4 @@
 class SalesController < ApplicationController
-  # def reserve
-  #   @show = Show.find_by(params[:show_id])
-  # end
-  # def checkout
-  #   reserve_code = params[:reserve_code]
-  #   @show = find_by(params[:show_id])
-  #   @tickets = []
-  #   reserve_code.split("-").each do |c|
-  #     @tickets << Ticket.where(show_id:@show.id, reserve_code:c).first
-  #   end
-  # end
-
   def show
     @sale = Sale.find_by!(guid: params[:guid])
     # @product = @sale.product
@@ -28,6 +16,7 @@ class SalesController < ApplicationController
     @board = Board.find_by_vanity_url(params[:board_id])
     @buyer = nil
     @tickets = []
+    remember = false
 
     @amount = 0
 
@@ -45,6 +34,9 @@ class SalesController < ApplicationController
         end
       end
       @cart = Cart.create(tickets:@tickets)
+
+      remember = params[:stripe_remember_card]
+
 
     else #find the cart, clear the expired ones, re-save the cart
 
@@ -81,6 +73,7 @@ class SalesController < ApplicationController
       actioner: @buyer,
       actionee: @cart,
       stripe_token: token,
+      stripe_remember_card: remember
       )
 
     if @sale.save
@@ -94,12 +87,14 @@ class SalesController < ApplicationController
   def board_ticketed #new version for sales
     @board = Board.find_by_vanity_url(params[:board_id])
     token = params[:stripeToken]
+    remember = params[:stripe_remember_card]
 
     @sale = Sale.create_for_board(
       actioner: current_user,
       actionee: @board,
       plan: "sb1",
-      stripe_token: token
+      stripe_token: token,
+      stripe_remember_card: remember
       )
 
     if @sale.save
@@ -109,39 +104,6 @@ class SalesController < ApplicationController
       render json: { error: @sale.errors.full_messages.join(". ") }, status: 400
     end
   end
-
-  # def board_ticketed #old version
-  #   begin
-  #   token = params[:stripeToken]
-
-  #   @amount = "2500"
-
-  #   @board = Board.find_by_vanity_url(params[:board_id])
-
-  #   if current_user.stripe_id
-  #     customer = Stripe::Customer.retrieve(current_user.stripe_id)
-  #     subscription = customer.subscriptions.create(
-  #       :plan => "sb1"
-  #       )
-  #   else
-  #     customer = Stripe::Customer.create(
-  #       :card => token,
-  #       :plan => "sb1",
-  #       :email => current_user.email
-  #     )
-
-  #     current_user.update_attributes(stripe_id:customer.id)
-  #   end
-
-  #   @board.user_boards.find_by(boarder_id:current_user.id).update_attributes(role:"owner")
-  #   @board.update_attributes(paid_at:Time.now)
-
-  #   redirect_to @board, :notice => "You have successfully enabled ticketing for this board!"
-  #   rescue Stripe::CardError => e
-  #     flash[:error] = e.message
-  #     redirect_to board_charges_path(@board)
-  #   end
-  # end
 
   def show_ticketed
     begin

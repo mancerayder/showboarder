@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140710223305) do
+ActiveRecord::Schema.define(version: 20140711221142) do
 
   create_table "boards", force: true do |t|
     t.string   "name"
@@ -28,13 +28,12 @@ ActiveRecord::Schema.define(version: 20140710223305) do
 
   create_table "cards", force: true do |t|
     t.date     "expiration"
-    t.string   "type"
+    t.string   "brand"
     t.string   "last4"
     t.string   "stripe_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "brand"
     t.string   "state"
     t.string   "error"
     t.string   "stripe_token"
@@ -114,9 +113,9 @@ ActiveRecord::Schema.define(version: 20140710223305) do
     t.string   "guid"
     t.string   "state"
     t.string   "plan"
-    t.string   "stripe_subscription_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "stripe_remember_card"
   end
 
   create_table "shows", force: true do |t|
@@ -159,7 +158,7 @@ ActiveRecord::Schema.define(version: 20140710223305) do
   create_table "subscriptions", force: true do |t|
     t.integer  "sale_id"
     t.string   "stripe_id"
-    t.integer  "actionee_id"
+    t.integer  "board_id"
     t.integer  "amount"
     t.string   "plan"
     t.string   "state"
@@ -170,7 +169,6 @@ ActiveRecord::Schema.define(version: 20140710223305) do
     t.datetime "updated_at"
   end
 
-  add_index "subscriptions", ["actionee_id"], name: "index_subscriptions_on_actionee_id"
   add_index "subscriptions", ["sale_id"], name: "index_subscriptions_on_sale_id"
 
   create_table "tickets", force: true do |t|

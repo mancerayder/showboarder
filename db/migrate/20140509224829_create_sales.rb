@@ -6,7 +6,6 @@ class CreateSales < ActiveRecord::Migration
       # t.string :state_before
       # t.string :state_after      
       t.string :error
-      t.string :stripe_id
       t.string :stripe_token
       t.string :stripe_token_type
       t.text :error
