@@ -9,9 +9,9 @@
   </div>
   
   <% if @cards.count == 0 || current_user.stripe_id == nil %>
-  <%= render 'shared/no_cards_form' %>
+  <%= render 'sales/no_cards_form' %>
   <% else %>
-  <%= render 'shared/card_chooser_adder' %>
+  <%= render 'sales/card_chooser_adder' %>
   <% end %>
 
   <div class="row" style="margin-top: 20px">

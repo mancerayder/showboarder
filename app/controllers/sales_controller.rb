@@ -37,7 +37,6 @@ class SalesController < ApplicationController
 
       remember = params[:stripe_remember_card]
 
-
     else #find the cart, clear the expired ones, re-save the cart
 
       @email = params[:email].downcase

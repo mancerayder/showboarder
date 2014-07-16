@@ -67,12 +67,18 @@ class Sale < ActiveRecord::Base
         if stripe_remember_card
           actioner.update(stripe_default_card: card.id)
 
+          if actionee_type == "Board" || token_type == "card"
+            customer.default_card = card.id
+            customer.save
+          end
+
           if token_type == "token"
             Card.create(user_id: actioner.id,
               stripe_id: card.id,
               last4: card.last4,
               expiration: Date.new(card.exp_year, card.exp_month, 1),
-              brand: card.type
+              brand: card.type,
+              state: "confirmed"
               )
           end
         end
@@ -86,7 +92,7 @@ class Sale < ActiveRecord::Base
         card = Customer::Cards.create(card: stripe_token)
       end
 
-      ################## THE PART THAT SETS THE CHARGE OR SUBSCRIPTION ###################
+      ################## THE PART THAT CREATES THE TOKEN/S AND CHARGE OR SUBSCRIPTION ###################
       if actionee_type == "Cart" #Creates charges for tickets
         owners = Hash.new { |hash, key| hash[key] =  []} # hash so tickets in cart can be grouped by board owner for efficient stripe charge creation
 
@@ -97,9 +103,10 @@ class Sale < ActiveRecord::Base
         owners.each do |o| # go through owners and make a charge for each one
           tickets_by_owner = Cart.create #array to temporarily store tickets for each owner to avoid having to look them up in the database by GUID again
           amount = 0
-          desc_b = "" #these build pieces of the description string with each ticket.  _b board _s show _t ticket
-          desc_s = ""
-          desc_t = ""
+          #these build pieces of the description string with each ticket
+          desc_b = "" #board string
+          desc_s = "" #show string
+          desc_t = "" #ticket string
 
           owners[o[0]].each do |t| #go through the tickets for the owner to make the charge
             ticket = Ticket.find_by(guid:t)
@@ -135,15 +142,15 @@ class Sale < ActiveRecord::Base
 
       else #Creates subscription for boards
         if sub = customer.subscriptions.create(
-            plan: plan,
-            card: card.id
+            plan: plan
             )
 
           actioner.board_role_assign(actionee, "owner")
           actionee.update(paid_tier:1, paid_at:Time.now)
           Subscription.create(user_id:actioner.id, board_id:actionee.id, paid_at: DateTime.now, paid_until: DateTime.now + 1.month, plan: plan, stripe_id: sub.id)
         end
-      end
+      end #todo: handle new default cards so they don't destroy the old ones - like for subscriptions
+    self.finish!
 
     rescue Stripe::StripeError => e
       self.update_attributes(error: e.message)

@@ -56,6 +56,8 @@ ActiveRecord::Schema.define(version: 20140711221142) do
     t.string   "stripe_id"
     t.integer  "actionee_id"
     t.string   "actionee_type"
+    t.integer  "actioner_id"
+    t.string   "actioner_type"
     t.integer  "amount",        default: 0
     t.string   "state",         default: "charged"
     t.datetime "created_at"
@@ -103,7 +105,6 @@ ActiveRecord::Schema.define(version: 20140711221142) do
     t.integer  "actionee_id"
     t.string   "actionee_type"
     t.text     "error"
-    t.string   "stripe_id"
     t.string   "stripe_token"
     t.string   "stripe_token_type"
     t.integer  "fee_amount"
@@ -168,8 +169,6 @@ ActiveRecord::Schema.define(version: 20140711221142) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "subscriptions", ["sale_id"], name: "index_subscriptions_on_sale_id"
 
   create_table "tickets", force: true do |t|
     t.string   "token"

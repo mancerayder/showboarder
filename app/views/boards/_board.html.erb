@@ -5,7 +5,7 @@
                                      data: { confirm: "You sure?" },
                                      title: board.name %>
     <% if board.paid_tier == 0 %>
-      <%= link_to "Enable ticketing", board_subscribe_path(board) %>
+      <%= link_to "Enable ticketing", board_ticketed_path(board) %>
     <% end %>
   <% end %>
   <br>

@@ -504,6 +504,7 @@ label {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
+  background: grey;
   padding-bottom: 0px !important;
 }
 
@@ -515,6 +516,24 @@ label {
 
 .payment-well .payment-input {
   width: 280px;
+}
+
+.payment-cvc {
+  width: 3em;
+}
+
+.default-text {
+  color: #474747;
+}
+
+.spinner-button {
+  display: none;
+  width: 143px;
+  height: 41px;
+}
+
+.payment-submit {
+
 }
 
 .payment-quote {

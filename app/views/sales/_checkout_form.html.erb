@@ -1,26 +1,29 @@
 <div class="well payment-well">
-  <%= form_tag board_ticketed_path(@board),  :id => 'payment-form' do %>
+  <%= form_tag object_path, :id => 'payment-form' do %>
   <% if coupon %>
     <input type="hidden" name="coupon_code" value="<%= coupon.code %>" />
   <% end %>
-  <input type="hidden" name="stripe_remember_card" value=true />
+
+  
+  
   <div class="row">
     <label class="control-label" for="email">Email </label>
-    <input autofocus="true" type="email" class="payment-email payment-email-logged-in payment-input" name="email" id="email" value="<%= current_user.email %>" disabled="disabled"/>
-  </div>
-  <div class="row">
-    <label class="control-label" for="number">Card Number</label>
-    <input type="text" size="20" data-stripe="number" id="number" placeholder="1234 5678 9012 3456" pattern="[\d ]*" class="payment-input" maxlength="20"/>
-  </div>
-  <div class="row">
-    <label class="control-label" for="cvc">CVC</label>
-    <input type="text" class="payment-cvc" size="3" data-stripe="cvc" id="cvc" placeholder="123" pattern="\d*"/>
-    <%= image_tag(asset_path('credit.png'), height: '30', id:"card-image") %>
-    <label class="control-label">Exp (MM/YYYY)</label>
-    <input class="payment-exp-month"type="text" size="2" id="exp-month" data-stripe="exp-month" placeholder="MM" pattern="\d*" maxlength=2 />
-    <span> / </span>
-    <input class="payment-exp-year" type="text" size="4" id="exp-year" data-stripe="exp-year" placeholder="YYYY" pattern="\d*" maxlength=4/>
-  </div>
+    <% if user_signed_in? %>
+      <input type="email" class="payment-email payment-input default-text" name="email" id="email" value="<%= current_user.email %>" disabled="disabled"/>
+    <% else %>
+      <input autofocus="true" type="email" class="payment-email payment-input default-text" name="email" id="email" placeholder="you@example.com"/>
+    <% end %>
+
+    <% if user_signed_in? %>
+      <% if @cards.count == 0 || current_user.stripe_id == nil %>
+      <%= render 'sales/no_cards_form' %>
+      <% else %>
+      <%= render 'sales/card_chooser_adder' %>
+      <% end %>
+    <% else %>
+      <%= render 'sales/no_cards_form' %>
+    <% end %>
+
   <div class="row">
     <div class="price">
       <%= amount %>
@@ -28,6 +31,7 @@
     <div class="btn btn-success btn-large spinner-button" disabled="disabled" id="spinner-button"><img src="<%= asset_path('green_spinner_2.gif') %>"></div>
     <button type="submit" class="btn btn-success btn-large payment-submit" id="pay-button">Enable Ticketing</button>
   </div>
+
   <% end %>
 </div>
 <div class="row">
@@ -98,7 +102,7 @@
         form.append($('<input type="hidden" name="stripeToken">').val(token));
         $.ajax({
           type: "POST",
-          url: "<%= board_ticketed_path(@board) %>",
+          url: "<%= object_path %>",
           data: $('#payment-form').serialize(),
           success: function(data) { poll(data.guid, 60) },
           error: function(data) { showError(data.responseJSON.error) }
