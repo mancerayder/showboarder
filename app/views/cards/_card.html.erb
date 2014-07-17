@@ -1,9 +1,14 @@
-<div class="row">
-<% if card.default? %>
-<label class="btn btn-primary active">
-<% else %>
-<label class="btn btn-primary">
+<% if card.user %>
+  <div class="row">
+    <% if card.default? %>
+      <label class="btn btn-primary btn-card">
+    <% else %>
+      <label class="btn btn-primary btn-card">
+    <% end %>
+    <input type="radio" id="<%= card.last4 %>" value="<%= card.stripe_id %>" name="stripeToken" <% if card.default? %> checked <%end%>> <%= image_tag(asset_path(card.image), height: '32') %> <%=  card.brand %> ending in <%= card.last4 %>  Expires <%= just_month_year(card.expiration) %>
+    </label>
+    <% if card.default? %>
+    Default
+    <% end %>
+  </div>
 <% end %>
-  <input type="radio" name="options" id="<%= card.last4 %>" checked> <%= card.last4 %>
-</label>
-</div>

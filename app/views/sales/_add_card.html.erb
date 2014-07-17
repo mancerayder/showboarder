@@ -1,33 +1,31 @@
 <div class="row">
-  <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#card-form">Add Card</button>
+  <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#card-div">Add Card</button>
 
-  <div id="card-form" class="collapse out well">
-    <%= form_tag cards_path(@card), :class => '', :id => 'card-form' do %>
-
+  <div id="card-div" class="collapse out well">
+    <%= form_tag cards_path(@card), :id => 'card-form', :remote => "true" do %>
       <div class="row">
         <label class="control-label" for="number">Card Number</label>
         <input type="text" size="20" data-stripe="number" id="number" placeholder="1234 5678 9012 3456" pattern="[\d ]*" class="payment-input"/>
       </div>
+
       <div class="row">
-        <div style="float: left">
-          <label class="control-label" for="cvc">CVC</label>
-          <input type="text" style="width: 3em" size="3" data-stripe="cvc" id="cvc" placeholder="123" pattern="\d*"/>
-          <img id="card-image" src="<%= asset_path('credit.png') %>" style="height: 30px; padding-left: 10px; margin-top: -10px">
-        </div>
-        <div style="float: right; margin-right: 8px">
-          <label class="control-label">Exp (MM/YYYY)</label>
-          <input style="width: 2em" type="text" size="2" id="exp-month" data-stripe="exp-month" placeholder="MM" pattern="\d*"/>
-          <span> / </span>
-          <input style="width: 3em" type="text" size="4" id="exp-year" data-stripe="exp-year" placeholder="YYYY" pattern="\d*"/>
-        </div>
+        <label class="control-label" for="cvc">CVC</label>
+        <input type="text" size="3" data-stripe="cvc" id="cvc" placeholder="123" pattern="\d*"/>
+        <%= image_tag(asset_path('credit.png'), height: '30', id:"card-image") %>
+      </div>
+
+      <div class="row">
+        <label class="control-label">Exp (MM/YYYY)</label>
+        <input type="text" size="2" id="exp-month" data-stripe="exp-month" placeholder="MM" pattern="\d*"/>
+        <span> / </span>
+        <input type="text" size="4" id="exp-year" data-stripe="exp-year" placeholder="YYYY" pattern="\d*"/>
+      </div>
+
+      <div class="row">
+        <div class="btn btn-success btn-large spinner-button" disabled="disabled" id="card-spinner-button"><img src="<%= asset_path('green_spinner_2.gif') %>"></div>
+        <button type="submit" class="btn btn-success btn-large payment-submit" id="card-button">Add Card</button>
       </div>
     <% end %>
-    <div class="row" style="margin-top: 20px">
-      <div style="float: right; margin-right: 8px">
-        <div class="btn btn-success btn-large" disabled="disabled" style="display: none; width: 143px; height: 41px;" id="card-spinner-button"><img src="<%= asset_path('green_spinner_2.gif') %>"></div>
-        <button type="submit" class="btn btn-success btn-large" id="card-button">Add Card</button>
-      </div>
-    </div>
     <div class="row">
       <div id="card-errors" class="alert" style="<%= @card.errors.any? ? '' : 'display: none;' %>">
         <% @card.errors.full_messages.each do |msg| %>
@@ -40,12 +38,7 @@
 
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
-  $(function(){
-
-    var zoop = $(':submit')
-
-    console.log(zoop)
-  
+  $(function(){  
     Stripe.setPublishableKey('<%= Rails.configuration.stripe[:publishable_key] %>');
 
     $('#number').payment('formatCardNumber');
@@ -83,10 +76,10 @@
       }
     });
 
-    $('#card-button').click(function(event) {
-      var form = $('#card-form');
-      form.find('card-button').prop('disabled', true);
-      Stripe.createToken(form, stripeCardResponseHandler);
+    $('#card-form').submit(function(event) {
+      var cardForm = $('#card-form');
+      cardForm.find('card-button').prop('disabled', true);
+      Stripe.createToken(cardForm, stripeCardResponseHandler);
       $('#card-button').hide();
       $('#card-spinner-button').show();
       $('#card-button').prop('disabled', false);
@@ -94,12 +87,12 @@
     });
 
     function stripeCardResponseHandler(status, response) {
-      var form = $('#card-form');
+      var cardForm = $('#card-form');
       if (response.error) {
         showCardError(response.error.message);
       } else {
         var token = response.id;
-        form.append($('<input type="hidden" name="stripeToken">').val(token));
+        cardForm.append($('<input type="hidden" name="stripeCardToken">').val(token));
         $.ajax({
           type: "POST",
           url: "<%= cards_path(@card) %>",
@@ -111,7 +104,7 @@
     }
 
     function showCardError(error) {
-      var form = $('#card-form');
+      var cardForm = $('#card-form');
       $('#card-errors').html(error);
       $('#card-errors').show();
       $('#card-button').show();
@@ -126,8 +119,14 @@
       }
       $.get("/card_status/" + guid, function(data) {
         if (data.status === "confirmed") {
-          var cardsList = $('#cards-list')
-          cardsList.html() = "ITWERKED" + cardsList.html()
+          var cardList = $('#card-list')
+          var current = cardList.html()
+          var new_card = $("<%= escape_javascript(render @card) %>");
+          cardList.html(new_card + current)
+          $('#card-button').show();
+          $('#card-spinner-button').hide();
+          $('#card-div').collapse('hide')
+          console.log('zoop56');
         } else if (data.status === "errored") {
           showCardError(data.error)
         } else {

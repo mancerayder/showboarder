@@ -10,7 +10,7 @@ class CardsController < ActionController::Base
   end  
 
   def create
-    token = params[:stripeToken]
+    token = params[:stripeCardToken]
 
     @card = Card.new(stripe_token:token, user:current_user)
 

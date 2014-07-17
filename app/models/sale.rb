@@ -62,6 +62,8 @@ class Sale < ActiveRecord::Base
             )
 
           card = customer.cards.create(card: stripe_token)
+
+          actioner.update(stripe_id: customer.id)
         end
 
         if stripe_remember_card

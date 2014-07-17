@@ -21,6 +21,7 @@ class BoardsController < ApplicationController
     @sale = Sale.new
     @amount = 2500
     @board = Board.find_by_vanity_url(params[:board_id])
+    @actionee_type = "board"
     if user_signed_in?
       @cards = current_user.cards_sorted
     end

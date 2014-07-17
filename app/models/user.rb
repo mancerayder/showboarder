@@ -98,6 +98,10 @@ class User < ActiveRecord::Base
     cards_sorted
   end
 
+  def default_card_return
+    self.cards.where(stripe_id:self.stripe_default_card).first
+  end
+
   # def self.find_first_by_auth_conditions(warden_conditions)
   #   conditions = warden_conditions.dup
   #   if login = conditions.delete(:login)

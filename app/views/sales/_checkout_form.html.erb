@@ -1,38 +1,31 @@
 <div class="well payment-well">
   <%= form_tag object_path, :id => 'payment-form' do %>
-  <% if coupon %>
-    <input type="hidden" name="coupon_code" value="<%= coupon.code %>" />
-  <% end %>
-
-  
-  
-  <div class="row">
-    <label class="control-label" for="email">Email </label>
-    <% if user_signed_in? %>
-      <input type="email" class="payment-email payment-input default-text" name="email" id="email" value="<%= current_user.email %>" disabled="disabled"/>
-    <% else %>
-      <input autofocus="true" type="email" class="payment-email payment-input default-text" name="email" id="email" placeholder="you@example.com"/>
+    <% if coupon %>
+      <input type="hidden" name="coupon_code" value="<%= coupon.code %>" />
     <% end %>
-
-    <% if user_signed_in? %>
-      <% if @cards.count == 0 || current_user.stripe_id == nil %>
-      <%= render 'sales/no_cards_form' %>
+    
+    <div class="row">
+      <label class="control-label" for="email">Email </label>
+      <% if user_signed_in? %>
+        <input type="email" class="payment-email payment-input default-text" name="email" id="email" value="<%= current_user.email %>" disabled="disabled"/>
       <% else %>
-      <%= render 'sales/card_chooser_adder' %>
+        <input autofocus="true" type="email" class="payment-email payment-input default-text" name="email" id="email" placeholder="you@example.com"/>
       <% end %>
-    <% else %>
-      <%= render 'sales/no_cards_form' %>
-    <% end %>
-
-  <div class="row">
-    <div class="price">
-      <%= amount %>
     </div>
-    <div class="btn btn-success btn-large spinner-button" disabled="disabled" id="spinner-button"><img src="<%= asset_path('green_spinner_2.gif') %>"></div>
-    <button type="submit" class="btn btn-success btn-large payment-submit" id="pay-button">Enable Ticketing</button>
-  </div>
 
+    <% if !user_signed_in? || @cards.count == 0 || current_user.stripe_id == nil %>
+      <%= render 'sales/no_cards_form' %>
+      <%= render 'sales/payment_form_submit' %>      
+    <% else %>
+      <%= render 'sales/card_chooser_adder' %>
+      <%= render 'sales/payment_form_submit' %>      
+    <% end %>
   <% end %>
+
+  <% if user_signed_in? && @cards.count > 0 %>
+    <%= render 'sales/add_card' %>
+  <% end %>
+  
 </div>
 <div class="row">
   <div id="payment-errors" class="alert" style="<%= sale.errors.any? ? '' : 'display: none;' %>">

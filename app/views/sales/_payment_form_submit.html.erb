@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="price">
+    <%= @amount %>
+  </div>
+  <div class="btn btn-success btn-large spinner-button" disabled="disabled" id="spinner-button"><img src="<%= asset_path('green_spinner_2.gif') %>"></div>
+  <% if @actionee_type == "Cart" %>
+    <button type="submit" class="btn btn-success btn-large payment-submit" id="pay-button">Purchase Tickets</button>
+  <% else %>
+    <button type="submit" class="btn btn-success btn-large payment-submit" id="pay-button">Enable Ticketing</button>
+  <% end %>
+</div>

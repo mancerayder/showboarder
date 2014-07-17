@@ -39,14 +39,15 @@ class Card < ActiveRecord::Base
   end  
 
   def default?
-    if self.stripe_id == self.user.stripe_default_card
+
+    if self.user && self.stripe_id == self.user.stripe_default_card
       return true
     else
       return false
     end
   end
 
-  def add_to_customer
+  def add_to_customer 
     begin
       customer = Stripe::Customer.retrieve(self.user.stripe_id)
 
@@ -101,20 +102,20 @@ class Card < ActiveRecord::Base
 
   def image
     img = ""
-    if brand == "visa"
-      img = asset_path('visa.png')
-    elsif brand == "mastercard"
-      img = asset_path('mastercard.png')
-    elsif brand == "discover"
-      img = asset_path('discover.png')
-    elsif brand == "amex"
-      img = asset_path('amex.png')
-    elsif brand == "dinersclub"
-      img = asset_path('dinersclub.png')
-    elsif brand == "maestro"
-      img = asset_path('maestro.png')
+    if brand == "Visa"
+      img = 'visa.png'
+    elsif brand == "Mastercard"
+      img = 'mastercard.png'
+    elsif brand == "Discover"
+      img = 'discover.png'
+    elsif brand == "Amex"
+      img = 'amex.png'
+    elsif brand == "Dinersclub"
+      img = 'dinersclub.png'
+    elsif brand == "Maestro"
+      img = 'maestro.png'
     else
-      img = asset_path('laser.png')
+      img = 'laser.png'
     end
     return img
   end

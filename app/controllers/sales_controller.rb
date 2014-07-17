@@ -17,6 +17,7 @@ class SalesController < ApplicationController
     @buyer = nil
     @tickets = []
     remember = false
+    @actionee_type = "Cart"
 
     @amount = 0
 
@@ -34,8 +35,14 @@ class SalesController < ApplicationController
         end
       end
       @cart = Cart.create(tickets:@tickets)
-
+      puts "froop54"
       remember = params[:stripe_remember_card]
+      puts remember
+      if remember == "true"
+        remember = true
+      else
+        remember = false
+      end
 
     else #find the cart, clear the expired ones, re-save the cart
 
