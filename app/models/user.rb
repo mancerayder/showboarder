@@ -102,6 +102,34 @@ class User < ActiveRecord::Base
     self.cards.where(stripe_id:self.stripe_default_card).first
   end
 
+  def stripe_delete_all_cards_but_default
+    cus = self.stripe_customer_object
+    cus.cards.each do |c|
+      if c.id != self.stripe_default_card
+        begin
+          cus.cards.retrieve(c.id).delete()
+        rescue => e
+          puts e.to_s
+        end
+      end
+    end
+    cus.save
+    self.cards.each do |c|
+      if c.stripe_id != self.stripe_default_card
+        c.destroy
+      end
+    end
+  end
+
+  def stripe_customer_object
+    begin
+      cus = Stripe::Customer.retrieve(self.stripe_id)
+      return cus
+    rescue => e
+      puts e.to_s
+    end
+  end
+
   # def self.find_first_by_auth_conditions(warden_conditions)
   #   conditions = warden_conditions.dup
   #   if login = conditions.delete(:login)

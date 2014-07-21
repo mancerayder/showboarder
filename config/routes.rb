@@ -7,6 +7,7 @@ Showboarder::Application.routes.draw do
   match '/status/:guid'      => 'sales#status',   via: :get,  as: :status
   match '/card_status/:guid' => 'cards#status',   via: :get,  as: :card_status
   match '/confirm/:guid'     => 'sales#show',     via: :get,  as: :confirm
+  match '/card/:guid' => 'cards#show', via: :get, as: :card
 
   resources :users do
     match '/boards' => 'users#boards', via: :get
