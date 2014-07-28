@@ -12,4 +12,9 @@
 <%= render 'reserve_tickets_button' %>
 
 <p>Find me in app/views/show/show.html.erb</p>
-$<%= @show.price_adv.to_s %>
+<br>
+<%= @show.acts.each do |b| %>
+  <%= b.attributes%>
+<% end %>
+<br>
+<%= number_to_currency(@show.price_adv, unit:"$") %>

@@ -14,8 +14,6 @@
   <% flash.each do |key, value| %>
     <div id="flash" class="alert alert-<%= key %>"><%= value %></div>
   <% end %>
-
-  <%= render 'layouts/footer' %>
   
 <%= yield %>
 

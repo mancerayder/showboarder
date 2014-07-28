@@ -4,6 +4,8 @@ class Show < ActiveRecord::Base
   has_many :tickets
   has_many :sales, as: :actionee
   validates :ticketing_type, presence: true
+  has_and_belongs_to_many :acts
+  accepts_nested_attributes_for :acts, :reject_if => :all_blank, :allow_destroy => true
 
   def transact(actioner, state_before, state_after)
     Sale.create(actioner_id:actioner.id, actioner_type:actioner.class.to_s, actionee_id:self.id, actionee_type:"Show", state_before:state_before, state_after:state_after)

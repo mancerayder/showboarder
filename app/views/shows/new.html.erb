@@ -9,6 +9,21 @@
   <%= f.label :price_adv %>
   <%= f.text_field :price_adv, :class => 'cost', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0) %>
 
+  <%= simple_fields_for :acts, @act, remote: true, :html => {id: "acts-form"} do |ff| %>    
+    <%= ff.input :musicbrainz_id, as: :hidden %>
+    <%= ff.input :name %>
+    <%= ff.input :email %>
+    <%= ff.input :link_main %>
+    <%= ff.input :link_youtube %>
+    <%= ff.input :link_twitter %>
+    <%= ff.input :link_facebook %>
+    <%= ff.input :link_soundcloud %>
+    <%= ff.input :link_bandcamp %>
+
+    <%= ff.submit "Add band" %>
+
+  <% end %>
+
   <%= f.submit "Add show", class: "btn btn-large btn-primary" %>
 <% end %>
 <!-- 

@@ -52,16 +52,22 @@ class ShowsController < ApplicationController
   def create
     @board = Board.find_by_vanity_url(params[:board_id])
     @show = @board.shows.new(show_params)
+    @act = @show.acts.build(show_params["acts_attributes"])
     @show.stage = @board.stages.first
-    if @show.save
-      @show.update_attributes(ticketing_type:"paid", state:"public") # this needs to be set on create based on params
-      if @show.ticketing_type == "paid"
-        @show.tickets_make
-      end
-      flash[:success] = "You have added a show!"
-      redirect_to [@board, @show]
-    else
-      render 'new'
+    respond_to do |format|
+      format.html{
+        if @show.save
+          # @show.update_attributes(ticketing_type:"paid", state:"public") # this needs to be set on create based on params
+          if @show.ticketing_type == "paid"
+            @show.tickets_make
+          end
+          flash[:success] = "You have added a show!"
+          redirect_to [@board, @show]
+        else
+          render 'new'
+        end
+      }
+      format.js { }
     end
   end
 
@@ -83,6 +89,6 @@ class ShowsController < ApplicationController
   private
 
     def show_params
-      params.require(:show).permit(:state, :datetime_announce, :datetime_door, :datetime_show, :price_adv, :price_door, :board, :pwyw)
+      params.require(:show).permit(:state, :error, :announce_at, :door_at, :ticketing_type, :show_at, :custom_capacity, :payer_id, :paid_at, :price_adv, :price_door, :board, {acts_attributes: [:id, :name, :musicbrainz_id, :email, :link_main, :link_youtube, :link_twitter, :link_facebook, :link_soundcloud, :link_bandcamp, :_destroy ]})
     end
 end

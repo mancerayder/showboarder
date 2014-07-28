@@ -11,7 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140711221142) do
+ActiveRecord::Schema.define(version: 20140721021659) do
+
+  create_table "acts", force: true do |t|
+    t.string   "musicbrainz_id"
+    t.string   "name"
+    t.string   "email"
+    t.string   "link_main"
+    t.string   "link_youtube"
+    t.string   "link_twitter"
+    t.string   "link_facebook"
+    t.string   "link_soundcloud"
+    t.string   "link_bandcamp"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "acts_shows", id: false, force: true do |t|
+    t.integer "show_id"
+    t.integer "act_id"
+  end
 
   create_table "boards", force: true do |t|
     t.string   "name"
