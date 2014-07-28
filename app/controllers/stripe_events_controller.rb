@@ -39,8 +39,8 @@ class StripeEventsController < ApplicationController
     charge.refund!
   end
 
-  # def stripe_charge_succeeded(charge)
-  #   sale = Sale.find_by!(stripe_id: charge.id)
-  #   AdminMailer.delay.receipt(sale.id)
-  # end  
+  def stripe_charge_succeeded(charge)
+    sale = Sale.find_by!(stripe_id: charge.id)
+    AdminMailer.delay.receipt(sale.id)
+  end  
 end

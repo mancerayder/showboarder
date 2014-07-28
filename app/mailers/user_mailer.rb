@@ -9,4 +9,7 @@ class UserMailer < ActionMailer::Base
   end
 
 
+  def dispute
+  end
+
 end

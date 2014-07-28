@@ -12,4 +12,10 @@ class AdminMailer < ActionMailer::Base
     @sale = charge.sale
     mail(subject: "ALERT: Charge Disputed!")
   end
+
+ 
+  def zoop(user)
+    @user = user
+    mail(subject: "New beta Signup: #{@user.email}")
+  end  
 end

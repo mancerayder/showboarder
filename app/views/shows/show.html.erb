@@ -14,7 +14,7 @@
 <p>Find me in app/views/show/show.html.erb</p>
 <br>
 <%= @show.acts.each do |b| %>
-  <%= b.attributes%>
+  <%= b.attributes %>
 <% end %>
 <br>
 <%= number_to_currency(@show.price_adv, unit:"$") %>
