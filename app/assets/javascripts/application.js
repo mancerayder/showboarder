@@ -18,9 +18,9 @@
 //= require analytics
 //= require grayscale
 //= require flash
-//= require_tree .
 //= require gmaps
 //= require retina_tag
 //= require jquery.countdown
 //= require jquery.payment
-//= require cocoon
+//= require jquery_nested_form
+// require_tree .

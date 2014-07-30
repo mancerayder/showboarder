@@ -3,7 +3,7 @@ class BoardsController < ApplicationController
 
   def new
     @board = Board.new
-    @board.stages.build
+    @stage = @board.stages.build
   end
 
   def payout
@@ -32,8 +32,10 @@ class BoardsController < ApplicationController
     # current_user.user_boards.create(:board_id => @board.id)
     if @board.save
       # @stage1.first.name = @board.name
-      @board.stages.first.places_gather
-      @board.update_attributes(state:"public")
+      @board.stages.each do |s|
+        s.places_gather
+      end
+      # @board.update_attributes(state:"public")
       current_user.boarder!(@board, "manager")
       flash[:success] = "You have created a new Showboard!"
       redirect_to @board

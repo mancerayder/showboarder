@@ -1,13 +1,13 @@
-function initialize(lat, lng, zoom, field) {
+function map_init(lat, lng, zoom, input, field) {
   var mapOptions = {
-    center: new google.maps.LatLng(39.850033, -95.6500523),
-    zoom: 4
+    center: new google.maps.LatLng(lat, lng),
+    zoom: zoom
   };
-  var map = new google.maps.Map(document.getElementById('map-canvas'),
+  var map = new google.maps.Map(document.getElementById(field),
     mapOptions);
 
   var input = /** @type {HTMLInputElement} */(
-      document.getElementById('pac-input'));
+      document.getElementById(input));
 
   // var types = document.getElementById('type-selector');
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);

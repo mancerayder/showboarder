@@ -13,9 +13,14 @@ class AdminMailer < ActionMailer::Base
     mail(subject: "ALERT: Charge Disputed!")
   end
 
+  def cancellation(subscription_id)
+  end
+
+  def past_due(charge_id)
+  end
  
-  def zoop(user)
-    @user = user
-    mail(subject: "New beta Signup: #{@user.email}")
-  end  
+  # def zoop(user)
+  #   @user = user
+  #   mail(subject: "New beta Signup: #{@user.email}")
+  # end  
 end

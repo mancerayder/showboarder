@@ -35,7 +35,7 @@ class Subscription < ActiveRecord::Base
   end
 
   def send_past_due_email #todo
-    ReceiptMailer.delay.cancellation(self.id)
-    AdminMailer.delay.cancellation(self.id)
+    ReceiptMailer.delay.past_due(self.id)
+    AdminMailer.delay.past_due(self.id)
   end
 end

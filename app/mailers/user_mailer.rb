@@ -9,7 +9,17 @@ class UserMailer < ActionMailer::Base
   end
 
 
-  def dispute
+  def dispute(charge_id)
+    @charge = Charge.find_by_id(charge_id)
   end
 
+  def receipt(guid)
+    @sale = Sale.find_by(guid: guid)
+  end
+
+  def cancellation(subscription_id) 
+  end
+
+  def past_due(subscription_id)
+  end  
 end

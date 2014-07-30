@@ -1,32 +1,28 @@
+<%= javascript_include_tag "form_board" %>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
       <h2>Create a new Showboard</h2>
-
+      <br>
       <%= simple_form_for @board do |f| %>
-      <%= f.input :name, label: 'Board Name' %>
-      <%= f.input :vanity_url, label: 'Vanity Url' %>
-      <%= f.simple_fields_for :stages do |ff| %>
+        <%= f.input :name, label: 'Board Name' %>
+        <%= f.input :vanity_url, label: 'Vanity Url' %>
+        <%= f.simple_fields_for :stages do |ff| %>
 
-        <%= ff.input :capacity, label:'Capacity' %>
-        <%= ff.input :places_formatted_address_short, label:'Location', :placeholder => "Enter a location", input_html: { :id => "pac-input", :class=>"controls"} %>
-        <div id="map-canvas"></div>
-        <div id="map-plz">
-          Please make sure the appropriate location is pinned on the map above before continuing.
-        </div>
-        <%= ff.input :places_reference, as:"hidden" %>
-        <% end %>
+          <%= ff.input :capacity, label:'Capacity' %>
+          <%= ff.input :places_formatted_address_short, label:'Location', :placeholder => "Enter a location", input_html: { :id => "pac-input", :class=>"controls"} %>
+          <div id="map-canvas"></div>
+          <div id="map-plz">
+            Please make sure the appropriate location is pinned on the map above before continuing.
+          </div>
+          <%= ff.input :places_reference, as:"hidden" %>
+          <% end %>
 
-      <%= f.button :submit %>
+        <%= f.button :submit %>
       <% end %>
 
     </div>
   </div>
-<!--   <div class="row">
-    <div class="col-sm-12">
-      <input id="pac-input" class="controls" type="text" placeholder="Enter a location">
-      <div id="map-canvas"></div>
-    </div>
-  </div> -->
+
 </div>
