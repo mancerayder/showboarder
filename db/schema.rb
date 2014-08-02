@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140721021659) do
+ActiveRecord::Schema.define(version: 20140802160003) do
 
   create_table "acts", force: true do |t|
     t.string   "musicbrainz_id"
@@ -82,6 +82,15 @@ ActiveRecord::Schema.define(version: 20140721021659) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "ext_links", force: true do |t|
+    t.string   "url"
+    t.integer  "linkable_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ext_links", ["linkable_id"], name: "index_ext_links_on_linkable_id"
 
   create_table "guests", force: true do |t|
     t.string   "email"
