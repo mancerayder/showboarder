@@ -1,6 +1,6 @@
 <h1>Add a show</h1>
 <br>
-<%= form_for [@board, @show] do |f| %>
+<%= simple_nested_form_for [@board, @show] do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   
   <%= f.label :ticketing_type %>
@@ -9,7 +9,7 @@
   <%= f.label :price_adv %>
   <%= f.text_field :price_adv, :class => 'cost', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0) %>
 
-  <%= simple_fields_for :acts, @act, remote: true, :html => {id: "acts-form"} do |ff| %>    
+  <%= f.fields_for :acts do |ff| %>    
     <%= ff.input :musicbrainz_id, as: :hidden %>
     <%= ff.input :name %>
     <%= ff.input :email %>
@@ -21,19 +21,11 @@
     <%= ff.input :link_bandcamp %>
 
     <%= ff.submit "Add band" %>
+  <%= ff.link_to_remove "Remove this stage" %>
 
   <% end %>
+  <p><%= f.link_to_add "Add an act", :acts %></p>
+
 
   <%= f.submit "Add show", class: "btn btn-large btn-primary" %>
 <% end %>
-<!-- 
-      t.integer :board_id
-      t.integer :stage_id
-      t.string :state
-      t.datetime :datetime_announce
-      t.datetime :datetime_door
-      t.datetime :datetime_show
-      t.float :price_adv
-      t.float :price_door
-      t.boolean :pwyw, :null => false, :default => false
-      t.boolean :for_sale -->

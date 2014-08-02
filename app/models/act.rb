@@ -1,5 +1,6 @@
 class Act < ActiveRecord::Base
   has_and_belongs_to_many :shows
+  has_many :ext_links
   before_save { if email != nil && email != "" 
                   email.downcase!
                 end }
