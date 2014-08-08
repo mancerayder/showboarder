@@ -8,4 +8,5 @@ class Act < ActiveRecord::Base
   validates :email, format:     { with: VALID_EMAIL_REGEX },
                     allow_blank: true,
                     uniqueness: { case_sensitive: false }
+  accepts_nested_attributes_for :ext_links, :reject_if => :all_blank, :allow_destroy => true
 end

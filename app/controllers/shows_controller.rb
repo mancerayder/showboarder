@@ -52,7 +52,7 @@ class ShowsController < ApplicationController
   def create
     @board = Board.find_by_vanity_url(params[:board_id])
     @show = @board.shows.new(show_params)
-    @act = @show.acts.build(show_params["acts_attributes"])
+    # @act = @show.acts.build(show_params["acts_attributes"])
     @show.stage = @board.stages.first
     respond_to do |format|
       format.html{
@@ -89,6 +89,6 @@ class ShowsController < ApplicationController
   private
 
     def show_params
-      params.require(:show).permit(:state, :error, :announce_at, :door_at, :ticketing_type, :show_at, :custom_capacity, :payer_id, :paid_at, :price_adv, :price_door, :board, {acts_attributes: [:id, :name, :musicbrainz_id, :email, :link_main, :link_youtube, :link_twitter, :link_facebook, :link_soundcloud, :link_bandcamp, :_destroy ]})
+      params.require(:show).permit(:state, :error, :announce_at, :door_at, :ticketing_type, :show_at, :custom_capacity, :payer_id, :paid_at, :price_adv, :price_door, :board, {acts_attributes: [{ext_links_attributes: [:id, :ext_site, :url, :type]},:id, :name, :musicbrainz_id, :email, :_destroy ]})
     end
 end
