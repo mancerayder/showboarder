@@ -11,6 +11,7 @@ class ShowsController < ApplicationController
     @show = Show.find_by(params[:id])
     @show.tickets_clear_expired_reservations
     @card = Card.new
+    @checkout_type = "Cart"
     if user_signed_in?
       @tickets = Ticket.where(ticket_owner_id:current_user.id, ticket_owner_type:current_user.class.to_s, state:"reserved")
       @cards = current_user.cards_sorted
@@ -57,7 +58,7 @@ class ShowsController < ApplicationController
     respond_to do |format|
       format.html{
         if @show.save
-          # @show.update_attributes(ticketing_type:"paid", state:"public") # this needs to be set on create based on params
+          @show.update_attributes(state:"public") # change this later to allow for the creation of pending shows
           if @show.ticketing_type == "paid"
             @show.tickets_make
           end

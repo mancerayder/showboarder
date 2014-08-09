@@ -4,6 +4,7 @@
   <%= render 'shared/error_messages', object: f.object %>
   
   <%= f.label :ticketing_type %>
+  
   <%= f.select :ticketing_type, options_for_select(%w[Free RSVP paid pwyw]) %>
 
   <%= f.label :price_adv %>
@@ -17,7 +18,7 @@
     <%= ff.fields_for :ext_links do |fff| %>
       <%= fff.select :ext_site, options_for_select(%w[Twitter Facebook Youtube Homepage Soundcloud Bandcamp]) %>
       <%= fff.input :url %>
-      
+
       <%= fff.link_to_remove "Remove this link" %>
     <% end %>
     <p><%= ff.link_to_add "Add a link", :ext_links %></p>

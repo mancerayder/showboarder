@@ -51,24 +51,22 @@ class Show < ActiveRecord::Base
 
   def tickets_reserve(quantity, reserver_id = nil, reserver_type = nil)
     if self.unsold_count >= quantity
-
-      reserve_code = ""
+      # reserve_code = ""
       #go through tickets of state that should be changed by state and change state buyer_id and buyer_type as appropriate via ticket state method 
       open = Ticket.where(show_id:self.id, state:"open")
 
       cart = Cart.create(tickets:open[0..(quantity-1)])
 
       cart.tickets.each do |t|
-        
         t.update_attributes(state:"reserved", ticket_owner_id:reserver_id, ticket_owner_type:reserver_type, reserved_at:DateTime.now)
         t.buy_or_die
-
       end
+
       if reserver_id == nil
         return cart.reserve_code
       end
     else
-      raise "Sorry, not enough tickets are available at this time."
+      raise "Sorry, not enough tickets are available at this time." # todo - say it's sold out instead of giving error page
     end
   end
 
