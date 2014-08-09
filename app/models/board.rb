@@ -39,4 +39,8 @@ class Board < ActiveRecord::Base
       return false
     end
   end
+
+  def self_zone
+    self.update(timezone: ActiveSupport::TimeZone[self.stages.first.place.utc_offset/60].to_s)
+  end
 end

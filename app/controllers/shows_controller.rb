@@ -55,20 +55,18 @@ class ShowsController < ApplicationController
     @show = @board.shows.new(show_params)
     # @act = @show.acts.build(show_params["acts_attributes"])
     @show.stage = @board.stages.first
-    respond_to do |format|
-      format.html{
-        if @show.save
-          @show.update_attributes(state:"public") # change this later to allow for the creation of pending shows
-          if @show.ticketing_type == "paid"
-            @show.tickets_make
-          end
-          flash[:success] = "You have added a show!"
-          redirect_to [@board, @show]
-        else
-          render 'new'
-        end
-      }
-      format.js { }
+    if @show.ticketing_type == "Ticketed"
+      @show.ticketing_type = "paid"
+    else
+      @show.ticketing_type = "free"
+    end
+    if @show.save
+      @show.update_attributes(state:"public") # change this later to allow for the creation of pending shows
+      @show.tickets_make
+      flash[:success] = "You have added a show!"
+      redirect_to [@board, @show]
+    else
+      render 'new'
     end
   end
 

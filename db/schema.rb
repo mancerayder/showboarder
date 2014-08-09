@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140803232736) do
+ActiveRecord::Schema.define(version: 20140809201945) do
 
   create_table "acts", force: true do |t|
     t.string   "musicbrainz_id"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20140803232736) do
     t.string   "referral_code"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "timezone"
   end
 
   create_table "cards", force: true do |t|

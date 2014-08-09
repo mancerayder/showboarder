@@ -5,7 +5,9 @@
   
   <%= f.label :ticketing_type %>
   
-  <%= f.select :ticketing_type, options_for_select(%w[Free RSVP paid pwyw]) %>
+  <%= f.select :ticketing_type, options_for_select(%w[Ticketed Free]) %>
+
+  <%= f.input :show_at %>
 
   <%= f.label :price_adv %>
   <%= f.text_field :price_adv, :class => 'cost', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0) %>

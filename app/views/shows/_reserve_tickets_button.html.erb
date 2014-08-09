@@ -1,10 +1,11 @@
 <%= form_tag board_show_reserve_path(@board, @show) do %>
   <article>
     <label class="amount">
-      <span>Purchase <%= @quantity %> tickets for <%= @amount %></span>
+      <span>Purchase <%= @quantity %> tickets for <%= number_to_currency(@show.price_adv, unit:"$") %> each</span>
     </label>
   </article>
+
   <%= label(:ticket, :quantity) %>
-  <%= number_field_tag 'quantity', params[:quantity] %>
-  <%= submit_tag(value="Proceed to Checkout") %>
+  <%= number_field_tag 'quantity', params[:quantity], :class => "form-control ticket-reserve", value: 2, :in => 1...8, required: "required", name: "quantity" %>
+  <%= submit_tag "Proceed to Checkout", class: "btn btn-primary" %>
 <% end %>

@@ -14,15 +14,20 @@ class Show < ActiveRecord::Base
   end
 
   def tickets_make  # needs to account for paid, pwyw, rsvp_only
-    if self.custom_capacity?
-      capacity = self.custom_capacity.to_i
-    else
-      capacity = self.board.stages.first.capacity.to_i
-    end
+    if self.ticketing_type == "paid"
+      if self.custom_capacity?
+        capacity = self.custom_capacity.to_i
+      else
+        capacity = self.board.stages.first.capacity.to_i
+      end
 
-    (1..capacity).each do |t|
-      self.tickets.create(price:self.price_adv)
-    end
+      (1..capacity).each do |t|
+        self.tickets.create(price:self.price_adv)
+      end
+    elsif self.ticketing_type == "rsvp"
+
+    elsif self.ticketing_type == "pwyw"
+    end #note that type of free just doesn't do anything
   end
 
   def unsold_count

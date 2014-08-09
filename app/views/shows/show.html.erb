@@ -9,7 +9,13 @@
 <% end %>
 <br>
 
-<%= render 'reserve_tickets_button' %>
+<% if @show.ticketing_type == "paid" %>
+  <%= render 'reserve_tickets_button' %>
+<% elsif @show.ticketing_type == "pwyw" %>
+<% elsif @show.ticketing_type == "rsvp" %>
+<% else %>
+This show is free!
+<% end %>
 
 <p>Find me in app/views/show/show.html.erb</p>
 <br>
