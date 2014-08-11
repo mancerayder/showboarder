@@ -12,14 +12,14 @@
 
   <label for="show-date">Show Date</label>  
   <div class="input-group date">
-    <input type="text" name="show-date" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+    <input type="text" name="show_date" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
   </div>
 
   <label for="door-time">Door time</label>
-  <input type="time" name="door-time" id="inputDoor-Time" class="form-control" value="19:00" required="required" title="">
+  <input type="time" name="door_time" id="inputDoor-Time" class="form-control" value="19:00" required="required" title="">
 
   <label for="show-time">Show Time</label>
-  <input type="time" name="show-time" id="inputShow-Time" class="form-control" value="20:00" required="required" title="">
+  <input type="time" name="show_time" id="inputShow-Time" class="form-control" value="20:00" required="required" title="">
 
   <%= f.label :price_adv %>
   <%= f.text_field :price_adv, :class => 'cost', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0) %>

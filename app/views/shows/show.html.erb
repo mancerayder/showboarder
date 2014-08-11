@@ -25,3 +25,7 @@ This show is free!
 <% end %>
 <br>
 <%= number_to_currency(@show.price_adv, unit:"$") %>
+
+Door time is <%= @show.door_at.in_time_zone(@show.board.timezone).strftime("%B %d, %Y at %l:%M %p") %>
+<br>
+Show time is <%= @show.show_at.in_time_zone(@show.board.timezone).strftime("%B %d, %Y at %l:%M %p") %>
