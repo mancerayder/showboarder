@@ -36,6 +36,8 @@ gem 'jquery-countdown-rails', '2.0.0'
 gem 'devise-async', '0.9.0'
 # gem 'cocoon', '1.2.6'
 gem 'nested_form', '0.3.2'
+gem 'bootstrap-datepicker-rails', '1.3.0.2'
+gem 'google_timezone', '0.0.3'
 
 group :development do
   gem 'sqlite3', '1.3.8'

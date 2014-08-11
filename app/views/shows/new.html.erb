@@ -1,13 +1,25 @@
+<%= javascript_include_tag :show_form %>
+
 <h1>Add a show</h1>
 <br>
-<%= simple_nested_form_for [@board, @show] do |f| %>
+<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+<%= simple_nested_form_for [@board, @show], html:{id:"show-form"} do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   
   <%= f.label :ticketing_type %>
   
   <%= f.select :ticketing_type, options_for_select(%w[Ticketed Free]) %>
 
-  <%= f.input :show_at %>
+  <label for="show-date">Show Date</label>  
+  <div class="input-group date">
+    <input type="text" name="show-date" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+  </div>
+
+  <label for="door-time">Door time</label>
+  <input type="time" name="door-time" id="inputDoor-Time" class="form-control" value="19:00" required="required" title="">
+
+  <label for="show-time">Show Time</label>
+  <input type="time" name="show-time" id="inputShow-Time" class="form-control" value="20:00" required="required" title="">
 
   <%= f.label :price_adv %>
   <%= f.text_field :price_adv, :class => 'cost', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0) %>
@@ -31,4 +43,5 @@
   <p><%= f.link_to_add "Add an act", :acts %></p>
 
   <%= f.submit "Add show", class: "btn btn-large btn-primary" %>
+  </div>
 <% end %>

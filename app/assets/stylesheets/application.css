@@ -11,5 +11,6 @@
  *= require jquery.countdown
  *= require_self
  *= require_tree .
+ *= require bootstrap-datepicker3
 
  */

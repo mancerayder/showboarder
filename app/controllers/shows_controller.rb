@@ -54,12 +54,15 @@ class ShowsController < ApplicationController
     @board = Board.find_by_vanity_url(params[:board_id])
     @show = @board.shows.new(show_params)
     # @act = @show.acts.build(show_params["acts_attributes"])
+    puts "froop62"
+    puts params.inspect    
     @show.stage = @board.stages.first
     if @show.ticketing_type == "Ticketed"
       @show.ticketing_type = "paid"
     else
       @show.ticketing_type = "free"
     end
+
     if @show.save
       @show.update_attributes(state:"public") # change this later to allow for the creation of pending shows
       @show.tickets_make

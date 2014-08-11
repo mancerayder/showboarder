@@ -23,4 +23,5 @@
 //= require jquery.countdown
 //= require jquery.payment
 //= require jquery_nested_form
+//= require bootstrap-datepicker
 // require_tree .
