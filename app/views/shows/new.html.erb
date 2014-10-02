@@ -14,21 +14,87 @@
 
     $(function() {
 
-      function filler( name ) {
-          $.ajax({
-            url: "/eretrieve" + name
-            dataType: "json",
-            success: function (data) {
+      function eretrieve( value, id, field ) {
+        // grabs act-specific links, makes and fills a field for each
+        // makes and fills hidden field for echonest_id
+        $.ajax({
+          url: "/eretrieve/" + value,
+          dataType: "json",
+          ///////////////////////////////////
+          success: function (data) {
+            var echoField = field.find('.hidden').filter('input');
+            var echoButton = field.find('button');
 
+            console.log("button here")
+            console.log(echoButton)
+            if (echoButton.hasClass("btn-echoclear")) {
+              console.log("has echoclear class, removing")
+              echoButton.removeClass("btn-echoclear");
+            }
+
+            // $(echoField).change(function() {
+            //   console.log("echochange")
+            //   if (echoField.val() === "") {
+            //     console.log("no value in hidden field");
+            //     if (!echoButton.hasClass("btn-echoclear")) {
+            //       console.log("does not have echoclear class, adding")
+            //       echoButton.addClass("btn-echoclear");
+            //     }
+            //   } else {
+            //     console.log("there is a value here mr wizard!")
+            //     if (echoButton.hasClass("btn-echoclear")) {
+            //       console.log("has echoclear class, removing")
+            //       echoButton.removeClass("btn-echoclear");
+            //     }
+            //   }
+            // }).change();
+
+            echoButton.click(function() {
+              field.find('input').val('');
+              field.find("a.remove_nested_fields:contains(Remove this link)").click();
+              console.log("after clicking, the echo field is")
+              console.log(echoField.val());
+              if (echoField.val() === "") {
+                console.log("no value in hidden field");
+                if (!echoButton.hasClass("btn-echoclear")) {
+                  console.log("does not have echoclear class, adding")
+                  echoButton.addClass("btn-echoclear");
+                }
+              } else {
+                console.log("there is a value here mr wizard!")
+                if (echoButton.hasClass("btn-echoclear")) {
+                  console.log("has echoclear class, removing")
+                  echoButton.removeClass("btn-echoclear");
+                }
+              }              
             });
+            echoField.val(id);
+            console.log("hidden value");
+            console.log(echoField.val());
+
+
+            
+            // $(field.find('.string').filter('input')[1]).val('test');
+            var urls = data["urls"]
+            for (var key in urls) {
+              if (urls.hasOwnProperty(key)) {
+                $(field).on('nested:fieldAdded', function(event){
+                  event.field.find('.string').filter('input').first().val(urls[key]);
+                  // TODO: fix bug where adding more links auto-inserts the last element of the urls array
+                });
+                field.find('a.add_nested_fields').click();
+              }
+            }
           }
+          //////////////////////////
+        });
+      };
+
       $(document).on('nested:fieldAdded:acts', function(event){
         // this field was just inserted into your form
         var field = event.field; 
         // it's a jQuery object already! Now you can find date input
         var bandField = field.find('.string').filter('input').first();
-        console.log(bandField);
-
 
         // and activate datepicker on it
         bandField.autocomplete({
@@ -36,29 +102,15 @@
             $.ajax({
               url: "/esuggest/" + request.term,
               dataType: "json",
-              // data: {
-              //   act: request.term
-              // },
               success: function( data ) {
-                console.log(data)
                 response( data );
               }
             });
           },
           minLength: 3, 
           select: function( event, ui ) {
-            console.log(ui.item.value)
-
-            // log( ui.item ?
-            //   "Selected: " + ui.item.value + " aka " + ui.item.id :
-            //   "Nothing selected, input was " + this.value );
+            eretrieve(ui.item.value, ui.item.id, field);
           }
-          // open: function() {
-          //   $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-          // },
-          // close: function() {
-          //   $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-          // }
         });
       })
     });
@@ -86,7 +138,8 @@
   <%= f.fields_for :acts do |ff| %>    
     <%= ff.input :echonest_id, as: :hidden %>
     <%= ff.input :name, :type => "text", :name => "bandz", :id=> "bandz", :class=> "form-control", :value=> "", :required=> "required", :pattern=> "", :title=> "" %>
-    <%= ff.input :email %>
+
+    <button type="button" id="btn-echoclear" class="btn btn-default btn-echoclear">Clear echonest data</button>
 
     <%= ff.fields_for :ext_links do |fff| %>
       <%= fff.select :ext_site, options_for_select(%w[Twitter Facebook Youtube Homepage Soundcloud Bandcamp]) %>

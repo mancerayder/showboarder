@@ -14,7 +14,7 @@ class Act < ActiveRecord::Base
     data = {}
     yt_only = []
 
-    artist = Echowrap.artist_search(:name => name, bucket: ['urls', 'video', 'images', 'artist_location', 'biographies']).first
+    artist = Echowrap.artist_search(:name => name, bucket: 'urls').first
 
     artist.video.each do |v|
       if v.site == "youtube.com"
@@ -23,11 +23,7 @@ class Act < ActiveRecord::Base
     end
 
     data = data.merge(name: name,
-                      urls: artist.urls,
-                      video: yt_only,
-                      images: artist.images.take(3),
-                      location: artist.location,
-                      biographies: artist.biographies.first)
+                      urls: artist.urls)
     return data
   end
 
