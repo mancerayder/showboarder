@@ -35,7 +35,6 @@ class SalesController < ApplicationController
         end
       end
       @cart = Cart.create(tickets:@tickets)
-      puts "froop54"
       remember = params[:stripe_remember_card]
       puts remember
       if remember == "true"

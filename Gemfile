@@ -38,10 +38,13 @@ gem 'devise-async', '0.9.0'
 gem 'nested_form', '0.3.2'
 gem 'bootstrap-datepicker-rails', '1.3.0.2'
 gem 'google_timezone', '0.0.3'
+gem 'rails3-jquery-autocomplete', '1.0.14'
+gem 'jquery-ui-rails', '5.0.0'
+gem 'echowrap', '0.1.4'
 
 group :development do
   gem 'sqlite3', '1.3.8'
-  gem 'rspec-rails', '2.13.1'
+  gem 'rspec-rails', '3.0.2'
 end
 
 group :test do

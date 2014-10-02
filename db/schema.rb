@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140809201945) do
+ActiveRecord::Schema.define(version: 20140930210825) do
 
   create_table "acts", force: true do |t|
     t.string   "musicbrainz_id"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20140809201945) do
     t.string   "link_bandcamp"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "echonest_id"
   end
 
   create_table "acts_shows", id: false, force: true do |t|

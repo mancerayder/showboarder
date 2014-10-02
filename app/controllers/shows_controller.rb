@@ -57,12 +57,6 @@ class ShowsController < ApplicationController
     @show.show_at = ApplicationController.helpers.date_plus_time(params[:show_date], params[:show_time], @board.timezone)
     @show.door_at = ApplicationController.helpers.date_plus_time(params[:show_date], params[:door_time], @board.timezone)
     @show.stage = @board.stages.first
-    puts "froop 64"
-    puts params.inspect
-    puts @show.door_at
-    puts @show.show_at
-    froop = ApplicationController.helpers.date_plus_time(params[:show_date], params[:door_time], @board.timezone)
-    puts froop
     if @show.ticketing_type == "Ticketed"
       @show.ticketing_type = "paid"
     else

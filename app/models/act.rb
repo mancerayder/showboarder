@@ -9,4 +9,32 @@ class Act < ActiveRecord::Base
                     allow_blank: true,
                     uniqueness: { case_sensitive: false }
   accepts_nested_attributes_for :ext_links, :reject_if => :all_blank, :allow_destroy => true
+
+  def self.echo_by_name(name)
+    data = {}
+    yt_only = []
+
+    artist = Echowrap.artist_search(:name => name, bucket: ['urls', 'video', 'images', 'artist_location', 'biographies']).first
+
+    artist.video.each do |v|
+      if v.site == "youtube.com"
+        yt_only << v
+      end
+    end
+
+    data = data.merge(name: name,
+                      urls: artist.urls,
+                      video: yt_only,
+                      images: artist.images.take(3),
+                      location: artist.location,
+                      biographies: artist.biographies.first)
+    return data
+  end
+
+  # def echo_by_id(id)
+  #   data = {}
+
+  #   data.merge(:urls => Echowrap.
+
+  # end
 end

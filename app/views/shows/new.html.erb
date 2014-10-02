@@ -2,17 +2,76 @@
 
 <h1>Add a show</h1>
 <br>
+
+
+
+
 <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 <%= simple_nested_form_for [@board, @show], html:{id:"show-form"} do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
-  
+
+  <script>
+
+    $(function() {
+
+      function filler( name ) {
+          $.ajax({
+            url: "/eretrieve" + name
+            dataType: "json",
+            success: function (data) {
+
+            });
+          }
+      $(document).on('nested:fieldAdded:acts', function(event){
+        // this field was just inserted into your form
+        var field = event.field; 
+        // it's a jQuery object already! Now you can find date input
+        var bandField = field.find('.string').filter('input').first();
+        console.log(bandField);
+
+
+        // and activate datepicker on it
+        bandField.autocomplete({
+          source: function( request, response ) {
+            $.ajax({
+              url: "/esuggest/" + request.term,
+              dataType: "json",
+              // data: {
+              //   act: request.term
+              // },
+              success: function( data ) {
+                console.log(data)
+                response( data );
+              }
+            });
+          },
+          minLength: 3, 
+          select: function( event, ui ) {
+            console.log(ui.item.value)
+
+            // log( ui.item ?
+            //   "Selected: " + ui.item.value + " aka " + ui.item.id :
+            //   "Nothing selected, input was " + this.value );
+          }
+          // open: function() {
+          //   $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+          // },
+          // close: function() {
+          //   $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+          // }
+        });
+      })
+    });
+
+  </script>
+
   <%= f.label :ticketing_type %>
   
   <%= f.select :ticketing_type, options_for_select(%w[Ticketed Free]) %>
 
   <label for="show-date">Show Date</label>  
   <div class="input-group date">
-    <input type="text" name="show_date" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+    <input type="text" id="datez" name="show_date" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
   </div>
 
   <label for="door-time">Door time</label>
@@ -25,8 +84,8 @@
   <%= f.text_field :price_adv, :class => 'cost', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0) %>
 
   <%= f.fields_for :acts do |ff| %>    
-    <%= ff.input :musicbrainz_id, as: :hidden %>
-    <%= ff.input :name %>
+    <%= ff.input :echonest_id, as: :hidden %>
+    <%= ff.input :name, :type => "text", :name => "bandz", :id=> "bandz", :class=> "form-control", :value=> "", :required=> "required", :pattern=> "", :title=> "" %>
     <%= ff.input :email %>
 
     <%= ff.fields_for :ext_links do |fff| %>
