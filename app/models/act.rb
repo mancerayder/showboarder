@@ -12,18 +12,43 @@ class Act < ActiveRecord::Base
 
   def self.echo_by_name(name)
     data = {}
-    yt_only = []
-
+    num_urls = {}
+    # yt_only = []
     artist = Echowrap.artist_search(:name => name, bucket: 'urls').first
 
-    artist.video.each do |v|
-      if v.site == "youtube.com"
-        yt_only << v
+    # JSON.parse(artist.urls.to_json).each do |u|
+    #   num_urls.merge(JSON.parse(u.to_json))
+    # end
+
+    JSON.parse(artist.urls.to_json).each do |u|
+      if u[0] == "official_url"
+        # u[0] = 0
+        num_urls[0] = u[1]
+      elsif u[0] == "lastfm_url"
+        num_urls[1] = u[1]
+      elsif u[0] == "twitter_url"
+        num_urls[2] = u[1]
+      elsif u[0] == "myspace_url"
+        num_urls[3] = u[1]
+      elsif u[0] == "wikipedia_url"
+        num_urls[4] = u[1]
+      elsif u[0] == "mb_url"  
+        num_urls[5] = u[1]
+      else
+        num_urls[u[0]] = u[1]
       end
+        
     end
 
+    # artist.video.each do |v|
+    #   if v.site == "youtube.com"
+    #     yt_only << v
+    #   end
+    # end
+
     data = data.merge(name: name,
-                      urls: artist.urls)
+                      # urls: artist.urls,
+                      urls: num_urls)
     return data
   end
 

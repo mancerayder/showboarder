@@ -25,25 +25,17 @@
             var echoField = field.find('.hidden').filter('input');
             var echoButton = field.find('button');
 
-            console.log("button here")
-            console.log(echoButton)
             if (echoButton.hasClass("btn-echoclear")) {
-              console.log("has echoclear class, removing")
               echoButton.removeClass("btn-echoclear");
             }
 
             // $(echoField).change(function() {
-            //   console.log("echochange")
             //   if (echoField.val() === "") {
-            //     console.log("no value in hidden field");
             //     if (!echoButton.hasClass("btn-echoclear")) {
-            //       console.log("does not have echoclear class, adding")
             //       echoButton.addClass("btn-echoclear");
             //     }
             //   } else {
-            //     console.log("there is a value here mr wizard!")
             //     if (echoButton.hasClass("btn-echoclear")) {
-            //       console.log("has echoclear class, removing")
             //       echoButton.removeClass("btn-echoclear");
             //     }
             //   }
@@ -52,25 +44,17 @@
             echoButton.click(function() {
               field.find('input').val('');
               field.find("a.remove_nested_fields:contains(Remove this link)").click();
-              console.log("after clicking, the echo field is")
-              console.log(echoField.val());
               if (echoField.val() === "") {
-                console.log("no value in hidden field");
                 if (!echoButton.hasClass("btn-echoclear")) {
-                  console.log("does not have echoclear class, adding")
                   echoButton.addClass("btn-echoclear");
                 }
               } else {
-                console.log("there is a value here mr wizard!")
                 if (echoButton.hasClass("btn-echoclear")) {
-                  console.log("has echoclear class, removing")
                   echoButton.removeClass("btn-echoclear");
                 }
               }              
             });
             echoField.val(id);
-            console.log("hidden value");
-            console.log(echoField.val());
 
 
             
@@ -79,7 +63,12 @@
             for (var key in urls) {
               if (urls.hasOwnProperty(key)) {
                 $(field).on('nested:fieldAdded', function(event){
+                  var dropdown = event.field.find('select').first();
+                  if (key == 0 || key == 1 || key == 2 || key == 3 || key == 4 || key == 5 ){
+                    dropdown.prop('selectedIndex', key);
+                  }
                   event.field.find('.string').filter('input').first().val(urls[key]);
+                  var dropdown = event.field.find('select').first();
                   // TODO: fix bug where adding more links auto-inserts the last element of the urls array
                 });
                 field.find('a.add_nested_fields').click();
@@ -142,7 +131,7 @@
     <button type="button" id="btn-echoclear" class="btn btn-default btn-echoclear">Clear echonest data</button>
 
     <%= ff.fields_for :ext_links do |fff| %>
-      <%= fff.select :ext_site, options_for_select(%w[Twitter Facebook Youtube Homepage Soundcloud Bandcamp]) %>
+      <%= fff.select :ext_site, options_for_select(%w[Homepage Lastfm Twitter Myspace Wikipedia Musicbrainz Soundcloud Bandcamp Youtube Facebook]) %>
       <%= fff.input :url %>
 
       <%= fff.link_to_remove "Remove this link" %>
