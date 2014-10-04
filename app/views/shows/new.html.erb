@@ -29,20 +29,10 @@
               echoButton.removeClass("btn-echoclear");
             }
 
-            // $(echoField).change(function() {
-            //   if (echoField.val() === "") {
-            //     if (!echoButton.hasClass("btn-echoclear")) {
-            //       echoButton.addClass("btn-echoclear");
-            //     }
-            //   } else {
-            //     if (echoButton.hasClass("btn-echoclear")) {
-            //       echoButton.removeClass("btn-echoclear");
-            //     }
-            //   }
-            // }).change();
-
             echoButton.click(function() {
-              field.find('input').val('');
+              field.find('input').not(field.find(".required")).val('');
+
+              
               field.find("a.remove_nested_fields:contains(Remove this link)").click();
               if (echoField.val() === "") {
                 if (!echoButton.hasClass("btn-echoclear")) {
@@ -133,6 +123,8 @@
     <%= ff.fields_for :ext_links do |fff| %>
       <%= fff.select :ext_site, options_for_select(%w[Homepage Lastfm Twitter Myspace Wikipedia Musicbrainz Soundcloud Bandcamp Youtube Facebook]) %>
       <%= fff.input :url %>
+      <br>
+      <br>
 
       <%= fff.link_to_remove "Remove this link" %>
     <% end %>
