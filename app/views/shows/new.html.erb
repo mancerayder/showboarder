@@ -121,11 +121,10 @@
     <button type="button" id="btn-echoclear" class="btn btn-default btn-echoclear">Clear echonest data</button>
 
     <%= ff.fields_for :ext_links do |fff| %>
+    <br>
+    <br>
       <%= fff.select :ext_site, options_for_select(%w[Homepage Lastfm Twitter Myspace Wikipedia Musicbrainz Soundcloud Bandcamp Youtube Facebook]) %>
       <%= fff.input :url %>
-      <br>
-      <br>
-
       <%= fff.link_to_remove "Remove this link" %>
     <% end %>
     <p><%= ff.link_to_add "Add a link", :ext_links %></p>
