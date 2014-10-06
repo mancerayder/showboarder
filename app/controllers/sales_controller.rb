@@ -22,7 +22,10 @@ class SalesController < ApplicationController
     @amount = 0
 
     if user_signed_in? #find the reserved tickets, clear the expired ones, make a cart
-
+      # TODO replace the existing reserved tickets stuff with the commented out
+      # but only once it's confirmed that everything else is working
+      # @buyer = current_user
+      # @tickets = current_user.tickets_retrieve_and_clear_expired
       reserved_tickets = Ticket.where(ticket_owner_id:current_user.id, ticket_owner_type:current_user.class.to_s, state:"reserved")
       @buyer = current_user
       reserved_tickets.each do |t|

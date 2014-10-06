@@ -33,7 +33,7 @@ class Ticket < ActiveRecord::Base
   end
 
   def expired?
-    if ((DateTime.now - DateTime.parse(self.reserved_at.to_s)) > (DateTime.now - (DateTime.now - 15.minutes))) || (self.state != "reserved")
+    if (self.reserved_at && (DateTime.now - DateTime.parse(self.reserved_at.to_s)) > (DateTime.now - (DateTime.now - 15.minutes))) || (self.state != "reserved")
       true
     else
       false

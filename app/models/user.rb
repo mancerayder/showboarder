@@ -86,6 +86,20 @@ class User < ActiveRecord::Base
     end
   end
 
+  def tickets_retrieve_and_clear_expired
+    tickets = []
+    self.tickets.each do |t|
+      if t && t.expired?
+        t.make_open
+      elsif t
+        tickets << t
+      else
+        next
+      end
+    end
+    return tickets
+  end
+
   def cards_sorted
     cards_sorted = []
     self.cards.each do |c|
