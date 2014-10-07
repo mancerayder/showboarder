@@ -30,12 +30,12 @@ class BoardsController < ApplicationController
   def create
     @board = Board.new(board_params)
     # current_user.user_boards.create(:board_id => @board.id)
-    @board.self_zone
     if @board.save
       # @stage1.first.name = @board.name
       @board.stages.each do |s|
         s.places_gather
       end
+      @board.self_zone
       # @board.update_attributes(state:"public")
       current_user.boarder!(@board, "manager")
       flash[:success] = "You have created a new Showboard!"

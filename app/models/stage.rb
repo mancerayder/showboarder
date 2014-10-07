@@ -4,7 +4,7 @@ class Stage < ActiveRecord::Base
   has_one :place
   # validates_presence_of :board
 
-  def places_gather
+  def places_gather # TODO - wrap self_zone into this
     if self.places_reference?
       @client = GooglePlaces::Client.new(ENV["GOOGLE_KEY"])
       spot = @client.spot(self.places_reference)

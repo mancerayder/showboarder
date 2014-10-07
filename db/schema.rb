@@ -14,15 +14,8 @@
 ActiveRecord::Schema.define(version: 20140930210825) do
 
   create_table "acts", force: true do |t|
-    t.string   "musicbrainz_id"
     t.string   "name"
     t.string   "email"
-    t.string   "link_main"
-    t.string   "link_youtube"
-    t.string   "link_twitter"
-    t.string   "link_facebook"
-    t.string   "link_soundcloud"
-    t.string   "link_bandcamp"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "echonest_id"
@@ -87,13 +80,10 @@ ActiveRecord::Schema.define(version: 20140930210825) do
 
   create_table "ext_links", force: true do |t|
     t.string   "url"
+    t.string   "ext_site"
     t.integer  "linkable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "type"
-    t.string   "ext_site"
-    t.string   "linkable_typepe"
-    t.string   "linkable_type"
   end
 
   add_index "ext_links", ["linkable_id"], name: "index_ext_links_on_linkable_id"
