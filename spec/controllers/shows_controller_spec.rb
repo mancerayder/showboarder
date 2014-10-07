@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ShowController do
+describe ShowsController do
 
   describe "GET 'new'" do
     it "returns http success" do

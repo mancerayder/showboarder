@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.1.1'
 #ruby-gemset=showboarder
 
-gem 'rails', '4.1.0'
+gem 'rails', '4.1.6'
 gem 'bootstrap-sass', '3.1.1.0'
 gem 'font-awesome-rails', '4.0.3.1'
 gem 'jquery-easing-rails', '0.0.1'
@@ -20,7 +20,7 @@ gem 'devise', '3.2.3'
 gem 'omniauth-facebook', '1.6.0'
 gem 'will_paginate', '3.0.4'
 gem 'cancancan', '1.7.1'
-gem 'google_places', '0.20.0'
+gem 'google_places', '0.24.0'
 gem 'sprockets-rails', '2.1.1'
 gem 'figaro', '0.7.0'
 gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby'
@@ -48,7 +48,7 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '2.1.0'
+  gem 'capybara', '2.2.0'
   gem 'factory_girl_rails', '4.2.0'
 end
 

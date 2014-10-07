@@ -1,12 +1,12 @@
 class Stage < ActiveRecord::Base
-  belongs_to :board, dependent: :destroy
+  belongs_to :board
   has_many :shows
   has_one :place
   # validates_presence_of :board
 
   def places_gather # TODO - wrap self_zone into this
     if self.places_reference?
-      @client = GooglePlaces::Client.new(ENV["GOOGLE_KEY"])
+      @client = GooglePlaces::Client.new(ENV["GOOGLE_SERVER_KEY"])
       spot = @client.spot(self.places_reference)
       self.update_attributes(places_json:spot.to_json)
       @photo1 = nil 
@@ -28,7 +28,7 @@ class Stage < ActiveRecord::Base
       @website = nil
       @reference = nil
 
-      if spot.photos[0]
+      if spot.photos[0] # TODO - make not suck... why did I ever write it like this...?
         @photo1 = spot.photos[0].fetch_url(10000)
       end
 

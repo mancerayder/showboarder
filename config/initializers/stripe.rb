@@ -6,6 +6,8 @@ if Rails.env.development?
     :secret_key      => ENV['STRIPE_TEST_KEY'],
     # :scope => 'read_write', # or :scope => 'read_only'
   }
+
+  # Stripe.api_key = ENV['STRIPE_TEST_KEY']  # not sure if this is right.  old version was line 23
 end
 
 if Rails.env.production?
@@ -14,9 +16,12 @@ if Rails.env.production?
     :secret_key      => ENV['STRIPE_LIVE_KEY'],
     # :scope => 'read_write', # or :scope => 'read_only'
   }
+
+  # Stripe.api_key = ENV['STRIPE_LIVE_KEY'] # not sure if this is right.  old version was line 23
 end
 
 Stripe.api_key = Rails.configuration.stripe[:secret_key]
+
 
 # StripeEvent.configure do |events|
 #   events.subscribe 'charge.failed' do |event|
