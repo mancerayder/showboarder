@@ -1,6 +1,11 @@
 <li>
   <%= link_to "#{show.id}", [@board, show], class: "btn btn-default btn-lg btn-front" %>
 
+  <%= show.show_at %>
+  <% show.acts.each do |a| %>
+  <%= a.name %>
+  <% end %>
+
   <%= show.id %>
   <% if user_signed_in? && current_user.boarder?(show.board) && current_user.board_role(show.board) == "owner" %>
     <%= link_to "delete", [@board, show], method: :delete, id: show.id,

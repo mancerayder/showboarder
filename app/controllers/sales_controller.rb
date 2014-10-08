@@ -40,19 +40,20 @@ class SalesController < ApplicationController
       @cart = Cart.create(tickets:@tickets)
       remember = params[:stripe_remember_card]
       puts remember
-      if remember == "true"
+      if remember == "true" # wat
         remember = true
       else
         remember = false
       end
 
-    else #find the cart, clear the expired ones, re-save the cart
+    else # if user not signed in, find the cart, clear the expired ones, re-save the cart
 
       @email = params[:email].downcase
 
-      if User.find_by_stripe_email(@email)
-        flash[:error] = "A user has already registered with that email address. Please log in."
-        redirect_to :back
+      if User.find_by_email(@email)
+        # flash[:error] = "A user has already registered with that email address. Please log in."
+        # redirect_to :back and return
+        render json: { error: "A user has already registered with that email address. Please log in." }, status: 400 and return
       end
 
       @buyer = Guest.find_or_create_by(email:@email)

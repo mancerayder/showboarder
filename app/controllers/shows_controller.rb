@@ -8,9 +8,8 @@ class ShowsController < ApplicationController
   end
 
   def checkout
+    @reserve_code = ""
     @show = Show.find_by_id(params[:show_id])
-    puts "froop105"
-    puts @show.attributes
     @show.tickets_clear_expired_reservations
     @card = Card.new
     @checkout_type = "Cart"
@@ -84,6 +83,7 @@ class ShowsController < ApplicationController
 
   def show
     @show = Show.find(params[:id])
+    @acts_stringed = @show.acts_stringed
   end
 
   def update
@@ -95,6 +95,6 @@ class ShowsController < ApplicationController
   private
 
     def show_params
-      params.require(:show).permit(:state, :error, :announce_at, :door_at, :ticketing_type, :show_at, :custom_capacity, :payer_id, :paid_at, :price_adv, :price_door, :board, {acts_attributes: [{ext_links_attributes: [:id, :ext_site, :url, :type]},:id, :name, :email, :echonest_id, :_destroy ]})
+      params.require(:show).permit(:state, :error, :announce_at, :door_at, :ticketing_type, :show_at, :custom_capacity, :payer_id, :paid_at, :price_adv, :price_door, :board, {acts_attributes: [{ext_links_attributes: [:id, :ext_site, :url, :type, :linkable_type]},:id, :name, :email, :echonest_id, :_destroy ]})
     end
 end

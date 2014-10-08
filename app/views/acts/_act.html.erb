@@ -1,3 +1,6 @@
-THIS IS AN ACT PARTIAL
+<h3><%= act.name %></h3>
+| <% act.ext_links.each do |e| %>
+<%= link_to e.ext_site, e.url, :target => "_blank" %> | 
+<% end %>
 <br>
-<%= act.attributes %>
+<br>

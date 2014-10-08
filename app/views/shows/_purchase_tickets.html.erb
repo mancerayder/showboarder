@@ -20,6 +20,6 @@ or continue and purchase as a guest
 <br>
 <br>
 
-<%= render 'sales/checkout_form', :object_path => board_show_checkout_path(@board, @show), :permalink => @sale.guid, :sale => @sale, :amount => @amount, :coupon => @coupon %>
+<%= render 'sales/checkout_form', :object_path => board_show_checkout_path(@board, @show) + "?reserve_code=" + @reserve_code, :permalink => @sale.guid, :sale => @sale, :amount => @amount, :coupon => @coupon %>
 
 <% end %>

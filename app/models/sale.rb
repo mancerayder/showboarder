@@ -41,9 +41,10 @@ class Sale < ActiveRecord::Base
   end
 
   def charge_card
+    puts "froop214"
     begin
       ################## THE PART THAT SETS THE CUSTOMER AND CARD ###################
-      if actioner_type == "User" #Customer and card for user
+      if self.actioner_type == "User" #Customer and card for user
 
         if actioner.stripe_id #If user has an associated stripe customer, retrieve it
           customer = Stripe::Customer.retrieve(actioner.stripe_id)
@@ -57,8 +58,8 @@ class Sale < ActiveRecord::Base
 
         else #If user does not have an associated stripe customer, create one for it and save it to the user
           customer = Stripe::Customer.create(
-            email: actioner.email,
-            description: "Actionee type: " + actionee_type + " Transaction ID: " + guid
+            email: self.actioner.email,
+            description: "Actionee type: " + self.actionee_type + " Transaction ID: " + self.guid
             )
 
           card = customer.cards.create(card: stripe_token)
@@ -88,10 +89,10 @@ class Sale < ActiveRecord::Base
       else # Customer and card for guest
         customer = Stripe::Customer.create(
           email: actioner.email,
-          description: "Guest - Actionee type: " + actionee_type + " Transaction ID: " + guid
+          description: "Guest - Actionee type: " + self.actionee_type + " Transaction ID: " + self.guid
           )
 
-        card = Customer::Cards.create(card: stripe_token)
+        card = customer.cards.create(card: stripe_token)
       end
 
       ################## THE PART THAT CREATES THE TOKEN/S AND CHARGE OR SUBSCRIPTION ###################

@@ -96,6 +96,17 @@ class Show < ActiveRecord::Base
     end
   end
 
+  def acts_stringed
+    stringed = ""
+    self.acts.each do |a|
+      stringed = stringed + a.name
+      if a != self.acts.last
+        stringed = stringed + ", "
+      end
+    end
+    return stringed
+  end
+
   # def tickets_state(state, quantity, buyer_id, buyer_type)
   #   if self.unsold_count <= quantity
   #     #go through tickets of state that should be changed by state and change state buyer_id and buyer_type as appropriate via ticket state method 

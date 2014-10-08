@@ -1,6 +1,7 @@
-<h1>Show#show</h1>
+<h1><%= @acts_stringed + " at #{@show.board.name}"  %></h1>
+<h2><%= @show.show_at.to_time.strftime('%B %e at %l:%M %p') %></h2>
 
-<%= link_to "Back to Showboard", @show.board %>
+<%= link_to "Back to #{@show.board.name}", @show.board %>
 <br>
 <% if user_signed_in? %>
 <% if current_user.boarder?(@show.board) %>
@@ -18,11 +19,8 @@
 This show is free!
 <% end %>
 
-<p>Find me in app/views/show/show.html.erb</p>
-<br>
-<%= @show.acts.each do |b| %>
-  <%= b.attributes %>
-<% end %>
+<%= render @show.acts %>
+
 <br>
 <%= number_to_currency(@show.price_adv, unit:"$") %>
 

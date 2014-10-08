@@ -82,11 +82,10 @@ ActiveRecord::Schema.define(version: 20140930210825) do
     t.string   "url"
     t.string   "ext_site"
     t.integer  "linkable_id"
+    t.string   "linkable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "ext_links", ["linkable_id"], name: "index_ext_links_on_linkable_id"
 
   create_table "guests", force: true do |t|
     t.string   "email"
