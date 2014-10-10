@@ -76,9 +76,16 @@ class ShowsController < ApplicationController
     end
   end
 
-  def ticketed
-    @board = Board.find_by_vanity_url(params[:board_id])
-    @show = Show.find_by(params[:id])
+  # def ticketed
+  #   @board = Board.find_by_vanity_url(params[:board_id])
+  #   @show = Show.find_by(params[:id])
+  # end
+
+  def checkin
+    @show = Show.find(params[:id])
+
+    @attendees = @show.attendees
+    
   end
 
   def show

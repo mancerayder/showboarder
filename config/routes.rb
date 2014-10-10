@@ -20,11 +20,12 @@ Showboarder::Application.routes.draw do
   resources :boards, path:'' do
     # match '/payout' => 'boards#payout', via: :get
     # match '/payout' => 'sales#payout', via: :post
-    match '/ticketed'    => 'boards#ticketed',      via: :get
-    match '/ticketed'    => 'sales#board_ticketed',      via: :post
+    # match '/ticketed'    => 'boards#ticketed',      via: :get
+    match '/ticketed'    => 'boards#simple_ticketed',      via: :get
+    # match '/ticketed'    => 'sales#board_ticketed',      via: :post
     resources :shows do
-      match '/ticketed'    => 'shows#ticketed',      via: :get
-      match '/ticketed'    => 'sales#show_ticketed',      via: :post
+      # match '/ticketed'    => 'shows#ticketed',      via: :get
+      # match '/ticketed'    => 'sales#show_ticketed',      via: :post
       match '/tickets', to: 'tickets#new', via: :get
       match '/checkout', to: 'shows#checkout', via: :get
       match '/checkout', to: 'sales#checkout', via: :post

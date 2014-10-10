@@ -6,25 +6,55 @@ class BoardsController < ApplicationController
     @stage = @board.stages.build
   end
 
-  def payout
+  # def payout
+  #   @board = Board.find_by_vanity_url(params[:board_id])
+
+  #   if current_user && current_user.boarder?(@board)
+
+  #   else
+  #     flash[:error] = "Sorry, you must be logged in to an account with management privileges for this board in order to access this page."
+  #     redirect_to @board
+  #   end
+  # end
+
+  # def ticketed
+  #   @sale = Sale.new
+  #   @amount = 2500
+  #   @board = Board.find_by_vanity_url(params[:board_id])
+  #   @actionee_type = "board"
+  #   if user_signed_in?
+  #     @cards = current_user.cards_sorted
+  #   end
+  # end
+
+  def simple_ticketed
+    #TODO Find out why this is getting called twice 
     @board = Board.find_by_vanity_url(params[:board_id])
 
-    if current_user && current_user.boarder?(@board)
+    if user_signed_in? and !current_user.stripe_recipient_id
+      redirect_to user_stripe_connect_path(current_user) and return
+    elsif user_signed_in? and current_user.boarder?(@board) and (current_user.board_role(@board) == "manager") and current_user.stripe_recipient_id 
+      current_user.board_role_assign(@board, "owner")
+      @board.update(paid_tier: 1)
 
+      flash[:success] = "Ticketing is now enabled for this showboard!" # TODO find out why this isn't showing
     else
-      flash[:error] = "Sorry, you must be logged in to an account with management privileges for this board in order to access this page."
-      redirect_to @board
+      # TODO: re-implement this once double calling is fixed.
+      # flash[:error] = "Sorry, you do not have significant permissions to complete this action."
     end
-  end
-
-  def ticketed
-    @sale = Sale.new
-    @amount = 2500
-    @board = Board.find_by_vanity_url(params[:board_id])
-    @actionee_type = "board"
-    if user_signed_in?
-      @cards = current_user.cards_sorted
-    end
+    redirect_to board_path(@board)
+    # the following was a bad way of handling permissions.  TODO: break this out into cancancan
+    # if user_signed_in? && current_user.boarder?(@board) && current_user.board_role(@board) == "manager" && current_user.stripe_recipient_id
+    #   flash[:success] = "Ticketing is now enabled for this showboard!"
+    #   current_user.boarder!(@board, "owner")
+    #   @board.update(paid_tier: 1)
+    #   redirect_to @board
+    # elsif user_signed_in?
+    #   redirect_to user_stripe_connect_path(current_user)
+    # else
+    #   flash[:error] = "You must be signed in and have control over this board to enable ticketing."
+    #   redirect_to new_user_session_path
+    # end
   end
 
   def create

@@ -107,6 +107,14 @@ class Show < ActiveRecord::Base
     return stringed
   end
 
+  def self.attendees
+    attendees = Hash.new { |hash, key| hash[key] = []}
+
+    self.tickets.where(state: "owned").each do |t|
+      attendees[t.ticket_owner.email] = attendees[t.ticket_owner.email] << t
+    end
+  end
+
   # def tickets_state(state, quantity, buyer_id, buyer_type)
   #   if self.unsold_count <= quantity
   #     #go through tickets of state that should be changed by state and change state buyer_id and buyer_type as appropriate via ticket state method 

@@ -93,63 +93,63 @@ class SalesController < ApplicationController
     end    
   end
 
-  def board_ticketed #new version for sales
-    @board = Board.find_by_vanity_url(params[:board_id])
-    token = params[:stripeToken]
-    remember = params[:stripe_remember_card]
+  # def board_ticketed #new version for sales
+  #   @board = Board.find_by_vanity_url(params[:board_id])
+  #   token = params[:stripeToken]
+  #   remember = params[:stripe_remember_card]
 
-    @sale = Sale.create_for_board(
-      actioner: current_user,
-      actionee: @board,
-      plan: "sb1",
-      stripe_token: token,
-      stripe_remember_card: remember
-      )
+  #   @sale = Sale.create_for_board(
+  #     actioner: current_user,
+  #     actionee: @board,
+  #     plan: "sb1",
+  #     stripe_token: token,
+  #     stripe_remember_card: remember
+  #     )
 
-    if @sale.save
-      @sale.queue_job!
-      render json: { guid: @sale.guid }
-    else
-      render json: { error: @sale.errors.full_messages.join(". ") }, status: 400
-    end
-  end
+  #   if @sale.save
+  #     @sale.queue_job!
+  #     render json: { guid: @sale.guid }
+  #   else
+  #     render json: { error: @sale.errors.full_messages.join(". ") }, status: 400
+  #   end
+  # end
 
-  def show_ticketed
-    begin
-    token = params[:stripeToken]
+  # def show_ticketed
+  #   begin
+  #   token = params[:stripeToken]
 
-    @amount = "1000"
+  #   @amount = "1000"
 
-    @board = Board.find_by_vanity_url(params[:board_id])
-    @show = Show.find_by(params[:id])
+  #   @board = Board.find_by_vanity_url(params[:board_id])
+  #   @show = Show.find_by(params[:id])
 
-    if current_user.stripe_id
-      customer = Stripe::Customer.retrieve(current_user.stripe_id)
-      charge = Stripe::Charge.create(
-        :customer => customer.id,
-        :amount => @amount,
-        :currency => "usd",
-        :description => @show.id
-        )
-    else
-      customer = Stripe::Customer.create(
-        :card => token,
-        :amount => @amount,
-        :email => current_user.email,
-        :description => "Single show ticketing - new"
-      )
+  #   if current_user.stripe_id
+  #     customer = Stripe::Customer.retrieve(current_user.stripe_id)
+  #     charge = Stripe::Charge.create(
+  #       :customer => customer.id,
+  #       :amount => @amount,
+  #       :currency => "usd",
+  #       :description => @show.id
+  #       )
+  #   else
+  #     customer = Stripe::Customer.create(
+  #       :card => token,
+  #       :amount => @amount,
+  #       :email => current_user.email,
+  #       :description => "Single show ticketing - new"
+  #     )
 
-      current_user.update_attributes(stripe_id:customer.id)
-    end
+  #     current_user.update_attributes(stripe_id:customer.id)
+  #   end
 
-    @show.update_attributes(payer_id:current_user.id, paid_at:Time.now)
-    @show.tickets_make
+  #   @show.update_attributes(payer_id:current_user.id, paid_at:Time.now)
+  #   @show.tickets_make
 
 
-    redirect_to @show.board, :notice => "You have successfully enabled ticketing for this show!"
-    rescue Stripe::CardError => e
-      flash[:error] = e.message
-      redirect_to board_charges_path(@board)
-    end
-  end
+  #   redirect_to @show.board, :notice => "You have successfully enabled ticketing for this show!"
+  #   rescue Stripe::CardError => e
+  #     flash[:error] = e.message
+  #     redirect_to board_charges_path(@board)
+  #   end
+  # end
 end
