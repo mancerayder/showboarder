@@ -1,4 +1,4 @@
-<%= render 'shows/purchase_tickets' %>
+<%= render 'shows/purchase_tickets', :sale => @sale %>
 <br>
 <% @tickets.each do |t| %>
 <%= t.attributes %>

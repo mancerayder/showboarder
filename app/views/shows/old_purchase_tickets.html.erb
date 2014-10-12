@@ -1,0 +1,25 @@
+<span>Purchase <%= @tickets.count %> tickets for <%= number_to_currency(@amount, unit:"$") %></span>
+<br>
+<% if user_signed_in? %>
+
+Logged in as <%= current_user.email %>.
+<br>
+Not <%= current_user.email %>? <%= link_to  "Sign Out", destroy_user_session_path, method: "delete" %>.
+<br>
+<%= render 'sales/checkout_form', :object_path => board_show_checkout_path(@board, @show), :sale => @sale, :amount => @amount, :coupon => @coupon %>
+
+<% else %>
+Have an account?
+<br>
+<%= link_to 'Log in and Purchase', new_user_session_path(:reserve_code => @reserve_code) %>
+<br><br>
+Don't have an account?
+<%= link_to 'Register and purchase', new_user_registration_path(:reserve_code => @reserve_code) %>
+<br>
+or continue and purchase as a guest
+<br>
+<br>
+
+<%= render 'sales/checkout_form', :object_path => board_show_checkout_path(@board, @show) + "?reserve_code=" + @reserve_code, :permalink => @sale.guid, :sale => @sale, :amount => @amount, :coupon => @coupon %>
+
+<% end %>

@@ -41,7 +41,6 @@ class Sale < ActiveRecord::Base
   end
 
   def charge_card
-    puts "froop214"
     begin
       ################## THE PART THAT SETS THE CUSTOMER AND CARD ###################
       if self.actioner_type == "User" #Customer and card for user

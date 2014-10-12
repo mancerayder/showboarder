@@ -12,6 +12,8 @@ class SalesController < ApplicationController
 
   def checkout
     @show = Show.find(params[:show_id])
+    puts "froop219"
+    puts params[:stripeToken]
     token = params[:stripeToken]
     @board = Board.find_by_vanity_url(params[:board_id])
     @buyer = nil
@@ -39,7 +41,7 @@ class SalesController < ApplicationController
       end
       @cart = Cart.create(tickets:@tickets)
       remember = params[:stripe_remember_card]
-      puts remember
+
       if remember == "true" # wat
         remember = true
       else
