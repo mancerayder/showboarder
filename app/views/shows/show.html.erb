@@ -4,9 +4,6 @@
 <%= link_to "Back to #{@show.board.name}", @show.board %>
 <br>
 <% if user_signed_in? %>
-<% if current_user.boarder?(@show.board) %>
-<%= render 'enable_ticketing_button' %>
-<% end %>
 
 <% end %>
 <br>

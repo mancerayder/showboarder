@@ -7,12 +7,16 @@ class CreateSales < ActiveRecord::Migration
       # t.string :state_after      
       t.string :error
       t.string :stripe_token
-      t.string :stripe_token_type
+      # t.string :stripe_token_type
       t.text :error
-      t.integer :fee_amount
+      # t.integer :fee_amount
+      t.integer :amount_base
+      t.integer :amount_tip
+      t.integer :amount_sb
+      t.integer :amount_charity
       t.integer :coupon_id
       t.integer :affiliate_id
-      t.text :customer_address
+      # t.text :customer_address
       t.string :guid
       t.string :state
       t.string :plan

@@ -11,7 +11,7 @@ class ShowsController < ApplicationController
     @reserve_code = ""
     @show = Show.find_by_id(params[:show_id])
     @show.tickets_clear_expired_reservations
-    @card = Card.new
+    # @card = Card.new
     @checkout_type = "Cart"
     if user_signed_in?
       # @tickets = Ticket.where(ticket_owner_id:current_user.id, ticket_owner_type:current_user.class.to_s, state:"reserved")
@@ -28,7 +28,7 @@ class ShowsController < ApplicationController
 
         carted = cart.tickets
 
-        carted.each do |t|
+        carted.each do |t| # TODO: DRY this
           if t && !t.expired?
             @tickets << t
           elsif t
@@ -82,9 +82,9 @@ class ShowsController < ApplicationController
   # end
 
   def checkin
-    @show = Show.find(params[:id])
+    @show = Show.find(params[:show_id])
 
-    @attendees = @show.attendees
+    @attendees = @show.attendees.sort
     
   end
 

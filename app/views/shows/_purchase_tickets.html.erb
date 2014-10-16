@@ -21,8 +21,31 @@ or continue and purchase as a guest
 <br>
 
   <script src="https://checkout.stripe.com/v2/checkout.js"></script>
+  <form role="form">
+    <div class="row">
+      <legend>Form title</legend>
+  
+      <div class="form-group col-md-3">
+          <label for="tip-sb">Ticket/s (Bands/Venue)</label>
+          <input name="amount-product" id="amount-product" type="text" class="form-control bfh-number" data-min="<%= @amount.to_i %>" value="1">
 
-  <button id="stripeButton">Purchase</button>
+          <label for="tip-sb">Showboarder Tip</label>
+          <input name="amount-sb" id="amount-sb" type="text" class="form-control bfh-number" data-min="0" value="1">
+
+          <label for="tip-charity">Little Kids Rock Foundation</label>
+          <input name="amount-charity" id="amount-charity" type="text" class="form-control bfh-number" data-min="0" value="1">
+      </div>
+    </div>
+  </form>
+
+  Total: <span id="amount-total"></span>
+  <div class="row">
+    <div class="col-md-12">
+      <button id="stripeButton">Purchase</button>
+    </div>
+  </div>
+
+  
   <div class="row">
     <div id="payment-errors" class="alert" style="<%= sale.errors.any? ? '' : 'display: none;' %>">
       <% sale.errors.full_messages.each do |msg| %>
@@ -33,9 +56,32 @@ or continue and purchase as a guest
 
 <script>  
   $(function(){
-    var stripeButton = $('#stripeButton');
-    console.log(stripeButton);
-    console.log(<%= @amount.to_i * 100 %>);
+    var amountProduct = $('#amount-product');
+    var amountSb = $('#amount-sb');
+    var amountCharity = $('#amount-charity');
+    var amountTotal = $('#amount-total');
+
+    var totalCalculator = function() {
+      return parseInt(amountSb.val()) + parseInt(amountCharity.val()) + parseInt(amountProduct.val())
+    }
+
+    var totalFill = function(){
+      amountTotal.html("$" + totalCalculator().toString() + ".00");  
+    }
+
+    amountProduct.change(function(){
+      totalFill();
+    });
+
+    amountSb.change(function(){
+      totalFill();
+    });
+
+    amountCharity.change(function(){
+      totalFill();
+    });
+
+    totalFill();
 
     $('#stripeButton').click(function(){
       var token = function(res){
@@ -49,7 +95,12 @@ or continue and purchase as a guest
           data: { reserve_code: "<%= @reserve_code %>",
                   stripeToken: res.id,
                   name: res.card.name,
-                  email: res.email }, // TODO - clean this up to only send a js plainObject with the necessary data
+                  email: res.email,
+                  amount_base: <%= @amount %>,
+                  amount_tip: (parseInt(amountProduct.val()) - <%= @amount %>),
+                  amount_sb: parseInt(amountSb.val()),
+                  amount_charity:parseInt(amountCharity.val())
+                   }, // TODO - clean this up to only send a js plainObject with the necessary data
           success: function(data) { poll(data.guid, 60) },
           error: function(data) { showError(data.responseJSON.error) }
         });
@@ -58,10 +109,10 @@ or continue and purchase as a guest
       StripeCheckout.open({
         key:         '<%= ENV["STRIPE_TEST_KEY_PUBLISHABLE"] %>', // TODO - replace with live key in production
         address:     true,
-        amount:      '<%= @amount.to_i * 100 %>',
+        amount:      (totalCalculator() * 100).toString(),
         currency:    'usd',
         name:        'Showboarder',
-        description: "<%= @tickets.count%> tickets (<%= number_to_currency(@amount, unit:"$") %>)",
+        description: "<%= @tickets.count %> tickets for $" + totalCalculator().toString() + ".00", //"<%= @tickets.count%> tickets totalCalculator() %>)",
         panelLabel:  'Checkout',
         token:       token
       });

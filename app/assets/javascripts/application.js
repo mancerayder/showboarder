@@ -26,4 +26,5 @@
 //= require jquery.payment
 //= require jquery_nested_form
 //= require bootstrap-datepicker
+//= require bootstrap-formhelpers-number
 // require_tree .

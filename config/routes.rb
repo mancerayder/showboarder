@@ -26,6 +26,7 @@ Showboarder::Application.routes.draw do
     resources :shows do
       # match '/ticketed'    => 'shows#ticketed',      via: :get
       # match '/ticketed'    => 'sales#show_ticketed',      via: :post
+      match '/checkin', to: 'shows#checkin', via: :get
       match '/tickets', to: 'tickets#new', via: :get
       match '/checkout', to: 'shows#checkout', via: :get
       match '/checkout', to: 'sales#checkout', via: :post

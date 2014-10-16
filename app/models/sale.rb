@@ -160,12 +160,20 @@ class Sale < ActiveRecord::Base
     end    
   end
 
+  def amount
+    return self.amount_base + self.amount_tip + self.amount_sb + self.amount_charity
+  end
+
   def self.create_for_cart(options={})
     sale = new do |s|
       s.actioner = options[:actioner]
       s.actionee = options[:actionee]
       s.stripe_token = options[:stripe_token]
       s.stripe_remember_card = options[:stripe_remember_card]
+      s.amount_base = options[:amount_base]
+      s.amount_tip = options[:amount_tip]
+      s.amount_sb = options[:amount_sb]
+      s.amount_charity = options[:amount_charity]
       # total = 0
 
       # t.actionee.tickets.each do |e|

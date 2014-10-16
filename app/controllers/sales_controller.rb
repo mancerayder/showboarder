@@ -59,6 +59,7 @@ class SalesController < ApplicationController
       end
 
       @buyer = Guest.find_or_create_by(email:@email)
+      @buyer.update(name: params[:name]) # TODO - make this save somehwere/how
       @reserve_code = ""
       @tickets = []
       if params[:reserve_code]
@@ -66,7 +67,7 @@ class SalesController < ApplicationController
 
         @cart = Cart.find_by_reserve_code(@reserve_code)
 
-        @cart.tickets.each do |t|
+        @cart.tickets.each do |t| # TODO - DRY this
           if t && !t.expired?
             @tickets << t
           elsif t
@@ -84,7 +85,11 @@ class SalesController < ApplicationController
       actioner: @buyer,
       actionee: @cart,
       stripe_token: token,
-      stripe_remember_card: remember
+      stripe_remember_card: remember,
+      amount_base: params[:amount_base],
+      amount_tip: params[:amount_tip],
+      amount_sb: params[:amount_sb],
+      amount_charity: params[:amount_charity]
       )
 
     if @sale.save

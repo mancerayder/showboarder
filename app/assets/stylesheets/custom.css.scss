@@ -356,11 +356,11 @@ input {
   background: rgba(255,255,255,.2);
 }
 
-::selection {
-  text-shadow: none;
-  background: #fcfcfc;
-  background: rgba(255,255,255,.2);
-}
+// ::selection {
+//   text-shadow: none;
+//   background: #fcfcfc;
+//   background: rgba(255,255,255,.2);
+// }
 
 img::selection {
   background: 0 0;
@@ -566,4 +566,15 @@ label {
 .ticket-reserve {
   width: 4em;
   display: inline;
+}
+
+/* jquery numbers */
+
+.input-group > .bfh-number {
+  border-right: 0;
+  // width: 4em;
+}
+
+.input-group > .bfh-number-btn:hover {
+  background-color: #cccccc;
 }

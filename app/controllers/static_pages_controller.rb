@@ -14,11 +14,12 @@ class StaticPagesController < ApplicationController
       #   @boards_paginated << p.paginate(page: params[:page])
       # end
     end
+    render :layout => "home"
   end
-end
 
   def about
   end
+end
 
 private
 
