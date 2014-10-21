@@ -12,7 +12,7 @@
   </div>
 </div>
 
-AND REACT VERSION HERE YO
+SAME THING DONE AGAIN WITH REACT BELOW
 <div id="react-test">
 </div>
 
@@ -20,7 +20,7 @@ AND REACT VERSION HERE YO
 <script type="text/jsx">
   /** @jsx React.DOM */
 
-  var CheckinApp = React.createClass({
+  var CheckinList = React.createClass({
     getInitialState: function() {
       return {
         attendees: [],
@@ -30,6 +30,7 @@ AND REACT VERSION HERE YO
 
     componentDidMount: function() {
       $.get(this.props.source, function(result) {
+        console.log(result)
         var attendees = result[0];
         var checkedIn = result[1];
         if (this.isMounted()) {
@@ -43,10 +44,17 @@ AND REACT VERSION HERE YO
 
     render: function() {
 
-      var showAttendee = function (attendee) {
-        <li>{attendee[0]}</li>;
+      var showAttendee = function(attendee) {
+        return <li key={attendee[1][0].guid}>{attendee[0]} has {attendee[1].length} tickets</li>;
       }
-      return <ul>{this.props.attendees.map(showAttendee)}</ul>;
+      return (
+        <div>
+          <h2>Attendees</h2>
+          <ul>{this.state.attendees.map(showAttendee)}</ul>
+          <h2>Checked In</h2>
+          <ul>{this.state.checkedIn.map(showAttendee)}</ul>
+        </div>
+        );
       // return (
       //   <div>
       //     {this.state.username}s last gist is
@@ -57,7 +65,7 @@ AND REACT VERSION HERE YO
   });
 
   React.renderComponent(
-    <CheckinApp source="/<%= @show.board.vanity_url %>/shows/<%= @show.id %>/attendees" />,
+    <CheckinList source="/<%= @show.board.vanity_url %>/shows/<%= @show.id %>/attendees" />,
     document.getElementById('react-test')
   );
 </script>
@@ -82,7 +90,7 @@ AND REACT VERSION HERE YO
     // attendees(printAttendees);
 
     function showAttendees( response ) {
-      console.log(response);
+      // console.log(response);
 
       $(response[0]).each(function( index ) {
         var newDiv = attenDiv.clone()
