@@ -1,0 +1,142 @@
+<span>Purchase <%= @tickets.count %> tickets for <%= number_to_currency(@amount, unit:"$") %></span>
+<br>
+
+Have an account?
+<br>
+<%= link_to 'Log in and Purchase', new_user_session_path(:reserve_code => @reserve_code) %>
+<br><br>
+Don't have an account?
+<%= link_to 'Register and purchase', new_user_registration_path(:reserve_code => @reserve_code) %>
+<br>
+or continue and purchase as a guest
+<br>
+<br>
+
+  <script src="https://checkout.stripe.com/v2/checkout.js"></script>
+  <form role="form">
+    <div class="row">
+      <legend>Form title</legend>
+  
+      <div class="form-group col-md-3">
+          <label for="tip-sb">Ticket/s (Bands/Venue)</label>
+          <input name="amount-product" id="amount-product" type="text" class="form-control bfh-number" data-min="<%= @amount.to_i %>" value="1">
+
+          <label for="tip-sb">Showboarder Tip</label>
+          <input name="amount-sb" id="amount-sb" type="text" class="form-control bfh-number" data-min="0" value="1">
+
+          <label for="tip-charity">Little Kids Rock Foundation</label>
+          <input name="amount-charity" id="amount-charity" type="text" class="form-control bfh-number" data-min="0" value="1">
+      </div>
+    </div>
+  </form>
+
+  Total: <span id="amount-total"></span>
+  <div class="row">
+    <div class="col-md-12">
+      <button id="stripeButton">Purchase</button>
+    </div>
+  </div>
+
+  
+  <div class="row">
+    <div id="payment-errors" class="alert" style="<%= sale.errors.any? ? '' : 'display: none;' %>">
+      <% sale.errors.full_messages.each do |msg| %>
+        <span><%= msg %></span>
+      <% end %>
+    </div>
+  </div>
+
+<script>  
+  $(function(){
+    var amountProduct = $('#amount-product');
+    var amountSb = $('#amount-sb');
+    var amountCharity = $('#amount-charity');
+    var amountTotal = $('#amount-total');
+
+    var totalCalculator = function() {
+      return parseInt(amountSb.val()) + parseInt(amountCharity.val()) + parseInt(amountProduct.val())
+    }
+
+    var totalFill = function(){
+      amountTotal.html("$" + totalCalculator().toString() + ".00");  
+    }
+
+    amountProduct.change(function(){
+      totalFill();
+    });
+
+    amountSb.change(function(){
+      totalFill();
+    });
+
+    amountCharity.change(function(){
+      totalFill();
+    });
+
+    totalFill();
+
+    $('#stripeButton').click(function(){
+      var token = function(res){
+        var $input = $('<input type=hidden name=stripeToken />').val(res.id);
+        $('form').append($input);
+        console.log(res)
+        console.log(res.email)
+        $.ajax({
+          type: "POST",
+          url: "<%= board_show_checkout_path(@board, @show) %>",
+          data: { reserve_code: "<%= @reserve_code %>",
+                  stripeToken: res.id,
+                  name: res.card.name,
+                  email: res.email,
+                  amount_base: <%= @amount %>,
+                  amount_tip: (parseInt(amountProduct.val()) - <%= @amount %>),
+                  amount_sb: parseInt(amountSb.val()),
+                  amount_charity:parseInt(amountCharity.val())
+                   }, // TODO - clean this up to only send a js plainObject with the necessary data
+          success: function(data) { poll(data.guid, 60) },
+          error: function(data) { showError(data.responseJSON.error) }
+        });
+      };
+
+      StripeCheckout.open({
+        key:         '<%= ENV["STRIPE_TEST_KEY_PUBLISHABLE"] %>', // TODO - replace with live key in production
+        address:     true,
+        amount:      (totalCalculator() * 100).toString(),
+        currency:    'usd',
+        name:        'Showboarder',
+        description: "<%= @tickets.count %> tickets for $" + totalCalculator().toString() + ".00", //"<%= @tickets.count%> tickets totalCalculator() %>)",
+        panelLabel:  'Checkout',
+        token:       token
+      });
+
+      return false;
+    });
+
+    function showError(error) {
+      var form = $('#payment-form');
+      $('#payment-errors').html(error);
+      $('#payment-errors').show();
+      // $('#pay-button').show();
+      // $('#spinner-button').hide();
+    }
+
+    function poll(guid, num_retries_left) {
+      console.log("Polling...");
+      if (num_retries_left == 0) {
+        showError("This seems to be taking too long. Email <a href=\"contact@showboarder.com\">contact@showboarder.com</a> and reference sale <strong>" + guid );
+        return;
+      }
+      $.get("/status/" + guid, function(data) {
+
+        if (data.status === "finished") {
+          window.location = "/confirm/" + guid;
+        } else if (data.status === "errored") {
+          showError(data.error)
+        } else {
+          setTimeout(function() { poll(guid, num_retries_left - 1) }, 500);
+        }
+      });
+    }
+
+  });
+</script>

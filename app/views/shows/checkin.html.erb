@@ -1,6 +1,104 @@
-<% @attendees.each do |a| %>
+<div class="row">
+  <div id="attendees" class="col-md-12">
+    <h2> Attendees </h2>
+    <div id="attendee"></div>
+  </div>
+</div>
 
-<%= a[0] %> has <%= a[1].count %> tickets
-<br>
+<div class="row">
+  <div id="attendees-checked-in" class="col-md-12">
+    <h2> Checked in </h2>
+    <div id="attendee-checked-in"></div>
+  </div>
+</div>
 
-<% end %>
+AND REACT VERSION HERE YO
+<div id="react-test">
+</div>
+
+
+<script type="text/jsx">
+  /** @jsx React.DOM */
+
+  var CheckinApp = React.createClass({
+    getInitialState: function() {
+      return {
+        attendees: [],
+        checkedIn: []
+      };
+    },
+
+    componentDidMount: function() {
+      $.get(this.props.source, function(result) {
+        var attendees = result[0];
+        var checkedIn = result[1];
+        if (this.isMounted()) {
+          this.setState({
+            attendees: attendees,
+            checkedIn: checkedIn
+          });
+        }
+      }.bind(this));
+    },
+
+    render: function() {
+
+      var showAttendee = function (attendee) {
+        <li>{attendee[0]}</li>;
+      }
+      return <ul>{this.props.attendees.map(showAttendee)}</ul>;
+      // return (
+      //   <div>
+      //     {this.state.username}s last gist is
+      //     <a href={this.state.lastGistUrl}>here</a>.
+      //   </div>
+      // );
+    }
+  });
+
+  React.renderComponent(
+    <CheckinApp source="/<%= @show.board.vanity_url %>/shows/<%= @show.id %>/attendees" />,
+    document.getElementById('react-test')
+  );
+</script>
+
+
+<script>
+  $(function () {
+    attenDiv = $('#attendee')
+    checkedInDiv = $('#attendee-checked-in')
+    
+    function attendees(callback) {
+      $.get('/<%= @show.board.vanity_url %>/shows/<%= @show.id %>/attendees', function( data ) {
+        // console.log(data)
+        return callback(data);
+      });
+    }    
+    
+    // function printAttendees( response ) {
+    //   console.log(response)
+    // }
+
+    // attendees(printAttendees);
+
+    function showAttendees( response ) {
+      console.log(response);
+
+      $(response[0]).each(function( index ) {
+        var newDiv = attenDiv.clone()
+
+        newDiv.html("Name: " + response[0][index][0] + " has " + response[0][index][1].length.toString() + " tickets")
+        newDiv.appendTo($('#attendee').last().parent());
+      });
+
+      $(response[1]).each(function( index ) {
+        var newCheckedInDiv = checkedInDiv.clone()
+
+        newDiv.html("Name: " + response[1][index][0] + " is checked in with " + response[1][index][1].length.toString() + " tickets")
+        newDiv.appendTo($('#attendee-checked-in').last().parent());
+      });
+    }
+
+    attendees(showAttendees);
+  });
+</script>

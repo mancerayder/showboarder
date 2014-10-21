@@ -16,7 +16,7 @@ class ShowsController < ApplicationController
     if user_signed_in?
       # @tickets = Ticket.where(ticket_owner_id:current_user.id, ticket_owner_type:current_user.class.to_s, state:"reserved")
       # @tickets = current_user.tickets_retrieve_and_clear_expired
-      @tickets = current_user.tickets
+      @tickets = current_user.tickets.where(state:"reserved")
       @cards = current_user.cards_sorted
     else
       @reserve_code = ""
@@ -84,8 +84,38 @@ class ShowsController < ApplicationController
   def checkin
     @show = Show.find(params[:show_id])
 
-    @attendees = @show.attendees.sort
-    
+    # @attendees = @show.attendees.sort
+  end
+
+  def checkin_attendee
+    @show = Show.find(params[:show_id])
+
+    if @show.checkin_attendee(params[:attendee_id], params[:attendee_type])
+      # format.html { redirect_to @user, notice: 'User was successfully created.' }
+      # format.js   {}
+      format.json { render json: {}, status: :created, location: @user }
+    else
+      # format.html { render action: "new" }
+      format.json { render json: {}, status: :unprocessable_entity }
+    end
+  end
+
+  def attendees
+    @show = Show.find(params[:show_id])
+
+    attendees = @show.attendees.sort_by do |name|
+      name.split(" ").last
+    end
+
+    attendees_checked_in = @show.attendees_checked_in.sort_by do |name|
+      name.split(" ").last
+    end
+
+    @all_attendees = [attendees, attendees_checked_in]
+
+    respond_to do |format|
+      format.json   { render :json => @all_attendees.to_json }
+    end
   end
 
   def show

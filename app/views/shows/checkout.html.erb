@@ -1,4 +1,9 @@
-<%= render 'shows/purchase_tickets', :sale => @sale %>
+<% if user_signed_in? %>
+<%= render 'shows/purchase_tickets_logged_in', :sale => @sale %>
+<% else %>
+<%= render 'shows/purchase_tickets_logged_out', :sale => @sale %>
+<% end %>
+
 <br>
 <% @tickets.each do |t| %>
 <%= t.attributes %>

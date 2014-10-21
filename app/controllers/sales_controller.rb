@@ -12,7 +12,6 @@ class SalesController < ApplicationController
 
   def checkout
     @show = Show.find(params[:show_id])
-    puts "froop219"
     puts params[:stripeToken]
     token = params[:stripeToken]
     @board = Board.find_by_vanity_url(params[:board_id])
@@ -30,7 +29,7 @@ class SalesController < ApplicationController
       # @tickets = current_user.tickets_retrieve_and_clear_expired
       reserved_tickets = Ticket.where(ticket_owner_id:current_user.id, ticket_owner_type:current_user.class.to_s, state:"reserved")
       @buyer = current_user
-      reserved_tickets.each do |t|
+      reserved_tickets.each do |t| # TODO - DRY this
         if t && !t.expired?
             @tickets << t
         elsif t
@@ -42,7 +41,7 @@ class SalesController < ApplicationController
       @cart = Cart.create(tickets:@tickets)
       remember = params[:stripe_remember_card]
 
-      if remember == "true" # wat
+      if remember == "true" # TODO - see if still necessary
         remember = true
       else
         remember = false
@@ -58,9 +57,7 @@ class SalesController < ApplicationController
         render json: { error: "A user has already registered with that email address. Please log in." }, status: 400 and return
       end
 
-      @buyer = Guest.find_or_create_by(email:@email)
-      @buyer.update(name: params[:name]) # TODO - make this save somehwere/how
-      @reserve_code = ""
+      @buyer = Guest.find_or_create_by(email:@email) 
       @tickets = []
       if params[:reserve_code]
         @reserve_code = params[:reserve_code]
@@ -93,11 +90,12 @@ class SalesController < ApplicationController
       )
 
     if @sale.save
+      @buyer.update(name: params[:name])
       @sale.queue_job!
       render json: { guid: @sale.guid }
     else
       render json: { error: @sale.errors.full_messages.join(". ") }, status: 400
-    end    
+    end
   end
 
   # def board_ticketed #new version for sales

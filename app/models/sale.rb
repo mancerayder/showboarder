@@ -192,6 +192,7 @@ class Sale < ActiveRecord::Base
     #     t.amount = options[:product].price
     #   end
     # end
+    # actioner.save
     sale
   end
 
