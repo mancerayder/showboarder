@@ -1,24 +1,21 @@
-<div class="row">
-  <div id="attendees" class="col-md-12">
-    <h2> Attendees </h2>
-    <div id="attendee"></div>
-  </div>
-</div>
-
-<div class="row">
-  <div id="attendees-checked-in" class="col-md-12">
-    <h2> Checked in </h2>
-    <div id="attendee-checked-in"></div>
-  </div>
-</div>
-
-SAME THING DONE AGAIN WITH REACT BELOW
 <div id="react-test">
 </div>
 
 
 <script type="text/jsx">
   /** @jsx React.DOM */
+
+  var AttendeeWrapper = React.createClass({
+    render: function() {
+      return <li>{this.props.data.name}</li>;
+    }
+  });
+
+  var CheckedInWrapper = React.createClass({
+    render: function() {
+      return <li>{this.props.data.name}</li>;
+    }
+  });
 
   var CheckinList = React.createClass({
     getInitialState: function() {
@@ -28,39 +25,48 @@ SAME THING DONE AGAIN WITH REACT BELOW
       };
     },
 
-    componentDidMount: function() {
-      $.get(this.props.source, function(result) {
-        console.log(result)
-        var attendees = result[0];
-        var checkedIn = result[1];
-        if (this.isMounted()) {
-          this.setState({
-            attendees: attendees,
-            checkedIn: checkedIn
-          });
-        }
-      }.bind(this));
-    },
-
-    render: function() {
-
-      var showAttendee = function(attendee) {
-        return <li key={attendee[1][0].guid}>{attendee[0]} has {attendee[1].length} tickets</li>;
+  componentDidMount: function() {
+    $.get(this.props.source, function(result) {
+      console.log(result)
+      var attendees = result[0];
+      var checkedIn = result[1];
+      if (this.isMounted()) {
+        this.setState({
+          attendees: attendees,
+          checkedIn: checkedIn
+        });
       }
+    }.bind(this));
+  },
+
+  render: function() {
+
+    var showAttendee = function(attendee) {
       return (
         <div>
-          <h2>Attendees</h2>
-          <ul>{this.state.attendees.map(showAttendee)}</ul>
-          <h2>Checked In</h2>
-          <ul>{this.state.checkedIn.map(showAttendee)}</ul>
+          <li key={attendee[1][0].guid}>{attendee[0]} has {attendee[1].length} tickets</li>
+          <button key={attendee[1][0].guid+"button"}>Check in</button>
         </div>
-        );
-      // return (
-      //   <div>
-      //     {this.state.username}s last gist is
-      //     <a href={this.state.lastGistUrl}>here</a>.
-      //   </div>
-      // );
+      );
+    }
+
+    var showCheckedIn = function(attendee) {
+      return (
+        <div>
+          <li key={attendee[1][0].guid+"ci"}>{attendee[0]} has {attendee[1].length} tickets</li>
+          <button key={attendee[1][0].guid+"cobutton"}>Check back out</button>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <h2>Attendees</h2>
+        <ul>{this.state.attendees.map(showAttendee)}</ul>
+        <h2>Checked In</h2>
+        <ul>{this.state.checkedIn.map(showCheckedIn)}</ul>
+      </div>
+      );
     }
   });
 
@@ -68,45 +74,4 @@ SAME THING DONE AGAIN WITH REACT BELOW
     <CheckinList source="/<%= @show.board.vanity_url %>/shows/<%= @show.id %>/attendees" />,
     document.getElementById('react-test')
   );
-</script>
-
-
-<script>
-  $(function () {
-    attenDiv = $('#attendee')
-    checkedInDiv = $('#attendee-checked-in')
-    
-    function attendees(callback) {
-      $.get('/<%= @show.board.vanity_url %>/shows/<%= @show.id %>/attendees', function( data ) {
-        // console.log(data)
-        return callback(data);
-      });
-    }    
-    
-    // function printAttendees( response ) {
-    //   console.log(response)
-    // }
-
-    // attendees(printAttendees);
-
-    function showAttendees( response ) {
-      // console.log(response);
-
-      $(response[0]).each(function( index ) {
-        var newDiv = attenDiv.clone()
-
-        newDiv.html("Name: " + response[0][index][0] + " has " + response[0][index][1].length.toString() + " tickets")
-        newDiv.appendTo($('#attendee').last().parent());
-      });
-
-      $(response[1]).each(function( index ) {
-        var newCheckedInDiv = checkedInDiv.clone()
-
-        newDiv.html("Name: " + response[1][index][0] + " is checked in with " + response[1][index][1].length.toString() + " tickets")
-        newDiv.appendTo($('#attendee-checked-in').last().parent());
-      });
-    }
-
-    attendees(showAttendees);
-  });
 </script>
