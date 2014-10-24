@@ -100,6 +100,19 @@ class ShowsController < ApplicationController
     end
   end
 
+  def checkout_attendee
+    @show = Show.find(params[:show_id])
+
+    if @show.checkout_attendee(params[:attendee_id], params[:attendee_type])
+      # format.html { redirect_to @user, notice: 'User was successfully created.' }
+      # format.js   {}
+      format.json { render json: {}, status: :created, location: @user }
+    else
+      # format.html { render action: "new" }
+      format.json { render json: {}, status: :unprocessable_entity }
+    end
+  end
+
   def attendees
     @show = Show.find(params[:show_id])
 
@@ -107,14 +120,14 @@ class ShowsController < ApplicationController
       name.split(" ").last
     end
 
-    attendees_checked_in = @show.attendees_checked_in.sort_by do |name|
-      name.split(" ").last
-    end
+    # attendees_checked_in = @show.attendees_checked_in.sort_by do |name|
+    #   name.split(" ").last
+    # end
 
-    @all_attendees = [attendees, attendees_checked_in]
+    # @all_attendees = [attendees, attendees_checked_in]
 
     respond_to do |format|
-      format.json   { render :json => @all_attendees.to_json }
+      format.json   { render :json => attendees.to_json }
     end
   end
 

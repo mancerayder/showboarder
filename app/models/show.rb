@@ -110,19 +110,19 @@ class Show < ActiveRecord::Base
   def attendees
     attendees = Hash.new { |hash, key| hash[key] = []}
 
-    self.tickets.where(state: "owned").each do |t|
+    self.tickets.where('state=? OR state=?', 'owned', 'used').each do |t|
       attendees[t.ticket_owner.name] = attendees[t.ticket_owner.name] << t
     end
     return attendees
   end
 
-  def attendees_checked_in
-    attendees = Hash.new { |hash, key| hash[key] = []}
+  # def attendees_checked_in # this was from before attendees were normalized in the react code
+  #   attendees = Hash.new { |hash, key| hash[key] = []}
 
-    self.tickets.where(state: "used").each do |t|
-      attendees[t.ticket_owner.name] = attendees[t.ticket_owner.name] << t
-    end
-  end
+  #   self.tickets.where(state: "used").each do |t|
+  #     attendees[t.ticket_owner.name] = attendees[t.ticket_owner.name] << t
+  #   end
+  # end
 
   def checkin_attendee(id, type)
     tickets = ticket.where(show_id:self.id, ticket_owner_id: id, ticket_owner_type: type, state: "owned")
@@ -131,6 +131,14 @@ class Show < ActiveRecord::Base
       t.use
     end
   end
+
+  def checkout_attendee(id, type)
+    tickets = ticket.where(show_id:self.id, ticket_owner_id: id, ticket_owner_type: type, state: "used")
+
+    tickets.each do |t|
+      t.unuse
+    end
+  end  
 
   # def tickets_state(state, quantity, buyer_id, buyer_type)
   #   if self.unsold_count <= quantity

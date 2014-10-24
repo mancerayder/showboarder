@@ -65,6 +65,10 @@ class Ticket < ActiveRecord::Base
     self.update(state:"used")
   end
 
+  def unuse
+    self.update(state:"owned")
+  end  
+
   def owner(user_or_guest)
     self.update_attributes(ticket_owner_type:user_or_guest.class.to_s, ticket_owner_id:user_or_guest.id)
   end
