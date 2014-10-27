@@ -7,15 +7,19 @@ class UsersController < ApplicationController
     @user = current_user
   end
 
-  def boards
-    @boards = current_user.boards.paginate(page: params[:page])
-  end
+  # def boards
+  #   @boards = current_user.boards.paginate(page: params[:page])
+  # end
 
-  def edit
+  # def edit
+  #   @user = current_user
+  # end
+
+  # def update
+  # end
+
+  def show
     @user = current_user
-  end
-
-  def update
   end
 
 #   def create

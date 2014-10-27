@@ -6,6 +6,16 @@ class BoardsController < ApplicationController
     @stage = @board.stages.build
   end
 
+  def edit
+    @board = Board.find_by_vanity_url(params[:id])
+    @stage = @board.stages.first
+  end
+
+  def update
+    @board = Board.find_by_vanity_url(params[:id])
+    @stage = @board.stages.first
+  end
+
   # def payout
   #   @board = Board.find_by_vanity_url(params[:board_id])
 

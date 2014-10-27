@@ -1,0 +1,20 @@
+<h2>Edit Board</h2>
+
+Name: <%= @board.name %>
+<br>
+Vanity URL: <%= @board.vanity_url %>
+<br>
+State: <%= @board.state %>
+<br>
+
+<h2>Edit Showboard</h2>
+
+<%= simple_form_for @board do |f| %>
+
+  <%= f.input :name %>
+
+  <%= f.input :vanity_url %>
+
+  <%= f.input :state, as: :radio_buttons %>
+  
+<% end %>

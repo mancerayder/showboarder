@@ -15,7 +15,7 @@ class CardsController < ActionController::Base
     render nothing: true, status: 404 and return unless @card
     render json: {guid: @card.guid, status: @card.state, error: @card.error}
     # if @card.state == "confirmed"
-    #   flash[:success] = "card added yo!"
+    #   flash[:success] = "card added!"
     # end
   end  
 
