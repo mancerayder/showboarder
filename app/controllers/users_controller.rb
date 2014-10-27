@@ -11,6 +11,13 @@ class UsersController < ApplicationController
     @boards = current_user.boards.paginate(page: params[:page])
   end
 
+  def edit
+    @user = current_user
+  end
+
+  def update
+  end
+
 #   def create
 #     @user = User.new(user_params)
 #     if @user.save

@@ -125,7 +125,7 @@ class Show < ActiveRecord::Base
   # end
 
   def checkin_attendee(id, type)
-    tickets = ticket.where(show_id:self.id, ticket_owner_id: id, ticket_owner_type: type, state: "owned")
+    tickets = self.tickets.where(ticket_owner_id: id, ticket_owner_type: type, state: "owned")
 
     tickets.each do |t|
       t.use
@@ -133,7 +133,7 @@ class Show < ActiveRecord::Base
   end
 
   def checkout_attendee(id, type)
-    tickets = ticket.where(show_id:self.id, ticket_owner_id: id, ticket_owner_type: type, state: "used")
+    tickets = self.tickets.where(ticket_owner_id: id, ticket_owner_type: type, state: "used")
 
     tickets.each do |t|
       t.unuse

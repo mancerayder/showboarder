@@ -8,7 +8,7 @@
   var CheckInButton = React.createClass({
     render: function() {
       return(
-        <button onClick={this.props.onclick} className="btn btn-default" >checkin</button>
+        <button onClick={this.props.onclick} className="btn btn-default" >Check in Attendee</button>
       )
     }
   });
@@ -16,7 +16,7 @@
   var CheckOutButton = React.createClass({
     render: function() {
       return(
-        <button>Check out</button>
+        <button onClick={this.props.onclick} className="btn btn-default" >Undo Checkin</button>
       )
     }
   });
@@ -93,48 +93,54 @@
     },
    
     handleCheckIn: function(attendeeGuid, ev) {
-      // console.log("clicked");
-      // TODO: Make a copy of the attendees list and the checkedIn list in state,
-      //       then remove the attendees with this guid from the attendee list
-      //       and add them to the checkedIn list (making sure to change the
-      //       isCheckedIn property on the attendee object), and call setState()
-      //       with these newly-updated lists.  This will udpate the UI
-      //       immediately.
-      //
-      //       Then call out to the server to check them in.
-      //
-      //       Finally, call this.updateAttendees() to make sure everything is
-      //       accurate, even if something got out of sync.
+      console.log('Checking in attendee: ' + attendeeGuid);
+      var modifiedAttendees = this.state.attendees
+ 
+      for (var attendee in modifiedAttendees) {
+        if (modifiedAttendees[attendee].guid == attendeeGuid && modifiedAttendees[attendee].isCheckedIn == false) {
 
-      console.log('Checked in attendee: ' + attendeeGuid);
-      // var modifiedAttendees = this.state.attendees
-
-      // for (var attendee in modifiedAttendees) {
-      //   if (attendee.guid == attendeeGuid && attendee.isCheckedIn == false) {
-      //     attendee.isCheckedIn = true;
-      //     $.ajax({
-      //       type: "POST",
-      //       url: this.props.checkinRoute,
-      //       data: {attendee_id: attendee.id, attendee_type:attendee.type}
-      //       // success: console.log('attendee checked in')
-      //       // dataType: dataType
-      //     });
-      //   }
-      // }
-
-      // this.setState({
-      //   attendees: modifiedAttendees
-      // })
-
+          modifiedAttendees[attendee].isCheckedIn = true;
+          $.ajax({
+            type: "POST",
+            url: this.props.checkInRoute,
+            data: {attendee: {attendee_id: modifiedAttendees[attendee].id, attendee_type:modifiedAttendees[attendee].type}}
+            // success: console.log('attendee checked in'),
+            // dataType: "json"
+          });
+        }
+      }
+ 
+      this.setState({
+        attendees: modifiedAttendees
+      })
+ 
       this.updateAttendees();
       
     },
    
     handleCheckOut: function(attendeeGuid, ev) {
-      // TODO: Same as above, but moving the attendee from the checkedIn list to
-      //       the attendees list.
+      console.log('Checking out attendee: ' + attendeeGuid);
+      var modifiedAttendees = this.state.attendees
+ 
+      for (var attendee in modifiedAttendees) {
+        if (modifiedAttendees[attendee].guid == attendeeGuid && modifiedAttendees[attendee].isCheckedIn == true) {
+
+          modifiedAttendees[attendee].isCheckedIn = false;
+          $.ajax({
+            type: "POST",
+            url: this.props.checkOutRoute,
+            data: {attendee: {attendee_id: modifiedAttendees[attendee].id, attendee_type:modifiedAttendees[attendee].type}}
+            // success: console.log('attendee checked in'),
+            // dataType: "json"
+          });
+        }
+      }
+ 
+      this.setState({
+        attendees: modifiedAttendees
+      })
+ 
       this.updateAttendees();
-      console.log('Checked out attendee: ' + attendeeGuid);
     },
    
     render: function() {
@@ -147,20 +153,20 @@
             return <Attendee key={attendee.guid}
                              attendee={attendee}
                              onCheckIn={this.handleCheckIn} />;
-          })}</ul>
+          }.bind(this))}</ul>
           <h2>Checked In</h2>
           <ul>{this.state.attendees.filter(function(el) { return el.isCheckedIn == true }).map(function(attendee) {
             return <Attendee key={attendee.guid}
                              attendee={attendee}
                              onCheckOut={this.handleCheckOut} />;
-          })}</ul>
+          }.bind(this))}</ul>
         </div>
         );
       }
     });
    
   React.renderComponent(
-    <CheckInList source="/<%= @show.board.vanity_url %>/shows/<%= @show.id %>/attendees" checkinRoute="/<%= @show.board.vanity_url %>/shows/<%= @show.id %>/checkinattendee" checkoutRoute="/<%= @show.board.vanity_url %>/shows/<%= @show.id %>/checkoutattendee" />,
+    <CheckInList source="/<%= @show.board.vanity_url %>/shows/<%= @show.id %>/attendees" checkInRoute="/<%= @show.board.vanity_url %>/shows/<%= @show.id %>/checkinattendee" checkOutRoute="/<%= @show.board.vanity_url %>/shows/<%= @show.id %>/checkoutattendee" />,
     document.getElementById('react-test')
   );
 </script>

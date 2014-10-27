@@ -89,27 +89,29 @@ class ShowsController < ApplicationController
 
   def checkin_attendee
     @show = Show.find(params[:show_id])
+    @attendee = params[:attendee]
 
-    if @show.checkin_attendee(params[:attendee_id], params[:attendee_type])
+    if @show.checkin_attendee(@attendee["attendee_id"], @attendee["attendee_type"])
       # format.html { redirect_to @user, notice: 'User was successfully created.' }
       # format.js   {}
-      format.json { render json: {}, status: :created, location: @user }
+      render :json => { status: :checked_in }
     else
       # format.html { render action: "new" }
-      format.json { render json: {}, status: :unprocessable_entity }
+      render :json => { status: :unprocessable_entity }
     end
   end
 
   def checkout_attendee
     @show = Show.find(params[:show_id])
+    @attendee = params[:attendee]
 
-    if @show.checkout_attendee(params[:attendee_id], params[:attendee_type])
+    if @show.checkout_attendee(@attendee["attendee_id"], @attendee["attendee_type"])
       # format.html { redirect_to @user, notice: 'User was successfully created.' }
       # format.js   {}
-      format.json { render json: {}, status: :created, location: @user }
+      render :json => { status: :checkedOut }
     else
       # format.html { render action: "new" }
-      format.json { render json: {}, status: :unprocessable_entity }
+      format.json { render json: {attendee: @attendee["attendee_id"]}, status: :unprocessable_entity }
     end
   end
 
