@@ -6,7 +6,7 @@
   <div><%= f.label :email %><br />
   <%= f.email_field :email, :autofocus => true %></div>
 
-  <div><%= f.label :name, "Full Name (Used for will call - must match your photo ID)" %> <br />
+  <div class="form-group"><%= f.label :name, "Full Name (Used for will call - must match your photo ID)" %> <br />
   <%= f.text_field :name %>
 
   <div><%= f.label :password %><br />
@@ -23,10 +23,5 @@
 
   <div><%= f.submit "Sign up" %></div>
 <% end %>
-
-<%= @reserve_code || "doop1" %>
-<br>
-<%= @reserve_show || "doop2" %>
-<br>
 
 <%= render "devise/shared/links" %>

@@ -2,19 +2,23 @@ class StaticPagesController < ApplicationController
   def home
     if user_signed_in?
       @user = current_user
-      if @user.boards.count > 1
-        @boards = @user.boards.paginate(page: params[:page])
-      end
       if @user.boards.count == 1
         @board = @user.boards.first
         @shows = @board.shows.paginate(page: params[:page])
       end
-      # @boards_paginated = []
-      # @boards.each do |p|
-      #   @boards_paginated << p.paginate(page: params[:page])
+      # @boards = current_user.boards
+      # if @boards.count > 1
+      #   @boards = @boards.paginate(page: params[:page])
       # end
+
+      # if @boards.count == 1
+      #   @board = @boards.first
+      #   @shows = @board.shows.paginate(page: params[:page])
+      # end
+      render layout: "application"
+    else
+      render layout: "landing"
     end
-    render :layout => "home"
   end
 
   def about

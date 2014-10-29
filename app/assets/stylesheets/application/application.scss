@@ -1,0 +1,73 @@
+@import "bootstrap";
+@import "font-awesome";
+
+body {
+  padding-top:40px;
+}
+
+.navbar {
+  margin-bottom: 0;
+  border-bottom: 1px solid rgba(255,255,255,.3);
+  text-transform: uppercase;
+  font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  background-color: #0A0A0A;
+  border-bottom: 1px solid rgba(255,255,255,.3);
+  letter-spacing: 1px;
+  min-height: 40px;
+  max-height: 40px;
+}
+
+.navbar-header {
+  // line-height:5px;
+  min-height: 40px;
+  max-height: 40px;  
+}
+
+.navbar-brand {
+  min-height:40px;
+  max-height:40px;
+  font-weight: 700;
+  padding-top: 10px;
+}
+
+.navbar-brand:focus {
+  outline: 0;
+}
+
+.navbar-custom a {
+  color: #fff;
+}
+
+.navbar-custom .nav li a {
+  line-height: 10px;
+  -webkit-transition: background .3s ease-in-out;
+  -moz-transition: background .3s ease-in-out;
+  transition: background .3s ease-in-out;
+}
+
+.navbar-custom .nav li a:hover,
+.navbar-custom .nav li a:focus,
+.navbar-custom .nav li.active {
+  outline: 0;
+  background-color: rgba(255,255,255,.4);
+}
+
+.navbar-toggle {
+  padding: 0px;
+  // padding: 4px 6px;
+  font-size: 16px;
+  color: #fff;
+}
+
+.navbar-toggle:focus,
+.navbar-toggle:active {
+  outline: 0;
+}
+
+.light {
+  font-weight: 400;
+}
+
+.panel-primary {
+  margin-top: 40px;
+}

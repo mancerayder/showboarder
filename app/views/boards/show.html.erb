@@ -1,4 +1,4 @@
-<%= @board.name %>
+<%= link_to @board.name, @board %>
 <br>
 <%= @board.stages.first.places_formatted_address_short %>
 <% if user_signed_in? %>
@@ -17,7 +17,7 @@ capacity <%= @board.stages.first.capacity %>
 <br>
 
 
-<%= render 'enable_ticketing_button'%>
+<%= render 'boards/enable_ticketing_button' %>
 
 boarder
 <% else %>

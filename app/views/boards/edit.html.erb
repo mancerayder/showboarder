@@ -15,6 +15,11 @@ State: <%= @board.state %>
 
   <%= f.input :vanity_url %>
 
-  <%= f.input :state, as: :radio_buttons %>
-  
+  <%= f.collection_radio_buttons :state, [['public', 'Public'], ['private', 'Private']], :first, :last, :item_wrapper_class => 'radio-inline' %>
+
+  <br>
+  <br>
+
+  <%= f.button :submit %>
+
 <% end %>

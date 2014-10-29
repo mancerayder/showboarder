@@ -1,139 +1,76 @@
-<%= javascript_include_tag :show_form %>
-
-<h1>Add a show</h1>
-<br>
-
-
-
-
-<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-<%= simple_nested_form_for [@board, @show], html:{id:"show-form"} do |f| %>
-  <%= render 'shared/error_messages', object: f.object %>
-
-  <script>
-
-    $(function() {
-
-      function eretrieve( value, id, field ) {
-        // grabs act-specific links, makes and fills a field for each
-        // makes and fills hidden field for echonest_id
-        $.ajax({
-          url: "/eretrieve/" + value,
-          dataType: "json",
-          ///////////////////////////////////
-          success: function (data) {
-            var echoField = field.find('.hidden').filter('input');
-            var echoButton = field.find('button');
-
-            if (echoButton.hasClass("btn-echoclear")) {
-              echoButton.removeClass("btn-echoclear");
-            }
-
-            echoButton.click(function() {
-              field.find('input').not(field.find(".required")).val('');
-
-              
-              field.find("a.remove_nested_fields:contains(Remove this link)").click();
-              if (echoField.val() === "") {
-                if (!echoButton.hasClass("btn-echoclear")) {
-                  echoButton.addClass("btn-echoclear");
-                }
-              } else {
-                if (echoButton.hasClass("btn-echoclear")) {
-                  echoButton.removeClass("btn-echoclear");
-                }
-              }              
-            });
-            echoField.val(id);
-
-
-            
-            // $(field.find('.string').filter('input')[1]).val('test');
-            var urls = data["urls"]
-            for (var key in urls) {
-              if (urls.hasOwnProperty(key)) {
-                $(field).on('nested:fieldAdded', function(event){
-                  var dropdown = event.field.find('select').first();
-                  if (key == 0 || key == 1 || key == 2 || key == 3 || key == 4 || key == 5 ){
-                    dropdown.prop('selectedIndex', key);
-                  }
-                  event.field.find('.string').filter('input').first().val(urls[key]);
-                  var dropdown = event.field.find('select').first();
-                  // TODO: fix bug where adding more links auto-inserts the last element of the urls array
-                });
-                field.find('a.add_nested_fields').click();
-              }
-            }
-          }
-          //////////////////////////
-        });
-      };
-
-      $(document).on('nested:fieldAdded:acts', function(event){
-        // this field was just inserted into your form
-        var field = event.field; 
-        // it's a jQuery object already! Now you can find date input
-        var bandField = field.find('.string').filter('input').first();
-
-        // and activate datepicker on it
-        bandField.autocomplete({
-          source: function( request, response ) {
-            $.ajax({
-              url: "/esuggest/" + request.term,
-              dataType: "json",
-              success: function( data ) {
-                response( data );
-              }
-            });
-          },
-          minLength: 3, 
-          select: function( event, ui ) {
-            eretrieve(ui.item.value, ui.item.id, field);
-          }
-        });
-      })
-    });
-
-  </script>
-
-  <%= f.label :ticketing_type %>
-  
-  <%= f.select :ticketing_type, options_for_select(%w[Ticketed Free]) %>
-
-  <label for="show-date">Show Date</label>  
-  <div class="input-group date">
-    <input type="text" id="datez" name="show_date" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-  </div>
-
-  <label for="door-time">Door time</label>
-  <input type="time" name="door_time" id="inputDoor-Time" class="form-control" value="19:00" required="required" title="">
-
-  <label for="show-time">Show Time</label>
-  <input type="time" name="show_time" id="inputShow-Time" class="form-control" value="20:00" required="required" title="">
-
-  <%= f.label :price_adv %>
-  <%= f.text_field :price_adv, :class => 'cost', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0) %>
-
-  <%= f.fields_for :acts do |ff| %>    
-    <%= ff.input :echonest_id, as: :hidden %>
-    <%= ff.input :name, :type => "text", :name => "bandz", :id=> "bandz", :class=> "form-control", :value=> "", :required=> "required", :pattern=> "", :title=> "" %>
-
-    <button type="button" id="btn-echoclear" class="btn btn-default btn-echoclear">Clear echonest data</button>
-
-    <%= ff.fields_for :ext_links do |fff| %>
+<%= javascript_include_tag :showForm %>
+<%= javascript_include_tag :newShowForm %>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3 text-center">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h4>Add a show</h4>
+    </div>
     <br>
-    <br>
-      <%= fff.select :ext_site, options_for_select(%w[Homepage Lastfm Twitter Myspace Wikipedia Musicbrainz Soundcloud Bandcamp Youtube Facebook]) %>
-      <%= fff.input :url %>
-      <%= fff.link_to_remove "Remove this link" %>
-    <% end %>
-    <p><%= ff.link_to_add "Add a link", :ext_links %></p>
+    <div class="panel-body">
+      <%= simple_nested_form_for [@board, @show], html:{id:"show-form"} do |f| %>
+        <%= render 'shared/error_messages', object: f.object %>
 
-  <%= ff.link_to_remove "Remove this act" %>
+        <div class="form-group">
+          <%= f.label :ticketing_type, class: "" %>
+          <%= f.select :ticketing_type, options_for_select(%w[Ticketed Free None]), {}, {:class => 'form-control'} %>
+        </div>
 
-  <% end %>
-  <p><%= f.link_to_add "Add an act", :acts %></p>
+        <div class="form-group">
+          <label for="show-date">Show Date</label>  
+          <div class="input-group date">
+            <input type="text" id="datez" name="show_date" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+          </div>
+        </div>
 
-  <%= f.submit "Add show", class: "btn btn-large btn-primary" %>
+        <div class="form-group">
+          <label for="door-time">Door time</label>
+          <input type="time" name="door_time" id="inputDoor-Time" class="form-control" value="19:00" required="required" title="">
+        </div>
+
+        <div class="form-group">
+          <label for="show-time">Show Time</label>
+          <input type="time" name="show_time" id="inputShow-Time" class="form-control" value="20:00" required="required" title="">
+        </div>
+
+
+        <div class="form-group">
+          <%= f.label :price_adv, "Online Ticket Price ($)" %>
+          <%= f.text_field :price_adv, :class => 'cost form-control bfh-number', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0), data_min: "0", value: "10" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :price_door, "Door Ticket Price ($)" %>
+          <%= f.text_field :price_door, :class => 'cost form-control bfh-number', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0), data_min: "0", value: "10" %>
+        </div>
+
+          <%= f.fields_for :acts do |ff| %>
+          <div class="panel panel-success">
+            <%= ff.input :echonest_id, as: :hidden %>
+            <%= ff.input :name, :type => "text", :name => "bandz", :id=> "bandz", :class=> "form-control", :value=> "", :required=> "required", :pattern=> "", :title=> "" %>
+
+            <button type="button" id="btn-echoclear" class="btn btn-default btn-echoclear">Clear echonest data</button>
+
+            <%= ff.fields_for :ext_links do |fff| %>
+            <br>
+            <br>
+              <%= fff.select :ext_site, options_for_select(%w[Homepage Lastfm Twitter Myspace Wikipedia Musicbrainz Soundcloud Bandcamp Youtube Facebook]), {}, {:class => "form-control"} %>
+              <%= fff.input :url %>
+              <%= fff.link_to_remove "Remove this link" %>
+            <% end %>
+          </div>
+
+          <p><%= ff.link_to_add "Add a link", :ext_links %></p>
+
+        <%= ff.link_to_remove "Remove this act" %>
+
+        <% end %>
+        <p><%= f.link_to_add "Add an act", :acts %></p>
+
+        <%= f.submit "Add show", class: "btn btn-large btn-primary" %>
+        </div>
+      <% end %>
+    </div>
   </div>
-<% end %>
+</div>
+
