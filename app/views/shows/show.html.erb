@@ -1,26 +1,62 @@
-<h1><%= @acts_stringed + " at #{@show.board.name}"  %></h1>
-<h2><%= @show.show_at.to_time.strftime('%B %e at %l:%M %p') %></h2>
+<div class="row">
+  <div class="col-xs-12 text-center">
+    <h1>
+      <%= @show.show_at.to_time.strftime('%B %e') %> at <%= link_to "#{@show.board.name}", @show.board %></h1>
+    </h1>
+    <br>
+    <h2>
+      <% @show.acts.each do |a| %>
+        <%= link_to a.name.to_s, a %>
+        <% if a != @show.acts.last %>
+          -
+        <% end %>          
+      <% end %>
+    </h2>
+      <br>
+      
+    <h3>
+      Doors <%= @show.door_at.to_time.in_time_zone(@show.board.timezone).strftime('%l:%M %p') %> - Show <%= @show.show_at.to_time.in_time_zone(@show.board.timezone).strftime('%l:%M %p') %>
+    </h3>
 
-<%= link_to "Back to #{@show.board.name}", @show.board %>
-<br>
-<% if user_signed_in? %>
+    <h3>
+      <% if @show.price_adv != @show.price_door %>
+        <%= number_to_currency(@show.price_adv, unit:"$", :precision => 0) %> advance - <%= number_to_currency(@show.price_adv, unit:"$", :precision => 0) %> at the door
+      <% else %>
+        <%= number_to_currency(@show.price_adv, unit:"$", :precision => 0) %>
+      <% end %>
 
-<% end %>
-<br>
+    </h3>
+    <br>
+    <% if user_signed_in? %>
 
-<% if @show.ticketing_type == "paid" %>
-  <%= render 'reserve_tickets_button' %>
-<% elsif @show.ticketing_type == "pwyw" %>
-<% elsif @show.ticketing_type == "rsvp" %>
-<% else %>
-This show is free!
-<% end %>
+    <% end %>
+    <br>
 
-<%= render @show.acts %>
+    <% if @show.ticketing_type == "paid" %>
+      <%= render 'reserve_tickets_button' %>
+    <% elsif @show.ticketing_type == "pwyw" %>
+    <% elsif @show.ticketing_type == "rsvp" %>
+    <% else %>
+    This show is free!
+    <% end %>
+  </div>
+</div>
 
-<br>
-<%= number_to_currency(@show.price_adv, unit:"$") %>
+<script>
+  $(function() {
+    var reservePriceUpdate = function() {
+      var reservePrice = 0
+      var btnString = ""
 
-Door time is <%= @show.door_at.in_time_zone(@show.board.timezone).strftime("%B %d, %Y at %l:%M %p") %>
-<br>
-Show time is <%= @show.show_at.in_time_zone(@show.board.timezone).strftime("%B %d, %Y at %l:%M %p") %>
+      reservePrice = parseInt($('.ticket-reserve').val() * <%= @show.price_adv %>)
+
+      btnString = "$" + reservePrice.toString() + " Proceed to Checkout"
+      $('.btn-reserve').val(btnString)
+    }
+    reservePriceUpdate();
+
+    $('.ticket-reserve').change(function() {
+      reservePriceUpdate();
+    })
+  });
+</script>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140930210825) do
+ActiveRecord::Schema.define(version: 20141029234907) do
 
   create_table "acts", force: true do |t|
     t.string   "name"
@@ -153,13 +153,14 @@ ActiveRecord::Schema.define(version: 20140930210825) do
     t.datetime "show_at"
     t.decimal  "price_adv",       precision: 8, scale: 2
     t.decimal  "price_door",      precision: 8, scale: 2
-    t.boolean  "pwyw",                                    default: false,  null: false
+    t.boolean  "pwyw",                                    default: false,      null: false
     t.string   "ticketing_type",                          default: "none"
     t.integer  "custom_capacity"
     t.integer  "payer_id"
     t.datetime "paid_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "min_age",                                 default: "All ages"
   end
 
   create_table "stages", force: true do |t|

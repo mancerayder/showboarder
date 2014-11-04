@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-md-10 col-md-offset-1 text-center">
+    <h1><%= @act.name %></h1>
+    <br>
+    <h2>Links</h2>
+    <% @act.ext_links.each do |l| %>
+      <%= link_to l.ext_site, l.url, :class => "band-link", :target => "blank" %>
+    <% end %>
+    <br>
+    <h2>Shows</h2>
+    <% @act.shows.each do |s| %>
+      <%= link_to s.board.name + " on " + s.show_at.to_time.strftime('%b %e'), board_show_path(s.board, s), :class => "band-link" %>
+    <% end %>
+  </div>
+</div>

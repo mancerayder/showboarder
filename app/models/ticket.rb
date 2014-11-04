@@ -1,7 +1,7 @@
 class Ticket < ActiveRecord::Base
   belongs_to :user
   belongs_to :ticket_owner, polymorphic: true
-  belongs_to :show, dependent: :destroy
+  belongs_to :show
   belongs_to :referral_band
   has_and_belongs_to_many :carts
 

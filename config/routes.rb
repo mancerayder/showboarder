@@ -39,6 +39,8 @@ Showboarder::Application.routes.draw do
     end
     resources :stages, only: [:create]
   end
+
+  resources :acts, only: [:show]
   
   resources :stripe_events, only: [:create]
   # resources :cards, only: [:create]

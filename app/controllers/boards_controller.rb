@@ -82,7 +82,7 @@ class BoardsController < ApplicationController
       redirect_to @board
     else
       render 'boards/new'
-    end    
+    end
   end
 
   def show

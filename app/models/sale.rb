@@ -120,7 +120,7 @@ class Sale < ActiveRecord::Base
           end
 
           connect_token = Stripe::Token.create({ #make stripe token for each owner
-              customer:customer.id,
+              customer: customer.id,
               card: card.id
             }, o[0]
           )
@@ -151,7 +151,7 @@ class Sale < ActiveRecord::Base
           actionee.update(paid_tier:1, paid_at:Time.now)
           Subscription.create(user_id:actioner.id, board_id:actionee.id, paid_at: DateTime.now, paid_until: DateTime.now + 1.month, plan: plan, stripe_id: sub.id)
         end
-      end #todo: handle new default cards so they don't destroy the old ones - like for subscriptions
+      end # TODO : handle new default cards so they don't destroy the old ones - like for subscriptions. NOTE: not necessary unless stripe checkout is ditched
     self.finish!
 
     rescue Stripe::StripeError => e

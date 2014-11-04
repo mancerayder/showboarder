@@ -6,6 +6,6 @@
   </article>
 
   <%= label(:ticket, :quantity) %>
-  <%= number_field_tag 'quantity', params[:quantity], :class => "form-control ticket-reserve", value: 2, :in => 1...8, required: "required", name: "quantity" %>
-  <%= submit_tag "Proceed to Checkout", class: "btn btn-primary" %>
+  <%= number_field_tag 'quantity', params[:quantity], :class => "form-control ticket-reserve", value: 1, :in => 1...8, required: "required", name: "quantity" %>
+  <%= submit_tag "Proceed to Checkout", class: "btn btn-primary btn-reserve" %>
 <% end %>

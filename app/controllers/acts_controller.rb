@@ -17,4 +17,8 @@ class ActsController < ApplicationController
   def eretrieve #echonest artist search with single response
     render :json => Act.echo_by_name(params[:act])
   end
+
+  def show
+    @act = Act.find_by(params[:id])
+  end
 end

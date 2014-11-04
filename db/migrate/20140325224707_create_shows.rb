@@ -10,7 +10,7 @@ class CreateShows < ActiveRecord::Migration
       t.datetime :show_at
       t.decimal :price_adv, :precision => 8, :scale => 2
       t.decimal :price_door, :precision => 8, :scale => 2
-      t.boolean :pwyw, :null => false, :default => false
+      # t.boolean :pwyw, :null => false, :default => false
       # t.boolean :for_sale
       # t.boolean :rsvp_only
       # t.boolean :ticketed

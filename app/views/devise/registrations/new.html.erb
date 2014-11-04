@@ -1,27 +1,39 @@
-<h2>Sign up</h2>
+<div class="row">
+  <div class="col-xs-6 col-xs-offset-3 text-center">
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
+    <h2>Sign up</h2>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
+    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+      <%= devise_error_messages! %>
+      <div class="form-group">
+        <div><%= f.label :email %><br />
+        <%= f.email_field :email, :autofocus => true, class: "form-control" %></div>
+      </div>
 
-  <div class="form-group"><%= f.label :name, "Full Name (Used for will call - must match your photo ID)" %> <br />
-  <%= f.text_field :name %>
+      <div class="form-group">
+        <%= f.label :name, "Full Name (Used for will call - must match your photo ID)" %> <br />
+        <%= f.text_field :name, class: "form-control"  %>
+      </div>
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
+      <div class="form-group">
+        <div><%= f.label :password %><br />
+        <%= f.password_field :password, class: "form-control"  %></div>
+      </div>
 
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
+      <div class="form-group">
+        <div><%= f.label :password_confirmation %><br />
+        <%= f.password_field :password_confirmation, class: "form-control"  %></div>
+      </div>
 
-  <% if @reserve_code != "" %>
+      <% if @reserve_code != "" %>
 
-  <%= f.hidden_field :reserve_code, :value => @reserve_code %>
+      <%= f.hidden_field :reserve_code, :value => @reserve_code %>
 
-  <% end %>
+      <% end %>
 
-  <div><%= f.submit "Sign up" %></div>
-<% end %>
+      <div><%= f.submit "Sign up", class: "btn btn-primary" %></div>
+    <% end %>
 
-<%= render "devise/shared/links" %>
+    <%= render "devise/shared/links" %>
+  </div>
+</div>

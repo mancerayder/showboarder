@@ -582,3 +582,19 @@ label {
 .input-group > .bfh-number-btn:hover {
   background-color: #cccccc;
 }
+
+.vcenter {
+  display: inline-block;
+  vertical-align: middle;
+  float: none;
+}
+
+.board-header {
+  height: 250px;
+}
+
+.show-meta {
+  font-size: 14px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}

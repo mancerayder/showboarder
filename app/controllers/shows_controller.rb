@@ -142,11 +142,20 @@ class ShowsController < ApplicationController
   end
 
   def destroy
+    @show = Show.find(params[:id])
+    @board = @show.board
+    if current_user.boarder?(@board)
+      board_role = current_user.board_role(@board)
+      if board_role == "owner" || board_role == "manager"
+        @show.destroy
+      end
+    end
+    redirect_to @board
   end
 
   private
 
     def show_params
-      params.require(:show).permit(:state, :error, :announce_at, :door_at, :ticketing_type, :show_at, :custom_capacity, :payer_id, :paid_at, :price_adv, :price_door, :board, {acts_attributes: [{ext_links_attributes: [:id, :ext_site, :url, :type, :linkable_type]},:id, :name, :email, :echonest_id, :_destroy ]})
+      params.require(:show).permit(:state, :error, :announce_at, :door_at, :min_age, :ticketing_type, :show_at, :custom_capacity, :payer_id, :paid_at, :price_adv, :price_door, :board, {acts_attributes: [{ext_links_attributes: [:id, :ext_site, :url, :type, :linkable_type]},:id, :name, :email, :echonest_id, :_destroy ]})
     end
 end

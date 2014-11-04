@@ -1,4 +1,4 @@
-<h3><%= act.name %></h3>
+<h3><%= link_to act.name, act %></h3>
 | <% act.ext_links.each do |e| %>
 <%= link_to e.ext_site, e.url, :target => "_blank" %> | 
 <% end %>

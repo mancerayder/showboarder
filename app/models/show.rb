@@ -1,10 +1,10 @@
 class Show < ActiveRecord::Base
-  belongs_to :stage, dependent: :destroy
-  belongs_to :board, dependent: :destroy
+  belongs_to :stage
+  belongs_to :board
   has_many :ext_links, as: :linkable
-  has_many :tickets
-  has_many :sales, as: :actionee
-  validates :ticketing_type, presence: true
+  has_many :tickets, dependent: :destroy
+  has_many :sales, as: :actionee, dependent: :destroy
+  validates :ticketing_type, :price_door, :price_adv, presence: true
   has_and_belongs_to_many :acts
   accepts_nested_attributes_for :acts, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :ext_links, :reject_if => :all_blank, :allow_destroy => true
@@ -101,7 +101,7 @@ class Show < ActiveRecord::Base
     self.acts.each do |a|
       stringed = stringed + a.name
       if a != self.acts.last
-        stringed = stringed + ", "
+        stringed = stringed + " - "
       end
     end
     return stringed
@@ -138,7 +138,7 @@ class Show < ActiveRecord::Base
     tickets.each do |t|
       t.unuse
     end
-  end  
+  end
 
   # def tickets_state(state, quantity, buyer_id, buyer_type)
   #   if self.unsold_count <= quantity
