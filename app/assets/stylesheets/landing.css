@@ -9,8 +9,7 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require_tree ./landing
- *= require landing
+ *= require_tree ./graphista
  *= require jquery-ui
 
  */

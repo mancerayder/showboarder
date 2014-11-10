@@ -1,27 +1,305 @@
- <% if user_signed_in? %>
-  <% if @board %>
-    <%= render :file => 'boards/show' %>
-  <% else %>
-  <% end %>
-<% else %>
 
-  <section class="intro">
-    <div class="intro-body">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-10 col-md-offset-1">
-            <h1 class="brand-heading">Showboarder</h1>
-            <p class="intro-text">List, promote, and sell <i>fee free</i> tickets to shows at your venue.</p>
-            <div class="col-sm-6">
-              <%= link_to "Create a Showboard Now", new_user_registration_path, class: "btn btn-default btn-lg btn-front" %>
-            </div>
+		<header id="home">
+		
+			<div class="container text-center">
+				
+				<p>Goodbye cash-at-the-door, hello</p>
 
-            <div class="col-sm-6">
-              <%= link_to "Learn More", about_path, class: "btn btn-default btn-lg btn-front" %>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-<% end %>
+				<h1 class="big-text">Showboarder</h1>
+
+				<p>List shows, sell tickets</p>
+
+
+				<div class="row">
+					<div class="col-sm-4 col-sm-offset-2 col-xs-6 col-xs-offset-3">
+
+
+						<button name="submit" type="submit" class="btn btn-color2 btn-block btn-header1" data-error-message="Error!" data-sending-message="Sending..." data-ok-message="Message Sent">Create a Showboard</button>
+					</div>
+					<div class="col-sm-4 col-sm-offset-0 col-xs-6 col-xs-offset-3"><a href="#services" class="scrollto">
+						<button name="submit" type="submit" class="btn btn-color1 btn-block btn-header2" data-error-message="Error!" data-sending-message="Sending..." data-ok-message="Message Sent">Learn more</button></a>
+					</div>
+				</div>
+			
+			</div>
+			
+		</header><!--End header -->
+		
+		<!-- ==============================================
+		SERVICES
+		=============================================== -->
+		<section id="services" class="add-padding">
+		
+			<div class="container">
+				
+				<h1 class="section-title big-text scrollimation fade-up">Ticketing that makes sense for your venue</h1>
+				
+				
+
+				<div class="row">
+
+					<div class="col-sm-4 service-item color3 scrollimation scale-in">
+					
+						<div class="service-icon"><i class="fa fa-heart"></i></div>
+						
+						<h3>Give your customers what they want</h3>
+						
+						<p>A simple, beautiful ticket purchasing experience that empowers your customers and puts them in control. Fees are 100% optional with a customizable amount going to charity!</p>
+						
+						
+					</div>
+
+					<div class="col-sm-4 service-item color1 scrollimation scale-in d1">
+					
+						<div class="service-icon"><i class="fa fa-mobile"></i></div>
+						
+						<h3>Mobile-friendly</h3>
+						
+						<p>A Showboard is a beautiful, responsive, fully-featured online hub for all of your venue's event needs. Reach your audience and give them a great experience no matter where they're coming from.</p>
+						
+						
+					</div>
+				
+
+				
+					
+					<div class="col-sm-4 service-item color2 scrollimation scale-in d2">
+					
+						<div class="service-icon"><i class="fa fa-lightbulb-o"></i></div>
+						
+						<h3>Detailed Analytics</h3>
+						
+						<p>Knowledge is power. Track attendance, traffic, tip amounts, repeat customers, and more.  Learn what works for your customers and your business like never before.</p>
+						
+					</div>
+					
+				</div>
+				
+			</div>
+		
+		</section>	
+
+		<!-- ==============================================
+		ABOUT
+		=============================================== -->
+		<section id="about" class="add-padding bg-color2">
+		
+			<div class="container">
+				
+				<div class="row">
+				
+					<div class="col-sm-6 scrollimation fade-right d1">
+					
+						<img class="img-responsive polaroid" src=<%= asset_path "graphista/about.jpg" %> alt="" />
+					
+					</div>
+					
+					<div class="col-sm-6 scrollimation fade-left d3">
+					
+						<h1 class="big-text">I am <br/>Jane Doe </h1>
+						
+						<p class="lead">I am Jane Doe, a twenty five year old designer from NY. I have graduated with a Bachelor degree of Graphic &amp; Web Design, from the University of Pasadena.</p>
+					
+						<p>I am passionate about combining function, interaction and form to design for fitting user experiences that make people happy. I have a passion for creating challenging, intuitive and beautiful products. My design process is very hands-on and visual.</p>
+					
+					</div>
+				
+				</div>
+				
+			</div>
+		
+		</section>
+	
+		<!-- ==============================================
+		SKILLS
+		=============================================== -->
+		<section id="analytics" class="add-padding border-bottom-color2">
+		
+			<div class="container">
+				
+				<div class="row">
+				
+					<div class="col-sm-6 col-md-5 text-right scrollimation fade-up d1">
+					
+						<h1 class="big-text">Detailed<br/>Analytics</h1>
+						
+						<p class="lead">Knowledge is power. Learn what works for your customers and your business.</p>
+					
+						<p>Traditional cash-at-the-door ticketing yields little information. Showboarder helps you learn who your customers are and how, when, and why they are buying.</p>
+					
+					</div>
+				
+					<div class="col-sm-6 col-md-5 col-md-offset-1">
+					
+						<div class="skills-bars">
+						
+							<div class="skills-item skill1">
+								<span class="percent" data-percent="35">35%</span>
+								<p>Repeat</p>
+							</div>
+							<div class="skills-item skill2">
+								<span class="percent" data-percent="65">65%</span>
+								<p>New Cust</p>
+							</div>
+							<div class="skills-item skill3">
+								<span class="percent" data-percent="20">20%</span>
+								<p>Door $</p>
+							</div>
+							<div class="skills-item skill4">
+								<span class="percent" data-percent="80">80%</span>
+								<p>Online $</p>
+							</div>
+							
+						</div>
+					
+					</div>
+					
+				</div>
+				
+			</div>
+		
+		</section>
+			
+		<!-- ==============================================
+		TWITTER
+		=============================================== -->
+		<section id="twitter" class="add-padding bg-color1">
+		
+			<div class="container">
+				<div class="row scrollimation fade-in">
+					<div class="col-sm-1 twitter-icon">
+						<i class="fa fa-twitter"></i>
+					</div>
+					<div class="col-sm-11">
+						<div id="twitter-slider" class="flexslider" data-widget-id="345690956013633536" data-tweets-length="3"></div>
+					</div>
+				</div>
+			</div>
+		
+		</section>
+			
+		<!-- ==============================================
+		CONTACT
+		=============================================== -->
+		<section id="contact" class="add-padding">
+		
+			<div class="container text-center">
+				
+				<div class="row">
+				
+					<div class="col-sm-6 col-md-5 text-right scrollimation fade-up d1">
+					
+						<h1 class="big-text">Contact Me</h1>
+						
+						<p class="lead">I am available for freelance. Can't wait for the next exciting project! Could be yours?</p>
+					
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tincidunt, dui ac porta.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tincidunt, dui ac porta.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tincidunt, dui ac porta.</p>
+					
+					</div>
+				
+					<!--=== Contact Form ===-->
+
+					<form id="contact-form" class="col-sm-6 col-md-offset-1 scrollimation fade-left d3" action="contact.php" method="post" novalidate>
+						
+						<div class="form-group">
+						  <label class="control-label" for="contact-name">Name</label>
+						  <div class="controls">
+							<input id="contact-name" name="contactName" placeholder="Your name" class="form-control requiredField" data-new-placeholder="Your name" type="text" data-error-empty="Please enter your name">
+							<i class="fa fa-user"></i>
+						  </div>
+						</div><!-- End name input -->
+						
+						<div class="form-group">
+						  <label class="control-label" for="contact-mail">Email</label>
+						  <div class=" controls">
+							<input id="contact-mail" name="email" placeholder="Your email" class="form-control requiredField" data-new-placeholder="Your email" type="email" data-error-empty="Please enter your email" data-error-invalid="Invalid email address">
+							<i class="fa fa-envelope"></i>
+						  </div>
+						</div><!-- End email input -->
+						
+						<div class="form-group">
+						  <label class="control-label" for="contact-message">Message</label>
+							<div class="controls">
+								<textarea id="contact-message" name="comments"  placeholder="Your message" class="form-control requiredField" data-new-placeholder="Your message" rows="6" data-error-empty="Please enter your message"></textarea>
+								<i class="fa fa-comment"></i>
+							</div>
+						</div><!-- End textarea -->
+						
+						<p><button name="submit" type="submit" class="btn btn-color2 btn-block" data-error-message="Error!" data-sending-message="Sending..." data-ok-message="Message Sent"><i class="fa fa-paper-plane"></i>Send Message</button></p>
+						<input type="hidden" name="submitted" id="submitted" value="true" />
+						
+					</form><!-- End contact-form -->
+					
+				</div>
+				
+			</div>
+		
+		</section>
+			
+		<!-- ==============================================
+		MAP
+		=============================================== -->
+		<section id="map">
+		
+			<div id="gmap"></div>
+		
+		</section>
+		
+		<!-- ==============================================
+		FOOTER
+		=============================================== -->	
+		
+		<footer id="main-footer" class="add-padding bg-color3 border-top-color2">
+		
+			<div class="container">
+			
+				<ul class="social-links text-center">
+					<li><a href="#link"><i class="fa fa-twitter fa-fw"></i></a></li>
+					<li><a href="#link"><i class="fa fa-facebook fa-fw"></i></a></li>
+					<li><a href="#link"><i class="fa fa-google-plus fa-fw"></i></a></li>
+					<li><a href="#link"><i class="fa fa-dribbble fa-fw"></i></a></li>
+					<li><a href="#link"><i class="fa fa-linkedin fa-fw"></i></a></li>
+				</ul>
+			
+				<p class="text-center">&copy; 2014 - All rights reserved</p>
+				<p class="text-center"><a href="https://wrapbootstrap.com/user/qthemes" target="_blank">Made by Qthemes</a></p>
+			
+			</div>
+			
+		</footer>
+		
+		<!-- ==============================================
+		SCRIPTS
+		=============================================== -->	
+		
+		<script>//window.jQuery || document.write('<script src="assets/js/libs/jquery-1.8.2.js">\x3C/script>')</script>
+		
+		<%= javascript_include_tag "graphista/jquery.scrollto.js", "data-turbolinks-track" => true %>
+		<%= javascript_include_tag "graphista/waypoints.js", "data-turbolinks-track" => true %>
+		<%= javascript_include_tag "graphista/jquery.masonry.js", "data-turbolinks-track" => true %>
+		<%= javascript_include_tag "graphista/jquery.flexslider.js", "data-turbolinks-track" => true %>
+		<%= javascript_include_tag "graphista/jquery.backstretch.js", "data-turbolinks-track" => true %>
+		<%= javascript_include_tag "graphista/twitterFetcher_v10_min.js", "data-turbolinks-track" => true %>
+		<%= javascript_include_tag "graphista/contact.js", "data-turbolinks-track" => true %>
+		<%= javascript_include_tag "graphista/scripts.js", "data-turbolinks-track" => true %>
+		
+		<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+		<script>
+		
+			var mapPoint = {
+					'lat': 40.720099,
+					'lng': -74.005764,
+					'zoom' : 15,
+					'infoText':'<p>250 W Broadway\
+								<br/>New York\
+								<br/>NY 10013</p>',
+					'linkText':'View on Google Maps',
+					'mapAddress':'250 W Broadway, New York, NY 10013',
+					'icon': '<%= asset_path "grahpista/pin-dark.png" %>'
+				};
+			
+		</script>
+		
+	</body>
+	
+</html>

@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/stripe/stripe-ruby
-  revision: da216fd53b7a5386c136e93bdfe5efaff20682b7
+  revision: 7aee297980aba1863c7e3294feb3eb4f2ee44911
   specs:
     stripe (1.16.0)
       json (~> 1.8.1)
@@ -86,7 +86,7 @@ GEM
     figaro (0.7.0)
       bundler (~> 1.0)
       rails (>= 3, < 5)
-    font-awesome-rails (4.0.3.1)
+    font-awesome-rails (4.2.0.0)
       railties (>= 3.2, < 5.0)
     google_places (0.20.0)
       httparty
@@ -94,7 +94,7 @@ GEM
     hashie (3.3.1)
     hike (1.2.3)
     hitimes (1.2.2)
-    httparty (0.13.1)
+    httparty (0.13.2)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
     i18n (0.6.11)
@@ -114,7 +114,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.25.1)
-    mini_portile (0.6.0)
+    mini_portile (0.6.1)
     minitest (5.4.2)
     multi_json (1.10.1)
     multi_xml (0.5.5)
@@ -125,8 +125,8 @@ GEM
     nested_form (0.3.2)
     netrc (0.8.0)
     newrelic_rpm (3.7.2.195)
-    nokogiri (1.6.3.1)
-      mini_portile (= 0.6.0)
+    nokogiri (1.6.4)
+      mini_portile (~> 0.6.0)
     oauth2 (1.0.0)
       faraday (>= 0.8, < 0.10)
       jwt (~> 1.0)
@@ -274,7 +274,7 @@ DEPENDENCIES
   echowrap (= 0.1.4)
   factory_girl_rails (= 4.2.0)
   figaro (= 0.7.0)
-  font-awesome-rails (= 4.0.3.1)
+  font-awesome-rails (= 4.2.0.0)
   google_places (= 0.20.0)
   google_timezone (= 0.0.3)
   jbuilder (= 1.0.2)

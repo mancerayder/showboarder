@@ -1,14 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="shortcut icon" href=<%= asset_path "graphista/favicon.ico" %>>
+  <link rel="apple-touch-icon" href=<%= asset_path "graphista/apple-touch-icon.png" %>>
+  <link rel="apple-touch-icon" sizes="72x72" href=<%= asset_path "graphista/apple-touch-icon-72x72.png" %>>
+  <link rel="apple-touch-icon" sizes="114x114" href=<%= asset_path "graphista/apple-touch-icon-114x114.png" %>>
   <title>Showboarder</title>
   <%= stylesheet_link_tag    "landing", media: "all", "data-turbolinks-track" => true %>
+
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
   <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,200,500,600,700' rel='stylesheet' type='text/css'>
+  <!-- ==============================================
+  JS
+  =============================================== -->
+    
+  <!--[if lt IE 9]>
+    <script src="assets/js/libs/respond.js"></script>
+  <![endif]-->
+  <%= javascript_include_tag "graphista/libs/modernizr.min.js", "data-turbolinks-track" => true %>
 </head>
-<body id="page-top" data-spy="scroll" data-target=".navbar-custom">
+<body data-spy="scroll" data-target="#main-nav" data-offset="200">
   <%= render 'layouts/header' %>
   
   <% flash.each do |key, value| %>

@@ -4,7 +4,7 @@ ruby '2.0.0'
 
 gem 'rails', '4.1.0'
 gem 'bootstrap-sass', '3.1.1.0'
-gem 'font-awesome-rails', '4.0.3.1'
+gem 'font-awesome-rails', '4.2.0.0'
 gem 'jquery-easing-rails', '0.0.1'
 gem 'bcrypt-ruby', '3.1.2'
 gem 'musicbrainz', '0.7.6'
@@ -41,6 +41,7 @@ gem 'google_timezone', '0.0.3'
 gem 'rails3-jquery-autocomplete', '1.0.14'
 gem 'jquery-ui-rails', '5.0.0'
 gem 'echowrap', '0.1.4'
+gem 'less-rails', '~> 2.6.0'
 
 group :development do
   gem 'sqlite3', '1.3.8'
