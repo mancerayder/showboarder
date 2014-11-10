@@ -1,26 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <title>Showboarder</title>
-  <%= stylesheet_link_tag    "spectrum", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
-  <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Showboarder</title>
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= csrf_meta_tags %>    
+
+    <!-- Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+
+    <!-- Retina Images Plugin -->
+    <%= javascript_include_tag "graphista/libs/modernizr.min.js", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "spectrum/plugins/retina/retina.min.js", "data-turbolinks-track" => true %>
+
+    <!-- Plugin CSS -->
+    <%= stylesheet_link_tag    "spectrum/plugins/hover/hover.min", media: "all", "data-turbolinks-track" => true %>
+    <%= stylesheet_link_tag    "spectrum/plugins/owl.carousel/owl.carousel", media: "all", "data-turbolinks-track" => true %>
+    <%= stylesheet_link_tag    "spectrum/plugins/owl.carousel/owl.theme", media: "all", "data-turbolinks-track" => true %>
+    <%= stylesheet_link_tag    "spectrum/plugins/owl.carousel/owl.transitions", media: "all", "data-turbolinks-track" => true %>
+    <%= stylesheet_link_tag    "spectrum/plugins/jquery.fs.wallpaper/jquery.fs.wallpaper", media: "all", "data-turbolinks-track" => true %>
+    <%= stylesheet_link_tag    "spectrum/plugins/magnific-popup/magnific-popup", media: "all", "data-turbolinks-track" => true %>
+
+    <!-- Spectrum CSS -->
+    <!-- Note: spectrum.css is the default blue theme. To use another theme, uncomment the one you want and delete the rest, including the default spectrum.css! -->
+    <%= stylesheet_link_tag    "spectrum/spectrum-aqua", media: "all", "data-turbolinks-track" => true %>
+    <!-- <link href="assets/css/spectrum-aqua.css" rel="stylesheet"> -->
+    <!-- <link href="assets/css/spectrum-coffee.css" rel="stylesheet"> -->
+    <!-- <link href="assets/css/spectrum-coral.css" rel="stylesheet"> -->
+    <!-- <link href="assets/css/spectrum-lavender.css" rel="stylesheet"> -->
+    <!-- <link href="assets/css/spectrum-olive`.css" rel="stylesheet"> -->
+    <!-- <link href="assets/css/spectrum-orange.css" rel="stylesheet"> -->
+    <!-- <link href="assets/css/spectrum-peach.css" rel="stylesheet"> -->
+    <!-- <link href="assets/css/spectrum-pink.css" rel="stylesheet"> -->
+    <!-- <link href="assets/css/spectrum-purple.css" rel="stylesheet"> -->
+    <!-- <link href="assets/css/spectrum-rust.css" rel="stylesheet"> -->
+    <!-- <link href="assets/css/spectrum-seafoam.css" rel="stylesheet"> -->
+    <!-- <link href="assets/css/spectrum-slate.css" rel="stylesheet"> -->
+    <!-- <link href="assets/css/spectrum-turquoise.css" rel="stylesheet"> -->
+    <!-- <link href="assets/css/spectrum-yellow.css" rel="stylesheet"> -->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
 </head>
-<body id="page-top">
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
   <%= render 'layouts/header' %>
   
-  <div class="container">
-    <% flash.each do |key, value| %>
-      <div id="flash" class="alert alert-<%= key %>"><%= value %></div>
-    <% end %>
+  <% flash.each do |key, value| %>
+    <div id="flash" class="alert alert-<%= key %>"><%= value %></div>
+  <% end %>
   
-    <%= yield %>
-  </div>
+  <%= yield %>
 
-<%= render 'layouts/footer' if Rails.env.production? %>
-<%= debug(params) if Rails.env.development? %>
 
+
+  <!-- Plugin JavaScript Files -->
+  <%= javascript_include_tag "spectrum/plugins/jquery.easing/jquery.easing.1.3.js", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "spectrum/plugins/jquery.fitvids/jquery.fitvids.js", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "spectrum/plugins/jquery.fs.wallpaper/jquery.fs.wallpaper.min.js", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "spectrum/plugins/jquery.magnific-popup/jquery.magnific-popup.min.js", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "spectrum/plugins/jquery.tubular/jquery.tubular.1.0.js", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "spectrum/plugins/owl.carousel/owl.carousel.min.js", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "spectrum/plugins/scrollReveal/scrollReveal.js", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "spectrum/plugins/stellar/stellar.js", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "spectrum/plugins/jquery.mousewheel/jquery.mousewheel.js", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "spectrum/plugins/jquery.simplr.smoothscroll/jquery.simplr.smoothscroll.js", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "spectrum/plugins/jqBootstrapValidation/jqBootstrapValidation.js", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "spectrum/contact_me.js", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "spectrum/plugins/isotope/isotope.pkgd.min.js", "data-turbolinks-track" => true %>
+
+  <!-- Spectrum JavaScript Files -->
+  <%= javascript_include_tag "spectrum/spectrum.nav.js", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "spectrum/spectrum.js", "data-turbolinks-track" => true %>
+  <%= render 'layouts/footer' if Rails.env.production? %>
+  <%= debug(params) if Rails.env.development? %>
 </body>
 </html>

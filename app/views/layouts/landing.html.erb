@@ -23,7 +23,7 @@
   <%= javascript_include_tag "graphista/libs/modernizr.min.js", "data-turbolinks-track" => true %>
 </head>
 <body data-spy="scroll" data-target="#main-nav" data-offset="200">
-  <%= render 'layouts/header' %>
+  <%= render 'layouts/landing_header' %>
   
   <% flash.each do |key, value| %>
     <div id="flash" class="alert alert-<%= key %>"><%= value %></div>

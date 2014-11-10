@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Showboarder</title>
+  <%= stylesheet_link_tag    "spectrum", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+  <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+</head>
+<body id="page-top">
+  <%= render 'layouts/header' %>
+  
+  <div class="container">
+    <% flash.each do |key, value| %>
+      <div id="flash" class="alert alert-<%= key %>"><%= value %></div>
+    <% end %>
+  
+    <%= yield %>
+  </div>
+
+<%= render 'layouts/footer' if Rails.env.production? %>
+<%= debug(params) if Rails.env.development? %>
+
+</body>
+</html>
