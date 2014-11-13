@@ -29,4 +29,7 @@
 //= require bootstrap-formhelpers-number
 //= require react
 //= require JSXTransformer
+//= require_tree ./spectrum
+//= stub ./spectrum/plugins/retina/retina.min
+//= stub ./spectrum/plugins/retina/retina
 // require_tree .

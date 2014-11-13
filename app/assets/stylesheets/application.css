@@ -10,7 +10,7 @@
  *
  *= require jquery.countdown
  *= require_self
- *= require_tree ./application
+ *= require_tree ./spectrum
  *= require bootstrap-datepicker3
  *= require jquery-ui
 

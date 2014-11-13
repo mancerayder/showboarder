@@ -100,6 +100,6 @@ class BoardsController < ApplicationController
   private
 
     def board_params
-      params.require(:board).permit(:name, :vanity_url, :places_reference, :paid_tier, {stages_attributes: [:id, :name, :places_reference, :capacity, :board, :places_json, :_destroy ]})
+      params.require(:board).permit(:name, :vanity_url, :places_reference, :paid_tier, {stages_attributes: [:id, :name, :places_reference, :capacity, :board, :places_json, :_destroy, :places_formatted_address_short ]})
     end
 end

@@ -1,66 +1,11 @@
-<div id="wrapper">
-
-  <nav class="navbar navbar-dark navbar-fixed-top" role="navigation">
-    <div class="container">
-      <div class="navbar-header page-scroll">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
-          <i class="fa fa-bars"></i>
-        </button>
-        <a class="navbar-brand" href="#page-top">
-          <span class="logo">
-            <img src="<%= asset_path "spectrum/logo.png" %>" alt="">
-          </span>
-        </a>
-      </div>
-
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
-        <ul class="nav navbar-nav">
-          <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
-          <li class="hidden">
-            <a href="#page-top"></a>
-          </li>
-          <li class="page-scroll">
-            <a href="#features">Features</a>
-          </li>
-          <li class="page-scroll">
-            <a href="#pricing">Pricing</a>
-          </li>
-          <li class="page-scroll">
-            <a href="#team">Team</a>
-          </li>
-        </ul>
-      </div>
-      <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-  </nav>
-
   <!-- This sample uses a basic parallax section as the header instead of one of the built in header's! -->
-  <section class="bg-parallax-dark" style="background-image: url(<%= asset_path "spectrum/demo-bgs/app-demo-bg.jpg" %>);" data-stellar-background-ratio="0.5" data-stellar-vertical-offset="50">
+  <section class="bg-parallax-dark" style="background-image: url(<%= asset_path "spectrum/demo-bgs/app-demo-bg2.jpg" %>);" data-stellar-background-ratio="0.5" data-stellar-vertical-offset="50">
     <div class="container">
       <div class="padding-top hidden-xs"></div>
       <div class="row">
-        <div class="col-md-7" data-scrollreveal="enter left over 1s">
-          <h1>Your
-            <span class="text-primary">Application</span>
-            <br>Showcased Beautifully</h1>
-          <p>This application template is perfect for showcasing a mobile application that you have for sale on the App Store or the Google Play store!</p>
-          <ul class="list-inline button-list">
-            <li>
-              <a class="btn btn-primary btn-lg" href="#">
-                <img src="<%= asset_path "spectrum/app/apple-badge.png" %>" alt="">
-              </a>
-            </li>
-            <li>
-              <a class="btn btn-primary btn-lg" href="#">
-                <img src="<%= asset_path "spectrum/app/google-play-badge.png" %>" alt="">
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-5 hidden-sm hidden-xs" data-scrollreveal="enter right over 1s">
-          <img class="img-responsive" src="<%= asset_path "spectrum/demo-devices/app-ipad.png" %>" alt="">
+        <div class="col-md-6 col-md-offset-3 text-center" data-scrollreveal="enter left over 1s">
+          <h1><%= @board.name %></h1>
+          <p><%= @board.stages.first.place.formatted_address %></p>
         </div>
       </div>
     </div>
@@ -70,7 +15,7 @@
     <div class="container">
       <div class="row text-center">
         <div class="col-lg-12">
-          <h2>Application Features</h2>
+          <h2>Shows</h2>
           <hr class="primary">
           <br>
         </div>
@@ -362,5 +307,3 @@
       </div>
     </div>
   </footer>
-
-</div>

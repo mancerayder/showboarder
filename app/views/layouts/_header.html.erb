@@ -1,41 +1,35 @@
-    <!-- ==============================================
-    MAIN NAV
-    =============================================== -->
-    <div id="main-nav" class="navbar navbar-fixed-top">
-      <div class="container">
-      
-        <div class="navbar-header">
-        
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#site-nav">
-            <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-          </button>
-          
-          <!-- ======= LOGO ========-->
-          <a class="navbar-brand scrollto" href="#home"><img src=<%= asset_path "graphista/logo.png" %> alt=""/>SHOWBOARDER</a>
-        
-        </div>
-        
-        <div id="site-nav" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li class="sr-only">
-              <a href="#home" class="scrollto">Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="#services" class="scrollto">How it works</a>
-            </li>
-            <li class="nav-item">
-              <a href="#analytics" class="scrollto">Tools</a>
-            </li>
-            <li class="nav-item">
-              <a href="#contact" class="scrollto">Contact Me</a>
-            </li>
-          </ul>
-        </div><!--End navbar-collapse -->
-        
-      </div><!--End container -->
-      
-    </div><!--End main-nav -->
-    
-    <!-- ==============================================
-    HEADER
-    =============================================== -->
+<nav class="navbar navbar-dark navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header page-scroll">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+        <i class="fa fa-bars"></i>
+      </button>
+      <a class="navbar-brand" href="#page-top">
+        <span class="logo">
+          <img src="<%= asset_path "spectrum/logo.png" %>" alt="">
+        </span>
+      </a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+      <ul class="nav navbar-nav">
+        <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+        <li class="hidden">
+          <a href="#page-top"></a>
+        </li>
+        <li class="page-scroll">
+          <a href="#features">Features</a>
+        </li>
+        <li class="page-scroll">
+          <a href="#pricing">Pricing</a>
+        </li>
+        <li class="page-scroll">
+          <a href="#team">Team</a>
+        </li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container -->
+</nav>

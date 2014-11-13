@@ -68,25 +68,6 @@
   <%= yield %>
 
 
-
-  <!-- Plugin JavaScript Files -->
-  <%= javascript_include_tag "spectrum/plugins/jquery.easing/jquery.easing.1.3.js", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "spectrum/plugins/jquery.fitvids/jquery.fitvids.js", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "spectrum/plugins/jquery.fs.wallpaper/jquery.fs.wallpaper.min.js", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "spectrum/plugins/jquery.magnific-popup/jquery.magnific-popup.min.js", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "spectrum/plugins/jquery.tubular/jquery.tubular.1.0.js", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "spectrum/plugins/owl.carousel/owl.carousel.min.js", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "spectrum/plugins/scrollReveal/scrollReveal.js", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "spectrum/plugins/stellar/stellar.js", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "spectrum/plugins/jquery.mousewheel/jquery.mousewheel.js", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "spectrum/plugins/jquery.simplr.smoothscroll/jquery.simplr.smoothscroll.js", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "spectrum/plugins/jqBootstrapValidation/jqBootstrapValidation.js", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "spectrum/contact_me.js", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "spectrum/plugins/isotope/isotope.pkgd.min.js", "data-turbolinks-track" => true %>
-
-  <!-- Spectrum JavaScript Files -->
-  <%= javascript_include_tag "spectrum/spectrum.nav.js", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "spectrum/spectrum.js", "data-turbolinks-track" => true %>
   <%= render 'layouts/footer' if Rails.env.production? %>
   <%= debug(params) if Rails.env.development? %>
 </body>
