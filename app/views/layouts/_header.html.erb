@@ -4,32 +4,38 @@
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
         <i class="fa fa-bars"></i>
       </button>
-      <a class="navbar-brand" href="#page-top">
-        <span class="logo">
-          <img src="<%= asset_path "spectrum/logo.png" %>" alt="">
-        </span>
-      </a>
+      <%= link_to "SHOWBOARDER", root_path, class:"navbar-brand" %>
     </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
       <ul class="nav navbar-nav">
+
         <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
         <li class="hidden">
           <a href="#page-top"></a>
         </li>
-        <li class="page-scroll">
-          <a href="#features">Features</a>
-        </li>
-        <li class="page-scroll">
-          <a href="#pricing">Pricing</a>
-        </li>
-        <li class="page-scroll">
-          <a href="#team">Team</a>
-        </li>
+        <% if user_signed_in? %>
+
+          <li>
+            <%= link_to "Profile", current_user %>
+          </li>
+          <li>
+            <%= link_to "Settings", edit_user_registration_path(current_user) %>
+          </li>
+          <li>
+            <%= link_to "Sign out", destroy_user_session_path, method: "delete" %>
+          </li>
+
+        <% else %>
+          <li class="page-scroll">
+            <%= link_to 'log in', new_user_session_path %>
+          </li>
+          <li class="page-scroll">
+            <%= link_to 'about', about_path %>
+          </li>
+        <% end %>
       </ul>
+    </div>    
+      <!-- /.navbar-collapse -->
     </div>
-    <!-- /.navbar-collapse -->
-  </div>
-  <!-- /.container -->
+    <!-- /.container -->
 </nav>

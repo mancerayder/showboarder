@@ -2,6 +2,9 @@ class BoardsController < ApplicationController
   load_and_authorize_resource :board, :find_by => :vanity_url
 
   def new
+    if !user_signed_in?
+      redirect_to new_user_session_path
+    end
     @board = Board.new
     @stage = @board.stages.build
   end
@@ -100,6 +103,6 @@ class BoardsController < ApplicationController
   private
 
     def board_params
-      params.require(:board).permit(:name, :vanity_url, :places_reference, :paid_tier, {stages_attributes: [:id, :name, :places_reference, :capacity, :board, :places_json, :_destroy, :places_formatted_address_short ]})
+      params.require(:board).permit(:name, :vanity_url, :places_reference, :paid_tier, {ext_links_attributes: [:id, :ext_site, :url, :linkable_type]}, {stages_attributes: [:id, :name, :places_reference, :capacity, :board, :places_json, :_destroy, :places_formatted_address_short ]})
     end
 end

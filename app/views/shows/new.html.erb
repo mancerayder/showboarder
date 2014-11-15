@@ -5,9 +5,8 @@
 
       <%= simple_nested_form_for [@board, @show], html:{id:"show-form"} do |f| %>
         <%= render 'shared/error_messages', object: f.object %>
-          <div id="form-errors" class="alert alert-warning" style="display:none;">
-          test
-          </div>
+        <div id="form-errors" class="alert alert-warning" style="display:none;">
+        </div>
 
         <div class="form-group">
           <%= f.label :ticketing_type, class: "" %>

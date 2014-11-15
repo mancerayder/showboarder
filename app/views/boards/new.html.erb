@@ -1,28 +1,51 @@
-<%= javascript_include_tag "form_board" %>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12">
-      <h2>Create a new Showboard</h2>
-      <br>
-      <%= simple_form_for @board do |f| %>
-        <%= f.input :name, label: 'Board Name' %>
-        <%= f.input :vanity_url, label: 'Vanity Url' %>
-        <%= f.simple_fields_for :stages do |ff| %>
+<%= javascript_include_tag :boardForm %>
+<section>
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 text-center">
 
-          <%= ff.input :capacity, label:'Capacity' %>
-          <%= ff.input :places_formatted_address_short, label:'Location', :placeholder => "Enter a location", input_html: { :id => "pac-input", :class=>"controls"} %>
-          <div id="map-canvas"></div>
-          <div id="map-plz">
-            Please make sure the appropriate location is pinned on the map above before continuing.
+        <h2>Create a new Showboard</h2>
+        <br>
+        <%= simple_nested_form_for @board, html:{id:"board-form"} do |f| %>
+          <%= render 'shared/error_messages', object: f.object %>
+          <div id="form-errors" class="alert alert-warning" style="display:none;">
           </div>
-          <%= ff.input :places_reference, as:"hidden" %>
+          
+          <%= f.input :name, label: 'Board Name' %>
+          <%= f.input :vanity_url, html: {id: "vanity_url_field"}, label_html: {id:"vanity_url_label"}, label: 'Vanity Url (showboarder.com/vanityurl)' %>
+          <%= f.fields_for :stages do |ff| %>
+
+            <%= ff.input :capacity, label:'Capacity' %>
+
+            <%= f.fields_for :ext_links do |ff| %>
+
+              <%= ff.select :ext_site, options_for_select(%w[Twitter Facebook Youtube Instagram]), {}, {:class => "form-control ext-link-select"} %>
+              <%= ff.input :url, input_html: {:class => "ext-link-url"}, input_html: {:style => "display:inline;max-width:300px;", :placeholder => "URL"}, label: false %>
+              <%= ff.link_to_remove "Remove this link" %>
+
+            <% end %>
+
+            <%= f.link_to_add "Add a link (Facebook, Twitter, etc.)", :ext_links, :class => "btn btn-primary" %>
+
+            <br>
+            <br>
+
+            <%= ff.input :places_formatted_address_short, label:'Location', :placeholder => "Enter a location", input_html: { :id => "pac-input", :class=>"controls"} %>
+            <div id="map-canvas"></div>
+            <div id="map-plz">
+              Please make sure the appropriate location is pinned on the map above before continuing.
+            </div>
+            <%= ff.input :places_reference, as:"hidden" %>
           <% end %>
 
-        <%= f.button :submit %>
-      <% end %>
 
+
+          <%= f.button :submit %>
+        <% end %>
+
+      </div>
     </div>
-  </div>
 
-</div>
+  </div>
+</section>

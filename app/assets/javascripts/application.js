@@ -32,4 +32,5 @@
 //= require_tree ./spectrum
 //= stub ./spectrum/plugins/retina/retina.min
 //= stub ./spectrum/plugins/retina/retina
+//= stub ./spectrum/contact_me
 // require_tree .

@@ -4,11 +4,15 @@ class Board < ActiveRecord::Base
   has_many :stages, dependent: :destroy
   has_many :shows, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
-  validates :vanity_url, presence: true, length: {minimum:4, maximum:30}
+  has_many :ext_links, as: :linkable
+  validates :vanity_url, presence: true, length: {minimum:4, maximum:20}
+  validates :name, presence: true, length: {minimum:3, maximum:20}
+  validates :capacity, presence: true
   before_save { self.vanity_url = vanity_url.downcase }
   validates_format_of :vanity_url, :with => /[-a-z0-9_.]/
   accepts_nested_attributes_for :stages, :allow_destroy => true
   accepts_nested_attributes_for :shows, :allow_destroy => true
+  accepts_nested_attributes_for :ext_links, :reject_if => :all_blank, :allow_destroy => true
   has_many :sales, as: :actionee
   
   # has_many :reverse_user_boards, foreign_key: "board_id",

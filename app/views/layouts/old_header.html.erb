@@ -1,41 +1,44 @@
-    <!-- ==============================================
-    MAIN NAV
-    =============================================== -->
-    <div id="main-nav" class="navbar navbar-fixed-top">
-      <div class="container">
+<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+        <i class="fa fa-bars"></i>
+      </button>
+
+
+      <%= link_to '<i class="fa fa-play-circle"></i><span class="light">Showboarder</span>'.html_safe, root_path, class: "navbar-brand light" %>
+    <% if user_signed_in? %>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+      <ul class="nav navbar-nav">
+        <li><%= link_to "Profile", current_user %></li>
+        <li><%= link_to "Settings", edit_user_registration_path(current_user) %></li>
+        <li>
+          <%= link_to "Sign out", destroy_user_session_path, method: "delete" %>
+        </li>
+    <% else %>
+
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+      <ul class="nav navbar-nav">
       
-        <div class="navbar-header">
-        
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#site-nav">
-            <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-          </button>
-          
-          <!-- ======= LOGO ========-->
-          <a class="navbar-brand scrollto" href="#home"><img src=<%= asset_path "graphista/logo.png" %> alt=""/>SHOWBOARDER</a>
-        
-        </div>
-        
-        <div id="site-nav" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li class="sr-only">
-              <a href="#home" class="scrollto">Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="#services" class="scrollto">How it works</a>
-            </li>
-            <li class="nav-item">
-              <a href="#analytics" class="scrollto">Tools</a>
-            </li>
-            <li class="nav-item">
-              <a href="#contact" class="scrollto">Contact Me</a>
-            </li>
-          </ul>
-        </div><!--End navbar-collapse -->
-        
-      </div><!--End container -->
-      
-    </div><!--End main-nav -->
-    
-    <!-- ==============================================
-    HEADER
-    =============================================== -->
+      <% if not current_page?(root_path) %>
+        <li>
+          <%= link_to 'create a showboard', new_user_registration_path %>
+        </li>
+        <li>
+          <%= link_to 'about', about_path %>
+        </li>
+      <% end %>
+        <li>
+          <%= link_to 'log in', new_user_session_path %>
+        </li>
+      <% end %>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container -->
+</nav>

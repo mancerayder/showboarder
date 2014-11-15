@@ -56,9 +56,9 @@ function map_init(lat, lng, zoom, input, field) {
       ].join(' ');
     }
 
-    $('#board_stages_attributes_0_places_reference').val(place.reference)
-    $('#map-plz').css("color","green")
-    console.log(place);
+    $('#board_stages_attributes_0_places_reference').val(place.reference);
+    $('#map-plz').css("color","green");
+    
     
 
     infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
