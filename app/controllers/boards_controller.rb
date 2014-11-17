@@ -17,6 +17,13 @@ class BoardsController < ApplicationController
   def update
     @board = Board.find_by_vanity_url(params[:id])
     @stage = @board.stages.first
+
+    if @board.update(board_params)
+      flash[:success] = "Board updated"
+      redirect_to @board
+    else
+      render 'edit'
+    end
   end
 
   # def payout

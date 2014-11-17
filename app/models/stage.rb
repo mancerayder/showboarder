@@ -3,6 +3,7 @@ class Stage < ActiveRecord::Base
   has_many :shows
   has_one :place
   # validates_presence_of :board
+  validates :capacity, presence: true
 
   def places_gather # TODO - wrap self_zone into this
     if self.places_reference?

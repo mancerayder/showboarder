@@ -14,12 +14,13 @@
           <a href="#page-top"></a>
         </li>
         <% if user_signed_in? %>
-
+          <% if @board %>
+            <li>
+              <%= link_to "Edit Board", edit_board_path(@board) %>
+            </li>
+          <% end %>
           <li>
-            <%= link_to "Profile", current_user %>
-          </li>
-          <li>
-            <%= link_to "Settings", edit_user_registration_path(current_user) %>
+            <%= link_to "Edit Account", edit_user_registration_path(current_user) %>
           </li>
           <li>
             <%= link_to "Sign out", destroy_user_session_path, method: "delete" %>

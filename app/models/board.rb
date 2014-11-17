@@ -7,7 +7,6 @@ class Board < ActiveRecord::Base
   has_many :ext_links, as: :linkable
   validates :vanity_url, presence: true, length: {minimum:4, maximum:20}
   validates :name, presence: true, length: {minimum:3, maximum:20}
-  validates :capacity, presence: true
   before_save { self.vanity_url = vanity_url.downcase }
   validates_format_of :vanity_url, :with => /[-a-z0-9_.]/
   accepts_nested_attributes_for :stages, :allow_destroy => true

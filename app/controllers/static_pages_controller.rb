@@ -15,7 +15,7 @@ class StaticPagesController < ApplicationController
       #   @board = @boards.first
       #   @shows = @board.shows.paginate(page: params[:page])
       # end
-      render layout: "landing"
+      render layout: "application"
     else
       render layout: "landing"
     end

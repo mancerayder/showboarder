@@ -1,4 +1,9 @@
-
+ <% if user_signed_in? %>
+  <% if @board %>
+    <%= render :file => 'boards/show' %>
+  <% else %>
+  <% end %>
+<% else %>
 		<header id="home">
 		
 			<div class="container text-center">
@@ -302,3 +307,4 @@
 	</body>
 	
 </html>
+<% end %>
