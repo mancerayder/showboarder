@@ -10,7 +10,7 @@
           <h4 class="show-meta"><%= show.min_age %></h4>
         <% end %>
       </div><!--
-      --><div class="col-xs-6 text-center vcenter">
+      --><div class="col-sm-6 col-xs-5 text-center vcenter">
         <h3><% show.acts.each do |a| %>
           <%= link_to a.name.to_s, a %>
           <% if a != show.acts.last %>
@@ -18,7 +18,7 @@
           <% end %>          
         <% end %></h3>
       </div><!--
-      --><div class="col-xs-3 vcenter text-right">
+      --><div class="col-sm-3 col-xs-4 vcenter text-right">
 
       <%= link_to "Buy Tickets #{number_to_currency(show.price_adv, unit:"$", :precision => 0)}", board_show_path(@board, show), class: "btn btn-default" %><!--
       --><br>

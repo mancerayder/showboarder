@@ -19,6 +19,8 @@ class BoardsController < ApplicationController
     @stage = @board.stages.first
 
     if @board.update(board_params)
+      puts "froop326"
+      puts board_params
       flash[:success] = "Board updated"
       redirect_to @board
     else
@@ -109,7 +111,11 @@ class BoardsController < ApplicationController
 
   private
 
+    # def stage_params
+    #   params.require(:stage).permit(:id, :board_id, :name, :places_reference, :capacity, :places_json, :_destroy, :places_formatted_address_short)
+    # end
+
     def board_params
-      params.require(:board).permit(:name, :vanity_url, :places_reference, :paid_tier, {ext_links_attributes: [:id, :ext_site, :url, :linkable_type]}, {stages_attributes: [:id, :name, :places_reference, :capacity, :board, :places_json, :_destroy, :places_formatted_address_short ]})
+      params.require(:board).permit(:id, :name, :vanity_url, :places_reference, :paid_tier, :state, :ext_links_attributes => [:id, :board_id, :ext_site, :url, :linkable_type], :stages_attributes => [:id, :board_id, :name, :places_reference, :capacity, :places_json, :_destroy, :places_formatted_address_short])
     end
 end

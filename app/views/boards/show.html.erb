@@ -6,6 +6,11 @@
       <div class="col-md-6 col-md-offset-3 text-center" data-scrollreveal="enter left over 1s">
         <h1><%= @board.name %></h1>
         <p><%= @board.stages.first.place.formatted_address %></p>
+        <p>
+          <% if @board.ext_links.count > 0 %>
+            <%= @board.ext_links_fontawesomed %>
+          <% end %>
+        </p>
       </div>
     </div>
   </div>

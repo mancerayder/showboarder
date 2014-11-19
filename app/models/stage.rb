@@ -2,7 +2,6 @@ class Stage < ActiveRecord::Base
   belongs_to :board
   has_many :shows
   has_one :place
-  # validates_presence_of :board
   validates :capacity, presence: true
 
   def places_gather # TODO - wrap self_zone into this

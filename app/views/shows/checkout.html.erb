@@ -1,22 +1,30 @@
-<% if user_signed_in? %>
-<%= render 'shows/purchase_tickets_logged_in', :sale => @sale %>
-<% else %>
-<%= render 'shows/purchase_tickets_logged_out', :sale => @sale %>
-<% end %>
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <% if user_signed_in? %>
+        <%= render 'shows/purchase_tickets_logged_in', :sale => @sale %>
+        <% else %>
+        <%= render 'shows/purchase_tickets_logged_out', :sale => @sale %>
+        <% end %>
 
-<br>
-<% @tickets.each do |t| %>
-<%= t.attributes %>
-<% if t.reserved_at %>
-<script>
-$(function () {
-  var expiration = new Date();
-  expiration = new Date(<%= (t.reserved_at + 15.minutes).to_i * 1000 %>);
-  $('#defaultCountdown<%= t.id %>').countdown({until: expiration, format:'MS', compact:'true'});
-});
-</script>
-<% end %>
-<div id="defaultCountdown<%= t.id %>"></div>
-<br>
-<br>
-<% end %>
+        <br>
+        <% @tickets.each do |t| %>
+        <%= t.attributes %>
+        <% if t.reserved_at %>
+        <script>
+        $(function () {
+          var expiration = new Date();
+          expiration = new Date(<%= (t.reserved_at + 15.minutes).to_i * 1000 %>);
+          $('#defaultCountdown<%= t.id %>').countdown({until: expiration, format:'MS', compact:'true'});
+        });
+        </script>
+        <% end %>
+        <div id="defaultCountdown<%= t.id %>"></div>
+        <br>
+        <br>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>

@@ -2,18 +2,36 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12 text-center">
-      <h2>Edit Showboard</h2>
+      <h2>Edit <%= link_to @board.name, @board %> Showboard</h2>
 
-      <%= simple_form_for @board do |f| %>
+      <%= simple_nested_form_for @board do |f| %>
 
       <%= f.input :name %>
 
       <%= f.input :vanity_url %>
 
-      <%= f.collection_radio_buttons :state, [['public', 'Public'], ['private', 'Private']], :first, :last, :item_wrapper_class => 'radio-inline' %>
+      <%= f.fields_for :stages, @board.stages.first do |ff| %>
 
-      <br>
-      <br>
+        <%= ff.input :capacity %>   
+
+      <% end %>
+
+      <div class="form-group">
+        <%= f.label :state %>
+        <%= f.collection_radio_buttons :state, [['public', 'Public'], ['private', 'Private']], :first, :last, :item_wrapper_class => 'radio-inline' %>
+      </div>
+
+      <%= f.fields_for :ext_links do |ff| %>
+
+        <%= ff.select :ext_site, options_for_select(%w[Twitter Facebook Youtube Instagram]), {}, {:class => "form-control ext-link-select"} %>
+        <%= ff.input :url, input_html: {:class => "ext-link-url"}, input_html: {:style => "display:inline;max-width:300px;", :placeholder => "URL"}, label: false %>
+        <%= ff.link_to_remove "Remove this link" %>
+
+      <% end %>   
+
+      <div class="form-group">
+        <%= f.link_to_add "Add a link (Facebook, Twitter, etc.)", :ext_links, :class => "btn btn-primary" %>
+      </div>
 
       <%= f.button :submit %>
 

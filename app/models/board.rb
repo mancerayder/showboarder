@@ -43,6 +43,27 @@ class Board < ActiveRecord::Base
     end
   end
 
+  def ext_links_fontawesomed
+    links_html = ""
+    self.ext_links.each do |e|
+      if e.url && e.ext_site
+        if e.ext_site == "Twitter"
+          links_html = links_html + "<a href=\"#{e.url}\"><i class=\"fa fa-twitter board-ext-link\"></i></a>"
+        elsif e.ext_site == "Facebook"
+          links_html = links_html + "<a href=\"#{e.url}\"><i class=\"fa fa-facebook-square board-ext-link\"></i></a>"
+        elsif e.ext_site == "Instagram"
+          links_html = links_html + "<a href=\"#{e.url}\"><i class=\"fa fa-instagram board-ext-link\"></i></a>"
+        elsif e.ext_site == "Youtube"
+          links_html = links_html + "<a href=\"#{e.url}\"><i class=\"fa fa-youtube-play board-ext-link\"></i></a>"
+        end
+        if e != self.ext_links.last
+          links_html = links_html + " | "
+        end
+      end
+    end
+    return links_html
+  end
+
   def self_zone
     place = self.stages.first.place
     result = GoogleTimezone.fetch(place.lat, place.lng, language: 'en', signature: ENV["GOOGLE_KEY"])

@@ -1,7 +1,7 @@
 class Act < ActiveRecord::Base
   has_and_belongs_to_many :shows
   has_many :ext_links, as: :linkable
-  before_save { if email != nil && email != "" 
+  before_save { if email != nil && email != ""
                   email.downcase!
                 end }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -19,7 +19,7 @@ class Act < ActiveRecord::Base
     # JSON.parse(artist.urls.to_json).each do |u|
     #   num_urls.merge(JSON.parse(u.to_json))
     # end
-
+    
     JSON.parse(artist.urls.to_json).each do |u|
       if u[0] == "official_url"
         # u[0] = 0
@@ -32,12 +32,12 @@ class Act < ActiveRecord::Base
         num_urls[3] = u[1]
       elsif u[0] == "wikipedia_url"
         num_urls[4] = u[1]
-      elsif u[0] == "mb_url"  
+      elsif u[0] == "mb_url"
         num_urls[5] = u[1]
       else
         num_urls[u[0]] = u[1]
       end
-        
+
     end
 
     # artist.video.each do |v|
