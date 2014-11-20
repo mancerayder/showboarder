@@ -30,6 +30,7 @@
 //= require react
 //= require JSXTransformer
 //= require_tree ./spectrum
+//= require ./graphista/jquery.scrollto
 //= stub ./spectrum/plugins/retina/retina.min
 //= stub ./spectrum/plugins/retina/retina
 //= stub ./spectrum/contact_me

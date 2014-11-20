@@ -21,11 +21,11 @@
         <%= f.collection_radio_buttons :state, [['public', 'Public'], ['private', 'Private']], :first, :last, :item_wrapper_class => 'radio-inline' %>
       </div>
 
-      <%= f.fields_for :ext_links do |ff| %>
+      <%= f.fields_for :ext_links do |ext| %>
 
-        <%= ff.select :ext_site, options_for_select(%w[Twitter Facebook Youtube Instagram]), {}, {:class => "form-control ext-link-select"} %>
-        <%= ff.input :url, input_html: {:class => "ext-link-url"}, input_html: {:style => "display:inline;max-width:300px;", :placeholder => "URL"}, label: false %>
-        <%= ff.link_to_remove "Remove this link" %>
+        <%= ext.select :ext_site, options_for_select(%w[Twitter Facebook Youtube Instagram], ext.object.ext_site), {}, {:class => "form-control ext-link-select"} %>
+        <%= ext.input :url, input_html: {:class => "ext-link-url"}, input_html: {:style => "display:inline;max-width:300px;", :placeholder => "URL"}, label: false %>
+        <%= ext.link_to_remove "Remove this link" %>
 
       <% end %>   
 

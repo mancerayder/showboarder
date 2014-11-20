@@ -886,6 +886,27 @@ a.light-text:focus {
     background: rgba(244,245,247,.2);
 }
 
+
+p.ext-links-fontawesomed > a,
+p.ext-links-fontawesomed {
+    color:white;
+    font-size:38px;
+}
+
+p.ext-links-fontawesomed {
+    margin-bottom:0px;
+}
+
+
+p.ext-links-fontawesomed > a {
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+p.board-address > a {
+    color:white;
+}
+
 @media(min-width:768px) {
     .btn-scroll-dark,
     .btn-scroll-light {

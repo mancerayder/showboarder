@@ -19,7 +19,7 @@ class Act < ActiveRecord::Base
     # JSON.parse(artist.urls.to_json).each do |u|
     #   num_urls.merge(JSON.parse(u.to_json))
     # end
-    
+
     JSON.parse(artist.urls.to_json).each do |u|
       if u[0] == "official_url"
         # u[0] = 0

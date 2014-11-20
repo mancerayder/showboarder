@@ -48,20 +48,20 @@ class Board < ActiveRecord::Base
     self.ext_links.each do |e|
       if e.url && e.ext_site
         if e.ext_site == "Twitter"
-          links_html = links_html + "<a href=\"#{e.url}\"><i class=\"fa fa-twitter board-ext-link\"></i></a>"
+          links_html = links_html + "<a href=\"#{e.url}\" target=\"_blank\"><i class=\"fa fa-twitter board-ext-link\"></i></a>"
         elsif e.ext_site == "Facebook"
-          links_html = links_html + "<a href=\"#{e.url}\"><i class=\"fa fa-facebook-square board-ext-link\"></i></a>"
+          links_html = links_html + "<a href=\"#{e.url}\" target=\"_blank\"><i class=\"fa fa-facebook-square board-ext-link\"></i></a>"
         elsif e.ext_site == "Instagram"
-          links_html = links_html + "<a href=\"#{e.url}\"><i class=\"fa fa-instagram board-ext-link\"></i></a>"
+          links_html = links_html + "<a href=\"#{e.url}\" target=\"_blank\"><i class=\"fa fa-instagram board-ext-link\"></i></a>"
         elsif e.ext_site == "Youtube"
-          links_html = links_html + "<a href=\"#{e.url}\"><i class=\"fa fa-youtube-play board-ext-link\"></i></a>"
+          links_html = links_html + "<a href=\"#{e.url}\" target=\"_blank\"><i class=\"fa fa-youtube-play board-ext-link\"></i></a>"
         end
         if e != self.ext_links.last
-          links_html = links_html + " | "
+          links_html = links_html + " "
         end
       end
     end
-    return links_html
+    return links_html.html_safe
   end
 
   def self_zone

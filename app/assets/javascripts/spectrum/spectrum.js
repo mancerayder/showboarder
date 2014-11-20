@@ -30,6 +30,15 @@ jQuery(document).ready(function() {
       horizontalOffset: 0
     });
   }
+
+  $('a.scrollto').click(function(e){
+    $('html,body').scrollTo(this.hash, this.hash, {gap:{y:-70}});
+    e.preventDefault();
+  });
+  
+  $('.address-tooltip').hover(function() {
+    $('.address-tooltip').tooltip();
+  })
 });
 
 // Activates the Bootstrap Carousel for the Intro Header Options
