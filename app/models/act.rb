@@ -10,6 +10,31 @@ class Act < ActiveRecord::Base
                     uniqueness: { case_sensitive: false }
   accepts_nested_attributes_for :ext_links, :reject_if => :all_blank, :allow_destroy => true
 
+  def ext_links_fontawesomed
+    links_html = ""
+    self.ext_links.each do |e|
+      if e.url && e.ext_site
+        if e.ext_site == "Twitter"
+          links_html = links_html + "<a href=\"#{e.url}\" target=\"_blank\"><i class=\"fa fa-twitter act-ext-link\"></i></a>"
+        elsif e.ext_site == "Facebook"
+          links_html = links_html + "<a href=\"#{e.url}\" target=\"_blank\"><i class=\"fa fa-facebook-square act-ext-link\"></i></a>"
+        elsif e.ext_site == "Instagram"
+          links_html = links_html + "<a href=\"#{e.url}\" target=\"_blank\"><i class=\"fa fa-instagram act-ext-link\"></i></a>"
+        elsif e.ext_site == "Youtube"
+          links_html = links_html + "<a href=\"#{e.url}\" target=\"_blank\"><i class=\"fa fa-youtube-play act-ext-link\"></i></a>"
+        elsif e.ext_site == "Musicbrainz"
+          links_html = links_html + "<a href=\"#{e.url}\" target=\"_blank\"><i class=\"fa fa-lightbulb-o act-ext-link\"></i></a>"
+        elsif e.ext_site == "Wikipedia"
+          links_html = links_html + "<a href=\"#{e.url}\" id=\"act-ext-link\" alt=\"Wikipedia\" target=\"_blank\">W</a>"
+        end
+        if e != self.ext_links.last
+          links_html = links_html + " "
+        end
+      end
+    end
+    return links_html.html_safe
+  end
+
   def self.echo_by_name(name, eid)
     data = {}
     num_urls = {}

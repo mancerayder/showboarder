@@ -4,9 +4,13 @@
       <h1><%= @act.name %></h1>
       <br>
       <h2>Links</h2>
-      <% @act.ext_links.each do |l| %>
-        <%= link_to l.ext_site, l.url, :class => "band-link", :target => "blank" %>
-      <% end %>
+      <p>
+        <p class="ext-links-fontawesomed">
+          <% if @act.ext_links.count > 0 %>
+            <%= @act.ext_links_fontawesomed %>
+          <% end %>
+        </p>
+      </p>
       <br>
       <h2>Shows</h2>
       <% @act.shows.each do |s| %>
