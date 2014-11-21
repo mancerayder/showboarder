@@ -68,9 +68,40 @@ class ShowsController < ApplicationController
 
     if @show.save
       @show.update_attributes(state:"public") # TODO - allow for the creation of pending shows
-      puts "froop344"
-      @show.acts.each do |e|
-        puts e
+      @show.acts.each do |e| # loop through all shows acts and merge duplicated acts.
+        if e.echonest_id
+          if e.echonest_id[0..2] == "DB-" # found in DB, has no echonest ID = id is "DB-act_id
+            dupe = Act.find_by(id: e.echonest_id.gsub("DB-", "").to_i)
+
+            dupe.shows << @show
+
+            e.ext_links.each do |l| # update already-saved act with new act links
+              link_uora = dupe.ext_links.find_or_create_by(ext_site:l.ext_site) # uora = updated or added
+              link_uora.url = l.url
+
+              link_uora.save!
+            end
+
+            e.destroy! # destroy link now that links and show have been merged with existing record
+          elsif e.echonest_id[0..4] == "ECHO-" # not found in DB = ID = "ECHO-echonest_id"
+            e.echonest_id = e.echonest_id.gsub("ECHO-", "")
+            e.save!
+          else # found in db, has echonest ID = id is echonest id
+            dupe = Act.find_by(echonest_id: e.echonest_id)
+
+            dupe.shows << @show
+
+            e.ext_links.each do |l| # update already-saved act with new act links
+              link_uora = dupe.ext_links.find_or_create_by(ext_site:l.ext_site) # uora = updated or added
+              #TODO - remove ext_links that were previously existing and removed
+              link_uora.url = l.url
+
+              link_uora.save!
+            end
+
+            e.destroy!
+          end
+        end
       end
       if @show.ticketing_type == "paid"
         @show.tickets_make

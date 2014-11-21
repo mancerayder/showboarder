@@ -5,14 +5,6 @@ class ActsController < ApplicationController
 
   def esuggest #echonest artist suggest
     artists = []
-    # artists = Echowrap.artist_suggest(:name => params[:act], results: 5)
-
-    # names = []
-    # artists.each do |a|
-    #   names << {id: a.id, value: a.name}
-    # end    
-
-    # render :json => names
 
     artists = Act.order(:name).where("name LIKE ?", "%#{params[:act]}%").limit(5) # first see if artists already exists in the DB
 
@@ -44,7 +36,8 @@ class ActsController < ApplicationController
   end
 
   def eretrieve #echonest artist search with single response
-    render :json => Act.echo_by_name(params[:act]) # TODO - get echonest data by ID, not name
+
+    render :json => Act.echo_by_name(params[:act], params[:eid]) # TODO - get echonest data by ID, not name
 
   end
 

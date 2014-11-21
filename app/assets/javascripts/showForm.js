@@ -19,14 +19,15 @@
           }
         })
 
-        function eretrieve( value, id, field ) {
+        function eretrieve( value, eid, field ) {
           // grabs act-specific links, makes and fills a field for each
           // makes and fills hidden field for echonest_id
           $.ajax({
-            url: "/eretrieve/" +"?value=" + value + "&id="+ id,
+            url: "/eretrieve/" +"?act=" + value + "&eid="+ eid,
             dataType: "json",
             ///////////////////////////////////
             success: function (data) {
+              console.log(data)
               var echoField = field.find('.hidden').filter('input');
               var echoButton = field.find('button');
 
@@ -49,7 +50,7 @@
                   }
                 }              
               });
-              echoField.val(id);
+              echoField.val(eid);
 
               var urls = data["urls"]
               for (var key in urls) {
@@ -61,7 +62,6 @@
                     }
                     event.field.find('.string').filter('input').first().val(urls[key]);
                     var dropdown = event.field.find('select').first();
-                    // TODO: fix bug where adding more links auto-inserts the last element of the urls array
                   });
                   field.find('a.add_nested_fields').click();
                 }
