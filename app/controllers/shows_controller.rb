@@ -67,8 +67,14 @@ class ShowsController < ApplicationController
     end
 
     if @show.save
-      @show.update_attributes(state:"public") # change this later to allow for the creation of pending shows
-      @show.tickets_make
+      @show.update_attributes(state:"public") # TODO - allow for the creation of pending shows
+      puts "froop344"
+      @show.acts.each do |e|
+        puts e
+      end
+      if @show.ticketing_type == "paid"
+        @show.tickets_make
+      end
       flash[:success] = "You have added a show!"
       redirect_to [@board, @show]
     else

@@ -18,9 +18,7 @@ class BoardsController < ApplicationController
     @board = Board.find_by_vanity_url(params[:id])
     @stage = @board.stages.first
 
-    if @board.update(board_params)
-      puts "froop326"
-      puts board_params
+    if @board.update(board_params) # TODO - allow for editing of google place
       flash[:success] = "Board updated"
       redirect_to @board
     else

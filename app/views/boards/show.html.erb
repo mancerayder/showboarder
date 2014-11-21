@@ -6,7 +6,7 @@
       <div class="col-md-6 col-md-offset-3 text-center" data-scrollreveal="enter left over 1s">
         <h1><%= @board.name %></h1>
         <p class="board-address">
-          <%= link_to "#{@board.stages.first.place.formatted_address} <i class=\"fa fa-arrow-down\"></i>".html_safe, "#map-canvas", :alt => "Map of venue location", :class =>"scrollto address-tooltip", :rel => "tooltip", "data-placement" => "bottom", :title => "Click to see map" %>
+          <%= link_to "#{@board.stages.first.place.formatted_address}".html_safe, "#map-canvas", :alt => "Map of venue location", :class =>"scrollto address-tooltip", :rel => "tooltip", "data-placement" => "bottom", :title => "Click to see map" %>
         </p>
         <p class="ext-links-fontawesomed">
           <% if @board.ext_links.count > 0 %>
@@ -21,10 +21,13 @@
 <section id="showboard" class="services-3 bg-lighter">
   <div class="container">
     <div class="row text-center">
-      <div class="col-lg-12">
+      <div class="col-xs-6 col-xs-offset-3">
         <h2>Showboard</h2>
         <hr class="primary">
         <br>
+      </div>
+      <div class="col-xs-3">
+      <%= link_to "+ Add Show", new_board_show_path(@board), :class => "btn btn-primary btn-add-show" %>
       </div>
     </div>
     <div class="row">

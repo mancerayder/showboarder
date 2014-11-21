@@ -23,7 +23,7 @@
           // grabs act-specific links, makes and fills a field for each
           // makes and fills hidden field for echonest_id
           $.ajax({
-            url: "/eretrieve/" + value,
+            url: "/eretrieve/" +"?value=" + value + "&id="+ id,
             dataType: "json",
             ///////////////////////////////////
             success: function (data) {
