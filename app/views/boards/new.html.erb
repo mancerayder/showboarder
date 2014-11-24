@@ -14,6 +14,10 @@
           
           <%= f.input :name, label: 'Board Name' %>
           <%= f.input :vanity_url, html: {id: "vanity_url_field"}, label_html: {id:"vanity_url_label"}, label: 'Vanity Url (showboarder.com/vanityurl)' %>
+
+          <%= f.label :header_image %>
+          <%= f.file_field :header_image %>
+
           <%= f.fields_for :stages do |ff| %>
 
             <%= ff.input :capacity, label:'Capacity' %>

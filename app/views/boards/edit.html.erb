@@ -10,6 +10,11 @@
 
       <%= f.input :vanity_url %>
 
+      <div class="form-group text-center">
+        <%= f.label :header_image %>
+        <%= f.file_field :header_image %>
+      </div>
+
       <%= f.fields_for :stages, @board.stages.first do |ff| %>
 
         <%= ff.input :capacity %>   

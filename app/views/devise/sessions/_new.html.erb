@@ -1,0 +1,75 @@
+<section>
+  <div class="container eternity-form">
+    <div class="login-form-section">
+      <div class="login-content">
+        <form>
+          <div class="section-title">
+            <h3>LogIn to your Account</h3>
+          </div>
+          <div class="textbox-wrap">
+            <div class="input-group">
+              
+              
+              <input type="text" required="required" class="form-control" placeholder="Username" />
+            </div>
+          </div>
+          <div class="textbox-wrap">
+            <div class="input-group">
+              <span class="input-group-addon "><i class="icon-key icon-color"></i></span>
+              <input type="password" required="required" class="form-control " placeholder="Password" />
+            </div>
+          </div>
+          <div class="login-form-action clearfix">
+            <div class="checkbox pull-left">
+              <div class="custom-checkbox">
+                <input type="checkbox" checked name="iCheck">
+              </div>
+              <span class="checkbox-text pull-left">Remember Me</span>
+            </div>
+            <button type="submit" class="btn btn-success pull-right green-btn">LogIn &nbsp; <i class="icon-chevron-right"></i></button>
+          </div>
+        </form>
+      </div>
+      <div class="login-form-links link1">
+        <h4 class="blue">Don't have an Account?</h4>
+        <span>No worry</span>
+        <a href="#" class="blue">Click Here</a>
+        <span>to Register</span>
+      </div>
+      <div class="login-form-links link2">
+        <h4 class="green">Forget your Password?</h4>
+        <span>Dont worry</span>
+        <a href="#" class="green">Click Here</a>
+        <span>to Get New One</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- For Initializing Checkbox And Focus Event For Textbox -->
+  <script type="text/javascript">
+    $(function () {
+
+      //Custom Checkbox For Light Theme
+      $("input").iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        increaseArea: '20%'
+      });
+
+
+      //Custom Checkbox For Dark Theme
+      $(".dark input").iCheck({
+        checkboxClass: 'icheckbox_polaris',
+        increaseArea: '20%'
+      });
+
+
+      //TextBox Focus Event
+      $(".form-control").focus(function () {
+        $(this).closest(".textbox-wrap").addClass("focused");
+      }).blur(function () {
+        $(this).closest(".textbox-wrap").removeClass("focused");
+      });
+
+    });
+  </script>
+</section>

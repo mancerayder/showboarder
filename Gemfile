@@ -44,6 +44,8 @@ gem 'echowrap', '0.1.4'
 gem 'less-rails', '~> 2.6.0'
 gem 'therubyracer', '0.12.1'
 gem 'postrank-uri', '~> 1.0.18'
+gem "paperclip", "~> 4.2"
+gem "aws-sdk"
 
 group :development do
   gem 'sqlite3', '1.3.8'

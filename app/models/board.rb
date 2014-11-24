@@ -13,11 +13,17 @@ class Board < ActiveRecord::Base
   accepts_nested_attributes_for :shows, :allow_destroy => true
   accepts_nested_attributes_for :ext_links, :reject_if => :all_blank, :allow_destroy => true
   has_many :sales, as: :actionee
+  has_attached_file :header_image
+  validates_attachment :header_image, :content_type => { :content_type => ["image/jpeg", "image/png"] }
+  validates_with AttachmentSizeValidator, :attributes => :header_image, :less_than => 1.megabytes
+  validates_with AttachmentPresenceValidator, :attributes => :header_image
+  before_post_process :check_file_size
   
-  # has_many :reverse_user_boards, foreign_key: "board_id",
-  #                                  class_name:  "UserBoard",
-  #                                  dependent:   :destroy
-  # has_many :boarders, through: :reverse_user_boards, source: :boarder  
+  def check_file_size
+    valid?
+    errors[:image_file_size].blank?
+  end
+
   def to_param
     vanity_url
   end

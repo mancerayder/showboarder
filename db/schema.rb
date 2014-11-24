@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141029234907) do
+ActiveRecord::Schema.define(version: 20141122005951) do
 
   create_table "acts", force: true do |t|
     t.string   "name"
@@ -28,16 +28,20 @@ ActiveRecord::Schema.define(version: 20141029234907) do
 
   create_table "boards", force: true do |t|
     t.string   "name"
-    t.string   "state",         default: "private", null: false
+    t.string   "state",                     default: "private", null: false
     t.string   "vanity_url"
     t.string   "email"
     t.string   "phone"
-    t.integer  "paid_tier",     default: 0,         null: false
+    t.integer  "paid_tier",                 default: 0,         null: false
     t.datetime "paid_at"
     t.string   "referral_code"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "timezone"
+    t.string   "header_image_file_name"
+    t.string   "header_image_content_type"
+    t.integer  "header_image_file_size"
+    t.datetime "header_image_updated_at"
   end
 
   create_table "cards", force: true do |t|
