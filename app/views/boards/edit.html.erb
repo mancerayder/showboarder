@@ -1,49 +1,57 @@
+<%= javascript_include_tag :eFormFocus %>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
 <section>
-<div class="container">
-  <div class="row">
-    <div class="col-md-12 text-center">
-      <h2>Edit <%= link_to @board.name, @board %> Showboard</h2>
-
-      <%= simple_nested_form_for @board do |f| %>
-
-      <%= f.input :name %>
-
-      <%= f.input :vanity_url %>
-
-      <div class="form-group text-center">
-        <%= f.label :header_image %>
-        <%= f.file_field :header_image %>
-      </div>
-
-      <%= f.fields_for :stages, @board.stages.first do |ff| %>
-
-        <%= ff.input :capacity %>   
-        
-      <% end %>
-
-      <div class="form-group">
-        <%= f.label :state %>
-        <%= f.collection_radio_buttons :state, [['public', 'Public'], ['private', 'Private']], :first, :last, :item_wrapper_class => 'radio-inline' %>
-      </div>
-
-      <%= f.fields_for :ext_links do |ext| %>
-        <div class="form-group">
-          <%= ext.select :ext_site, options_for_select(%w[Twitter Facebook Youtube Instagram], ext.object.ext_site), {}, {:class => "form-control ext-link-select"} %>
-          <%= ext.input :url, input_html: {:class => "ext-link-url"}, input_html: {:style => "display:inline;max-width:300px;", :placeholder => "URL"}, label: false %>
-          <%= ext.link_to_remove "<i class=\"fa fa-times-circle\"></i>".html_safe, :class => "icon-remove-ext-link" %>
+  <div class="container eternity-form">
+    <div class="new-board-section">
+      <div class="login-content text-center">
+        <div class="section-title">
+          <h3>Edit <%= link_to @board.name, @board %> Showboard</h3>
         </div>
+        <%= simple_nested_form_for @board do |f| %>
+          <div class="clearfix">
+            <div class="textbox-wrap">
+              <div class="input-group">
+                <span class="input-group-addon "><i class="fa fa-user fa-color"></i></span>
+                <%= f.text_field :name, :autofocus => true, class: "form-control", :placeholder => "Board Name" %>
+              </div>
+            </div>
 
-      <% end %>   
+            <div class="textbox-wrap">
+              <div class="input-group">
+                <span class="input-group-addon "><i class="fa fa-link fa-vanity"></i>showboarder.com/</span>
+                <%= f.text_field :vanity_url, class: "form-control", :placeholder => "Custom Url" %>
+              </div>
+            </div>
 
-      <div class="form-group">
-        <%= f.link_to_add "Add a link (Facebook, Twitter, etc.)", :ext_links, :class => "btn btn-primary" %>
+            <div class="textbox-wrap">
+              <%= f.label :header_image %>
+              <%= f.file_field :header_image %>
+            </div>
+            <br>
+
+            <%= f.fields_for :ext_links do |ext| %>
+              <%= ext.select :ext_site, options_for_select(%w[Twitter Facebook Youtube Instagram], ext.object.ext_site), {}, {:class => "form-control ext-link-select"} %>
+              <%= ext.input :url, input_html: {:class => "ext-link-url"}, input_html: {:style => "display:inline;max-width:300px;", :placeholder => "URL"}, label: false %>
+              <%= ext.link_to_remove "Remove this link" %>
+            <% end %>  
+
+          <div class="form-group">
+            <%= f.link_to_add "Add a link (Facebook, Twitter, etc.)", :ext_links, :class => "btn btn-primary" %>
+          </div>
+
+          <%= f.fields_for :stages, @board.stages.first do |ff| %>
+
+            <div class="textbox-wrap">
+                
+                <%= ff.input :capacity, input_html: {class:"form-control bfh-number", data_min: "0", value: "100"}, label: "Capacity (number of tickets available for each show)" %>
+              </div> 
+            
+          <% end %>
+
+          <%= f.button :submit, :class => "btn btn-primary btn-create-board" %>
+
+        <% end %>
       </div>
-
-      
-
-      <%= f.button :submit %>
-
-      <% end %>
     </div>
   </div>
 </div>

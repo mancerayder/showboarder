@@ -63,30 +63,20 @@ class BoardsController < ApplicationController
       # flash[:error] = "Sorry, you do not have significant permissions to complete this action."
     end
     redirect_to board_path(@board)
-    # the following was a bad way of handling permissions.  TODO: break this out into cancancan
-    # if user_signed_in? && current_user.boarder?(@board) && current_user.board_role(@board) == "manager" && current_user.stripe_recipient_id
-    #   flash[:success] = "Ticketing is now enabled for this showboard!"
-    #   current_user.boarder!(@board, "owner")
-    #   @board.update(paid_tier: 1)
-    #   redirect_to @board
-    # elsif user_signed_in?
-    #   redirect_to user_stripe_connect_path(current_user)
-    # else
-    #   flash[:error] = "You must be signed in and have control over this board to enable ticketing."
-    #   redirect_to new_user_session_path
-    # end
   end
 
   def create
     @board = Board.new(board_params)
-    # current_user.user_boards.create(:board_id => @board.id)
+    puts "froop335"
+    puts board_params
     if @board.save
+      puts @board.ext_links.count
       # @stage1.first.name = @board.name
       @board.stages.each do |s|
         s.places_gather
       end
       @board.self_zone
-      # @board.update_attributes(state:"public")
+      @board.update_attributes(state:"public")
       current_user.boarder!(@board, "manager")
       flash[:success] = "You have created a new Showboard!"
       redirect_to @board

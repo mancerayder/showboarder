@@ -31,6 +31,13 @@
   max-width: 360px;
   margin: 0 auto;
 }
+
+.eternity-form .new-board-section {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto; 
+}
+
 .eternity-form .login-content,
 .eternity-form .forgot-password-section,
 .eternity-form .reg-content {
@@ -97,6 +104,12 @@
 .eternity-form .blue-btn:hover {
   background-color: #2980b9;
 }
+
+.eternity-form .btn-create-board {
+  margin-top:20px;
+  margin-bottom:20px;
+}
+
 .eternity-form .login-form-action {
   padding: 15px 20px 30px 20px;
 }
@@ -266,6 +279,10 @@
 .eternity-form .dark .icon-color {
   color: white;
 }
+.fa-vanity {
+  margin-right: 10px;
+}
+
 .eternity-form.dark .input-group-addon1,
 .eternity-form .dark .input-group-addon1 {
   background-color: #2d2d2d;

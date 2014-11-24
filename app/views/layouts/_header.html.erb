@@ -18,7 +18,7 @@ MAIN NAV
     <div id="site-nav" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <% if user_signed_in? %>
-          <% if current_user.boards %>
+          <% if current_user.boards.count > 0 %>
             <li class="nav-item">
               <%= link_to "Edit Board", edit_board_path(current_user.boards.first) %>
             </li>
