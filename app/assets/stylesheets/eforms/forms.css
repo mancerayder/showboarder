@@ -63,10 +63,19 @@
   -webkit-transition: border-left-color 0.5s, box-shadow 0.5s, background-color 0.5s;
   transition: border-left-color 0.5s, box-shadow 0.5s, background-color 0.5s;
 }
+
+.eternity-form .textbox-wrap.textbox-wrap-show {
+  padding: 10px 20px 10px 15px;
+}
 .eternity-form .textbox-wrap .input-group {
   border: 1px solid #e0e0e0;
   background-color: #ffffff;
 }
+.eternity-form .textbox-wrap .input-group-price {
+  border: none;
+  background-color: transparent;
+}
+
 .eternity-form .textbox-wrap .input-group .input-group-addon,
 .eternity-form .textbox-wrap .input-group input,
 .eternity-form .textbox-wrap .input-group .form-control {
@@ -84,6 +93,9 @@
 .eternity-form .textbox-wrap .input-group [class*=" icon-"],
 .eternity-form .textbox-wrap .input-group i {
   color: #cccccc;
+}
+.eternity-form div.input-group > div.input-group  {
+  border: none;
 }
 .eternity-form .textbox-wrap.focused {
   border-left-color: #3498db;

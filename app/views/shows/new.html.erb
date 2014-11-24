@@ -1,79 +1,102 @@
 <%= javascript_include_tag :showForm %>
+<%= javascript_include_tag :eForm %>
+
 <section>
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3 text-center">
-      <h2>Add a show</h3>
+  <div class="container eternity-form">
+    <div class="login-form-section">
+      <div class="login-content">
+        <div class="section-title">
+          <h3>Add a show</h3>
+        </div>
 
         <%= simple_nested_form_for [@board, @show], html:{id:"show-form"} do |f| %>
           <%= render 'shared/error_messages', object: f.object %>
           <div id="form-errors" class="alert alert-warning" style="display:none;">
           </div>
 
-          <div class="form-group">
-            <%= f.label :ticketing_type, class: "" %>
-            <%= f.select :ticketing_type, options_for_select(%w[Ticketed None]), {}, {:class => 'form-control'} %>
-          </div>
-
-          <div class="form-group">
-            <label for="show-date">Show Date</label>  
-            <div class="input-group date">
-              <input type="text" id="show-date" name="show_date" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+          <div class="clearfix">
+            <div class="textbox-wrap textbox-wrap-show">
+              <%= f.label :ticketing_type %>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-ticket"></i></span>
+                <%= f.select :ticketing_type, options_for_select(%w[Ticketed None]), {}, {:class => 'form-control'} %>
+              </div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label for="door-time">Door time</label>
-            <input type="time" name="door_time" id="inputDoor-Time" class="form-control" value="19:00" required="required">
-          </div>
+            <div class="textbox-wrap textbox-wrap-show">
+              <label for="show-date">Show Date</label> 
+              <div class="input-group date">
+                <input type="text" id="show-date" name="show_date" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+              </div>
+            </div>
 
-          <div class="form-group">
-            <label for="show-time">Show Time</label>
-            <input type="time" name="show_time" id="inputShow-Time" class="form-control" value="20:00" required="required">
-          </div>
+            <div class="textbox-wrap textbox-wrap-show">
+              <label for="door-time">Door Time</label> 
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                <input type="time" name="door_time" id="inputDoor-Time" class="form-control" value="19:00" required="required">
+              </div>
+            </div>
 
-          <div class="form-group">
-            <%= f.label :min_age, "Minimum age", class: "" %>
-            <%= f.select :min_age, options_for_select(["All ages", "18+", "21+"]), {}, {:class => 'form-control'} %>
-          </div>        
+            <div class="textbox-wrap textbox-wrap-show">
+              <label for="show-time">Show Time</label> 
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                <input type="time" name="show_time" id="inputShow-Time" class="form-control" value="20:00" required="required">
+              </div>
+            </div>
 
+            <div class="textbox-wrap textbox-wrap-show">
+              <%= f.label :min_age, "Minimum age" %>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-unsorted"></i></span>
+                <%= f.select :min_age, options_for_select(["All ages", "18+", "21+"]), {}, {:class => 'form-control'} %>
+              </div>
+            </div>
 
-          <div class="form-group">
-            <%= f.label :price_adv, "Online Ticket Price ($)" %>
-          <%= f.text_field :price_adv, :class => 'cost form-control bfh-number', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0), data_min: "0", data_max: "200", value: "10" %>
-          </div>
+            <div class="textbox-wrap textbox-wrap-show">
+              <%= f.label :price_adv, "Online Ticket Price ($)" %>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                <%= f.number_field :price_adv, :class => 'cost form-control bfh-number', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0), data_min: "0", data_max: "200", value: "10" %>
+              </div>
+            </div>
 
-          <div class="form-group">
-            <%= f.label :price_door, "Door Ticket Price ($)" %>
-            <%= f.text_field :price_door, :class => 'cost form-control bfh-number', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0), data_min: "0", data_max: "200", value: "10" %>
-          </div>
+            <div class="textbox-wrap textbox-wrap-show">
+              <%= f.label :price_door, "Door Ticket Price ($)" %>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                <%= f.number_field :price_door, :class => 'cost form-control bfh-number', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0), data_min: "0", data_max: "200", value: "12" %>
+              </div>
+            </div>
 
             <%= f.fields_for :acts do |ff| %>
-            <div class="panel panel-primary">
-              <div class="panel-heading">
-                <h4>Act</h4>
-              </div>
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h4>Act</h4>
+                </div>
 
-              <%= ff.input :echonest_id, as: :hidden %>
-              <%= ff.input :name, :type => "text", :name => "bandinput", :id=> "bandinput", :class=> "form-control", :value=> "", :required=> "required", :pattern=> "", :title=> "" %>
-              <span class="help-block">Suggestions will drop down as you type.  Select to auto-fill <%= link_to "echonest", "http://www.echonest.com", :target => "blank" %> data.</span>
+                <%= ff.input :echonest_id, as: :hidden %>
+                <%= ff.input :name, :type => "text", :name => "bandinput", :id=> "bandinput", :class=> "form-control", :value=> "", :required=> "required", :pattern=> "", :title=> "" %>
+                <span class="help-block">Suggestions will drop down as you type.  Select to auto-fill <%= link_to "echonest", "http://www.echonest.com", :target => "blank" %> data.</span>
 
-              <%= ff.fields_for :ext_links do |fff| %>
-              <br>
-              <br>
-              
-                <%= fff.select :ext_site, options_for_select(%w[Homepage Lastfm Twitter Myspace Wikipedia Musicbrainz Soundcloud Bandcamp Youtube Facebook]), {}, {:class => "form-control"} %>
-                <%= fff.input :url %>
-                <%= fff.link_to_remove "Remove this link" %>
-
+                <%= ff.fields_for :ext_links do |fff| %>
+                <br>
+                <br>
                 
-              <% end %>
-              <button type="button" id="btn-echoclear" class="btn btn-default btn-echoclear">Clear echonest data</button>
+                  <%= fff.select :ext_site, options_for_select(%w[Homepage Lastfm Twitter Myspace Wikipedia Musicbrainz Soundcloud Bandcamp Youtube Facebook]), {}, {:class => "form-control"} %>
+                  <%= fff.input :url %>
+                  <%= fff.link_to_remove "Remove this link" %>
 
-            <p><%= ff.link_to_add "Add a link", :ext_links %></p>
+                  
+                <% end %>
+                <button type="button" id="btn-echoclear" class="btn btn-default btn-echoclear">Clear echonest data</button>
 
-          <%= ff.link_to_remove "Remove this act" %>
-            </div>
-          <% end %>
+              <p><%= ff.link_to_add "Add a link", :ext_links %></p>
+
+            <%= ff.link_to_remove "Remove this act" %>
+              </div>
+            <% end %>
           <p><%= f.link_to_add "Add an act", :acts %></p>
 
           <%= f.submit "List show", class: "btn btn-large btn-primary" %>
