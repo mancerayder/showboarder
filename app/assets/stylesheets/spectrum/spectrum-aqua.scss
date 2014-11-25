@@ -886,6 +886,14 @@ a.light-text:focus {
     background: rgba(244,245,247,.2);
 }
 
+.btn-echoclear-hide {
+    display: none;
+}
+
+button#btn-echoclear.btn.btn-default {
+    margin-bottom: 10px;
+}
+
 
 p.ext-links-fontawesomed > a,
 p.ext-links-fontawesomed {
@@ -907,9 +915,14 @@ a > .act-ext-link {
     color: rgb(109, 109, 109);
 }
 
+.band-show {
+    font-size: 20px;
+}
 
-a#act-ext-link {
-    color: rgb(109, 109, 109);
+
+a#act-ext-link,
+a#act-ext-link  > i {
+    color: #52dbeb;
 }
 
 p.board-address > a {
@@ -1595,8 +1608,14 @@ label{
 }
 
 .ext-link-select {
-    max-width: 150px;
+    max-width: 120px;
     display:inline-block;
+    margin-bottom: 15px;
+}
+
+.btn-ext-link-remove,
+a.btn-ext-link-remove:hover {
+    color:red;
 }
 
 .ext-link-url {

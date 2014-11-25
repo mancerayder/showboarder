@@ -97,6 +97,10 @@
 .eternity-form div.input-group > div.input-group  {
   border: none;
 }
+
+.eternity-form .help-block {
+  font-size:12px;
+}
 .eternity-form .textbox-wrap.focused {
   border-left-color: #3498db;
   background-color: #f0f0f0;

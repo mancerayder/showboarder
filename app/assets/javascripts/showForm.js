@@ -27,35 +27,35 @@
             dataType: "json",
             ///////////////////////////////////
             success: function (data) {
-              console.log(data)
               var echoField = field.find('.hidden').filter('input');
-              var echoButton = field.find('button');
+              var echoButton = field.find('.btn-echoclear');
 
-              if (echoButton.hasClass("btn-echoclear")) {
-                echoButton.removeClass("btn-echoclear");
+              if (echoButton.hasClass("btn-echoclear-hide")) {
+                echoButton.removeClass("btn-echoclear-hide");
               }
 
               echoButton.click(function() {
-                field.find('input').not(field.find(".required")).val('');
-
+                field.find("a.btn-ext-link-remove.remove_nested_fields").click();
                 
-                field.find("a.remove_nested_fields:contains(Remove this link)").click();
+                echoField.val("");
+
                 if (echoField.val() === "") {
-                  if (!echoButton.hasClass("btn-echoclear")) {
-                    echoButton.addClass("btn-echoclear");
+                  if (!echoButton.hasClass("btn-echoclear-hide")) {
+                    echoButton.addClass("btn-echoclear-hide");
                   }
                 } else {
-                  if (echoButton.hasClass("btn-echoclear")) {
-                    echoButton.removeClass("btn-echoclear");
+                  if (echoButton.hasClass("btn-echoclear-hide")) {
+                    echoButton.removeClass("btn-echoclear-hide");
                   }
                 }              
               });
+
               echoField.val(eid);
 
               var urls = data["urls"]
               for (var key in urls) {
                 if (urls.hasOwnProperty(key)) {
-                  $(field).on('nested:fieldAdded', function(event){
+                  $(field).one('nested:fieldAdded', function(event){
                     var dropdown = event.field.find('select').first();
                     if (key == 0 || key == 1 || key == 2 || key == 3 || key == 4 || key == 5 ){
                       dropdown.prop('selectedIndex', key);

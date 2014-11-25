@@ -34,12 +34,18 @@
     <% end %>
     <br>
 
-    <% if @show.ticketing_type == "paid" %>
+    <% if @show.ticketing_type == "Ticketed" %>
       <%= render 'reserve_tickets_button' %>
-    <% elsif @show.ticketing_type == "pwyw" %>
-    <% elsif @show.ticketing_type == "rsvp" %>
     <% else %>
-    This show is free!
+      This show is free!
+    <% end %>
+
+    <% if user_signed_in? && current_user.boarder?(@show.board) && current_user.board_role(@show.board) == "owner" %>
+      <p>
+        <br>
+        <br>
+        <%= link_to "Edit show", edit_board_show_path(@board, @show) %>
+      </p>
     <% end %>
   </div>
   </div>

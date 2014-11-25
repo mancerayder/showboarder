@@ -16,14 +16,6 @@
 
           <div class="clearfix">
             <div class="textbox-wrap textbox-wrap-show">
-              <%= f.label :ticketing_type %>
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-ticket"></i></span>
-                <%= f.select :ticketing_type, options_for_select(%w[Ticketed None]), {}, {:class => 'form-control'} %>
-              </div>
-            </div>
-
-            <div class="textbox-wrap textbox-wrap-show">
               <label for="show-date">Show Date</label> 
               <div class="input-group date">
                 <input type="text" id="show-date" name="show_date" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
@@ -34,7 +26,7 @@
               <label for="door-time">Door Time</label> 
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-                <input type="time" name="door_time" id="inputDoor-Time" class="form-control" value="19:00" required="required">
+                <input type="time" name="door_time" id="inputDoor-Time" class="form-control" required="required">
               </div>
             </div>
 
@@ -42,7 +34,7 @@
               <label for="show-time">Show Time</label> 
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-                <input type="time" name="show_time" id="inputShow-Time" class="form-control" value="20:00" required="required">
+                <input type="time" name="show_time" id="inputShow-Time" class="form-control" required="required">
               </div>
             </div>
 
@@ -50,7 +42,7 @@
               <%= f.label :min_age, "Minimum age" %>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-unsorted"></i></span>
-                <%= f.select :min_age, options_for_select(["All ages", "18+", "21+"]), {}, {:class => 'form-control'} %>
+                <%= f.select :min_age, options_for_select(["All ages", "18+", "21+"], f.object.min_age), {}, {:class => 'form-control'} %>
               </div>
             </div>
 
@@ -111,7 +103,7 @@
             <% end %>
           <p class="text-center"><%= f.link_to_add "<span><i class=\"fa fa-plus\"></i> Add an act".html_safe, :acts, class: "btn btn-success" %></p>
 
-          <p class="text-center"><%= f.submit "List show", class: "btn btn-large btn-primary" %></p>
+          <p class="text-center"><%= f.submit "Update show", class: "btn btn-large btn-primary" %></p>
           </div>
         <% end %>
 

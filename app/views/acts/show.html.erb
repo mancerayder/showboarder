@@ -14,8 +14,11 @@
       <br>
       <h2>Shows</h2>
       <% @act.shows.each do |s| %>
-        <%= link_to s.board.name, s.board %> on <%= link_to s.show_at.to_time.strftime('%b %e'), board_show_path(s.board, s), :class => "band-link" %>
-        <br>
+        <div class="row">
+          <div class="band-show">
+            <%= link_to s.board.name, s.board %> on <%= link_to s.show_at.to_time.strftime('%b %e'), board_show_path(s.board, s), :class => "band-link" %>
+          </div>
+        </div>
       <% end %>
     </div>
   </div>

@@ -26,6 +26,8 @@
         <%= link_to "Delete show", [@board, show], method: :delete, id: show.id,
                                          data: { confirm: "Are you sure you would like to delete this show?  This cannot be undone." },
                                          title: show.id %>
+        <br>
+        <%= link_to "Edit show", edit_board_show_path(@board, show) %>
       <% end %>
       </div>
     </div>

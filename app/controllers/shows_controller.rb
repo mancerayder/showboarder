@@ -83,10 +83,10 @@ class ShowsController < ApplicationController
             end
 
             e.destroy! # destroy link now that links and show have been merged with existing record
-          elsif e.echonest_id[0..4] == "ECHO-" # not found in DB = ID = "ECHO-echonest_id"
+          elsif e.echonest_id[0..4] == "ECHO-" # not found in DB, so ID = "ECHO-echonest_id"
             e.echonest_id = e.echonest_id.gsub("ECHO-", "")
             e.save!
-          else # found in db, has echonest ID = id is echonest id
+          else # found in db, has echonest ID so id is echonest id
             dupe = Act.find_by(echonest_id: e.echonest_id)
 
             dupe.shows << @show
@@ -176,6 +176,18 @@ class ShowsController < ApplicationController
   end
 
   def update
+    @show = Show.find(params[:id])
+    if @show.update(show_params) # TODO - allow for editing of google place
+      flash[:success] = "Show updated"
+      redirect_to board_show_path(@board, @show)
+    else
+      render 'edit'
+    end
+  end
+
+  def edit
+    @show = Show.find(params[:id])
+    @board = @show.board
   end
 
   def destroy
@@ -193,6 +205,6 @@ class ShowsController < ApplicationController
   private
 
     def show_params
-      params.require(:show).permit(:state, :error, :announce_at, :door_at, :min_age, :ticketing_type, :show_at, :custom_capacity, :payer_id, :paid_at, :price_adv, :price_door, :board, {acts_attributes: [{ext_links_attributes: [:id, :ext_site, :url, :linkable_type]},:id, :name, :email, :echonest_id, :_destroy ]})
+      params.require(:show).permit(:state, :error, :announce_at, :door_at, :min_age, :ticketing_type, :show_at, :custom_capacity, :payer_id, :paid_at, :price_adv, :price_door, :board, {acts_attributes: [{ext_links_attributes: [:id, :ext_site, :url, :linkable_type, :_destroy]},:id, :name, :email, :echonest_id, :_destroy ]})
     end
 end

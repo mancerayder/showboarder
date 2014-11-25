@@ -20,16 +20,16 @@ class ActsController < ApplicationController
       # 2. found in DB, has no echonest ID = id is "DB-act_id
       # 3. not found in DB = ID = "ECHO-echonest_id"
       echo = "DB-"
-      if a.id # case for if found in database
+
+      if a.class.to_s == "Echowrap::Artist" # case for if found in echonest
+        echo = "ECHO-" + a.id
+      else
         if a.echonest_id
           echo = a.echonest_id
         else
           echo = echo + a.id.to_s
         end
-      else # case for if found in echonest
-        echo = "ECHO-"
-        echo = a.echonest_id
-      end      
+      end
       names << {id: echo, value: a.name}
     end
     render :json => names
