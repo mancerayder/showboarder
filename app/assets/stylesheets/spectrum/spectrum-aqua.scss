@@ -482,6 +482,12 @@ a.light-text:focus {
 
 }
 
+
+.is-countdown{
+  background-color: rgba(255,255,255,.2);
+  width:90px;
+}
+
 .intro-img,
 .intro-img-half,
 .intro-slider,
@@ -3251,8 +3257,22 @@ fieldset[disabled] .btn-danger.active {
 }
 
 .btn-reserve {
-    display:inline;
+    // display:inline;
     margin-top:0px;
+}
+
+input#quantity.form-control.ticket-reserve {
+    // width: 90px;
+}
+
+input.btn.btn-primary.btn-reserve {
+    display:inline-block;
+}
+
+div.ticket-reserve-wrapper > div.input-group {
+    width:130px;
+    display:inline-table;
+    margin-bottom:10px;
 }
 
 .footer-1 .upper {

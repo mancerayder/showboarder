@@ -1,28 +1,25 @@
+<%= javascript_include_tag :ticketCheckout %>
 <section>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
+  <div class="container eternity-form">
+    <div class="login-form-section">
+      
+      <div class="login-content">
+        <div class="section-title">
+          <h3>Purchase <%= @tickets.count %> tickets for <%= number_to_currency(@amount, unit:"$") %></h3>
+        </div>
         <% if user_signed_in? %>
         <%= render 'shows/purchase_tickets_logged_in', :sale => @sale %>
         <% else %>
         <%= render 'shows/purchase_tickets_logged_out', :sale => @sale %>
         <% end %>
+        <br>
+        
+      </div>
 
-        <br>
+      <div class="login-form-links link1">
         <% @tickets.each do |t| %>
-        <%= t.attributes %>
-        <% if t.reserved_at %>
-        <script>
-        $(function () {
-          var expiration = new Date();
-          expiration = new Date(<%= (t.reserved_at + 15.minutes).to_i * 1000 %>);
-          $('#defaultCountdown<%= t.id %>').countdown({until: expiration, format:'MS', compact:'true'});
-        });
-        </script>
-        <% end %>
-        <div id="defaultCountdown<%= t.id %>"></div>
-        <br>
-        <br>
+          <div id="defaultCountdown<%= t.id %>"></div>
+          ticket
         <% end %>
       </div>
     </div>

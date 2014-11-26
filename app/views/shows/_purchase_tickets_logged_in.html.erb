@@ -1,139 +1,41 @@
-<span>Purchase <%= @tickets.count %> tickets for <%= number_to_currency(@amount, unit:"$") %></span>
-<br>
+<%= javascript_include_tag :purchaseTicketsLoggedIn %>
+<div class="textbox-wrap text-center">
+  Logged in as <%= current_user.email %>.
+  <br>
+  Not <%= current_user.email %>? <%= link_to  "Sign Out", destroy_user_session_path, method: "delete" %>.
+  <br>
+</div>
 
-Logged in as <%= current_user.email %>.
-<br>
-Not <%= current_user.email %>? <%= link_to  "Sign Out", destroy_user_session_path, method: "delete" %>.
-<br>
-Have an account?
-<br>
+<script src="https://checkout.stripe.com/v2/checkout.js"></script>
 
-  <script src="https://checkout.stripe.com/v2/checkout.js"></script>
-  <form role="form">
-    <div class="row">
-      <legend>Form title</legend>
-  
-      <div class="form-group col-md-3">
-          <label for="tip-sb">Ticket/s (Bands/Venue)</label>
-          <input name="amount-product" id="amount-product" type="text" class="form-control bfh-number" data-min="<%= @amount.to_i %>" value="1">
-
-          <label for="tip-sb">Showboarder Tip</label>
-          <input name="amount-sb" id="amount-sb" type="text" class="form-control bfh-number" data-min="0" value="1">
-
-          <label for="tip-charity">Little Kids Rock Foundation</label>
-          <input name="amount-charity" id="amount-charity" type="text" class="form-control bfh-number" data-min="0" value="1">
-      </div>
-    </div>
-  </form>
-
-  Total: <span id="amount-total"></span>
-  <div class="row">
-    <div class="col-md-12">
-      <button id="stripeButton">Purchase</button>
+<form role="form">
+  <div class="textbox-wrap">
+    <label for="tip-sb">Ticket/s (Bands/Venue)</label>
+    <div class="input-group">
+      <span class="input-group-addon "><i class="fa fa-dollar"></i></span><input name="amount-product" id="amount-product" type="text" class="form-control bfh-number" data-min="<%= @amount.to_i %>" value="1">
     </div>
   </div>
 
-  
-  <div class="row">
-    <div id="payment-errors" class="alert" style="<%= sale.errors.any? ? '' : 'display: none;' %>">
-      <% sale.errors.full_messages.each do |msg| %>
-        <span><%= msg %></span>
-      <% end %>
+  <div class="textbox-wrap">
+    <label for="tip-sb">Tip</label>
+    <div class="input-group">
+      <span class="input-group-addon "><i class="fa fa-dollar"></i></span><input name="amount-sb" id="amount-sb" type="text" class="form-control bfh-number" data-min="0" value="1">
     </div>
   </div>
 
-<script>  
-  $(function(){
-    var amountProduct = $('#amount-product');
-    var amountSb = $('#amount-sb');
-    var amountCharity = $('#amount-charity');
-    var amountTotal = $('#amount-total');
+  <label for="slider-1">Input slider:</label>
+  <input type="range" name="slider-1" id="slider-1" value="60" min="0" max="100">
 
-    var totalCalculator = function() {
-      return parseInt(amountSb.val()) + parseInt(amountCharity.val()) + parseInt(amountProduct.val())
-    }
+  <div class="login-form-action clearfix">
+    Total: <span id="amount-total"></span>
+    <button id="stripeButton" class="btn btn-success pull-right green-btn">Purchase</button>
+  </div>
+</form>
 
-    var totalFill = function(){
-      amountTotal.html("$" + totalCalculator().toString() + ".00");  
-    }
-
-    amountProduct.change(function(){
-      totalFill();
-    });
-
-    amountSb.change(function(){
-      totalFill();
-    });
-
-    amountCharity.change(function(){
-      totalFill();
-    });
-
-    totalFill();
-
-    $('#stripeButton').click(function(){
-      var token = function(res){
-        var $input = $('<input type=hidden name=stripeToken />').val(res.id);
-        $('form').append($input);
-        console.log(res)
-        console.log(res.email)
-        $.ajax({
-          type: "POST",
-          url: "<%= board_show_checkout_path(@board, @show) %>",
-          data: { reserve_code: "<%= @reserve_code %>",
-                  stripeToken: res.id,
-                  name: res.card.name,
-                  email: res.email,
-                  amount_base: <%= @amount %>,
-                  amount_tip: (parseInt(amountProduct.val()) - <%= @amount %>),
-                  amount_sb: parseInt(amountSb.val()),
-                  amount_charity:parseInt(amountCharity.val())
-                   }, // TODO - clean this up to only send a js plainObject with the necessary data
-          success: function(data) { poll(data.guid, 60) },
-          error: function(data) { showError(data.responseJSON.error) }
-        });
-      };
-
-      StripeCheckout.open({
-        key:         '<%= ENV["STRIPE_TEST_KEY_PUBLISHABLE"] %>', // TODO - replace with live key in production
-        address:     true,
-        amount:      (totalCalculator() * 100).toString(),
-        currency:    'usd',
-        name:        'Showboarder',
-        description: "<%= @tickets.count %> tickets for $" + totalCalculator().toString() + ".00", //"<%= @tickets.count%> tickets totalCalculator() %>)",
-        email: "<%= current_user.email %>",
-        panelLabel:  'Checkout',
-        token:       token
-      });
-
-      return false;
-    });
-
-    function showError(error) {
-      var form = $('#payment-form');
-      $('#payment-errors').html(error);
-      $('#payment-errors').show();
-      // $('#pay-button').show();
-      // $('#spinner-button').hide();
-    }
-
-    function poll(guid, num_retries_left) {
-      console.log("Polling...");
-      if (num_retries_left == 0) {
-        showError("This seems to be taking too long. Email <a href=\"contact@showboarder.com\">contact@showboarder.com</a> and reference sale <strong>" + guid );
-        return;
-      }
-      $.get("/status/" + guid, function(data) {
-
-        if (data.status === "finished") {
-          window.location = "/confirm/" + guid;
-        } else if (data.status === "errored") {
-          showError(data.error)
-        } else {
-          setTimeout(function() { poll(guid, num_retries_left - 1) }, 500);
-        }
-      });
-    }
-
-  });
-</script>
+<div class="row">
+  <div id="payment-errors" class="alert" style="<%= sale.errors.any? ? '' : 'display: none;' %>">
+    <% sale.errors.full_messages.each do |msg| %>
+      <span><%= msg %></span>
+    <% end %>
+  </div>
+</div>

@@ -193,13 +193,17 @@ class ShowsController < ApplicationController
   def destroy
     @show = Show.find(params[:id])
     @board = @show.board
-    if current_user.boarder?(@board)
+    if @show.tickets_sold != 0
+      flash[:error] = "Deletion prevented.  Tickets have already been sold. Email contact@showboarder.com if you need to do this"
+      redirect_to @board
+    elsif current_user.boarder?(@board)
       board_role = current_user.board_role(@board)
       if board_role == "owner" || board_role == "manager"
         @show.destroy
       end
+      flash[:success] = "Show deleted"
+      redirect_to @board
     end
-    redirect_to @board
   end
 
   private

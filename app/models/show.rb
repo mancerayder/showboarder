@@ -9,12 +9,18 @@ class Show < ActiveRecord::Base
   accepts_nested_attributes_for :acts, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :ext_links, :reject_if => :all_blank, :allow_destroy => true
 
+  def destroy
+    raise "Cannot delete a show with sold tickets. Email contact@showboarder.com if you need to do this" unless self.tickets_sold == 0
+    # ... ok, go ahead and destroy
+    super
+  end
+
   def transact(actioner, state_before, state_after)
     Sale.create(actioner_id:actioner.id, actioner_type:actioner.class.to_s, actionee_id:self.id, actionee_type:"Show", state_before:state_before, state_after:state_after)
   end
 
   def tickets_make  # needs to account for paid, pwyw, rsvp_only
-    if self.ticketing_type == "paid"
+    if self.ticketing_type == "paid" || self.ticketing_type == "Ticketed"
       if self.custom_capacity?
         capacity = self.custom_capacity.to_i
       else
@@ -130,6 +136,16 @@ class Show < ActiveRecord::Base
     tickets.each do |t|
       t.use
     end
+  end
+
+  def tickets_sold
+    total_sold = 0
+    self.tickets.each do |t|
+      if t.state != "open"
+        total_sold += 1
+      end
+    end
+    return total_sold
   end
 
   def checkout_attendee(id, type)

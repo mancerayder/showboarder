@@ -34,7 +34,7 @@
     <% end %>
     <br>
 
-    <% if @show.ticketing_type == "Ticketed" %>
+    <% if @show.ticketing_type == "Ticketed" || @show.ticketing_type == "paid" %>
       <%= render 'reserve_tickets_button' %>
     <% else %>
       This show is free!
