@@ -70,6 +70,15 @@ class User < ActiveRecord::Base
     user_boards.find_by(board_id: board.id).update(role: role)
   end
 
+  def tickets_clear_expired_reservations
+    reserved = Ticket.where(ticket_owner_id:self.id, state:"reserved")
+    reserved.each do |t|
+      if t.expired?
+        t.make_open
+      end
+    end
+  end
+
   def tickets_reserved_assign
     if self.reserve_code?
       cart = Cart.find_by_reserve_code(self.reserve_code)

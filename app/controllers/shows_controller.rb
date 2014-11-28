@@ -14,6 +14,7 @@ class ShowsController < ApplicationController
     # @card = Card.new
     @checkout_type = "Cart"
     if user_signed_in?
+      current_user.tickets_clear_expired_reservations
       # @tickets = Ticket.where(ticket_owner_id:current_user.id, ticket_owner_type:current_user.class.to_s, state:"reserved")
       # @tickets = current_user.tickets_retrieve_and_clear_expired
       @tickets = current_user.tickets.where(state:"reserved")
