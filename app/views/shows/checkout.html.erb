@@ -1,11 +1,14 @@
 <section>
   <div class="container eternity-form">
-    <div class="login-form-section">
-      
-      <div class="login-content">
-        <div class="section-title">
-          <h3>Purchase <%= @tickets.count %> tickets for <%= number_to_currency(@amount, unit:"$") %></h3>
-        </div>
+    <div class="registration-form-section">
+      <div class="section-title reg-header text-center">
+        <h3>Purchase <%= @tickets.count %> tickets for <%= number_to_currency(@amount, unit:"$") %></h3>
+          Logged in as <%= current_user.email %>.
+          <br>
+          Not <%= current_user.email %>? <%= link_to  "Sign Out", destroy_user_session_path, method: "delete" %>.
+      </div>
+      <div class="col-sm-6 registration-left-section">
+        
         <% if user_signed_in? %>
           <script>
             $(function(){
@@ -110,21 +113,25 @@
         
       </div>
 
-      <div class="login-form-links link1">
-        <div class="section-title section-title-links">
-          <h3><%= @tickets.count %> tickets</h3>
+      <div class="col-sm-6 registration-right-section">
+        <div class="reg-content tickets-section-content">
+          <div class="textbox-wrap tickets-section">
+            <div class="section-title tickets-section-title text-center">
+              <h3><%= @tickets.count %> tickets</h3>
+            </div>
+            <% @tickets.each do |t| %>
+              <script>
+                $(function () {
+                  var expiration = new Date();
+                  expiration = new Date(<%= (t.reserved_at + 15.minutes).to_i * 1000 %>);
+                  $('#defaultCountdown<%= t.id %>').countdown({until: expiration, format:'MS', compact:'true'});
+                });
+              </script>
+              <div id="defaultCountdown<%= t.id %>"></div>
+              ticket
+            <% end %>
+          </div>
         </div>
-        <% @tickets.each do |t| %>
-          <script>
-            $(function () {
-              var expiration = new Date();
-              expiration = new Date(<%= (t.reserved_at + 15.minutes).to_i * 1000 %>);
-              $('#defaultCountdown<%= t.id %>').countdown({until: expiration, format:'MS', compact:'true'});
-            });
-          </script>
-          <div id="defaultCountdown<%= t.id %>"></div>
-          ticket
-        <% end %>
       </div>
     </div>
   </div>

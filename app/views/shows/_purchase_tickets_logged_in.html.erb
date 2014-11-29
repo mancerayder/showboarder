@@ -1,65 +1,60 @@
-<div class="textbox-wrap text-center">
-  Logged in as <%= current_user.email %>.
-  <br>
-  Not <%= current_user.email %>? <%= link_to  "Sign Out", destroy_user_session_path, method: "delete" %>.
-  <br>
-</div>
-
 <script src="https://checkout.stripe.com/v2/checkout.js"></script>
+<div class="reg-content tickets-section-content">
 
-<form role="form">
-  <div class="textbox-wrap">
-    <label for="tip-sb" class="text-center">Tickets</label>
-    <div class="input-group">
-      <span class="input-group-addon "><i class="fa fa-dollar"></i></span><input name="amount-product" id="amount-product" type="text" class="form-control bfh-number" data-min="<%= @amount.to_i %>" value="1">
-    </div>
-  </div>
-
-  <div class="textbox-wrap">
-    <label for="tip" class="text-center">Showboarder/Charity Tip</label>
-    <div class="input-group">
-      <span class="input-group-addon "><i class="fa fa-dollar"></i></span><input name="tip" id="tip" type="text" class="form-control bfh-number" data-min="0" value="1">
-    </div>
-  </div>
-
-  <div class="textbox-wrap">
-    <label class="text-center">Tip Distribution</label>
-    <label for="charity-slider"><span style"float:left;">To Showboarder</span><span style="float:right">To <a href="http://www.littlekidsrock.org/" target="_blank">Charity</a></span></label>
-    <div class="row">
-      <div class="col-xs-3">
-        $<output for="charity-slider" id="charity-num" style="display:inline;">50</output>
-      </div>
-      <div class="col-xs-6">
-        <input type="range" min="0" max="100" value="20" id="charity-slider" style="display:inline;" step="1">
-      </div>
-      <div class="col-xs-3">
-        <span style="float:right">$<output for="charity-slider" id="sb-num" style="display:inline;">50</output></span>
+  <form role="form">
+    <div class="textbox-wrap">
+      <label for="tip-sb" class="text-center">Tickets</label>
+      <div class="input-group">
+        <span class="input-group-addon "><i class="fa fa-dollar"></i></span><input name="amount-product" id="amount-product" type="text" class="form-control bfh-number" data-min="<%= @amount.to_i %>" value="1">
       </div>
     </div>
-  </div>
-  <script>
-    $(function(){
-      var tipUpdate = function() {
-        tip = $("#charity-slider").val();
-        $('#charity-num').val(parseFloat(parseInt($('#tip').val()) * (1 - tip/100)).toFixed(2));
-        console.log(parseInt($('#tip').val()))
-        $('#sb-num').val(parseFloat(parseInt($('#tip').val()) * (tip/100)).toFixed(2));
-      }
 
-      tipUpdate();
+    <div class="textbox-wrap">
+      <label for="tip" class="text-center">Showboarder/Charity Tip</label>
+      <div class="input-group">
+        <span class="input-group-addon "><i class="fa fa-dollar"></i></span><input name="tip" id="tip" type="text" class="form-control bfh-number" data-min="0" value="1">
+      </div>
+    </div>
 
-      $("#charity-slider").change(function() {
+    <div class="textbox-wrap">
+      <label class="text-center">Tip Distribution</label>
+      <label for="charity-slider"><span style"float:left;">To Showboarder</span><span style="float:right">To <a href="http://www.littlekidsrock.org/" target="_blank">Charity</a></span></label>
+      <div class="row">
+        <div class="col-xs-3">
+          $<output for="charity-slider" id="charity-num" style="display:inline;">50</output>
+        </div>
+        <div class="col-xs-6">
+          <input type="range" min="0" max="100" value="20" id="charity-slider" style="display:inline;" step="1">
+        </div>
+        <div class="col-xs-3">
+          <span style="float:right">$<output for="charity-slider" id="sb-num" style="display:inline;">50</output></span>
+        </div>
+      </div>
+    </div>
+    <script>
+      $(function(){
+        var tipUpdate = function() {
+          tip = $("#charity-slider").val();
+          $('#charity-num').val(parseFloat(parseInt($('#tip').val()) * (1 - tip/100)).toFixed(2));
+          console.log(parseInt($('#tip').val()))
+          $('#sb-num').val(parseFloat(parseInt($('#tip').val()) * (tip/100)).toFixed(2));
+        }
+
         tipUpdate();
-      })
-    })
-    
-  </script>
 
-  <div class="login-form-action clearfix">
-    Total: <span id="amount-total"></span>
-    <button id="stripeButton" class="btn btn-success pull-right green-btn">Purchase</button>
-  </div>
-</form>
+        $("#charity-slider").change(function() {
+          tipUpdate();
+        })
+      })
+      
+    </script>
+
+    <div class="login-form-action clearfix">
+      Total: <span id="amount-total"></span>
+      <button id="stripeButton" class="btn btn-success pull-right green-btn">Purchase</button>
+    </div>
+  </form>
+</div>
 
 <div class="row">
   <div id="payment-errors" class="alert" style="<%= sale.errors.any? ? '' : 'display: none;' %>">

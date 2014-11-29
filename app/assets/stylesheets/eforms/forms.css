@@ -113,6 +113,13 @@
   -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,.1);
   box-shadow: inset 0 0 3px rgba(0,0,0,.1);
 }
+
+/*.eternity-form .textbox-wrap.tickets-section,*/
+.eternity-form .section-title.tickets-section-title,
+.eternity-form .textbox-wrap.tickets-section > div > h3 {
+  padding:0px;
+  margin-top:0px;
+}
 .eternity-form .green-btn,
 .eternity-form .green-btn:hover,
 .eternity-form .blue-btn {
@@ -187,6 +194,10 @@
 .eternity-form .reg-content {
   margin-top: 5px;
   padding: 20px 0;
+}
+
+.eternity-form .reg-content.tickets-section-content{
+  padding-top:0px;
 }
 .eternity-form .registration-form-action {
   margin-top: 5px;
