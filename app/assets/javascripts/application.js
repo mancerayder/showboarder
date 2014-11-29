@@ -31,7 +31,6 @@
 //= require JSXTransformer
 //= require_tree ./spectrum
 //= require_tree ./eforms
-//= require_tree ./jquerymobilecustom
 //= require ./graphista/jquery.scrollto
 //= stub ./spectrum/plugins/retina/retina.min
 //= stub ./spectrum/plugins/retina/retina

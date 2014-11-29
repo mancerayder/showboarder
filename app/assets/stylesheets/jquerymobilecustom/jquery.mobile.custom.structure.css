@@ -438,6 +438,151 @@ button.ui-btn-icon-notext,
 }
 
 
+/* Transitions originally inspired by those from jQtouch, nice work, folks */
+.ui-mobile-viewport-transitioning,
+.ui-mobile-viewport-transitioning .ui-page {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.ui-page-pre-in {
+	opacity: 0;
+}
+.in {
+	-webkit-animation-timing-function: ease-out;
+	-webkit-animation-duration: 350ms;
+	-moz-animation-timing-function: ease-out;
+	-moz-animation-duration: 350ms;
+	animation-timing-function: ease-out;
+	animation-duration: 350ms;
+}
+.out {
+	-webkit-animation-timing-function: ease-in;
+	-webkit-animation-duration: 225ms;
+	-moz-animation-timing-function: ease-in;
+	-moz-animation-duration: 225ms;
+	animation-timing-function: ease-in;
+	animation-duration: 225ms;
+}
+
+
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@-webkit-keyframes fadeout {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+@-moz-keyframes fadeout {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+@keyframes fadeout {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.fade.out {
+	opacity: 0;
+	-webkit-animation-duration: 125ms;
+	-webkit-animation-name: fadeout;
+	-moz-animation-duration: 125ms;
+	-moz-animation-name: fadeout;
+	animation-duration: 125ms;
+	animation-name: fadeout;
+}
+
+.fade.in {
+	opacity: 1;
+	-webkit-animation-duration: 225ms;
+	-webkit-animation-name: fadein;
+	-moz-animation-duration: 225ms;
+	-moz-animation-name: fadein;
+	animation-duration: 225ms;
+	animation-name: fadein;
+}
+
+
+.ui-rangeslider {
+	margin: .5em 0;
+}
+.ui-rangeslider:before,
+.ui-rangeslider:after {
+	content: "";
+	display: table;
+}
+.ui-rangeslider:after {
+	clear: both;
+}
+.ui-rangeslider .ui-slider-input.ui-rangeslider-last {
+	float: right;
+}
+.ui-rangeslider .ui-rangeslider-sliders {
+	position: relative;
+	overflow: visible;
+	height: 30px;
+	margin: 0 68px;
+}
+.ui-rangeslider .ui-rangeslider-sliders .ui-slider-track {
+	position: absolute;
+	top: 6px;
+	right: 0;
+	left: 0;
+	margin: 0;
+}
+.ui-rangeslider.ui-mini .ui-rangeslider-sliders .ui-slider-track {
+	top: 8px;
+}
+.ui-rangeslider .ui-slider-track:first-child .ui-slider-bg {
+	display: none;
+}
+.ui-rangeslider .ui-rangeslider-sliders .ui-slider-track:first-child {
+	background-color: transparent;
+	background: none;
+	border-width: 0;
+	height: 0;
+}
+
+/* this makes ie6 and ie7 set height to 0 to fix z-index problem */
+html >/**/body .ui-rangeslider .ui-rangeslider-sliders .ui-slider-track:first-child {
+	height: 15px;
+	border-width: 1px;
+}
+html >/**/body .ui-rangeslider.ui-mini .ui-rangeslider-sliders .ui-slider-track:first-child {
+	height: 12px;
+}
+
+/* Hide the second label (the first is moved outside the div) */
+div.ui-rangeslider label {
+	position: absolute !important;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+	clip: rect(1px,1px,1px,1px);
+}
+.ui-field-contain .ui-rangeslider input.ui-slider-input,
+.ui-field-contain .ui-rangeslider.ui-mini input.ui-slider-input,
+.ui-field-contain .ui-rangeslider .ui-rangeslider-sliders,
+.ui-field-contain .ui-rangeslider.ui-mini .ui-rangeslider-sliders {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+
 div.ui-slider {
 	height: 30px;
 	margin: .5em 0;
@@ -598,6 +743,29 @@ div.ui-slider-switch.ui-mini {
 html .ui-popup .ui-field-contain div.ui-slider-switch {
 	display: inline-block;
 	width: 5.8em;
+}
+
+
+/* slider tooltip
+-----------------------------------------------------------------------------------------------------------*/
+
+.ui-slider-popup {
+	width: 64px;
+	height: 64px;
+	font-size: 36px;
+	padding-top: 14px;
+	opacity: 0.8;
+}
+
+.ui-slider-popup {
+	position: absolute !important;
+	text-align: center;
+	z-index: 100;
+}
+
+.ui-slider-track .ui-btn.ui-slider-handle {
+	font-size: .9em;
+	line-height: 30px;
 }
 
 

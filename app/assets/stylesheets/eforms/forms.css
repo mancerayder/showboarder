@@ -52,6 +52,9 @@
   padding: 10px 20px;
   background-color: white;
 }
+.eternity-form .section-title.section-title-links {
+  padding: 10px 0px;
+}
 .eternity-form .section-title h3 {
   color: #3498db;
 }
