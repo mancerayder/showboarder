@@ -1,4 +1,101 @@
 <script src="https://checkout.stripe.com/v2/checkout.js"></script>
+
+<script>
+  $(function(){
+    var amountProduct = $('#amount-product');
+    var amountSb = $('#amount-sb');
+    var amountCharity = $('#amount-charity');
+    var amountTotal = $('#amount-total');
+
+    var totalCalculator = function() {
+      return parseInt(amountSb.val()) + parseInt(amountCharity.val()) + parseInt(amountProduct.val())
+    }
+
+    var totalFill = function(){
+      amountTotal.html("$" + totalCalculator().toString() + ".00");  
+    }
+
+    amountProduct.change(function(){
+      totalFill();
+    });
+
+    amountSb.change(function(){
+      totalFill();
+    });
+
+    amountCharity.change(function(){
+      totalFill();
+    });
+
+    totalFill();
+
+    $('#stripeButton').click(function(){
+      var token = function(res){
+        var $input = $('<input type=hidden name=stripeToken />').val(res.id);
+        $('form').append($input);
+        console.log(res)
+        console.log(res.email)
+        $.ajax({
+          type: "POST",
+          url: "<%= board_show_checkout_path(@board, @show) %>",
+          data: { reserve_code: "<%= @reserve_code %>",
+                  stripeToken: res.id,
+                  name: res.card.name,
+                  email: res.email,
+                  amount_base: <%= @amount %>,
+                  amount_tip: (parseInt(amountProduct.val()) - <%= @amount %>),
+                  amount_sb: parseInt(amountSb.val()),
+                  amount_charity:parseInt(amountCharity.val())
+                   }, // TODO - clean this up to only send a js plainObject with the necessary data
+          success: function(data) { poll(data.guid, 60) },
+          error: function(data) { showError(data.responseJSON.error) }
+        });
+      };
+
+      StripeCheckout.open({
+        key:         '<%= ENV["STRIPE_TEST_KEY_PUBLISHABLE"] %>', // TODO - replace with live key in production
+        address:     true,
+        amount:      (totalCalculator() * 100).toString(),
+        currency:    'usd',
+        name:        'Showboarder',
+        description: "<%= @tickets.count %> tickets for $" + totalCalculator().toString() + ".00", //"<%= @tickets.count%> tickets totalCalculator() %>)",
+        email: "<%= current_user.email %>",
+        panelLabel:  'Checkout',
+        token:       token
+      });
+
+      return false;
+    });
+
+    function showError(error) {
+      var form = $('#payment-form');
+      $('#payment-errors').html(error);
+      $('#payment-errors').show();
+      // $('#pay-button').show();
+      // $('#spinner-button').hide();
+    }
+
+    function poll(guid, num_retries_left) {
+      console.log("Polling...");
+      if (num_retries_left == 0) {
+        showError("This seems to be taking too long. Email <a href=\"contact@showboarder.com\">contact@showboarder.com</a> and reference sale <strong>" + guid );
+        return;
+      }
+      $.get("/status/" + guid, function(data) {
+
+        if (data.status === "finished") {
+          window.location = "/confirm/" + guid;
+        } else if (data.status === "errored") {
+          showError(data.error)
+        } else {
+          setTimeout(function() { poll(guid, num_retries_left - 1) }, 500);
+        }
+      });
+    }
+
+  });
+</script>
+
 <div class="reg-content tickets-section-content">
 
   <form role="form">
@@ -21,13 +118,13 @@
       <label for="charity-slider"><span style"float:left;">To Showboarder</span><span style="float:right">To <a href="http://www.littlekidsrock.org/" target="_blank">Charity</a></span></label>
       <div class="row">
         <div class="col-xs-3">
-          $<output for="charity-slider" id="charity-num" style="display:inline;">50</output>
+          $<span id="charity-num" style="display:inline;"></span>
         </div>
         <div class="col-xs-6">
-          <input type="range" min="0" max="100" value="20" id="charity-slider" style="display:inline;" step="1">
+          <input type="range" min="0" max="100" value="20" id="charity-slider" step="1">
         </div>
         <div class="col-xs-3">
-          <span style="float:right">$<output for="charity-slider" id="sb-num" style="display:inline;">50</output></span>
+          $<span id="sb-num" style="display:inline;float:right;"></span>
         </div>
       </div>
     </div>
@@ -35,12 +132,13 @@
       $(function(){
         var tipUpdate = function() {
           tip = $("#charity-slider").val();
-          $('#charity-num').val(parseFloat(parseInt($('#tip').val()) * (1 - tip/100)).toFixed(2));
-          console.log(parseInt($('#tip').val()))
-          $('#sb-num').val(parseFloat(parseInt($('#tip').val()) * (tip/100)).toFixed(2));
+          $('#charity-num').text(parseFloat(parseInt($('#tip').val()) * (1 - tip/100)).toFixed(2));
+          $('#sb-num').text(parseFloat(parseInt($('#tip').val()) * (tip/100)).toFixed(2));
         }
 
         tipUpdate();
+
+        $("#slider").slider()
 
         $("#charity-slider").change(function() {
           tipUpdate();
