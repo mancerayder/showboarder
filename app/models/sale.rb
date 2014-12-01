@@ -161,7 +161,7 @@ class Sale < ActiveRecord::Base
   end
 
   def amount
-    return self.amount_base + self.amount_tip + self.amount_sb + self.amount_charity
+    return self.am_base + self.am_added + self.am_tip
   end
 
   def self.create_for_cart(options={})
@@ -170,19 +170,13 @@ class Sale < ActiveRecord::Base
       s.actionee = options[:actionee]
       s.stripe_token = options[:stripe_token]
       s.stripe_remember_card = options[:stripe_remember_card]
-      s.amount_base = options[:amount_base]
-      s.amount_tip = options[:amount_tip]
-      s.amount_sb = options[:amount_sb]
-      s.amount_charity = options[:amount_charity]
-      # total = 0
-
-      # t.actionee.tickets.each do |e|
-      #   total = total + (e.price * 100).to_i
-      # end
-
-      # t.amount = total
+      s.am_base = options[:am_base]
+      s.am_added = options[:am_added]
+      s.am_tip = options[:am_tip]
+      s.am_sb = options[:am_sb]
+      s.am_charity = options[:am_charity]
     end
-      # t.opt_in = options[:opt_in]
+    # t.opt_in = options[:opt_in]
     #   t.affiliate_id = options[:affiliate].try(:id)
 
     #   if options[:coupon_id]

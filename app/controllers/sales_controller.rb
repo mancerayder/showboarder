@@ -83,10 +83,11 @@ class SalesController < ApplicationController
       actionee: @cart,
       stripe_token: token,
       stripe_remember_card: remember,
-      amount_base: params[:amount_base],
-      amount_tip: params[:amount_tip],
-      amount_sb: params[:amount_sb],
-      amount_charity: params[:amount_charity]
+      am_base: params[:am_base],
+      am_added: params[:am_added],
+      am_tip: params[:am_tip],
+      am_sb: params[:am_sb],
+      am_charity: params[:am_charity]
       )
 
     if @sale.save

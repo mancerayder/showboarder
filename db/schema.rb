@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141122005951) do
+ActiveRecord::Schema.define(version: 20141201222700) do
 
   create_table "acts", force: true do |t|
     t.string   "name"
@@ -145,6 +145,12 @@ ActiveRecord::Schema.define(version: 20141122005951) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "stripe_remember_card"
+    t.decimal  "am_base",              precision: 8, scale: 2
+    t.decimal  "am_added",             precision: 8, scale: 2
+    t.decimal  "am_product",           precision: 8, scale: 2
+    t.decimal  "am_tip",               precision: 8, scale: 2
+    t.decimal  "am_sb",                precision: 8, scale: 2
+    t.decimal  "am_charity",           precision: 8, scale: 2
   end
 
   create_table "shows", force: true do |t|

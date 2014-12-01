@@ -54,13 +54,13 @@
       </label>
       <div class="row">
         <div class="col-xs-3">
-          $<span id="charity-num" style="display:inline;"></span>
+          $<span id="sb-num" style="display:inline;"></span>
         </div>
         <div class="col-xs-6">
           <input type="range" min="0" max="100" value="20" id="charity-slider" step="1">
         </div>
         <div class="col-xs-3">
-          $<span id="sb-num" style="display:inline;float:right;"></span>
+          $<span id="charity-num" style="display:inline;float:right;"></span>
         </div>
       </div>
     </div>
@@ -86,8 +86,8 @@
 
     var tipUpdate = function() {
       tip = $("#charity-slider").val();
-      $('#charity-num').text(parseFloat(parseInt($('#amount-tip').text()) * (1 - tip/100)).toFixed(2));
-      $('#sb-num').text(parseFloat(parseInt($('#amount-tip').text()) * (tip/100)).toFixed(2));
+      $('#charity-num').text(parseFloat(parseInt($('#amount-tip').text()) * (tip/100)).toFixed(2));
+      $('#sb-num').text(parseFloat(parseInt($('#amount-tip').text()) * (1 - tip/100)).toFixed(2));
     }
 
     var totalCalculator = function() {
@@ -164,10 +164,11 @@
                   stripeToken: res.id,
                   name: res.card.name,
                   email: res.email,
-                  amount_base: <%= @amount %>,
-                  amount_tip: (parseFloat($("#amount-product").text()) - <%= @amount %>),
-                  amount_sb: $('#sb-num').text(),
-                  amount_charity: $('#charity-num').text()
+                  am_base: <%= @amount %>,
+                  am_added: (parseFloat($("#amount-product").text()) - <%= @amount %>),
+                  am_tip: $('#amount-tip').text(),
+                  am_sb: $('#sb-num').text(),
+                  am_charity: $('#charity-num').text()
                 }, // TODO - clean this up to only send a js plainObject with the necessary data
           success: function(data) { poll(data.guid, 60) },
           error: function(data) { showError(data.responseJSON.error) }
