@@ -1,33 +1,155 @@
 <script src="https://checkout.stripe.com/v2/checkout.js"></script>
 
+<div class="reg-content tickets-section-content">
+  <div class="textbox-wrap tickets-section">
+    <div class="section-title tickets-section-title text-center">
+      <h3>Payment</h3>
+    </div>
+  </div>
+  <form role="form">
+    
+    <label for="amount-product" class="text-center">Tickets</label>
+    <div class="row">
+      <div class="col-xs-12 text-center checkout-price-wrapper">
+        <i class="fa fa-minus-circle fa-checkout" id="price-down"></i>
+        $
+        <!-- <span class="input-group-addon ">
+        </span><input name="amount-product" id="amount-product" type="text" class="form-control" data-min="<%= @amount.to_i %>" value="1" readonly> -->
+        <span id="amount-product">
+          <%= @amount.to_i %>
+        </span>
+        <i class="fa fa-plus-circle fa-checkout" id="price-up"></i>
+      </div>
+    </div>
+  
+    <label for="amount-tip" class="text-center">Showboarder/Charity Tip</label>
+    <div class="row">
+      <div class="col-xs-12 text-center checkout-price-wrapper">
+        <i class="fa fa-minus-circle fa-checkout" id="tip-down"></i>
+        $
+        <span id="amount-tip">
+          <%= @tickets.count %>
+        </span>
+        <!-- <input name="tip" id="tip" type="text" class="form-control" data-min="0" value="1" readonly> -->
+        <i class="fa fa-plus-circle fa-checkout" id="tip-up"></i>
+      </div>
+    </div>
+
+    <label for="amount-total" class="text-center">Total</label>
+    <div class="row">
+      <div class="col-xs-12 text-center checkout-price-wrapper">
+        <span id="amount-total"></span>
+      </div>
+    </div>
+  
+    <div class="textbox-wrap textbox-wrap-tip-distribution">
+      <label class="text-center">Tip Distribution</label>
+      <label for="charity-slider">
+        <span style"float:left;">
+          To Showboarder
+        </span>
+        <span style="float:right">
+          To <a href="http://www.littlekidsrock.org/" target="_blank">Charity</a>
+        </span>
+      </label>
+      <div class="row">
+        <div class="col-xs-3">
+          $<span id="charity-num" style="display:inline;"></span>
+        </div>
+        <div class="col-xs-6">
+          <input type="range" min="0" max="100" value="20" id="charity-slider" step="1">
+        </div>
+        <div class="col-xs-3">
+          $<span id="sb-num" style="display:inline;float:right;"></span>
+        </div>
+      </div>
+    </div>
+    <div class="login-form-action clearfix">
+      <button id="stripeButton" class="btn btn-success pull-right green-btn">Purchase</button>
+    </div>
+  </form>
+</div>
+
+<div class="row">
+  <div id="payment-errors" class="alert" style="<%= sale.errors.any? ? '' : 'display: none;' %>">
+    <% sale.errors.full_messages.each do |msg| %>
+      <span><%= msg %></span>
+    <% end %>
+  </div>
+</div>
+
 <script>
   $(function(){
     var amountProduct = $('#amount-product');
-    var amountSb = $('#amount-sb');
-    var amountCharity = $('#amount-charity');
+    var amountTip = $('#amount-tip');
     var amountTotal = $('#amount-total');
 
-    var totalCalculator = function() {
-      return parseInt(amountSb.val()) + parseInt(amountCharity.val()) + parseInt(amountProduct.val())
+    var tipUpdate = function() {
+      tip = $("#charity-slider").val();
+      $('#charity-num').text(parseFloat(parseInt($('#amount-tip').text()) * (1 - tip/100)).toFixed(2));
+      $('#sb-num').text(parseFloat(parseInt($('#amount-tip').text()) * (tip/100)).toFixed(2));
     }
 
-    var totalFill = function(){
-      amountTotal.html("$" + totalCalculator().toString() + ".00");  
+    var totalCalculator = function() {
+      return parseInt(amountProduct.text()) + parseInt(amountTip.text())
+    }      
+
+    var totalUpdate = function(){
+      if (parseInt(amountTip.text()) <= 0){
+        $('#tip-down').addClass("fa-grayed")
+      } else if ($('#tip-down').hasClass("fa-grayed")) {
+        $('#tip-down').removeClass("fa-grayed")
+      }
+      if (parseInt(amountProduct.text()) <= <%= @amount %>){
+        $('#price-down').addClass("fa-grayed")
+      } else if ($('#price-down').hasClass("fa-grayed")) {
+        $('#price-down').removeClass("fa-grayed")
+      }
+      amountTotal.text("$" + totalCalculator().toString() + ".00");  
     }
+
+    totalUpdate();
+
+    tipUpdate();
+
+    $("#price-up").click(function() {
+      $("#amount-product").text(parseInt($("#amount-product").text()) + 1);
+      totalUpdate();
+    })
+
+    $("#price-down").click(function() {
+      if (parseInt(amountProduct.text()) > <%= @amount %>) {
+        $("#amount-product").text(parseInt($("#amount-product").text()) - 1);
+        totalUpdate();
+      }
+    })
+
+    $("#tip-up").click(function() {
+      $("#amount-tip").text(parseInt($("#amount-tip").text()) + 1);
+      tipUpdate();
+      totalUpdate();    
+    })
+
+    $("#tip-down").click(function() {
+      if (parseInt(amountTip.text()) >= 1){
+        $("#amount-tip").text(parseInt($("#amount-tip").text()) - 1);
+        tipUpdate();
+        totalUpdate();       
+      }
+
+    })
+
+    $("#charity-slider").change(function() {
+      tipUpdate();
+    })
 
     amountProduct.change(function(){
-      totalFill();
+      totalUpdate();
     });
 
-    amountSb.change(function(){
-      totalFill();
+    amountTip.change(function(){
+      totalUpdate();
     });
-
-    amountCharity.change(function(){
-      totalFill();
-    });
-
-    totalFill();
 
     $('#stripeButton').click(function(){
       var token = function(res){
@@ -43,10 +165,10 @@
                   name: res.card.name,
                   email: res.email,
                   amount_base: <%= @amount %>,
-                  amount_tip: (parseInt(amountProduct.val()) - <%= @amount %>),
-                  amount_sb: parseInt(amountSb.val()),
-                  amount_charity:parseInt(amountCharity.val())
-                   }, // TODO - clean this up to only send a js plainObject with the necessary data
+                  amount_tip: (parseFloat($("#amount-product").text()) - <%= @amount %>),
+                  amount_sb: $('#sb-num').text(),
+                  amount_charity: $('#charity-num').text()
+                }, // TODO - clean this up to only send a js plainObject with the necessary data
           success: function(data) { poll(data.guid, 60) },
           error: function(data) { showError(data.responseJSON.error) }
         });
@@ -92,72 +214,5 @@
         }
       });
     }
-
   });
 </script>
-
-<div class="reg-content tickets-section-content">
-
-  <form role="form">
-    <div class="textbox-wrap">
-      <label for="tip-sb" class="text-center">Tickets</label>
-      <div class="input-group">
-        <span class="input-group-addon "><i class="fa fa-dollar"></i></span><input name="amount-product" id="amount-product" type="text" class="form-control bfh-number" data-min="<%= @amount.to_i %>" value="1">
-      </div>
-    </div>
-
-    <div class="textbox-wrap">
-      <label for="tip" class="text-center">Showboarder/Charity Tip</label>
-      <div class="input-group">
-        <span class="input-group-addon "><i class="fa fa-dollar"></i></span><input name="tip" id="tip" type="text" class="form-control bfh-number" data-min="0" value="1">
-      </div>
-    </div>
-
-    <div class="textbox-wrap">
-      <label class="text-center">Tip Distribution</label>
-      <label for="charity-slider"><span style"float:left;">To Showboarder</span><span style="float:right">To <a href="http://www.littlekidsrock.org/" target="_blank">Charity</a></span></label>
-      <div class="row">
-        <div class="col-xs-3">
-          $<span id="charity-num" style="display:inline;"></span>
-        </div>
-        <div class="col-xs-6">
-          <input type="range" min="0" max="100" value="20" id="charity-slider" step="1">
-        </div>
-        <div class="col-xs-3">
-          $<span id="sb-num" style="display:inline;float:right;"></span>
-        </div>
-      </div>
-    </div>
-    <script>
-      $(function(){
-        var tipUpdate = function() {
-          tip = $("#charity-slider").val();
-          $('#charity-num').text(parseFloat(parseInt($('#tip').val()) * (1 - tip/100)).toFixed(2));
-          $('#sb-num').text(parseFloat(parseInt($('#tip').val()) * (tip/100)).toFixed(2));
-        }
-
-        tipUpdate();
-
-        $("#slider").slider()
-
-        $("#charity-slider").change(function() {
-          tipUpdate();
-        })
-      })
-      
-    </script>
-
-    <div class="login-form-action clearfix">
-      Total: <span id="amount-total"></span>
-      <button id="stripeButton" class="btn btn-success pull-right green-btn">Purchase</button>
-    </div>
-  </form>
-</div>
-
-<div class="row">
-  <div id="payment-errors" class="alert" style="<%= sale.errors.any? ? '' : 'display: none;' %>">
-    <% sale.errors.full_messages.each do |msg| %>
-      <span><%= msg %></span>
-    <% end %>
-  </div>
-</div>

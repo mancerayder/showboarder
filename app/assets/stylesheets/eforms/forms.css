@@ -116,10 +116,26 @@
 
 /*.eternity-form .textbox-wrap.tickets-section,*/
 .eternity-form .section-title.tickets-section-title,
-.eternity-form .textbox-wrap.tickets-section > div > h3 {
+.eternity-form .textbox-wrap.tickets-section > div > h3,
+.eternity-form .textbox-wrap.tickets-section > h3 {
   padding:0px;
   margin-top:0px;
 }
+
+.checkout-price-wrapper,
+.checkout-price-wrapper > #amount-product,
+.checkout-price-wrapper > #amount-tip,
+.checkout-price-wrapper > .fa-dollar {
+  color:black;
+}
+
+.checkout-price-wrapper {
+  font-size:32px;
+  margin-top:5px;
+  margin-bottom:32px;
+  font-weight:300;
+}
+
 .eternity-form .green-btn,
 .eternity-form .green-btn:hover,
 .eternity-form .blue-btn {
@@ -295,6 +311,11 @@
 .eternity-form .dark .textbox-wrap .input-group i {
   color: #cccccc;
 }
+
+.eternity-form .textbox-wrap.textbox-wrap-tip-distribution{
+  margin-top:0px;
+}
+
 .eternity-form.dark .textbox-wrap.focused,
 .eternity-form .dark .textbox-wrap.focused {
   border-left: 5px solid #3498db;
@@ -311,6 +332,26 @@
 }
 .fa-vanity {
   margin-right: 10px;
+}
+
+.fa-checkout {
+  margin-right:25px;
+  margin-left:25px;
+}
+
+#price-down.fa-checkout,
+#tip-down.fa-checkout {
+  color:red;
+}
+
+#price-up.fa-checkout,
+#tip-up.fa-checkout {
+  color:green;
+}
+
+#price-down.fa-checkout.fa-grayed,
+#tip-down.fa-checkout.fa-grayed {
+  color:gray;
 }
 
 .eternity-form.dark .input-group-addon1,
