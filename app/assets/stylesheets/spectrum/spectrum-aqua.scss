@@ -485,7 +485,8 @@ a.light-text:focus {
 
 .is-countdown{
   background-color: rgba(255,255,255,.2);
-  width:90px;
+  width:50px;
+  font-size:8px;
 }
 
 .intro-img,
@@ -1622,6 +1623,24 @@ label{
 .btn-ext-link-remove,
 a.btn-ext-link-remove:hover {
     color:red;
+}
+
+a > i.fa.fa-minus-circle.btn-ticket-remove {
+  color:red;
+}
+
+a > i.fa.fa-plus-circle.btn-ticket-add {
+  color:green;
+}
+
+div.row.ticket {
+    border: 1px solid rgba(192,192,192,0.6);
+    margin: 5px 0;
+    padding: 7px 0;
+    border-radius: 5px;
+    background: white; /* Fall-back for browsers that don't
+                                    support rgba */
+    background: rgba(192,192,192,0.1);
 }
 
 .ext-link-url {

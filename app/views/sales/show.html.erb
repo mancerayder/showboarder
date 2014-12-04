@@ -1,7 +1,22 @@
-<h1>Thanks!</h1>
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 text-center">
 
-<p>Thanks for buying "<%= @sale.actionee.class.to_s %>". You'll receive a confirmation email shortly with your receipt and download link.</p>
+        <h1>Purchase complete!</h1>
 
-<% if @sale.actionee.class.to_s == "Board" || @sale.actionee.class.to_s == "Show" %>
-  Return to <%= link_to @sale.actionee.class.to_s, @sale.actionee %>
-<% end %>
+        <p>Thanks for your purchase! You'll receive a confirmation email shortly with your receipt.</p>
+
+        <p>All tickets are will call only, so just show up at the door with a photo ID and you're ready to go!</p>
+
+        <p>If you have questions or concerns, feel free to contact us at <%= mail_to "contact@showboarder.com" %>
+        <br>
+        and reference sale ID <%= @sale.guid %></p>
+
+        <p>
+          <%= link_to "Return to #{@sale.actionee.tickets.first.show.board.name}'s Showboard", @sale.actionee.tickets.first.show.board, class: "btn btn-primary" %>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

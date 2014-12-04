@@ -10,6 +10,7 @@ Showboarder::Application.routes.draw do
   # match '/card/:guid' => 'cards#show', via: :get, as: :card
   match '/esuggest/:act', to: 'acts#esuggest', via: 'get'
   match '/eretrieve/', to: 'acts#eretrieve', via: 'get'
+  match '/ticketrelease/:ticket', to: 'tickets#release', via: :post
 
   resources :users, only: [:show] do
     # match '/boards' => 'users#boards', via: :get

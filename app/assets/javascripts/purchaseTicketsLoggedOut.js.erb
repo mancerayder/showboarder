@@ -30,8 +30,6 @@ $(function(){
     var token = function(res){
       var $input = $('<input type=hidden name=stripeToken />').val(res.id);
       $('form').append($input);
-      console.log(res)
-      console.log(res.email)
       $.ajax({
         type: "POST",
         url: "<%= board_show_checkout_path(@board, @show) %>",

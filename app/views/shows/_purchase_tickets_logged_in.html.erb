@@ -35,37 +35,50 @@
       </div>
     </div>
 
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+      <h4 class="text-center">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+          <i class="fa fa-sliders"></i>  Customize Tip Distribution
+        </a>
+      </h4>
+      <div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
+        <div id="tip-distribution" class="textbox-wrap textbox-wrap-tip-distribution">
+          <label class="text-center">Tip Distribution</label>
+          <label for="charity-slider">
+            <span style"float:left;">
+              To Showboarder
+            </span>
+            <span style="float:right">
+              To <a href="http://www.littlekidsrock.org/" target="_blank">Charity</a>
+            </span>
+          </label>
+          <div class="row">
+            <div class="col-xs-3">
+              $<span id="sb-num" style="display:inline;"></span>
+            </div>
+            <div class="col-xs-6">
+              <input type="range" min="0" max="100" value="20" id="charity-slider" step="1">
+            </div>
+            <div class="col-xs-3">
+              $<span id="charity-num" style="display:inline;float:right;"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
     <label for="amount-total" class="text-center">Total</label>
     <div class="row">
       <div class="col-xs-12 text-center checkout-price-wrapper">
         <span id="amount-total"></span>
       </div>
     </div>
-  
-    <div class="textbox-wrap textbox-wrap-tip-distribution">
-      <label class="text-center">Tip Distribution</label>
-      <label for="charity-slider">
-        <span style"float:left;">
-          To Showboarder
-        </span>
-        <span style="float:right">
-          To <a href="http://www.littlekidsrock.org/" target="_blank">Charity</a>
-        </span>
-      </label>
-      <div class="row">
-        <div class="col-xs-3">
-          $<span id="sb-num" style="display:inline;"></span>
-        </div>
-        <div class="col-xs-6">
-          <input type="range" min="0" max="100" value="20" id="charity-slider" step="1">
-        </div>
-        <div class="col-xs-3">
-          $<span id="charity-num" style="display:inline;float:right;"></span>
-        </div>
-      </div>
-    </div>
+
     <div class="login-form-action clearfix">
       <button id="stripeButton" class="btn btn-success pull-right green-btn">Purchase</button>
+      <div class="btn btn-success pull-right" disabled="disabled" style="width: 105px; height: 32px; display:none;" id="spinner-button"><img src="<%= asset_path('green_spinner_2.gif') %>" style="height:20px;" ></div>
     </div>
   </form>
 </div>
@@ -80,6 +93,11 @@
 
 <script>
   $(function(){
+
+    $("a[data-remote]").on("ajax:success", function (e, data, status, xhr) {
+      location.reload();
+    })
+
     var amountProduct = $('#amount-product');
     var amountTip = $('#amount-tip');
     var amountTotal = $('#amount-total');
@@ -155,8 +173,8 @@
       var token = function(res){
         var $input = $('<input type=hidden name=stripeToken />').val(res.id);
         $('form').append($input);
-        console.log(res)
-        console.log(res.email)
+        $("#stripeButton").hide()
+        $('#spinner-button').show();
         $.ajax({
           type: "POST",
           url: "<%= board_show_checkout_path(@board, @show) %>",
@@ -181,7 +199,7 @@
         amount:      (totalCalculator() * 100).toString(),
         currency:    'usd',
         name:        'Showboarder',
-        description: "<%= @tickets.count %> tickets for $" + totalCalculator().toString() + ".00", //"<%= @tickets.count%> tickets totalCalculator() %>)",
+        description: "<%= @tickets.count %> tickets for $" + totalCalculator().toString() + ".00",
         email: "<%= current_user.email %>",
         panelLabel:  'Checkout',
         token:       token
@@ -194,8 +212,8 @@
       var form = $('#payment-form');
       $('#payment-errors').html(error);
       $('#payment-errors').show();
-      // $('#pay-button').show();
-      // $('#spinner-button').hide();
+      $('#stripeButton').show();
+      $('#spinner-button').hide();
     }
 
     function poll(guid, num_retries_left) {

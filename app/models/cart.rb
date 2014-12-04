@@ -13,6 +13,15 @@ class Cart < ActiveRecord::Base
   #   end
   # end
 
+  def has_expired?
+    self.tickets.each do |t|
+      if t.expired?
+        return true
+      end
+    end
+    return false
+  end
+
   def amount
     amount = 0
     tickets.each do |t|

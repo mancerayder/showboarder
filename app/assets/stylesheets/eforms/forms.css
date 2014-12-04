@@ -132,7 +132,7 @@
 .checkout-price-wrapper {
   font-size:32px;
   margin-top:5px;
-  margin-bottom:32px;
+  margin-bottom:20px;
   font-weight:300;
 }
 
@@ -212,9 +212,19 @@
   padding: 20px 0;
 }
 
-.eternity-form .reg-content.tickets-section-content{
+.eternity-form .reg-content.tickets-section-content,
+.eternity-form .reg-content.right-section-content {
   padding-top:0px;
 }
+
+.eternity-form .right-section-content {
+  height:513px;
+}
+
+.eternity-form .row.ticket {
+  margin-bottom:5px;
+}
+
 .eternity-form .registration-form-action {
   margin-top: 5px;
   padding: 20px;

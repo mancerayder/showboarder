@@ -70,7 +70,7 @@ class Show < ActiveRecord::Base
 
       cart.tickets.each do |t|
         t.update_attributes(state:"reserved", ticket_owner_id:reserver_id, ticket_owner_type:reserver_type, reserved_at:DateTime.now)
-        t.buy_or_die
+        # t.buy_or_die
       end
 
       if reserver_id == nil
