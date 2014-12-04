@@ -1,95 +1,102 @@
 <script src="https://checkout.stripe.com/v2/checkout.js"></script>
 
-<div class="reg-content tickets-section-content">
-  <div class="textbox-wrap tickets-section">
-    <div class="section-title tickets-section-title text-center">
-      <h3>Payment</h3>
+<div class="section-title reg-header text-center">
+  <h3>
+    Purchase <%= @tickets.count %> tickets
+  </h3>
+  Logged in as <%= current_user.email %>.
+  <br>
+  Not <%= current_user.email %>? <%= link_to  "Sign Out", destroy_user_session_path, method: "delete" %>.
+</div>
+<div class="col-sm-6 registration-left-section">
+  <div class="reg-content tickets-section-content">
+    <div class="textbox-wrap tickets-section">
+      <div class="section-title tickets-section-title text-center">
+        <h3>Payment</h3>
+      </div>
     </div>
-  </div>
-  <form role="form">
+    <form role="form">
+      
+      <label for="amount-product" class="text-center">Tickets</label>
+      <div class="row">
+        <div class="col-xs-12 text-center checkout-price-wrapper">
+          <i class="fa fa-minus-circle fa-checkout" id="price-down"></i>
+          $
+          <!-- <span class="input-group-addon ">
+          </span><input name="amount-product" id="amount-product" type="text" class="form-control" data-min="<%= @amount.to_i %>" value="1" readonly> -->
+          <span id="amount-product">
+            <%= @amount.to_i %>
+          </span>
+          <i class="fa fa-plus-circle fa-checkout" id="price-up"></i>
+        </div>
+      </div>
     
-    <label for="amount-product" class="text-center">Tickets</label>
-    <div class="row">
-      <div class="col-xs-12 text-center checkout-price-wrapper">
-        <i class="fa fa-minus-circle fa-checkout" id="price-down"></i>
-        $
-        <!-- <span class="input-group-addon ">
-        </span><input name="amount-product" id="amount-product" type="text" class="form-control" data-min="<%= @amount.to_i %>" value="1" readonly> -->
-        <span id="amount-product">
-          <%= @amount.to_i %>
-        </span>
-        <i class="fa fa-plus-circle fa-checkout" id="price-up"></i>
+      <label for="amount-tip" class="text-center">Showboarder/Charity Tip</label>
+      <div class="row">
+        <div class="col-xs-12 text-center checkout-price-wrapper">
+          <i class="fa fa-minus-circle fa-checkout" id="tip-down"></i>
+          $
+          <span id="amount-tip">
+            <%= @tickets.count %>
+          </span>
+          <!-- <input name="tip" id="tip" type="text" class="form-control" data-min="0" value="1" readonly> -->
+          <i class="fa fa-plus-circle fa-checkout" id="tip-up"></i>
+        </div>
       </div>
-    </div>
-  
-    <label for="amount-tip" class="text-center">Showboarder/Charity Tip</label>
-    <div class="row">
-      <div class="col-xs-12 text-center checkout-price-wrapper">
-        <i class="fa fa-minus-circle fa-checkout" id="tip-down"></i>
-        $
-        <span id="amount-tip">
-          <%= @tickets.count %>
-        </span>
-        <!-- <input name="tip" id="tip" type="text" class="form-control" data-min="0" value="1" readonly> -->
-        <i class="fa fa-plus-circle fa-checkout" id="tip-up"></i>
-      </div>
-    </div>
 
-    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-      <h4 class="text-center">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-          <i class="fa fa-sliders"></i>  Customize Tip Distribution
-        </a>
-      </h4>
-      <div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
-        <div id="tip-distribution" class="textbox-wrap textbox-wrap-tip-distribution">
-          <label class="text-center">Tip Distribution</label>
-          <label for="charity-slider">
-            <span style"float:left;">
-              To Showboarder
-            </span>
-            <span style="float:right">
-              To <a href="http://www.littlekidsrock.org/" target="_blank">Charity</a>
-            </span>
-          </label>
-          <div class="row">
-            <div class="col-xs-3">
-              $<span id="sb-num" style="display:inline;"></span>
-            </div>
-            <div class="col-xs-6">
-              <input type="range" min="0" max="100" value="20" id="charity-slider" step="1">
-            </div>
-            <div class="col-xs-3">
-              $<span id="charity-num" style="display:inline;float:right;"></span>
+      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <h4 class="text-center">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+            <i class="fa fa-sliders"></i>  Customize Tip Distribution
+          </a>
+        </h4>
+        <div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
+          <div id="tip-distribution" class="textbox-wrap textbox-wrap-tip-distribution">
+            <label class="text-center">Tip Distribution</label>
+            <label for="charity-slider">
+              <span style"float:left;">
+                To Showboarder
+              </span>
+              <span style="float:right">
+                To <a href="http://www.littlekidsrock.org/" target="_blank">Charity</a>
+              </span>
+            </label>
+            <div class="row">
+              <div class="col-xs-3">
+                $<span id="sb-num" style="display:inline;"></span>
+              </div>
+              <div class="col-xs-6">
+                <input type="range" min="0" max="100" value="20" id="charity-slider" step="1">
+              </div>
+              <div class="col-xs-3">
+                $<span id="charity-num" style="display:inline;float:right;"></span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-
-
-    <label for="amount-total" class="text-center">Total</label>
-    <div class="row">
-      <div class="col-xs-12 text-center checkout-price-wrapper">
-        <span id="amount-total"></span>
+      <label for="amount-total" class="text-center">Total</label>
+      <div class="row">
+        <div class="col-xs-12 text-center checkout-price-wrapper">
+          <span id="amount-total"></span>
+        </div>
       </div>
-    </div>
 
-    <div class="login-form-action clearfix">
-      <button id="stripeButton" class="btn btn-success pull-right green-btn">Purchase</button>
-      <div class="btn btn-success pull-right" disabled="disabled" style="width: 105px; height: 32px; display:none;" id="spinner-button"><img src="<%= asset_path('green_spinner_2.gif') %>" style="height:20px;" ></div>
-    </div>
-  </form>
-</div>
-
-<div class="row">
-  <div id="payment-errors" class="alert" style="<%= sale.errors.any? ? '' : 'display: none;' %>">
-    <% sale.errors.full_messages.each do |msg| %>
-      <span><%= msg %></span>
-    <% end %>
+      <div class="login-form-action clearfix">
+        <button id="stripeButton" class="btn btn-success pull-right green-btn">Purchase</button>
+        <div class="btn btn-success pull-right" disabled="disabled" style="width: 105px; height: 32px; display:none;" id="spinner-button"><img src="<%= asset_path('green_spinner_2.gif') %>" style="height:20px;" ></div>
+      </div>
+    </form>
   </div>
-</div>
+
+  <div class="row">
+    <div id="payment-errors" class="alert" style="<%= sale.errors.any? ? '' : 'display: none;' %>">
+      <% sale.errors.full_messages.each do |msg| %>
+        <span><%= msg %></span>
+      <% end %>
+    </div>
+  </div>
 
 <script>
   $(function(){

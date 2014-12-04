@@ -5,14 +5,6 @@ class Cart < ActiveRecord::Base
 
   before_save :populate_reserve_code
 
-  # def tickets_clear_expired_reservations
-  #   self.tickets.each do |t|
-  #     if t.expired?
-  #       t.make_open("Reservation expired before state change")
-  #     end
-  #   end
-  # end
-
   def has_expired?
     self.tickets.each do |t|
       if t.expired?

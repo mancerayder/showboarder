@@ -20,6 +20,12 @@ class TicketsController < ApplicationController
   def release
     @ticket = Ticket.find_by(guid: params[:ticket])
 
+    if params[:reserve_code] # case for guest checkout.  Make new cart without released ticket + make ticket open, then send new cart reserve code
+      @cart = Cart.find_by(reserve_code: params[:reserve_code])
+      @cart.tickets.delete(@ticket)
+      @ticket.carts.delete(@cart)
+    end
+
     if @ticket.make_open 
       render :json => {ticket: @ticket.guid}, head: :ok
     else

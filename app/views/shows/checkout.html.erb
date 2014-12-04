@@ -2,79 +2,73 @@
 <section>
   <div class="container eternity-form">
     <div class="registration-form-section">
-      <div class="section-title reg-header text-center">
-        <h3>Purchase <%= @tickets.count %> tickets</h3>
-          Logged in as <%= current_user.email %>.
-          <br>
-          Not <%= current_user.email %>? <%= link_to  "Sign Out", destroy_user_session_path, method: "delete" %>.
-      </div>
-      <div class="col-sm-6 registration-left-section">
-        
-        <% if user_signed_in? %>
-          <%= render 'shows/purchase_tickets_logged_in', :sale => @sale %>
-        <% else %>
-          <%= render 'shows/purchase_tickets_logged_out', :sale => @sale %>
-        <% end %>
-        <br>
-        
-      </div>
 
-      <div class="col-sm-6 registration-right-section">
-        <div class="reg-content right-section-content">
-          <div class="textbox-wrap tickets-section">
-            <div class="section-title tickets-section-title text-center">
-              <h3>Cart</h3>
+      <% if user_signed_in? %>
+        <%= render 'shows/purchase_tickets_logged_in', :sale => @sale %>
+      <% else %>
+        <%= render 'shows/purchase_tickets_logged_out', :sale => @sale %>
+      <% end %>
+      <br>
+    </div>
+    <div class="col-sm-6 registration-right-section">
+      <div class="reg-content right-section-content">
+        <div class="textbox-wrap tickets-section">
+          <div class="section-title tickets-section-title text-center">
+            <h3>Cart</h3>
+          </div>
+          <h4 class="text-center">
+            <% if @tickets.count == 1 %>
+              <%= "1 Ticket" %>
+            <% else %>
+              <%= @tickets.count %> Tickets
+            <% end %>
+          </h4>
+          <hr>
+          <div class="row text-center">
+            <div class="col-xs-2">
+              #
             </div>
-            <h4 class="text-center">
-              <% if @tickets.count == 1 %>
-                <%= "1 Ticket" %>
-              <% else %>
-                <%= @tickets.count %> Tickets
-              <% end %>
-            </h4>
-            <hr>
-            <div class="row text-center">
+            <div class="col-xs-3">
+              Held:
+            </div>
+            <div class="col-xs-4">
+              Show
+            </div>
+            <div class="col-xs-3">
+              +/-
+            </div>
+          </div>
+          <% ticket_index = 1 %>
+          <% @tickets.each do |t| %>
+            <script>
+              $(function () {
+                var expiration = new Date();
+                expiration = new Date(<%= (t.reserved_at + 15.minutes).to_i * 1000 %>);
+                $('#defaultCountdown<%= t.id %>').countdown({until: expiration, format:'MS', compact:'true'});
+              });
+            </script>
+            
+            <div class="row ticket text-center">
               <div class="col-xs-2">
-                #
+                <%= ticket_index %>
               </div>
-              <div class="col-xs-3">
-                Held:
+              <div class="col-xs-3 text-center">
+                <div id="defaultCountdown<%= t.id %>"></div>
               </div>
               <div class="col-xs-4">
-                Show
+                <%= link_to t.show.show_at.to_time.strftime('%b %e'), board_show_path(t.show.board, t.show), target: "_blank" %>
               </div>
               <div class="col-xs-3">
-                +/-
+                <%= link_to "<i class=\"fa fa-minus-circle btn-ticket-remove\"></i>".html_safe, "/ticketrelease/" + t.guid, method: :post, remote: true %>
+                <% if user_signed_in? %>
+                  <%= link_to "<i class=\"fa fa-plus-circle btn-ticket-add\"></i>".html_safe, board_show_reserve_path(t.show.board, t.show, :quantity => "1"), method: :post, remote: true %>
+                <% else %>
+                  <%= link_to "<i class=\"fa fa-plus-circle btn-ticket-add\"></i>".html_safe, board_show_reserve_path(t.show.board, t.show, :quantity => "1"), method: :post, remote: true %>
+                <% end %>
               </div>
             </div>
-            <% ticket_index = 1 %>
-            <% @tickets.each do |t| %>
-              <script>
-                $(function () {
-                  var expiration = new Date();
-                  expiration = new Date(<%= (t.reserved_at + 15.minutes).to_i * 1000 %>);
-                  $('#defaultCountdown<%= t.id %>').countdown({until: expiration, format:'MS', compact:'true'});
-                });
-              </script>
-              
-              <div class="row ticket text-center">
-                <div class="col-xs-2">
-                  <%= ticket_index %>
-                </div>
-                <div class="col-xs-3 text-center">
-                  <div id="defaultCountdown<%= t.id %>"></div>
-                </div>
-                <div class="col-xs-4">
-                  <%= link_to t.show.show_at.to_time.strftime('%b %e'), board_show_path(t.show.board, t.show), target: "_blank" %>
-                </div>
-                <div class="col-xs-3">
-                  <%= link_to "<i class=\"fa fa-minus-circle btn-ticket-remove\"></i>".html_safe, "/ticketrelease/" + t.guid, method: :post, remote: true %>
-                  <%= link_to "<i class=\"fa fa-plus-circle btn-ticket-add\"></i>".html_safe, board_show_reserve_path(t.show.board, t.show, :quantity => "1"), method: :post, remote: true %>
-                </div>
-              </div>
-              <% ticket_index +=1 %>
-            <% end %>
-          </div>
+            <% ticket_index +=1 %>
+          <% end %>
         </div>
       </div>
     </div>

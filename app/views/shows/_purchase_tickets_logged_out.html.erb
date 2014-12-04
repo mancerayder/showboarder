@@ -1,49 +1,249 @@
-<%= javascript_include_tag :purchaseTicketsLoggedOut %>
-
-<span>Purchase <%= @tickets.count %> tickets for <%= number_to_currency(@amount, unit:"$") %></span>
-<br>
-
-Have an account?
-<br>
-<%= link_to 'Log in and Purchase', new_user_session_path(:reserve_code => @reserve_code) %>
-<br><br>
-Don't have an account?
-<%= link_to 'Register and purchase', new_user_registration_path(:reserve_code => @reserve_code) %>
-<br>
-or continue and purchase as a guest
-<br>
-<br>
-
 <script src="https://checkout.stripe.com/v2/checkout.js"></script>
-<form role="form">
+
+<div class="section-title reg-header text-center">
+  <h3>
+    Purchase <%= @tickets.count %> Tickets
+  </h3>
+  Have an account?
+  <%= link_to 'Log in and Purchase', new_user_session_path(:reserve_code => @reserve_code) %>
+  <br><br>
+  Don't have an account?
+  <%= link_to 'Register and purchase', new_user_registration_path(:reserve_code => @reserve_code) %>
+  <br>
+  or continue and purchase as a guest
+  <br>
+  <br>
+</div>
+<div class="col-sm-6 registration-left-section">
+  <div class="reg-content tickets-section-content">
+    <div class="textbox-wrap tickets-section">
+      <div class="section-title tickets-section-title text-center">
+        <h3>Payment</h3>
+      </div>
+    </div>
+    <form role="form">
+      
+      <label for="amount-product" class="text-center">Tickets</label>
+      <div class="row">
+        <div class="col-xs-12 text-center checkout-price-wrapper">
+          <i class="fa fa-minus-circle fa-checkout" id="price-down"></i>
+          $
+          <!-- <span class="input-group-addon ">
+          </span><input name="amount-product" id="amount-product" type="text" class="form-control" data-min="<%= @amount.to_i %>" value="1" readonly> -->
+          <span id="amount-product">
+            <%= @amount.to_i %>
+          </span>
+          <i class="fa fa-plus-circle fa-checkout" id="price-up"></i>
+        </div>
+      </div>
+    
+      <label for="amount-tip" class="text-center">Showboarder/Charity Tip</label>
+      <div class="row">
+        <div class="col-xs-12 text-center checkout-price-wrapper">
+          <i class="fa fa-minus-circle fa-checkout" id="tip-down"></i>
+          $
+          <span id="amount-tip">
+            <%= @tickets.count %>
+          </span>
+          <!-- <input name="tip" id="tip" type="text" class="form-control" data-min="0" value="1" readonly> -->
+          <i class="fa fa-plus-circle fa-checkout" id="tip-up"></i>
+        </div>
+      </div>
+
+      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <h4 class="text-center">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+            <i class="fa fa-sliders"></i>  Customize Tip Distribution
+          </a>
+        </h4>
+        <div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
+          <div id="tip-distribution" class="textbox-wrap textbox-wrap-tip-distribution">
+            <label class="text-center">Tip Distribution</label>
+            <label for="charity-slider">
+              <span style"float:left;">
+                To Showboarder
+              </span>
+              <span style="float:right">
+                To <a href="http://www.littlekidsrock.org/" target="_blank">Charity</a>
+              </span>
+            </label>
+            <div class="row">
+              <div class="col-xs-3">
+                $<span id="sb-num" style="display:inline;"></span>
+              </div>
+              <div class="col-xs-6">
+                <input type="range" min="0" max="100" value="20" id="charity-slider" step="1">
+              </div>
+              <div class="col-xs-3">
+                $<span id="charity-num" style="display:inline;float:right;"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <label for="amount-total" class="text-center">Total</label>
+      <div class="row">
+        <div class="col-xs-12 text-center checkout-price-wrapper">
+          <span id="amount-total"></span>
+        </div>
+      </div>
+
+      <div class="login-form-action clearfix">
+        <button id="stripeButton" class="btn btn-success pull-right green-btn">Purchase</button>
+        <div class="btn btn-success pull-right" disabled="disabled" style="width: 105px; height: 32px; display:none;" id="spinner-button"><img src="<%= asset_path('green_spinner_2.gif') %>" style="height:20px;" ></div>
+      </div>
+    </form>
+  </div>
+
   <div class="row">
-    <legend>Form title</legend>
-
-    <div class="form-group col-md-3">
-        <label for="tip-sb">Ticket/s (Bands/Venue)</label>
-        <input name="amount-product" id="amount-product" type="text" class="form-control bfh-number" data-min="<%= @amount.to_i %>" value="1">
-
-        <label for="tip-sb">Showboarder Tip</label>
-        <input name="amount-sb" id="amount-sb" type="text" class="form-control bfh-number" data-min="0" value="1">
-
-        <label for="tip-charity">Little Kids Rock Foundation</label>
-        <input name="amount-charity" id="amount-charity" type="text" class="form-control bfh-number" data-min="0" value="1">
+    <div id="payment-errors" class="alert" style="<%= sale.errors.any? ? '' : 'display: none;' %>">
+      <% sale.errors.full_messages.each do |msg| %>
+        <span><%= msg %></span>
+      <% end %>
     </div>
   </div>
-</form>
 
-Total: <span id="amount-total"></span>
-<div class="row">
-  <div class="col-md-12">
-    <button id="stripeButton">Purchase</button>
-  </div>
-</div>
+<script>
+  $(function(){
 
+    $("a[data-remote]").on("ajax:success", function (e, data, status, xhr) {
+      location.reload();
+    })
 
-<div class="row">
-  <div id="payment-errors" class="alert" style="<%= sale.errors.any? ? '' : 'display: none;' %>">
-    <% sale.errors.full_messages.each do |msg| %>
-      <span><%= msg %></span>
-    <% end %>
-  </div>
-</div>
+    var amountProduct = $('#amount-product');
+    var amountTip = $('#amount-tip');
+    var amountTotal = $('#amount-total');
+
+    var tipUpdate = function() {
+      tip = $("#charity-slider").val();
+      $('#charity-num').text(parseFloat(parseInt($('#amount-tip').text()) * (tip/100)).toFixed(2));
+      $('#sb-num').text(parseFloat(parseInt($('#amount-tip').text()) * (1 - tip/100)).toFixed(2));
+    }
+
+    var totalCalculator = function() {
+      return parseInt(amountProduct.text()) + parseInt(amountTip.text())
+    }      
+
+    var totalUpdate = function(){
+      if (parseInt(amountTip.text()) <= 0){
+        $('#tip-down').addClass("fa-grayed")
+      } else if ($('#tip-down').hasClass("fa-grayed")) {
+        $('#tip-down').removeClass("fa-grayed")
+      }
+      if (parseInt(amountProduct.text()) <= <%= @amount %>){
+        $('#price-down').addClass("fa-grayed")
+      } else if ($('#price-down').hasClass("fa-grayed")) {
+        $('#price-down').removeClass("fa-grayed")
+      }
+      amountTotal.text("$" + totalCalculator().toString() + ".00");  
+    }
+
+    totalUpdate();
+
+    tipUpdate();
+
+    $("#price-up").click(function() {
+      $("#amount-product").text(parseInt($("#amount-product").text()) + 1);
+      totalUpdate();
+    })
+
+    $("#price-down").click(function() {
+      if (parseInt(amountProduct.text()) > <%= @amount %>) {
+        $("#amount-product").text(parseInt($("#amount-product").text()) - 1);
+        totalUpdate();
+      }
+    })
+
+    $("#tip-up").click(function() {
+      $("#amount-tip").text(parseInt($("#amount-tip").text()) + 1);
+      tipUpdate();
+      totalUpdate();    
+    })
+
+    $("#tip-down").click(function() {
+      if (parseInt(amountTip.text()) >= 1){
+        $("#amount-tip").text(parseInt($("#amount-tip").text()) - 1);
+        tipUpdate();
+        totalUpdate();       
+      }
+
+    })
+
+    $("#charity-slider").change(function() {
+      tipUpdate();
+    })
+
+    amountProduct.change(function(){
+      totalUpdate();
+    });
+
+    amountTip.change(function(){
+      totalUpdate();
+    });
+
+    $('#stripeButton').click(function(){
+      var token = function(res){
+        var $input = $('<input type=hidden name=stripeToken />').val(res.id);
+        $('form').append($input);
+        $("#stripeButton").hide()
+        $('#spinner-button').show();
+        $.ajax({
+          type: "POST",
+          url: "<%= board_show_checkout_path(@board, @show) %>",
+          data: { reserve_code: "<%= @reserve_code %>",
+                  stripeToken: res.id,
+                  name: res.card.name,
+                  email: res.email,
+                  am_base: <%= @amount %>,
+                  am_added: (parseFloat($("#amount-product").text()) - <%= @amount %>),
+                  am_tip: $('#amount-tip').text(),
+                  am_sb: $('#sb-num').text(),
+                  am_charity: $('#charity-num').text()
+                }, // TODO - clean this up to only send a js plainObject with the necessary data
+          success: function(data) { poll(data.guid, 60) },
+          error: function(data) { showError(data.responseJSON.error) }
+        });
+      };
+
+      StripeCheckout.open({
+        key:         '<%= ENV["STRIPE_TEST_KEY_PUBLISHABLE"] %>', // TODO - replace with live key in production
+        address:     true,
+        amount:      (totalCalculator() * 100).toString(),
+        currency:    'usd',
+        name:        'Showboarder',
+        description: "<%= @tickets.count %> tickets for $" + totalCalculator().toString() + ".00",
+        panelLabel:  'Checkout',
+        token:       token
+      });
+
+      return false;
+    });
+
+    function showError(error) {
+      var form = $('#payment-form');
+      $('#payment-errors').html(error);
+      $('#payment-errors').show();
+      $('#stripeButton').show();
+      $('#spinner-button').hide();
+    }
+
+    function poll(guid, num_retries_left) {
+      console.log("Polling...");
+      if (num_retries_left == 0) {
+        showError("This seems to be taking too long. Email <a href=\"contact@showboarder.com\">contact@showboarder.com</a> and reference sale <strong>" + guid );
+        return;
+      }
+      $.get("/status/" + guid, function(data) {
+
+        if (data.status === "finished") {
+          window.location = "/confirm/" + guid;
+        } else if (data.status === "errored") {
+          showError(data.error)
+        } else {
+          setTimeout(function() { poll(guid, num_retries_left - 1) }, 500);
+        }
+      });
+    }
+  });
+</script>
