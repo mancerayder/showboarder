@@ -120,6 +120,7 @@ class Sale < ActiveRecord::Base
 
           amount = amount + ((self.am_added / owners.count) * 100).to_i
           amount_charity = ((self.am_charity / owners.count) * 100).to_i
+          amount_showboarder = ((self.am_sb / owners.count) * 100).to_i
           application_fee = ((self.am_tip / owners.count) * 100).to_i # TODO account for stripe fee so showboarder shoulders as much of the burden as the venue
 
           if amount > (((self.am_base + self.am_added + self.am_tip) * 100).to_i + 10) # Sanity check. Prevents any wildly high/wrong/miscalculated values from actually resulting in charges.
@@ -149,7 +150,7 @@ class Sale < ActiveRecord::Base
               t.buy(actioner)
             end
 
-            Charge.create(sale:self, stripe_id:charge.id, actionee:tickets_by_owner, actioner:actioner, application_fee: application_fee, am_base: amount, am_charity: amount_charity) # create charge object that belongs to this sale
+            Charge.create(sale:self, stripe_id:charge.id, actionee:tickets_by_owner, actioner:actioner, application_fee: application_fee, am_base: amount, am_charity: amount_charity, am_sb: amount_showboarder) # create charge object that belongs to this sale
           else
             self.fail!
             raise "stripe charge not successfully created"
