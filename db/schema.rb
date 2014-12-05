@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141201222700) do
+ActiveRecord::Schema.define(version: 20141205014033) do
 
   create_table "acts", force: true do |t|
     t.string   "name"
@@ -76,10 +76,14 @@ ActiveRecord::Schema.define(version: 20141201222700) do
     t.string   "actionee_type"
     t.integer  "actioner_id"
     t.string   "actioner_type"
-    t.integer  "amount",        default: 0
-    t.string   "state",         default: "charged"
+    t.integer  "amount",          default: 0
+    t.string   "state",           default: "charged"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "application_fee"
+    t.integer  "am_base"
+    t.integer  "am_charity"
+    t.integer  "am_sb"
   end
 
   create_table "ext_links", force: true do |t|

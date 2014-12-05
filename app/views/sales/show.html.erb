@@ -15,6 +15,9 @@
 
         <p>
           <%= link_to "Return to #{@sale.actionee.tickets.first.show.board.name}'s Showboard", @sale.actionee.tickets.first.show.board, class: "btn btn-primary" %>
+        <br>
+
+        <%= link_to "Return to this show's event page", board_show_path(@sale.actionee.tickets.first.show.board, @sale.actionee.tickets.first.show), class: "btn btn-primary" %>
         </p>
       </div>
     </div>

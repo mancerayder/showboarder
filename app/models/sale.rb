@@ -101,6 +101,9 @@ class Sale < ActiveRecord::Base
           owners[t.show.board.owner.stripe_access_key] = owners[t.show.board.owner.stripe_access_key] << t.guid
         end
 
+        # TODO use the following to calculate adjusted application fee
+        # stripe_fee = 30 + (0.029 * (self.amount * 100).to_i).to_i
+
         owners.each do |o| # go through owners and make a charge for each one
           tickets_by_owner = Cart.create # cart to temporarily store tickets for each owner to avoid having to look them up in the database by GUID again TODO: don't use carts for this
           amount = 0
@@ -118,7 +121,7 @@ class Sale < ActiveRecord::Base
             amount = amount + (ticket.price * 100).to_i
           end
 
-          amount = amount + ((self.am_added / owners.count) * 100).to_i
+          amount = amount + (((self.am_added + self.am_tip) / owners.count) * 100).to_i
           amount_charity = ((self.am_charity / owners.count) * 100).to_i
           amount_showboarder = ((self.am_sb / owners.count) * 100).to_i
           application_fee = ((self.am_tip / owners.count) * 100).to_i # TODO account for stripe fee so showboarder shoulders as much of the burden as the venue
