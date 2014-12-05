@@ -60,17 +60,24 @@ class Show < ActiveRecord::Base
     end
   end
 
-  def tickets_reserve(quantity, reserver_id = nil, reserver_type = nil)
+  def tickets_reserve(quantity, reserver_id = nil, reserver_type = nil, reserve_code = nil)
     if self.unsold_count >= quantity
-      # reserve_code = ""
       #go through tickets of state that should be changed by state and change state buyer_id and buyer_type as appropriate via ticket state method 
       open = Ticket.where(show_id:self.id, state:"open")
 
-      cart = Cart.create(tickets:open[0..(quantity-1)])
+      if reserve_code && quantity == 1 # TODO: catch if this is somehow ever hit with a quantity other than 1
+        cart = Cart.find_by(reserve_code: reserve_code)
+        added_ticket = open.first
+        cart.tickets << added_ticket
+        added_ticket.update_attributes(state:"reserved", ticket_owner_id:reserver_id, ticket_owner_type:reserver_type, reserved_at:DateTime.now)
+      else
 
-      cart.tickets.each do |t|
-        t.update_attributes(state:"reserved", ticket_owner_id:reserver_id, ticket_owner_type:reserver_type, reserved_at:DateTime.now)
-        # t.buy_or_die
+        cart = Cart.create(tickets:open[0..(quantity-1)])
+
+        cart.tickets.each do |t|
+          t.update_attributes(state:"reserved", ticket_owner_id:reserver_id, ticket_owner_type:reserver_type, reserved_at:DateTime.now)
+          # t.buy_or_die
+        end
       end
 
       if reserver_id == nil

@@ -4,7 +4,7 @@ class Ticket < ActiveRecord::Base
   belongs_to :show
   belongs_to :referral_band
   has_and_belongs_to_many :carts
-
+  has_paper_trail
 
   validates_uniqueness_of :guid
 
@@ -75,6 +75,10 @@ class Ticket < ActiveRecord::Base
 
   def make_open(error = "Make open")
     self.reload
+    self.carts.each do |c|
+      c.tickets.delete(self)
+      self.carts.delete(c)
+    end
     self.update_attributes(ticket_owner_type: nil, ticket_owner_id: nil, state:"open", reserved_at: nil)
   end
 end

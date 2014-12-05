@@ -59,16 +59,26 @@
                 <%= link_to t.show.show_at.to_time.strftime('%b %e'), board_show_path(t.show.board, t.show), target: "_blank" %>
               </div>
               <div class="col-xs-3">
-                <%= link_to "<i class=\"fa fa-minus-circle btn-ticket-remove\"></i>".html_safe, "/ticketrelease/" + t.guid, method: :post, remote: true %>
                 <% if user_signed_in? %>
+                  <%= link_to "<i class=\"fa fa-minus-circle btn-ticket-remove\"></i>".html_safe, "/ticketrelease/" + t.guid, method: :post, remote: true %>
                   <%= link_to "<i class=\"fa fa-plus-circle btn-ticket-add\"></i>".html_safe, board_show_reserve_path(t.show.board, t.show, :quantity => "1"), method: :post, remote: true %>
                 <% else %>
-                  <%= link_to "<i class=\"fa fa-plus-circle btn-ticket-add\"></i>".html_safe, board_show_reserve_path(t.show.board, t.show, :quantity => "1"), method: :post, remote: true %>
+                  <%= link_to "<i class=\"fa fa-minus-circle btn-ticket-remove\"></i>".html_safe, "/ticketrelease/" + t.guid + "?reserve_code=" + @reserve_code, method: :post, remote: true %>
+                  <%= link_to "<i class=\"fa fa-plus-circle btn-ticket-add\"></i>".html_safe, board_show_reserve_path(t.show.board, t.show, :quantity => "1", reserve_code: @reserve_code), method: :post, remote: true %>
                 <% end %>
               </div>
             </div>
             <% ticket_index +=1 %>
           <% end %>
+          <div class="row">
+            <div class="col-xs-12">
+              <% if user_signed_in? %>
+                <%= link_to "Clear cart", clearcart_path, class:"pull-right", method: :post, remote: true %>
+              <% else %>
+                <%= link_to "Clear cart", clearcart_path(reserve_code:@reserve_code), class:"pull-right", method: :post, remote: true %>
+              <% end %>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -11,6 +11,7 @@ Showboarder::Application.routes.draw do
   match '/esuggest/:act', to: 'acts#esuggest', via: 'get'
   match '/eretrieve/', to: 'acts#eretrieve', via: 'get'
   match '/ticketrelease/:ticket', to: 'tickets#release', via: :post
+  match '/clearcart', to: 'tickets#clear', via: :post
 
   resources :users, only: [:show] do
     # match '/boards' => 'users#boards', via: :get

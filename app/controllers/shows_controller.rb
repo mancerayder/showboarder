@@ -11,8 +11,6 @@ class ShowsController < ApplicationController
     @reserve_code = ""
     @show = Show.find_by_id(params[:show_id])
     @show.tickets_clear_expired_reservations
-    # @card = Card.new
-    @checkout_type = "Cart"
     if user_signed_in?
       current_user.tickets_clear_expired_reservations
       # @tickets = Ticket.where(ticket_owner_id:current_user.id, ticket_owner_type:current_user.class.to_s, state:"reserved")

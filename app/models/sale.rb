@@ -1,6 +1,5 @@
 class Sale < ActiveRecord::Base
-  # has_paper_trail
-
+  has_paper_trail
   belongs_to :actioner, polymorphic: true
   belongs_to :actionee, polymorphic: true
   has_many :charges
@@ -51,7 +50,7 @@ class Sale < ActiveRecord::Base
           if token_type == "card" #If purchase is being made with saved card 
             card = customer.cards.retrieve(stripe_token)
           
-          else #Else use the token to create the stripe card
+          else # Else use the token to create the stripe card
             card = customer.cards.create(card:stripe_token)
           end
 
@@ -86,7 +85,7 @@ class Sale < ActiveRecord::Base
         end
 
       else # Customer and card for guest
-        customer = Stripe::Customer.create(
+        customer = Stripe::Customer.create( # TODO: retrieve guests matched by email if preexisting
           email: actioner.email,
           description: "Guest - Actionee type: " + self.actionee_type + " Transaction ID: " + self.guid
           )
@@ -95,7 +94,7 @@ class Sale < ActiveRecord::Base
       end
 
       ################## THE PART THAT CREATES THE TOKEN/S AND CHARGE OR SUBSCRIPTION ###################
-      if actionee_type == "Cart" #Creates charges for tickets
+      if actionee_type == "Cart" # Creates charges for tickets NOTE: This is now the only type.
         owners = Hash.new { |hash, key| hash[key] =  []} # hash so tickets in cart can be grouped by board owner for efficient stripe charge creation
 
         actionee.tickets.each do |t| # separate tickets by board owners
@@ -103,20 +102,31 @@ class Sale < ActiveRecord::Base
         end
 
         owners.each do |o| # go through owners and make a charge for each one
-          tickets_by_owner = Cart.create #array to temporarily store tickets for each owner to avoid having to look them up in the database by GUID again
+          tickets_by_owner = Cart.create # cart to temporarily store tickets for each owner to avoid having to look them up in the database by GUID again TODO: don't use carts for this
           amount = 0
-          #these build pieces of the description string with each ticket
+          #these build pieces of the stripe description string with each ticket
           desc_b = "" #board string
           desc_s = "" #show string
           desc_t = "" #ticket string
 
-          owners[o[0]].each do |t| #go through the tickets for the owner to make the charge
+          owners[o[0]].each do |t| # go through the tickets for the owner to make the charge
             ticket = Ticket.find_by(guid:t)
             tickets_by_owner.tickets << ticket
             desc_b = desc_b + ticket.show.board.name.to_s + " "
             desc_s = desc_s + ticket.show.id.to_s + " "
             desc_t = desc_t + t.to_s + " "
-            amount = amount + (ticket.price*100).to_i
+            amount = amount + (ticket.price * 100).to_i
+          end
+
+          amount = amount + ((self.am_added / owners.count) * 100).to_i
+          amount_charity = ((self.am_charity / owners.count) * 100).to_i
+          application_fee = ((self.am_tip / owners.count) * 100).to_i # TODO account for stripe fee so showboarder shoulders as much of the burden as the venue
+
+          if amount > (((self.am_base + self.am_added + self.am_tip) * 100).to_i + 10) # Sanity check. Prevents any wildly high/wrong/miscalculated values from actually resulting in charges.
+            #  No idea how this would happen but better safe than sorry and put a check
+            self.update(error: "Charge not completed due to a stripe charge value inconsistency.  Email contact@showboarder.com if this behavior was not expected.")
+            self.fail!
+            raise "Charge not completed due to a stripe charge value inconsistency.  Email contact@showboarder.com if this behavior was not expected."
           end
 
           connect_token = Stripe::Token.create({ #make stripe token for each owner
@@ -129,6 +139,7 @@ class Sale < ActiveRecord::Base
             {
               card: connect_token.id,
               amount: amount,
+              application_fee: application_fee,
               currency: "usd",
               description: "Ticket purchase. BOARDS: " + desc_b + "SHOWS: " + desc_s + "TICKETS: " + desc_t + "TRANSACTION: " + self.guid.to_s
             },
@@ -138,19 +149,22 @@ class Sale < ActiveRecord::Base
               t.buy(actioner)
             end
 
-            Charge.create(sale:self, stripe_id:charge.id, amount:amount, actionee:tickets_by_owner, actioner:actioner) # create charge object that belongs to this sale
+            Charge.create(sale:self, stripe_id:charge.id, actionee:tickets_by_owner, actioner:actioner, application_fee: application_fee, am_base: amount, am_charity: amount_charity) # create charge object that belongs to this sale
+          else
+            self.fail!
+            raise "stripe charge not successfully created"
           end
         end
 
       else #Creates subscription for boards
-        if sub = customer.subscriptions.create(
-            plan: plan
-            )
+        # if sub = customer.subscriptions.create(
+        #     plan: plan
+        #     )
 
-          actioner.board_role_assign(actionee, "owner")
-          actionee.update(paid_tier:1, paid_at:Time.now)
-          Subscription.create(user_id:actioner.id, board_id:actionee.id, paid_at: DateTime.now, paid_until: DateTime.now + 1.month, plan: plan, stripe_id: sub.id)
-        end
+        #   actioner.board_role_assign(actionee, "owner")
+        #   actionee.update(paid_tier:1, paid_at:Time.now)
+        #   Subscription.create(user_id:actioner.id, board_id:actionee.id, paid_at: DateTime.now, paid_until: DateTime.now + 1.month, plan: plan, stripe_id: sub.id)
+        # end
       end # TODO : handle new default cards so they don't destroy the old ones - like for subscriptions. NOTE: not necessary unless stripe checkout is ditched
     self.finish!
 
