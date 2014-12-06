@@ -32,6 +32,27 @@ a:focus,
     margin-top: 200px;
 }
 
+div#flash.alert {
+    width:100%;
+    background: rgb(215, 44, 44);
+    background: rgba(215, 44, 44, 0.5);
+    color:black;
+    position: fixed;
+    text-align: center;
+    top:100px;
+}
+
+div#flash.alert.alert-error {
+    background: rgb(215, 44, 44);
+    background: rgba(215, 44, 44, 0.5);
+}
+
+div#flash.alert.alert-success {
+    background: rgb(43, 240, 44);
+    background: rgba(43, 240, 44, 0.5);
+    border: none;
+}
+
 /*-----------------------
 ----- Typo Styles ------
 -------------------------*/

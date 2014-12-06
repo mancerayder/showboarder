@@ -17,6 +17,7 @@ class StaticPagesController < ApplicationController
       # end
       render layout: "application"
     else
+      flash[:success] = "omg test flash"
       render layout: "landing"
     end
   end

@@ -177,6 +177,7 @@ class ShowsController < ApplicationController
   def update
     @show = Show.find(params[:id])
     if @show.update(show_params) # TODO - allow for editing of google place
+      @show.tickets_price_update
       flash[:success] = "Show updated"
       redirect_to board_show_path(@board, @show)
     else

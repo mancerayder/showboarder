@@ -40,6 +40,12 @@ class Show < ActiveRecord::Base
     return self.tickets.where(state:"open").count
   end
 
+  def tickets_price_update
+    self.tickets.where(state:"open").each do |t|
+      t.update(price:self.price_adv)
+    end
+  end
+
   def tickets_adjust(quantity)
     if self.tickets.count < quantity
       (self.tickets.count..quantity-1).each do |t|

@@ -22,7 +22,7 @@
 
     <h3>
       <% if @show.price_adv != @show.price_door %>
-        <%= number_to_currency(@show.price_adv, unit:"$", :precision => 0) %> advance - <%= number_to_currency(@show.price_adv, unit:"$", :precision => 0) %> at the door
+        <%= number_to_currency(@show.price_adv, unit:"$", :precision => 0) %> advance - <%= number_to_currency(@show.price_door, unit:"$", :precision => 0) %> at the door
       <% else %>
         <%= number_to_currency(@show.price_adv, unit:"$", :precision => 0) %>
       <% end %>
