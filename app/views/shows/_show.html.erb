@@ -28,6 +28,8 @@
                                          title: show.id %>
         <br>
         <%= link_to "Edit show", edit_board_show_path(@board, show) %>
+        <br>
+        <%= link_to "Show Checkin", board_show_checkin_path(@board, show) %>
       <% end %>
       </div>
     </div>

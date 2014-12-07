@@ -14,12 +14,16 @@ body{
 }
 
 a{
-	color:#F28C83;
+	color:#334959;
 	text-decoration:none
 }
 
+p > a {
+    color: #52dbeb;
+}
+
 a:hover,a:focus{
-	color:#F28C83;
+	color: #3DA4B0;
 	text-decoration:underline
 }
 
@@ -71,7 +75,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
 
 .section-title{
     margin-top:-20px;
-    margin-bottom: 80px;
+    margin-bottom: 40px;
     text-align:center;
 }
 
@@ -79,9 +83,18 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
 ----- Layout Styles -----
 -------------------------*/
 
+.landing-buttons{
+    // padding-top: 50px;
+}
+
 .add-padding {
     padding-top:120px;
     padding-bottom:140px;
+}
+
+.add-padding-small {
+    padding-top:120px;
+    padding-bottom:90px;
 }
 
 /*-----------------------
@@ -95,7 +108,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
 
 .bg-color2{
     color:#fff;
-    background:#F28C83;
+    background:#334959;
 }
 
 .bg-color3{
@@ -104,11 +117,11 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
 }
 
 .border-bottom-color2{
-    border-bottom:7px solid #F28C83;
+    border-bottom:7px solid #334959;
 }
 
 .border-top-color2{
-    border-top:7px solid #F28C83;
+    border-top:7px solid #334959;
 }
 
 .color1 .service-icon,
@@ -122,20 +135,20 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
 
 .color2 .service-icon,
 .color2.service-item ul li:nth-child(2):before{
-    background:#F28C83;
+    background:#334959;
 }
 
 .color2 .service-icon:after{
-    border:3px solid #F28C83;
+    border:3px solid #334959;
 }
 
 .color3 .service-icon,
 .color3.service-item ul li:nth-child(2):before{
-    background:#334959;
+    background:#F28C83;
 }
 
 .color3 .service-icon:after{
-    border:3px solid #334959;
+    border:3px solid #F28C83;
 }
 
 /*------------------
@@ -150,7 +163,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
     color:#fff;
     font-size: 21px;
     font-weight: 300;
-    background:#F28C83;
+    background: #334959;
     outline: none !important;
     border-radius: 0;
     transition: opacity .2s ease-out;
@@ -185,6 +198,56 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
 
 .btn-header1 {
     padding-top: 10px;
+    margin-bottom: 10px;
+}
+
+.btn-circle {
+    width: 70px;
+    height: 70px;
+    margin-top: 75px;
+    padding: 7px 16px;
+    border: 2px solid rgba(51, 73, 89,.8);
+    border-radius: 35px;
+    font-size: 40px;
+    color: #334959;
+    color: rgba(51, 73, 89,.8);
+    background: 0 0;
+    -webkit-transition: background .3s ease-in-out;
+    -moz-transition: background .3s ease-in-out;
+    transition: background .3s ease-in-out;
+}
+
+.btn-circle:hover,
+.btn-circle:focus {
+    outline: 0;
+    color: #334959;
+    background: rgba(51, 73, 89,.2);
+}
+
+.btn-circle-2 {
+    width: 70px;
+    height: 70px;
+    margin-top: 55px;
+    padding: 7px 16px;
+    border: 2px solid #fff;
+    border-radius: 35px;
+    font-size: 40px;
+    color: #fff;
+    background: 0 0;
+    -webkit-transition: background .3s ease-in-out;
+    -moz-transition: background .3s ease-in-out;
+    transition: background .3s ease-in-out;
+}
+
+.btn-circle-2:hover,
+.btn-circle-2:focus {
+    outline: 0;
+    color: #fff;
+    background: rgba(255, 255, 255,.2);
+}
+
+.btn-end {
+    margin-top:100px;
 }
 
 
@@ -318,7 +381,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
 
 #main-nav.scrolled .nav li.active a,
 #main-nav.scrolled .nav a:hover{
-    color: #F28C83;
+    color: #334959;
 }
 
 
@@ -367,6 +430,12 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
 /*-----------------------
 ---- Services Styles ----
 -------------------------*/
+
+section#services.add-padding {
+    padding-top:60px;
+    padding-bottom:60px;
+}
+
 #services{
     background-color: #fff;
     box-shadow: 0 0 50px rgba(0,0,0,0.5);
@@ -449,7 +518,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
 -------------------------*/
 
 .polaroid {
-    border:12px solid #fff;
+    // border:12px solid #fff;
     max-width: 85%;
     box-shadow: 3px 5px 8px rgba(0,0,0,0.5);
     -webkit-transform: rotate(-5deg);
@@ -1023,7 +1092,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
 
 #contact-form .form-control:focus {
     background:#fff;
-    border-bottom:3px solid #F28C83;
+    border-bottom:3px solid #334959;
     outline:none;
     box-shadow:none;
     -webkit-transition:border-color .3s ease-in;
@@ -1071,7 +1140,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
 }
 
 #gmap .infowin a{
-    color:#F28C83;
+    color:#334959;
 }
 
 #gmap .infowin a:hover{
@@ -1368,7 +1437,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
 
     #main-nav .nav li.active a,
     #main-nav .nav a:hover{
-        color: #F28C83;
+        color: #334959;
     }
 
     #main-nav .navbar-brand{
@@ -1403,7 +1472,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
     }
     
     .polaroid {
-        border:12px solid #fff;
+        // border:12px solid #fff;
         width:90%;
         max-width: 500px;
         margin:0 auto 35px;

@@ -1,12 +1,13 @@
 class BoardsController < ApplicationController
-  load_and_authorize_resource :board, :find_by => :vanity_url
+  load_and_authorize_resource :board, :find_by => :vanity_url, :except => [:new]
 
   def new
     if !user_signed_in?
-      redirect_to new_user_session_path
+      redirect_to new_user_registration_path
+    else
+      @board = Board.new
+      @stage = @board.stages.build
     end
-    @board = Board.new
-    @stage = @board.stages.build
   end
 
   def edit
@@ -87,7 +88,9 @@ class BoardsController < ApplicationController
 
   def show
     @board = Board.find_by_vanity_url(params[:id])
-    @shows = @board.shows.paginate(page: params[:page])
+
+    @shows = @board.shows.where("show_at > ?", Date.tomorrow).order(show_at: :desc).paginate(page: params[:page])
+    # @shows = @board.shows.where(:show_at > Date.tomorrow).order(:show_at)
   end
 
   def destroy

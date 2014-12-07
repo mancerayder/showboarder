@@ -1,5 +1,11 @@
-<div id="react-test">
-</div>
+<section>
+  <div class="row">
+    <div class="col-xs-12 text-center">
+      <div id="react-test">
+      </div>
+    </div>
+  </div>
+</section>
 
 
 <script type="text/jsx">
@@ -37,19 +43,19 @@
       // If the attendee is checked in, render it that way
       if (this.props.attendee.isCheckedIn) {
         return (
-          <li>
-            {this.props.attendee.name}
+          <p>
+            {this.props.attendee.name} has {this.props.attendee.ticketCount} tickets
             <CheckOutButton onclick={onCheckOut} attendeeType={this.props.attendee.type} attendeeId={this.props.attendee.id} />
-          </li>
+          </p>
         );
       }
    
       // Otherwise, render the checked out attendee with a check-in button
       return (
-        <li>
+        <p>
           {this.props.attendee.name} has {this.props.attendee.ticketCount} tickets
           <CheckInButton onclick={onCheckIn} />
-        </li>
+        </p>
       );
     }
   });
@@ -147,13 +153,13 @@
       return (
         <div>
           <h2>Attendees</h2>
-          <ul>{this.state.attendees.filter(function(el) {
+          {this.state.attendees.filter(function(el) {
             return el.isCheckedIn == false }
             ).map(function(attendee) {
             return <Attendee key={attendee.guid}
                              attendee={attendee}
                              onCheckIn={this.handleCheckIn} />;
-          }.bind(this))}</ul>
+          }.bind(this))}
           <h2>Checked In</h2>
           <ul>{this.state.attendees.filter(function(el) { return el.isCheckedIn == true }).map(function(attendee) {
             return <Attendee key={attendee.guid}

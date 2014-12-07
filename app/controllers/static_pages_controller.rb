@@ -4,7 +4,8 @@ class StaticPagesController < ApplicationController
       @user = current_user
       if @user.boards.count == 1
         @board = @user.boards.first
-        @shows = @board.shows.paginate(page: params[:page])
+        # @shows = @board.shows.paginate(page: params[:page])
+        @shows = @board.shows.where("show_at > ?", Date.tomorrow).order(:show_at).paginate(page: params[:page])
       end
       # @boards = current_user.boards
       # if @boards.count > 1
@@ -17,12 +18,8 @@ class StaticPagesController < ApplicationController
       # end
       render layout: "application"
     else
-      flash[:success] = "omg test flash"
       render layout: "landing"
     end
-  end
-
-  def about
   end
 end
 
