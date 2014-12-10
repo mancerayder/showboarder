@@ -14,7 +14,7 @@
         <% end %>          
       <% end %>
     </h2>
-      <br>
+    <br>
       
     <h3>
       Doors <%= @show.door_at.to_time.in_time_zone(@show.board.timezone).strftime('%l:%M %p') %> - Show <%= @show.show_at.to_time.in_time_zone(@show.board.timezone).strftime('%l:%M %p') %>
@@ -29,6 +29,12 @@
 
     </h3>
     <br>
+
+    <h3>
+      <% if @show.ext_links.count == 1 %>
+        <%= link_to "<i class=\"fa fa-facebook-square\"></i>".html_safe + "  Facebook Event Page", @show.ext_links.first.url, target: "_blank" %>
+      <% end %>
+    </h3>
     <% if user_signed_in? %>
 
     <% end %>

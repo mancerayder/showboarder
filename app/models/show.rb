@@ -1,7 +1,7 @@
 class Show < ActiveRecord::Base
   belongs_to :stage
   belongs_to :board
-  has_many :ext_links, as: :linkable
+  has_many :ext_links, as: :linkable, dependent: :destroy
   has_many :tickets, dependent: :destroy
   has_many :sales, as: :actionee, dependent: :destroy
   validates :ticketing_type, :price_door, :price_adv, presence: true

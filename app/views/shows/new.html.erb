@@ -54,6 +54,20 @@
               </div>
             </div>
 
+            <%= f.fields_for :ext_links do |fb| %>
+              <div class="textbox-wrap textbox-wrap-show">
+                <%= fb.label :ext_site, "Facebook event link (optional)" %>
+
+                <%= fb.input :ext_site, value: "Facebook", as: :hidden %>
+                <div class="input-group">
+
+                <span class="input-group-addon"><i class="fa fa-link"></i></span>
+                <%= fb.input :url, input_html: {:style => "display:inline;"}, label: false, placeholder:"URL", wrapper: false %>
+                  <br>
+                </div>
+              </div>
+            <% end %>
+
             <div class="textbox-wrap textbox-wrap-show">
               <%= f.label :price_adv, "Online Ticket Price ($)" %>
               <div class="input-group">

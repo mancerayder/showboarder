@@ -5,6 +5,8 @@ class ShowsController < ApplicationController
   def new
     @board = Board.find_by_vanity_url(params[:board_id])
     @show = @board.shows.new
+    @fb_link = @show.ext_links.build
+    @fb_link.ext_site = "Facebook"
   end
 
   def checkout
@@ -68,6 +70,13 @@ class ShowsController < ApplicationController
     if @show.save
       @show.update_attributes(state:"public") # TODO - allow for the creation of pending shows
       @show.acts.each do |e| # loop through all shows acts and merge duplicated acts.
+        if e.echonest_id[0..4] == "ECHO-" #this is a check for if the DB query in esuggest was too dumb to find the act in the DB
+          temp_echo = e.echonest_id.gsub("ECHO-", "")
+          if Act.find_by(echonest_id: echo)
+            # TODO: refactor this whole action and mostly make it use the logic in this if case
+            e.echonest_id = temp_echo
+          end
+        end
         if e.echonest_id
           if e.echonest_id[0..2] == "DB-" # found in DB, has no echonest ID = id is "DB-act_id
             dupe = Act.find_by(id: e.echonest_id.gsub("DB-", "").to_i)
@@ -188,6 +197,10 @@ class ShowsController < ApplicationController
   def edit
     @show = Show.find(params[:id])
     @board = @show.board
+
+    if @show.ext_links.count == 0
+      @fb_link = @show.ext_links.build
+    end
   end
 
   def destroy
@@ -209,6 +222,6 @@ class ShowsController < ApplicationController
   private
 
     def show_params
-      params.require(:show).permit(:state, :error, :announce_at, :door_at, :min_age, :ticketing_type, :show_at, :custom_capacity, :payer_id, :paid_at, :price_adv, :price_door, :board, {acts_attributes: [{ext_links_attributes: [:id, :ext_site, :url, :linkable_type, :_destroy]},:id, :name, :email, :echonest_id, :_destroy ]})
+      params.require(:show).permit(:state, :error, :announce_at, :door_at, :min_age, :ticketing_type, :show_at, :custom_capacity, :payer_id, :paid_at, :price_adv, :price_door, :board, {ext_links_attributes: [:id, :ext_site, :url, :linkable_type, :_destroy]}, {acts_attributes: [{ext_links_attributes: [:id, :ext_site, :url, :linkable_type, :_destroy]},:id, :name, :email, :echonest_id, :_destroy ]})
     end
 end

@@ -6,7 +6,7 @@
     <div class="login-form-section">
       <div class="login-content">
         <div class="section-title">
-          <h3>Add a show</h3>
+          <h3>Update Show</h3>
         </div>
 
         <%= simple_nested_form_for [@board, @show], html:{id:"show-form"} do |f| %>
@@ -45,6 +45,20 @@
                 <%= f.select :min_age, options_for_select(["All ages", "18+", "21+"], f.object.min_age), {}, {:class => 'form-control'} %>
               </div>
             </div>
+
+            <%= f.fields_for :ext_links do |fb| %>
+              <div class="textbox-wrap textbox-wrap-show">
+                <%= fb.label :ext_site, "Facebook event link (optional)" %>
+
+                <%= fb.input :ext_site, value: "Facebook", as: :hidden %>
+                <div class="input-group">
+
+                <span class="input-group-addon"><i class="fa fa-link"></i></span>
+                <%= fb.input :url, input_html: {:style => "display:inline;max-width:180px;"}, label: false, placeholder:"URL", wrapper: false %>
+                  <br>
+                </div>
+              </div>
+            <% end %>
 
             <div class="textbox-wrap textbox-wrap-show">
               <%= f.label :price_adv, "Online Ticket Price ($)" %>
@@ -104,6 +118,9 @@
           <p class="text-center"><%= f.link_to_add "<span><i class=\"fa fa-plus\"></i> Add an act".html_safe, :acts, class: "btn btn-success" %></p>
 
           <p class="text-center"><%= f.submit "Update show", class: "btn btn-large btn-primary" %></p>
+          <p class="text-center"><%= link_to "Delete show", [@board, @show], method: :delete, id: @show.id,
+                                         data: { confirm: "Are you sure you would like to delete this show?  This cannot be undone." },
+                                         title: @show.id, class: "btn btn-large btn-danger" %></p>
           </div>
         <% end %>
 
