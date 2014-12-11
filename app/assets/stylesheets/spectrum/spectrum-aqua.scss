@@ -349,6 +349,10 @@ p {
     margin: 0 0 20px;
 }
 
+h3.show-title {
+    margin: 0;
+}
+
 .serif {
     text-transform: none;
     font-family: Lora,"Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -386,6 +390,7 @@ hr.primary {
 }
 
 hr.light {
+    max-width: 75px;
     border-top: 6px solid #f4f5f7;
 }
 
@@ -3411,4 +3416,18 @@ p.demo-text {
     margin-top: 20px;
     font-family: Pacifico,serif;
     font-size: 25px;
+}
+
+div.vcenter {
+    vertical-align: middle;
+    display:inline-block;
+    float:none;
+}
+
+h3.show-title {
+    margin-bottom:20px;
+}
+
+h3.show-acts {
+    margin-top:10px;
 }

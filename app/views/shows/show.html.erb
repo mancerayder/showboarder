@@ -2,9 +2,21 @@
 <div class="container">
 <div class="row">
   <div class="col-xs-12 text-center">
-    <h1>
-      <%= @show.show_at.to_time.strftime('%B %e') %> at <%= link_to "#{@show.board.name}", @show.board %></h1>
-    </h1>
+    <% if @show.title %>
+      <h1>
+        <%= @show.title.upcase %>
+      </h1>
+    <% end %>
+    <br>
+    <% if @show.title %>
+      <h2>
+        <%= @show.show_at.to_time.strftime('%B %e') %> at <%= link_to "#{@show.board.name}", @show.board %></h1>
+      </h2>
+    <% else %>
+      <h1>
+        <%= @show.show_at.to_time.strftime('%B %e') %> at <%= link_to "#{@show.board.name}", @show.board %></h1>
+      </h1>
+    <% end %>
     <br>
     <h2>
       <% @show.acts.each do |a| %>

@@ -76,6 +76,14 @@
               </div>
             </div>
 
+            <div class="textbox-wrap textbox-wrap-show">
+              <%= f.label :title, "Show Title (Optional)" %>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                <%= f.input :title, style:"display:inline;", label: false %>
+              </div>
+            </div>
+
             <%= f.fields_for :acts do |ff| %>
               <div class="panel panel-primary">
                 <div class="panel-heading text-center">

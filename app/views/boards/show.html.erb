@@ -27,7 +27,9 @@
         <br>
       </div>
       <div class="col-xs-3">
-      <%= link_to "+ Add Show", new_board_show_path(@board), :class => "btn btn-primary btn-add-show" %>
+        <% if user_signed_in? && current_user.boarder?(@show.board) && current_user.board_role(@show.board) == "owner" %>
+          <%= link_to "+ Add Show", new_board_show_path(@board), :class => "btn btn-primary btn-add-show" %>
+        <% end %>
       </div>
     </div>
     <div class="row">

@@ -222,6 +222,6 @@ class ShowsController < ApplicationController
   private
 
     def show_params
-      params.require(:show).permit(:state, :error, :announce_at, :door_at, :min_age, :ticketing_type, :show_at, :custom_capacity, :payer_id, :paid_at, :price_adv, :price_door, :board, {ext_links_attributes: [:id, :ext_site, :url, :linkable_type, :_destroy]}, {acts_attributes: [{ext_links_attributes: [:id, :ext_site, :url, :linkable_type, :_destroy]},:id, :name, :email, :echonest_id, :_destroy ]})
+      params.require(:show).permit(:state, :error, :announce_at, :door_at, :min_age, :ticketing_type, :show_at, :custom_capacity, :payer_id, :title, :paid_at, :price_adv, :price_door, :board, {ext_links_attributes: [:id, :ext_site, :url, :linkable_type, :_destroy]}, {acts_attributes: [{ext_links_attributes: [:id, :ext_site, :url, :linkable_type, :_destroy]},:id, :name, :email, :echonest_id, :_destroy ]})
     end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141205014033) do
+ActiveRecord::Schema.define(version: 20141210230314) do
 
   create_table "acts", force: true do |t|
     t.string   "name"
@@ -175,6 +175,7 @@ ActiveRecord::Schema.define(version: 20141205014033) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "min_age",                                 default: "All ages"
+    t.string   "title"
   end
 
   create_table "stages", force: true do |t|
