@@ -107,7 +107,7 @@
 
                 <%= ff.fields_for :ext_links do |fff| %>
                 <p class="text-center ext-link-fields">
-                  <%= fff.select :ext_site, options_for_select(%w[Homepage Lastfm Twitter Myspace Wikipedia Musicbrainz Soundcloud Bandcamp Youtube Facebook]), {}, {:class => "form-control ext-link-select"} %>
+                  <%= fff.select :ext_site, options_for_select(%w[Homepage Lastfm Twitter Myspace Wikipedia Musicbrainz Soundcloud Bandcamp Youtube Facebook], fff.object.ext_site), {}, {:class => "form-control ext-link-select"} %>
 
                   <%= fff.input :url, input_html: {:style => "display:inline;max-width:180px;"}, label: false, placeholder:"URL", wrapper: false %>
                   <%= fff.link_to_remove "<i class=\"fa fa-minus-circle\"></i>".html_safe, class: "btn-ext-link-remove" %>

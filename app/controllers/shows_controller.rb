@@ -73,7 +73,7 @@ class ShowsController < ApplicationController
       @show.acts.each do |e| # loop through all shows acts and merge duplicated acts.
         if e.echonest_id[0..4] == "ECHO-" #this is a check for if the DB query in esuggest was too dumb to find the act in the DB
           temp_echo = e.echonest_id.gsub("ECHO-", "")
-          if Act.find_by(echonest_id: echo)
+          if Act.find_by(echonest_id: temp_echo)
             # TODO: refactor this whole action and mostly make it use the logic in this if case
             e.echonest_id = temp_echo
           end
@@ -186,6 +186,9 @@ class ShowsController < ApplicationController
 
   def update
     @show = Show.find(params[:id])
+
+    @show.show_at = ApplicationController.helpers.date_plus_time(params[:show_date], params[:show_time], @board.timezone)
+    @show.door_at = ApplicationController.helpers.date_plus_time(params[:show_date], params[:door_time], @board.timezone)
     if @show.update(show_params) # TODO - allow for editing of google place
       @show.tickets_price_update
       flash[:success] = "Show updated"
