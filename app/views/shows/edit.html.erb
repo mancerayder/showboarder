@@ -18,7 +18,7 @@
             <div class="textbox-wrap textbox-wrap-show">
               <label for="show-date">Show Date</label> 
               <div class="input-group date">
-                <input type="text" id="show-date" name="show_date" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                <input type="text" id="show-date" name="show_date" class="form-control" value="<%= f.object.show_at.localtime.strftime("%m/%d/%Y") %>"> <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
               </div>
             </div>
 
@@ -26,7 +26,7 @@
               <label for="door-time">Door Time</label> 
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-                <input type="time" name="door_time" id="inputDoor-Time" class="form-control" required="required">
+                <input type="time" name="door_time" id="inputDoor-Time" class="form-control" required="required" value="<%= f.object.door_at.in_time_zone(f.object.board.timezone).strftime("%H:%M") %>">
               </div>
             </div>
 
@@ -34,7 +34,7 @@
               <label for="show-time">Show Time</label> 
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
-                <input type="time" name="show_time" id="inputShow-Time" class="form-control" required="required">
+                <input type="time" name="show_time" id="inputShow-Time" class="form-control" required="required" value="<%= f.object.show_at.in_time_zone(f.object.board.timezone).strftime("%H:%M") %>">
               </div>
             </div>
 
@@ -47,24 +47,24 @@
             </div>
 
             <%= f.fields_for :ext_links do |fb| %>
-              <div class="textbox-wrap textbox-wrap-show">
+              <div class="textbox-wrap textbox-wrap-show text-center">
                 <%= fb.label :ext_site, "Facebook event link (optional)" %>
 
                 <%= fb.input :ext_site, value: "Facebook", as: :hidden %>
                 <div class="input-group">
 
                 <span class="input-group-addon"><i class="fa fa-link"></i></span>
-                <%= fb.input :url, input_html: {:style => "display:inline;max-width:180px;"}, label: false, placeholder:"URL", wrapper: false %>
+                <%= fb.input :url, input_html: {:style => "display:inline;"}, label: false, placeholder:"URL", wrapper: false %>
                   <br>
                 </div>
               </div>
             <% end %>
-
+<!-- 
             <div class="textbox-wrap textbox-wrap-show">
               <%= f.label :price_adv, "Online Ticket Price ($)" %>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                <%= f.number_field :price_adv, :class => 'cost form-control bfh-number', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0), data_min: "0", data_max: "200", value: "10" %>
+                <%= f.number_field :price_adv, :class => 'cost form-control bfh-number', :value => f.object.price_adv.to_i || 0, data_min: "0", data_max: "200" %>
               </div>
             </div>
 
@@ -72,9 +72,9 @@
               <%= f.label :price_door, "Door Ticket Price ($)" %>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                <%= f.number_field :price_door, :class => 'cost form-control bfh-number', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0), data_min: "0", data_max: "200", value: "12" %>
+                <%= f.number_field :price_door, :class => 'cost form-control bfh-number', :value => f.object.price_door.to_i || 0, data_min: "0", data_max: "200" %>
               </div>
-            </div>
+            </div> -->
 
             <div class="textbox-wrap textbox-wrap-show">
               <%= f.label :title, "Show Title (Optional)" %>
@@ -106,12 +106,12 @@
                 </div>
 
                 <%= ff.fields_for :ext_links do |fff| %>
+                <p class="text-center ext-link-fields">
+                  <%= fff.select :ext_site, options_for_select(%w[Homepage Lastfm Twitter Myspace Wikipedia Musicbrainz Soundcloud Bandcamp Youtube Facebook]), {}, {:class => "form-control ext-link-select"} %>
 
-                <%= fff.select :ext_site, options_for_select(%w[Homepage Lastfm Twitter Myspace Wikipedia Musicbrainz Soundcloud Bandcamp Youtube Facebook]), {}, {:class => "form-control ext-link-select"} %>
-
-                <%= fff.input :url, input_html: {:style => "display:inline;max-width:180px;"}, label: false, placeholder:"URL", wrapper: false %>
-                <%= fff.link_to_remove "<i class=\"fa fa-minus-circle\"></i>".html_safe, class: "btn-ext-link-remove" %>
-                <br>
+                  <%= fff.input :url, input_html: {:style => "display:inline;max-width:180px;"}, label: false, placeholder:"URL", wrapper: false %>
+                  <%= fff.link_to_remove "<i class=\"fa fa-minus-circle\"></i>".html_safe, class: "btn-ext-link-remove" %>
+                </p>
 
                 <% end %>
               <div class="text-center">

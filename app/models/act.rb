@@ -13,7 +13,10 @@ class Act < ActiveRecord::Base
   def ext_links_fontawesomed
     links_html = ""
     self.ext_links.each do |e|
+      puts e.ext_site
+      puts e.url
       if e.url? && e.ext_site?
+
         if e.ext_site == "Twitter"
           links_html = links_html + "<a href=\"#{e.url}\" id=\"act-ext-link\" target=\"_blank\"><i class=\"fa fa-twitter act-ext-link\"></i></a>"
         elsif e.ext_site == "Facebook"
@@ -30,6 +33,8 @@ class Act < ActiveRecord::Base
           links_html = links_html + "<a href=\"#{e.url}\" id=\"act-ext-link\" alt=\"Lastfm\" target=\"_blank\">Lastfm</a>"
         elsif e.ext_site == "Soundcloud"
           links_html = links_html + "<a href=\"#{e.url}\" id=\"act-ext-link\" target=\"_blank\"><i class=\"fa fa-soundcloud act-ext-link\"></i></a>"
+        elsif e.ext_site == "Homepage"
+          links_html = links_html + "<a href=\"#{e.url}\" id=\"act-ext-link\" target=\"_blank\">Homepage</a>"
         elsif e.ext_site == "Bandcamp"
           links_html = links_html + "<a href=\"#{e.url}\" id=\"act-ext-link\" target=\"_blank\">Bandcamp</a>"
         elsif e.ext_site == "Myspace"

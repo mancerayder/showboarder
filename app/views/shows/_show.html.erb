@@ -2,36 +2,43 @@
   <div class="col-xs-12">
     <div class="row">
       <div class="col-xs-3 col-md-2 vcenter">
-        <h4 class="show-meta"><%= show.show_at.to_time.strftime('%b %e') %></h4>
+        <h4 class="show-meta">
+          <%= show.show_at.to_time.strftime('%b %e') %>
+        </h4>
         <% if show.show_at %>
-          <h4 class="show-meta"><%= show.show_at.to_time.strftime('%l:%M %p') %></h4>
+          <h4 class="show-meta">
+            <%= show.show_at.to_time.strftime('%l:%M %p') %>
+          </h4>
         <% end %>
         <% if show.min_age %>
-          <h4 class="show-meta"><%= show.min_age %></h4>
+          <h4 class="show-meta">
+            <%= show.min_age %>
+          </h4>
         <% end %>
       </div><!--
-      --><div class="col-sm-6 col-xs-5 col-md-8 text-center vcenter">
-          <% if show.title %>
-            <h3 class="show-title">
-              <%= show.title.upcase %>
-            </h3>
-          <% else %>
-            
-            
+    --><div class="col-sm-6 col-xs-5 col-md-8 text-center vcenter">
+        <% if show.title %>
+          <h3 class="show-title">
+            <%= show.title.upcase %>
+          </h3>          
+        <% end %>
+        <h3 class="show-acts">
+          <% show.acts.each do |a| %>
+            <%= link_to a.name.to_s, a %>
+            <% if a != show.acts.last %>
+              -
+            <% end %>          
           <% end %>
-          <h3 class="show-acts">
-            <% show.acts.each do |a| %>
-              <%= link_to a.name.to_s, a %>
-              <% if a != show.acts.last %>
-                -
-              <% end %>          
-            <% end %>
-          </h3>
-        </div><!--
-      --><div class="col-sm-3 col-xs-4 col-md-2 vcenter text-right">
-
-      <%= link_to "Buy Tickets #{number_to_currency(show.price_adv, unit:"$", :precision => 0)}", board_show_path(@board, show), class: "btn btn-default" %><!--
+        </h3>
+      </div><!--
+    --><div class="col-sm-3 col-xs-4 col-md-2 vcenter text-right">
+          <% if show.ticketing_type == "paid" %>
+            <%= link_to "Buy Tickets #{number_to_currency(show.price_adv, unit:"$", :precision => 0)}", board_show_path(@board, show), class: "btn btn-default" %><!--
       --><br>
+          <% else %>
+            <%= link_to "Event Details", board_show_path(@board, show), class: "btn btn-default" %><!--
+        --><br>
+          <% end %>
         <% if user_signed_in? && current_user.boarder?(show.board) && current_user.board_role(show.board) == "owner" %>
           <%= link_to "Delete show", [@board, show], method: :delete, id: show.id,
                                            data: { confirm: "Are you sure you would like to delete this show?  This cannot be undone." },

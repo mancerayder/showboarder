@@ -19,7 +19,7 @@
               <%= f.label :ticketing_type %>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-ticket"></i></span>
-                <%= f.select :ticketing_type, options_for_select(%w[Ticketed None]), {}, {:class => 'form-control'} %>
+                <%= f.select :ticketing_type, options_for_select(["Sell tickets to the show", "Just list the show"]), {}, {:class => 'form-control', :id => "ticketing_type"} %>
               </div>
             </div>
 
@@ -72,7 +72,7 @@
               <%= f.label :price_adv, "Online Ticket Price ($)" %>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                <%= f.number_field :price_adv, :class => 'cost form-control bfh-number', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0), data_min: "0", data_max: "200", value: "10" %>
+                <%= f.number_field :price_adv, :class => 'cost form-control bfh-number', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0), data_min: "0", data_max: "200", value: "10", id: "price-adv" %>
               </div>
             </div>
 
@@ -80,7 +80,7 @@
               <%= f.label :price_door, "Door Ticket Price ($)" %>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                <%= f.number_field :price_door, :class => 'cost form-control bfh-number', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0), data_min: "0", data_max: "200", value: "12" %>
+                <%= f.number_field :price_door, :class => 'cost form-control bfh-number', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0), data_min: "0", data_max: "200", value: "12", id: "price-door" %>
               </div>
             </div>
 

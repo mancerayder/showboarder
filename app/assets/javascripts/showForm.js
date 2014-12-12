@@ -1,6 +1,37 @@
 
       $(function() {
 
+        var ticketingType = $("#ticketing_type");
+        var priceAdvField = $("#price-adv");
+        var priceDoorField = $("#price-door");
+
+        var priceDoor = priceDoorField.val()
+        var priceAdv = priceAdvField.val();
+
+        function ticketingTypeUpdate() {
+          if (ticketingType.val() == "Just list the show"){
+            console.log("Just list");
+            priceDoor = priceDoorField.val()
+            priceAdv = priceAdvField.val();
+            priceAdvField.val(0);
+            priceDoorField.val(0);
+            priceAdvField.parent().parent().parent().hide();
+            priceDoorField.parent().parent().parent().hide();
+          } else {
+            console.log("Sell tickets")
+            priceAdvField.val(priceAdv);
+            priceDoorField.val(priceDoor);
+            priceAdvField.parent().parent().parent().show();
+            priceDoorField.parent().parent().parent().show();
+          }
+        }
+
+        ticketingTypeUpdate();
+
+        ticketingType.change(function() {
+          ticketingTypeUpdate();
+        });
+
         function showError(error) {
           $('#form-errors').html(error);
           $('#form-errors').show();
@@ -90,6 +121,9 @@
             },
             minLength: 3, 
             select: function( event, ui ) {
+              field.find('.hidden').filter('input').val(""); // in case other act info already filled
+              field.find("a.btn-ext-link-remove.remove_nested_fields").click();
+              
               eretrieve(ui.item.value, ui.item.id, field);
             }
           });

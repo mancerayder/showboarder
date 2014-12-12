@@ -18,14 +18,16 @@
       </h1>
     <% end %>
     <br>
-    <h2>
-      <% @show.acts.each do |a| %>
-        <%= link_to a.name.to_s, a %>
-        <% if a != @show.acts.last %>
-          -
-        <% end %>          
-      <% end %>
-    </h2>
+    <% if @show.acts.count > 0 %>
+      <h2>
+        <% @show.acts.each do |a| %>
+          <%= link_to a.name.to_s, a %>
+          <% if a != @show.acts.last %>
+            -
+          <% end %>          
+        <% end %>
+      </h2>
+    <% end %>
     <br>
       
     <h3>
@@ -35,8 +37,10 @@
     <h3>
       <% if @show.price_adv != @show.price_door %>
         <%= number_to_currency(@show.price_adv, unit:"$", :precision => 0) %> advance - <%= number_to_currency(@show.price_door, unit:"$", :precision => 0) %> at the door
+      <% elsif  @show.price_adv.to_i == 0 && @show.price_door.to_i == 0  %>
+
       <% else %>
-        <%= number_to_currency(@show.price_adv, unit:"$", :precision => 0) %> 
+        <%= number_to_currency(@show.price_adv, unit:"$", :precision => 0) %> advance or at the door
       <% end %>
 
     </h3>
@@ -55,7 +59,7 @@
     <% if @show.ticketing_type == "Ticketed" || @show.ticketing_type == "paid" %>
       <%= render 'reserve_tickets_button' %>
     <% else %>
-      This show is free!
+      <h3>This show is free!</h3>
     <% end %>
 
     <% if user_signed_in? && current_user.boarder?(@show.board) && current_user.board_role(@show.board) == "owner" %>

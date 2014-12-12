@@ -89,7 +89,7 @@ class BoardsController < ApplicationController
   def show
     @board = Board.find_by_vanity_url(params[:id])
 
-    @shows = @board.shows.where("show_at > ?", Date.tomorrow).order(show_at: :desc).paginate(page: params[:page])
+    @shows = @board.shows.where("show_at > ?", Date.tomorrow).order(:show_at).paginate(page: params[:page])
     # @shows = @board.shows.where(:show_at > Date.tomorrow).order(:show_at)
   end
 

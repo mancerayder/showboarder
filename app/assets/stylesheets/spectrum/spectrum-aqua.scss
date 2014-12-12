@@ -16,7 +16,6 @@ body {
     font-weight:300;
     color:#6d6d6d;
     overflow-x:hidden;
-    // padding-top: 78px;
 }
 
 html {
@@ -41,7 +40,7 @@ img {
 
 section,
 aside {
-    padding: 50px 0;
+    padding: 75px 0;
 }
 
 #flash {
@@ -217,7 +216,7 @@ aside {
 
 @media(min-width:767px) {
     section {
-        padding: 100px 0;
+        padding: 75px 0 0;
     }
 
     #showboard {
@@ -268,7 +267,7 @@ aside {
 }
 
 .padding-top {
-    padding-top: 100px;
+    padding-top: 75px;
 }
 
 .padding-bottom {
@@ -347,6 +346,10 @@ h2 {
 
 p {
     margin: 0 0 20px;
+}
+
+p.ext-link-fields {
+    margin-bottom:0px;
 }
 
 h3.show-title {
@@ -450,6 +453,10 @@ hr.dark-small {
         margin: 0 0 30px;
         font-size: 18px;
         line-height: 1.6;
+    }
+
+    p.ext-link-fields {
+        margin-bottom:0px;
     }
 }
 
