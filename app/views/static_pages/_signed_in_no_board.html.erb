@@ -1,0 +1,23 @@
+<section>
+  <div class="row">
+    <div class="col-xs-12 text-center">
+      <h1>Your Tickets</h1>
+      <% if @tickets_by_show.count > 0 %>
+        <% @tickets_by_show.each do |h, k| %>
+          <%= k.count %> tickets to <%= link_to h.board.name, h.board %> on <%= link_to h.show_at.to_time.strftime('%b %e'), board_show_path(h.board, h), :class => "band-link" %>
+        <% end %>
+      <% else %>
+        <p>Any tickets you purchase will appear here.  You currently have no purchased tickets.</p>
+      <% end %>
+      <br>
+      <br>
+      <br>
+      <hr>
+      <h3>You do not have a Showboard</h3>
+      <p style="margin:30px 0px 0;">
+        Have a venue?
+      </p>
+      <%= link_to "Create a Showboard Now", new_board_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+</section>
