@@ -27,15 +27,21 @@
         <br>
       </div>
       <div class="col-xs-3">
-        <% if user_signed_in? && current_user.boarder?(@board) && current_user.board_role(@board) == "owner" %>
+        <% if user_signed_in? && current_user.boarder?(@board) && current_user.board_role(@board) == "owner" || "manager" %>
           <%= link_to "+ Add Show", new_board_show_path(@board), :class => "btn btn-primary btn-add-show" %>
         <% end %>
       </div>
     </div>
     <div class="row">
       <div class="col-lg-12">
-        <%= render @shows %>
-        <%= will_paginate @shows %>
+        <% if @shows.count > 0 %>
+          <%= render @shows %>
+          <%= will_paginate @shows %>
+        <% elsif user_signed_in? && current_user.boarder?(@board) && current_user.board_role(@board) == "owner" || "manager" %>
+          <p class="text-center">
+            Your Showboard currently has no upcoming shows
+          </p>
+        <% end %>
       </div>
     </div>
   </div>

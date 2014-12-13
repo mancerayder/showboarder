@@ -1,7 +1,7 @@
 class Stage < ActiveRecord::Base
   belongs_to :board
-  has_many :shows
-  has_one :place
+  has_many :shows, dependent: :destroy
+  has_one :place, dependent: :destroy
   validates :capacity, presence: true
 
   def places_gather # TODO - wrap self_zone into this
@@ -28,23 +28,23 @@ class Stage < ActiveRecord::Base
       @website = nil
       @reference = nil
 
-      if spot.photos[0] # TODO - make not suck... why did I ever write it like this...?
+      if spot.photos && spot.photos[0] # TODO - make not suck... why did I ever write it like this...?
         @photo1 = spot.photos[0].fetch_url(10000)
       end
 
-      if spot.photos[1]
+      if spot.photos && spot.photos[1]
         @photo2 = spot.photos[1].fetch_url(10000)
       end
 
-      if spot.photos[2]
+      if spot.photos && spot.photos[2]
         @photo3 = spot.photos[2].fetch_url(10000)
       end
 
-      if spot.photos[3]
+      if spot.photos && spot.photos[3]
         @photo4 = spot.photos[3].fetch_url(10000)
       end
 
-      if spot.photos[4]
+      if spot.photos && spot.photos[4]
         @photo5 = spot.photos[4].fetch_url(10000)
       end
 
@@ -72,7 +72,7 @@ class Stage < ActiveRecord::Base
         @name = spot.name
       end
 
-      if spot.opening_hours["periods"]
+      if spot.opening_hours && spot.opening_hours["periods"]
         @opening_hours = spot.opening_hours["periods"].to_json
       end
 

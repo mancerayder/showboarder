@@ -58,6 +58,7 @@ function map_init(lat, lng, zoom, input, field) {
 
     $('#board_stages_attributes_0_places_reference').val(place.reference);
     $('#map-plz').css("color","green");
+    $('#map-plz').text("You have selected a location.  If this is the correct location, please proceed.");
     
     
 

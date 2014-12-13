@@ -23,7 +23,7 @@
 
             <div class="textbox-wrap">
               <div class="input-group">
-                <span class="input-group-addon "><i class="fa fa-link fa-vanity"></i>showboarder.com/</span>
+                <span class="input-group-addon"><i class="fa fa-link fa-vanity"></i>showboarder.com/</span>
                 <%= f.text_field :vanity_url, class: "form-control", :placeholder => "Custom Url" %>
               </div>
             </div>
@@ -37,7 +37,7 @@
             <%= f.fields_for :ext_links do |ext| %>
               <%= ext.select :ext_site, options_for_select(%w[Twitter Facebook Youtube Instagram]), {}, {:class => "form-control ext-link-select"} %>
               <%= ext.input :url, input_html: {:class => "ext-link-url"}, input_html: {:style => "display:inline;max-width:300px;", :placeholder => "URL"}, label: false %>
-              <%= ext.link_to_remove "Remove this link" %>
+              <%= ext.link_to_remove "<i class=\"fa fa-minus-circle\"></i>".html_safe, class: "btn-ext-link-remove" %>
             <% end %>
 
             <%= f.link_to_add "Add a link (Facebook, Twitter, etc.)", :ext_links, :class => "btn btn-primary" %>

@@ -68,7 +68,6 @@ class BoardsController < ApplicationController
 
   def create
     @board = Board.new(board_params)
-    puts "froop335"
     puts board_params
     if @board.save
       puts @board.ext_links.count
