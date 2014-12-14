@@ -28,7 +28,7 @@ html {
     height: 100%;
 }
 
-img {
+img.spectrum {
     width: auto\9;
     height: auto;
     max-width: 100%;
@@ -348,7 +348,7 @@ p {
     margin: 0 0 20px;
 }
 
-p.ext-link-fields {
+p.tight {
     margin-bottom:0px;
 }
 
@@ -455,7 +455,7 @@ hr.dark-small {
         line-height: 1.6;
     }
 
-    p.ext-link-fields {
+    p.tight {
         margin-bottom:0px;
     }
 }
@@ -3432,7 +3432,7 @@ div.vcenter {
 }
 
 h3.show-title {
-    margin-bottom:20px;
+    margin:0px;
 }
 
 h3.show-acts {

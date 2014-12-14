@@ -62,7 +62,7 @@
       <h3>This show is free!</h3>
     <% end %>
 
-    <% if user_signed_in? && current_user.boarder?(@show.board) && current_user.board_role(@show.board) == "owner" %>
+    <% if user_signed_in? && current_user.boarder?(@show.board) && current_user.board_role(@show.board) == "owner" || "manager" %>
       <p>
         <br>
         <br>

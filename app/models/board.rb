@@ -49,6 +49,14 @@ class Board < ActiveRecord::Base
     end
   end
 
+  def stripe_connected?
+    if self.boarders.first.stripe_recipient_id
+      true
+    else
+      false
+    end
+  end
+
   def ext_links_fontawesomed
     links_html = ""
     self.ext_links.each do |e|

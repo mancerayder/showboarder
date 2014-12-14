@@ -100,13 +100,17 @@ class ShowsController < ApplicationController
 
             dupe.shows << @show
 
-            e.ext_links.each do |l| # update already-saved act with new act links
-              link_uora = dupe.ext_links.find_or_create_by(ext_site:l.ext_site) # uora = updated or added
-              #TODO - remove ext_links that were previously existing and removed
-              link_uora.url = l.url unless destroyed?
+            # e.ext_links.each do |l| # update already-saved act with new act links
+            #   link_uora = dupe.ext_links.find_or_create_by(ext_site: l.ext_site) # uora = updated or added
+            #   #TODO - remove ext_links that were previously existing and removed
+            #   link_uora.url = l.url
 
-              link_uora.save!
-            end
+            #   link_uora.save!
+            # end
+
+            dupe.ext_links = e.ext_links
+            
+            dupe.save!
 
             e.destroy!
           end

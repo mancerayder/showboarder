@@ -35,4 +35,5 @@
 //= stub ./spectrum/plugins/retina/retina.min
 //= stub ./spectrum/plugins/retina/retina
 //= stub ./spectrum/contact_me
+//= stub ./eforms/jquery-1.9.1.intellisense
 // require_tree .

@@ -6,7 +6,7 @@
     <div class="login-form-section">
       <div class="login-content">
         <div class="section-title">
-          <h3>Add a show</h3>
+          <h3 class="text-center">Add a show</h3>
         </div>
 
         <%= simple_nested_form_for [@board, @show], html:{id:"show-form"} do |f| %>
@@ -15,14 +15,27 @@
           </div>
 
           <div class="clearfix">
-            <div class="textbox-wrap textbox-wrap-show">
-              <%= f.label :ticketing_type %>
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-ticket"></i></span>
-                <%= f.select :ticketing_type, options_for_select(["Sell tickets to the show", "Just list the show"]), {}, {:class => 'form-control', :id => "ticketing_type"} %>
-              </div>
-            </div>
 
+            <% if @board.stripe_connected? %>
+              <div class="textbox-wrap textbox-wrap-show">
+                <%= f.label :ticketing_type %>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-ticket"></i></span>
+                  <%= f.select :ticketing_type, options_for_select(["Sell tickets to the show", "Just list the show"]), {}, {:class => 'form-control', :id => "ticketing_type"} %>
+                </div>
+              </div>
+            <% else %>
+              <%= f.hidden_field :ticketing_type, :value => "Just list the show" %>
+              <p class="text-center tight">
+                Currently you can only list free shows
+                <br>
+                Connect Stripe to enable ticket selling
+                <br>
+                <br>
+                <%= render 'shared/stripe_connect_button' %>
+                <br>
+              </p>
+            <% end %>
             <div class="textbox-wrap textbox-wrap-show">
               <label for="show-date">Show Date</label> 
               <div class="input-group date">
@@ -68,21 +81,30 @@
               </div>
             <% end %>
 
-            <div class="textbox-wrap textbox-wrap-show">
-              <%= f.label :price_adv, "Online Ticket Price ($)" %>
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                <%= f.number_field :price_adv, :class => 'cost form-control bfh-number', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0), data_min: "0", data_max: "200", value: "10", id: "price-adv" %>
-              </div>
-            </div>
+            <% if @board.stripe_connected? %>
 
-            <div class="textbox-wrap textbox-wrap-show">
-              <%= f.label :price_door, "Door Ticket Price ($)" %>
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                <%= f.number_field :price_door, :class => 'cost form-control bfh-number', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0), data_min: "0", data_max: "200", value: "12", id: "price-door" %>
+              <div class="textbox-wrap textbox-wrap-show">
+                <%= f.label :price_adv, "Online Ticket Price ($)" %>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                  <%= f.number_field :price_adv, :class => 'cost form-control bfh-number', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0), data_min: "0", data_max: "200", value: "10", id: "price-adv" %>
+                </div>
               </div>
-            </div>
+
+              <div class="textbox-wrap textbox-wrap-show">
+                <%= f.label :price_door, "Door Ticket Price ($)" %>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                  <%= f.number_field :price_door, :class => 'cost form-control bfh-number', :value => (number_with_precision(f.object.price_door, :precision => 2) || 0), data_min: "0", data_max: "200", value: "12", id: "price-door" %>
+                </div>
+              </div>
+
+            <% else %>
+
+              <%= f.hidden_field :price_adv, :value => "0" %>
+              <%= f.hidden_field :price_door, :value => "0" %>
+
+            <% end %>
 
             <div class="textbox-wrap textbox-wrap-show">
               <%= f.label :title, "Show Title (Optional)" %>
@@ -101,7 +123,7 @@
                 <%= ff.input :echonest_id, as: :hidden %>
 
                 <div class="textbox-wrap">
-                  <%= f.label :price_door, "Act Name" %>
+                  <%= ff.label :name, "Act Name" %>
                   <div class="input-group">
                     <span class="input-group-addon "><i class="fa fa-music icon-color"></i></span>
                     <%= ff.input :name, :type => "text", :name => "bandinput", :id=> "bandinput", :class=> "form-control", :required=> "required", label: false %>

@@ -22,7 +22,6 @@ $(function() {
       showError("Please select a location on the map before continuing");
       $('#pac-input').focus();
       $('#map-plz').css("color","red");
-      // e.preventDefault();
       return false
     }
   });
