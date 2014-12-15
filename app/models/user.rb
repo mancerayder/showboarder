@@ -79,19 +79,19 @@ class User < ActiveRecord::Base
     end
   end
 
-  def tickets_reserved_assign
-    if self.reserve_code?
-      cart = Cart.find_by_reserve_code(self.reserve_code)
+  def tickets_reserved_assign(reserve_code)
+    assigned_count = 0
+    if cart = Cart.find_by_reserve_code(reserve_code)
       cart.tickets.each do |t|
         if t && !t.expired?
           t.owner(self)
+          assigned_count +=1
         elsif t
           t.make_open("Reservation expired before state change")
         else
           next
         end
       end
-      self.update(reserve_code:nil)
     end
   end
 
