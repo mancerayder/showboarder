@@ -3,7 +3,7 @@ class BoardsController < ApplicationController
 
   def new
     if !user_signed_in?
-      redirect_to new_user_registration_path
+      redirect_to new_user_registration_path(:path_from => "create_board")
     else
       @board = Board.new
       @stage = @board.stages.build

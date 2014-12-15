@@ -1,8 +1,13 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   def new
     @reserve_code = ""
+    @path_from = ""
     if params[:reserve_code]
       @reserve_code = params[:reserve_code]
+    end
+
+    if params[:path_from] && params[:path_from] == "create_board"
+      @path_from = "create_board"
     end
 
     build_resource({})
@@ -20,7 +25,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_flashing_format?
         sign_up(resource_name, resource)
-        respond_with resource, location: after_sign_up_path_for(resource)
+        if params[:path_from] && params[:path_from] == "create_board"
+          respond_with resource, location: new_board_path
+        else
+          respond_with resource, location: after_sign_up_path_for(resource)
+        end
       else
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format?
         expire_data_after_sign_in!
@@ -33,7 +42,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def resource_params
-    params.require(:user).permit(:name, :reserve_code, :email, :password, :password_confirmation, :provider, :facebook_url, :uid, :nickname, :location, :image)
+    params.require(:user).permit(:name, :reserve_code, :email, :password, :password_confirmation, :provider, :facebook_url, :path_from, :uid, :nickname, :location, :image)
   end
   private :resource_params
 end
