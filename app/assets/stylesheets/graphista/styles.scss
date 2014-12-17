@@ -64,6 +64,10 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
 	font-weight:300;
 }
 
+h2 {
+    margin-top:10px;
+}
+
 .big-text{
     font-size:58px;
     font-weight:300;
@@ -74,8 +78,8 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
 }
 
 .section-title{
-    margin-top:-20px;
-    margin-bottom: 40px;
+    margin-top:0px;
+    margin-bottom: 20px;
     text-align:center;
 }
 
@@ -92,8 +96,13 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
     padding-bottom:140px;
 }
 
+.add-padding-tiny {
+    padding-top:40px;
+    padding-bottom:90px;
+}
+
 .add-padding-small {
-    padding-top:120px;
+    padding-top:80px;
     padding-bottom:90px;
 }
 
@@ -107,6 +116,11 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
 }
 
 .bg-color2{
+    color:#fff;
+    background:#334959;
+}
+
+#services.bg-color2{
     color:#fff;
     background:#334959;
 }
@@ -215,6 +229,10 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{
     -webkit-transition: background .3s ease-in-out;
     -moz-transition: background .3s ease-in-out;
     transition: background .3s ease-in-out;
+}
+
+.btn-circle.tight {
+    margin-top:10px;
 }
 
 .btn-circle:hover,
@@ -779,6 +797,10 @@ section#services.add-padding {
     transform: translateY(100px);
     -webkit-transition:all 0.3s ease-out 0s;
     transition:all 0.3s ease-out 0s;
+}
+
+p.margin-top {
+    margin-top:10px;
 }
 
 .project-item:hover .hover-mask p {
@@ -1379,6 +1401,13 @@ section#services.add-padding {
     body{
         font-size: 15px;
     }
+
+    .devices-preview {
+        max-width:341px;
+        max-height:192px;
+        margin:30px 0px 30px 0px;
+
+    }
     
     .lead{
       font-size:16px;
@@ -1388,6 +1417,12 @@ section#services.add-padding {
     .add-padding {
         padding-top:60px;
         padding-bottom:60px;
+    }
+
+    .add-padding-tiny {
+        padding-top:60px;
+        padding-bottom:90px;
+        margin:-20px;
     }
     
     .big-text{
