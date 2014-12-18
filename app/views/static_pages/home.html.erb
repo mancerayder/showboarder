@@ -29,10 +29,10 @@
   </header><!--End header -->
 
 
-<!-- ==============================================
+    <!-- ==============================================
     SERVICES2
     =============================================== -->
-    <section id="services" class="add-padding-tiny">
+    <section id="services" class="add-padding-tiny bg-color3">
     
       <div class="container">
         
@@ -40,17 +40,19 @@
 
         <div class="row">
 
-          <div class="col-xs-12 service-item color3 scrollimation scale-in">
+          <div class="col-xs-12 text-center scrollimation scale-in">
           
-          <%= image_tag('devices-preview.png', :height=>384, class: "devices-preview") %>  
+            <%= image_tag('devices-preview.png', :height=>320, class: "devices-preview") %>  
             
+            <h3>Just post a show and ticketing, analytics, and cross-device listing are taken care of automatically</h3>
+
           </div>
 
         </div>
 
         <div class="row">
           <div class="col-sm-12 text-center">
-            <a href="#services2" class="scrollto btn btn-circle tight"><i class="fa fa-angle-double-down"></i></a>
+            <a href="#services2" class="scrollto btn btn-circle-2 tight"><i class="fa fa-angle-double-down"></i></a>
           </div>
           
         </div>
@@ -58,7 +60,7 @@
     
     </section>  
 
-<!-- ==============================================
+    <!-- ==============================================
     SERVICES2
     =============================================== -->
     <section id="services2" class="add-padding-tiny">
@@ -69,16 +71,13 @@
 
         <div class="row">
 
-          <div class="col-sm-4 service-item color3 scrollimation scale-in">
+          <div class="col-sm-4 service-item color2 scrollimation scale-in">
           
-            <div class="service-icon"><i class="fa fa-heart"></i></div>
+            <div class="service-icon"><i class="fa fa-dollar"></i></div>
             
-            <h2><strong>Better for Fans</strong></h2>
+            <h2><strong>Better for Business</strong></h2>
             
-            <p style="padding-bottom">Ticketing has been broken for a long time, and fans know it.</p>
-            
-            <p class="margin-top">Showboarder puts your customers in control by making ticket fees completely optional, with a customizable amount going to charity.</p>
-            
+            <p>Showboarder gives your venue a home online that is free to use, mobile friendly, and dead simple to manage. Posting shows is easy and ticketing is automatic.</p>
             
           </div>
 
@@ -88,21 +87,21 @@
             
             <h2><strong>Better for Bands</strong></h2>
             
-            <p class="margin-top">Showboarder event pages make shows easier to promote, and letting fans buy tickets online helps ensure they make it out to the show</p>
+            <p class="margin-top">Showboarder event pages make shows easier to promote, and letting fans buy tickets online helps ensure they make it out to the show.</p>
             
             
           </div>
-        
 
-        
+          <div class="col-sm-4 service-item color3 scrollimation scale-in d2">
           
-          <div class="col-sm-4 service-item color2 scrollimation scale-in d2">
-          
-            <div class="service-icon"><i class="fa fa-dollar"></i></div>
+            <div class="service-icon"><i class="fa fa-heart"></i></div>
             
-            <h2><strong>Better for Business</strong></h2>
+            <h2><strong>Better for Fans</strong></h2>
             
-            <p>Showboarder gives your venue a home online that is free to use, mobile friendly, and dead simple to manage. Just add a show to your Showboard using our automated show entry assistance and all ticketing and analytics are automatically taken care of.</p>
+            <p style="padding-bottom">No more getting slapped with huge ticket fees at checkout</p>
+            
+            <p class="margin-top">Instead of fees, fans can customize a voluntary tip for Showboarder or for charity. It finally makes sense to buy tickets online to local shows!</p>
+            
             
           </div>
           
@@ -137,7 +136,7 @@
           
             <h1 class="big-text">Customer Control</h1>
 
-            <p class="lead">You keep 100% of the take from tickets, with the exception of the fees taken by <a href="https://stripe.com/us/pricing">our payment processor Stripe</a>.
+            <p class="lead">You keep 100% of the take from tickets, with the exception of the fees taken by <a href="https://stripe.com/us/pricing" target="_blank">our payment processor Stripe</a>.
             
             <p class="lead">Showboarder takes no cut, but instead lets consumers leave a voluntary tip for Showboarder or for <a href="http://www.littlekidsrock.org/" target="_blank">charity</a>.</p>
 
@@ -149,7 +148,7 @@
 
         <div class="row">
           <div class="col-sm-12 text-center">
-            <a href="#analytics" class="scrollto btn btn-circle-2"><i class="fa fa-angle-double-down"></i></a>
+            <a href="#analytics" class="scrollto btn btn-circle-2 tight media-tight"><i class="fa fa-angle-double-down"></i></a>
           </div>
           
         </div>        
@@ -206,9 +205,9 @@
         
       
         <div class="row btn-end">
-          <div class="col-sm-4 col-sm-offset-4 text-center">
+          <div class="col-sm-8 col-sm-offset-2 text-center">
 
-            <%= link_to "Create a Showboard Now", new_board_path, class: "btn btn-color2 btn-block btn-header1" %>
+            <%= link_to "Create a Showboard Now", new_board_path, class: "btn btn-color2 btn-create-board" %>
           </div>
         </div>
       </div>

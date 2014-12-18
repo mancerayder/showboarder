@@ -134,6 +134,11 @@ h2 {
     background:#334959;
 }
 
+#services.bg-color3{
+    color:#fff;
+    background:#509B9E;
+}
+
 .bg-color3{
     color:#fff;
     background:#334959;
@@ -240,8 +245,13 @@ h2 {
     transition: background .3s ease-in-out;
 }
 
-.btn-circle.tight {
+.btn-circle.tight,
+.btn-circle-2.tight {
     margin-top:10px;
+}
+
+.btn-circle.super-tight {
+    margin-top:0px;
 }
 
 .btn-circle:hover,
@@ -275,6 +285,10 @@ h2 {
 
 .btn-end {
     margin-top:100px;
+}
+
+.btn.btn-create-board {
+    padding:10px 20px 10px 20px;
 }
 
 
@@ -555,6 +569,7 @@ section#services.add-padding {
     box-shadow: 3px 5px 8px rgba(0,0,0,0.5);
     -webkit-transform: rotate(-5deg);
     transform: rotate(-5deg);
+    margin-top: 100px;
 }
 
 /*-----------------------
@@ -1419,9 +1434,9 @@ section#services.add-padding {
     }
 
     .devices-preview {
-        max-width:341px;
-        max-height:192px;
-        margin:30px 0px 30px 0px;
+        max-width:426px;
+        max-height:240px;
+        margin:0px;
 
     }
     
@@ -1438,7 +1453,7 @@ section#services.add-padding {
     .add-padding-tiny {
         padding-top:60px;
         padding-bottom:90px;
-        margin:-20px;
+        margin-top:-20px;
     }
     
     .big-text{
@@ -1449,6 +1464,10 @@ section#services.add-padding {
     .section-title{
         margin-top:-20px;
         margin-bottom: 40px;
+    }
+
+    .btn.media-tight {
+        margin-top:10px;
     }
     
     #main-nav{
@@ -1526,8 +1545,9 @@ section#services.add-padding {
     
     .polaroid {
         // border:12px solid #fff;
+        margin-top: 0px;
         width:90%;
-        max-width: 500px;
+        max-width: 400px;
         margin:0 auto 35px;
         box-shadow: 3px 5px 8px rgba(0,0,0,0.5);
         -webkit-transform: rotate(-5deg);
