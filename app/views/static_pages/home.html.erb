@@ -2,226 +2,254 @@
   <% if @board %>
     <%= render :file => 'boards/show' %>
   <% else %>
-  	<%= render 'static_pages/signed_in_no_board' %>
+    <%= render 'static_pages/signed_in_no_board' %>
   <% end %>
 <% else %>
-		<header id="home">
-		
-			<div class="container text-center">
+  <header id="home">
+  
+    <div class="container text-center">
 
-				<h1 class="big-text">Showboarder</h1>
+      <h1 class="big-text">Showboarder</h1>
 
-				<p class="header-slug">The simplest way to list and sell tickets to shows at your venue</p>
+      <p class="header-slug">The simplest way to list and sell tickets to shows at your venue</p>
 
 
-				<div class="row landing-buttons">
-					<div class="col-sm-4 col-sm-offset-2 col-xs-6 col-xs-offset-3">
+      <div class="row landing-buttons">
+        <div class="col-sm-4 col-sm-offset-2 col-xs-6 col-xs-offset-3">
 
-						<%= link_to "Create a Showboard", new_board_path, class: "btn btn-color2 btn-block btn-header1" %>
-					</div>
-					<div class="col-sm-4 col-sm-offset-0 col-xs-6 col-xs-offset-3"><a href="#services" class="scrollto">
-						<button name="submit" type="submit" class="btn btn-color1 btn-block btn-header2" data-error-message="Error!" data-sending-message="Sending..." data-ok-message="Message Sent">Learn more</button></a>
-					</div>
-				</div>
-			
-			</div>
-			
-		</header><!--End header -->
+          <%= link_to "Create a Showboard", new_board_path, class: "btn btn-color2 btn-block btn-header1" %>
+        </div>
+        <div class="col-sm-4 col-sm-offset-0 col-xs-6 col-xs-offset-3"><a href="#services" class="scrollto">
+          <button name="submit" type="submit" class="btn btn-color1 btn-block btn-header2" data-error-message="Error!" data-sending-message="Sending..." data-ok-message="Message Sent">Learn more</button></a>
+        </div>
+      </div>
+    
+    </div>
+    
+  </header><!--End header -->
+
 
 <!-- ==============================================
-		SERVICES2
-		=============================================== -->
-		<section id="services" class="add-padding">
-		
-			<div class="container">
-				
-				<h1 class="section-title big-text scrollimation fade-up">Ticketing that makes sense for your venue</h1>
+    SERVICES2
+    =============================================== -->
+    <section id="services" class="add-padding-tiny">
+    
+      <div class="container">
+        
+        <h1 class="section-title scrollimation fade-up large-text">A Showboard is a simple list of your venue's upcoming shows</h1>
 
-				<div class="row">
+        <div class="row">
 
-					<div class="col-sm-4 service-item color3 scrollimation scale-in">
-					
-						<div class="service-icon"><i class="fa fa-heart"></i></div>
-						
-						<h2><strong>Better for Fans</strong></h2>
-						
-						<p>Ticketing has been broken for a long time, and fans know it.</p>
-						<br>
-						<p>Showboarder puts your customers in control by making service fees completely optional, with a customizable amount going to charity.</p>
-						
-						
-					</div>
+          <div class="col-xs-12 service-item color3 scrollimation scale-in">
+          
+          <%= image_tag('devices-preview.png', :height=>384, class: "devices-preview") %>  
+            
+          </div>
 
-					<div class="col-sm-4 service-item color1 scrollimation scale-in d1">
-					
-						<div class="service-icon"><i class="fa fa-music"></i></div>
-						
-						<h2><strong>Better for Bands</strong></h2>
-						
-						<p>Acts playing at your venue want to get people through the door just as bad as you do!<p>
-						<br>
-						<p>Showboarder event pages make shows easier to promote, and letting fans buy tickets online helps ensure they make it out to the show.</p>
-						
-						
-					</div>
-				
+        </div>
 
-				
-					
-					<div class="col-sm-4 service-item color2 scrollimation scale-in d2">
-					
-						<div class="service-icon"><i class="fa fa-dollar"></i></div>
-						
-						<h2><strong>Better for Your Business</strong></h2>
-						
-						<p>Showboarder gives your venue a home online that is free to use, mobile friendly, and dead simple to manage. Just add a show to your Showboard using our automated show entry assistance and all ticketing and analytics are automatically taken care of.</p>
-						
-					</div>
-					
-				</div>
+        <div class="row">
+          <div class="col-sm-12 text-center">
+            <a href="#services2" class="scrollto btn btn-circle tight"><i class="fa fa-angle-double-down"></i></a>
+          </div>
+          
+        </div>
+      </div>
+    
+    </section>  
 
-				<div class="row">
-					<div class="col-sm-12 text-center">
-						<a href="#about" class="scrollto btn btn-circle"><i class="fa fa-angle-double-down"></i></a>
-					</div>
-					
-				</div>
-			</div>
-		
-		</section>	
+<!-- ==============================================
+    SERVICES2
+    =============================================== -->
+    <section id="services2" class="add-padding-tiny">
+    
+      <div class="container">
+        
+        <h1 class="section-title scrollimation fade-up large-text">TICKETING THAT MAKES SENSE FOR YOUR VENUE</h1>
 
+        <div class="row">
 
-		<!-- ==============================================
-		ABOUT
-		=============================================== -->
-		<section id="about" class="add-padding-small bg-color2">
-		
-			<div class="container">
-				
-				<div class="row">
-				
-					<div class="col-sm-6 scrollimation fade-right d1">
-					
-						<img class="img-responsive polaroid" src=<%= asset_path "graphista/tip-pic2.jpg" %> alt="" />
-					
-					</div>
-					
-					<div class="col-sm-6 scrollimation fade-right d3">
-					
-						<h1 class="big-text">Customer Control</h1>
+          <div class="col-sm-4 service-item color3 scrollimation scale-in">
+          
+            <div class="service-icon"><i class="fa fa-heart"></i></div>
+            
+            <h2><strong>Better for Fans</strong></h2>
+            
+            <p style="padding-bottom">Ticketing has been broken for a long time, and fans know it.</p>
+            
+            <p class="margin-top">Showboarder puts your customers in control by making ticket fees completely optional, with a customizable amount going to charity.</p>
+            
+            
+          </div>
 
-						<p class="lead">You keep 100% of the take from tickets, with the exception of the fees taken by <a href="https://stripe.com/us/pricing">our payment processor Stripe</a>.
-						
-						<p class="lead">Showboarder takes no cut, but instead lets consumers leave a voluntary tip for Showboarder or for <a href="http://www.littlekidsrock.org/" target="_blank">charity</a>.</p>
+          <div class="col-sm-4 service-item color1 scrollimation scale-in d1">
+          
+            <div class="service-icon"><i class="fa fa-music"></i></div>
+            
+            <h2><strong>Better for Bands</strong></h2>
+            
+            <p class="margin-top">Showboarder event pages make shows easier to promote, and letting fans buy tickets online helps ensure they make it out to the show</p>
+            
+            
+          </div>
+        
 
-						
-					
-					</div>
-				
-				</div>
+        
+          
+          <div class="col-sm-4 service-item color2 scrollimation scale-in d2">
+          
+            <div class="service-icon"><i class="fa fa-dollar"></i></div>
+            
+            <h2><strong>Better for Business</strong></h2>
+            
+            <p>Showboarder gives your venue a home online that is free to use, mobile friendly, and dead simple to manage. Just add a show to your Showboard using our automated show entry assistance and all ticketing and analytics are automatically taken care of.</p>
+            
+          </div>
+          
+        </div>
 
-				<div class="row">
-					<div class="col-sm-12 text-center">
-						<a href="#analytics" class="scrollto btn btn-circle-2"><i class="fa fa-angle-double-down"></i></a>
-					</div>
-					
-				</div>				
-				
-			</div>
-		
-		</section>
-	
-		<!-- ==============================================
-		SKILLS
-		=============================================== -->
-		<section id="analytics" class="add-padding-small border-bottom-color2">
-		
-			<div class="container">
-				
-				<div class="row">
-				
-					<div class="col-sm-6 col-md-5 text-right scrollimation fade-up d1">
-					
-						<h1 class="big-text">Detailed<br/>Analytics</h1>
-						
-						<p class="lead">Knowledge is power. Learn what works for your customers and your business.</p>
-					
-						<p>Traditional cash-at-the-door ticketing yields little information, but a little data can go a long way. Showboarder helps you learn who your customers are and how, when, and why they are buying.</p>
-					
-					</div>
-				
-					<div class="col-sm-6 col-md-5 col-md-offset-1">
-					
-						<div class="skills-bars">
-						
-							<div class="skills-item skill1">
-								<span class="percent" data-percent="35">35%</span>
-								<p>Repeat</p>
-							</div>
-							<div class="skills-item skill2">
-								<span class="percent" data-percent="65">65%</span>
-								<p>New Cust</p>
-							</div>
-							<div class="skills-item skill3">
-								<span class="percent" data-percent="20">20%</span>
-								<p>Door $</p>
-							</div>
-							<div class="skills-item skill4">
-								<span class="percent" data-percent="80">80%</span>
-								<p>Online $</p>
-							</div>
-							
-						</div>
-					
-					</div>
-					
-				</div>
-				
-			</div>
-			<div class="row btn-end">
-				<div class="col-sm-4 col-sm-offset-4 text-center">
+        <div class="row">
+          <div class="col-sm-12 text-center">
+            <a href="#about" class="scrollto btn btn-circle tight"><i class="fa fa-angle-double-down"></i></a>
+          </div>
+          
+        </div>
+      </div>
+    
+    </section>  
 
-					<%= link_to "Create a Showboard Now", new_board_path, class: "btn btn-color2 btn-block btn-header1" %>
-				</div>
-			</div>
-		
-		</section>
+    <!-- ==============================================
+    ABOUT
+    =============================================== -->
+    <section id="about" class="add-padding-small bg-color2">
+    
+      <div class="container">
+        
+        <div class="row">
+        
+          <div class="col-sm-6 scrollimation fade-right d1">
+          
+            <img class="img-responsive polaroid" src=<%= asset_path "graphista/tip-pic2.jpg" %> alt="" />
+          
+          </div>
+          
+          <div class="col-sm-6 scrollimation fade-right d3">
+          
+            <h1 class="big-text">Customer Control</h1>
 
-		<!-- ==============================================
-		FOOTER
-		=============================================== -->	
-		
-		<footer id="main-footer" class="add-padding bg-color3 border-top-color2">
-		
-			<div class="container">
-			
-				<ul class="social-links text-center">
-					<li><a href="https://twitter.com/showboarder"><i class="fa fa-twitter fa-fw"></i></a></li>
-					<li><a href="#link"><i class="fa fa-facebook fa-fw"></i></a></li>
-					<li><a href="mailto:contact@showboarder.com"><i class="fa fa-envelope fa-fw"></i></a></li>
-				</ul>
-			
-				
-			</div>
-			
-		</footer>
-		
-		<!-- ==============================================
-		SCRIPTS
-		=============================================== -->	
+            <p class="lead">You keep 100% of the take from tickets, with the exception of the fees taken by <a href="https://stripe.com/us/pricing">our payment processor Stripe</a>.
+            
+            <p class="lead">Showboarder takes no cut, but instead lets consumers leave a voluntary tip for Showboarder or for <a href="http://www.littlekidsrock.org/" target="_blank">charity</a>.</p>
 
-		<script>//window.jQuery || document.write('<script src="assets/js/libs/jquery-1.8.2.js">\x3C/script>')</script>
-		
-		<%= javascript_include_tag "graphista/jquery.scrollto.js", "data-turbolinks-track" => true %>
-		<%= javascript_include_tag "graphista/waypoints.js", "data-turbolinks-track" => true %>
-		<%= javascript_include_tag "graphista/jquery.masonry.js", "data-turbolinks-track" => true %>
-		<%= javascript_include_tag "graphista/jquery.flexslider.js", "data-turbolinks-track" => true %>
-		<%= javascript_include_tag "graphista/jquery.backstretch.js", "data-turbolinks-track" => true %>
-		<%= javascript_include_tag "graphista/twitterFetcher_v10_min.js", "data-turbolinks-track" => true %>
-		<%= javascript_include_tag "graphista/scripts.js", "data-turbolinks-track" => true %>
-		
-		
-	</body>
-	
+            
+          
+          </div>
+        
+        </div>
+
+        <div class="row">
+          <div class="col-sm-12 text-center">
+            <a href="#analytics" class="scrollto btn btn-circle-2"><i class="fa fa-angle-double-down"></i></a>
+          </div>
+          
+        </div>        
+        
+      </div>
+    
+    </section>
+  
+    <!-- ==============================================
+    SKILLS
+    =============================================== -->
+    <section id="analytics" class="add-padding-small border-bottom-color2">
+    
+      <div class="container">
+        
+        <div class="row">
+        
+          <div class="col-sm-6 col-md-5 text-right scrollimation fade-up d1">
+          
+            <h1 class="big-text">Detailed<br/>Analytics</h1>
+            
+            <p class="lead">Knowledge is power. Learn what works for your customers and your business.</p>
+          
+            <p>Traditional cash-at-the-door ticketing yields little information, but a little data can go a long way. Showboarder helps you learn who your customers are and how, when, and why they are buying.</p>
+          
+          </div>
+        
+          <div class="col-sm-6 col-md-5 col-md-offset-1">
+          
+            <div class="skills-bars">
+            
+              <div class="skills-item skill1">
+                <span class="percent" data-percent="35">35%</span>
+                <p>Repeat</p>
+              </div>
+              <div class="skills-item skill2">
+                <span class="percent" data-percent="65">65%</span>
+                <p>New Cust</p>
+              </div>
+              <div class="skills-item skill3">
+                <span class="percent" data-percent="20">20%</span>
+                <p>Door $</p>
+              </div>
+              <div class="skills-item skill4">
+                <span class="percent" data-percent="80">80%</span>
+                <p>Online $</p>
+              </div>
+              
+            </div>
+          
+          </div>
+          
+        </div>
+        
+      
+        <div class="row btn-end">
+          <div class="col-sm-4 col-sm-offset-4 text-center">
+
+            <%= link_to "Create a Showboard Now", new_board_path, class: "btn btn-color2 btn-block btn-header1" %>
+          </div>
+        </div>
+      </div>
+    
+    </section>
+
+    <!-- ==============================================
+    FOOTER
+    =============================================== --> 
+    
+    <footer id="main-footer" class="add-padding bg-color3 border-top-color2">
+    
+      <div class="container">
+      
+        <ul class="social-links text-center">
+          <li><a href="https://twitter.com/showboarder"><i class="fa fa-twitter fa-fw"></i></a></li>
+          <li><a href="#link"><i class="fa fa-facebook fa-fw"></i></a></li>
+          <li><a href="mailto:contact@showboarder.com"><i class="fa fa-envelope fa-fw"></i></a></li>
+        </ul>
+      
+        
+      </div>
+      
+    </footer>
+    
+    <!-- ==============================================
+    SCRIPTS
+    =============================================== --> 
+
+    <script>//window.jQuery || document.write('<script src="assets/js/libs/jquery-1.8.2.js">\x3C/script>')</script>
+    
+    <%= javascript_include_tag "graphista/jquery.scrollto.js", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "graphista/waypoints.js", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "graphista/jquery.masonry.js", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "graphista/jquery.flexslider.js", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "graphista/jquery.backstretch.js", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "graphista/twitterFetcher_v10_min.js", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "graphista/scripts.js", "data-turbolinks-track" => true %>
+    
+    
+  </body>
+  
 </html>
 <% end %>

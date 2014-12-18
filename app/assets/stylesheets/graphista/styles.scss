@@ -77,9 +77,18 @@ h2 {
     text-transform:uppercase;
 }
 
+.large-text{
+    font-size:45px;
+    font-weight:300;
+    line-height:62px;
+    letter-spacing:0.01em;
+    word-spacing: 0.15em;
+    text-transform:uppercase;
+}
+
 .section-title{
     margin-top:0px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     text-align:center;
 }
 
@@ -479,7 +488,7 @@ section#services.add-padding {
     text-align:center;
     width:150px;
     height:150px;
-    margin:20px auto 50px;
+    margin:20px auto 25px;
     border-radius:50%;
     font-size:62px;
     line-height:150px;
@@ -530,6 +539,10 @@ section#services.add-padding {
 .service-item p{
     margin: auto;
     max-width: 250px;
+}
+
+.service-item p.margin-top {
+    margin-top:10px;
 }
 
 /*-----------------------
@@ -797,10 +810,6 @@ section#services.add-padding {
     transform: translateY(100px);
     -webkit-transition:all 0.3s ease-out 0s;
     transition:all 0.3s ease-out 0s;
-}
-
-p.margin-top {
-    margin-top:10px;
 }
 
 .project-item:hover .hover-mask p {
@@ -1362,6 +1371,13 @@ p.margin-top {
     
     .big-text{
         font-size:48px;
+        line-height:52px;
+        letter-spacing:0.01em;
+        word-spacing: 0.15em;
+    }
+
+    .large-text{
+        font-size:35px;
         line-height:52px;
         letter-spacing:0.01em;
         word-spacing: 0.15em;
