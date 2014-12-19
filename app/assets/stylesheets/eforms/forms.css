@@ -133,6 +133,11 @@
   margin-top:0px;
 }
 
+.ticket-header {
+  margin-left:0px;
+  margin-right:0px;
+}
+
 .checkout-price-wrapper,
 .checkout-price-wrapper > #amount-product,
 .checkout-price-wrapper > #amount-tip,
@@ -238,6 +243,10 @@
 
 .eternity-form .row.ticket {
   margin-bottom:5px;
+}
+
+.eternity-form .ticket-duplicate {
+  font-size:11px;
 }
 
 .eternity-form .registration-form-action {

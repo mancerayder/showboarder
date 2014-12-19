@@ -24,6 +24,13 @@
             </div>
 
             <div class="textbox-wrap">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-envelope fa-color"></i></span>
+                <%= f.email_field :email, class: "form-control", :placeholder => "My Venue's Contact email (optional)" %>
+              </div>
+            </div>
+
+            <div class="textbox-wrap">
               <%= f.label :header_image %>
               <%= f.file_field :header_image %>
             </div>

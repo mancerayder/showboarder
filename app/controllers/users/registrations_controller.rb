@@ -24,8 +24,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_flashing_format?
         sign_up(resource_name, resource)
-        if params[:reserve_code] && params[:reserve_code] != ""
-          reserve_code = params[:reserve_code]
+        if params[:user][:reserve_code] && params[:user][:reserve_code] != ""
+          reserve_code = params[:user][:reserve_code]
           resource.tickets_reserved_assign(reserve_code)
 
           if resource.tickets && resource.tickets.count > 0
