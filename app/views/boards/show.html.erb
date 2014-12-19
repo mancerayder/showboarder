@@ -6,7 +6,7 @@
       <div class="col-md-6 col-md-offset-3 text-center board-header" data-scrollreveal="enter left over 1s">
         <h1><%= @board.name %></h1>
         <p class="board-address">
-          <%= link_to "#{@board.stages.first.place.formatted_address}".html_safe, "#map-canvas", :alt => "Map of venue location", :class =>"scrollto address-tooltip", :rel => "tooltip", "data-placement" => "bottom", :title => "Click to see map" %>
+          <%= link_to "#{@board.stages.first.place.formatted_address}".gsub(", United States", "").html_safe, "#map-canvas", :alt => "Map of venue location", :class =>"scrollto address-tooltip", :rel => "tooltip", "data-placement" => "bottom", :title => "Click to see map" %>
         </p>
         <p class="board-link-header text-enter">
           Links

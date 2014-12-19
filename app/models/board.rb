@@ -77,7 +77,7 @@ class Board < ActiveRecord::Base
         end
       end
     end
-    if self.email
+    if self.email && self.email != "" && self.email != " "
       links_html += "<a href=\"mailto:#{self.email}\" target=\"_blank\"><i class=\"fa fa-envelope board-ext-link\"></i></a>"
     end
     return links_html.html_safe
