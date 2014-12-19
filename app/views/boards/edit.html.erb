@@ -50,6 +50,10 @@
 
           <%= f.button :submit, :class => "btn btn-primary btn-create-board" %>
 
+          <p class="text-center"><%= link_to "Delete Board", @board, method: :delete, id: @board.id,
+                                         data: { confirm: "Are you sure you would like to delete this board?  This cannot be undone." },
+                                         title: @board.vanity_url, class: "btn btn-large btn-danger" %></p>
+
         <% end %>
       </div>
     </div>

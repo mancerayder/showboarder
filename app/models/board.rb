@@ -6,7 +6,7 @@ class Board < ActiveRecord::Base
   has_many :subscriptions, dependent: :destroy
   has_many :ext_links, as: :linkable, dependent: :destroy
   validates :vanity_url, presence: true, length: {minimum:4, maximum:20}
-  validates :name, presence: true, length: {minimum:3, maximum:20}
+  validates :name, presence: true, length: {minimum:3, maximum:35}
   before_save { self.vanity_url = vanity_url.downcase }
   validates_format_of :vanity_url, :with => /[-a-z0-9_.]/
   accepts_nested_attributes_for :stages, :allow_destroy => true
@@ -67,6 +67,8 @@ class Board < ActiveRecord::Base
           links_html = links_html + "<a href=\"#{e.url}\" target=\"_blank\"><i class=\"fa fa-facebook-square board-ext-link\"></i></a>"
         elsif e.ext_site == "Instagram"
           links_html = links_html + "<a href=\"#{e.url}\" target=\"_blank\"><i class=\"fa fa-instagram board-ext-link\"></i></a>"
+        elsif e.ext_site == "Homepage"
+          links_html = links_html + "<a href=\"#{e.url}\" target=\"_blank\"><i class=\"fa fa-home board-ext-link\"></i></a>"
         elsif e.ext_site == "Youtube"
           links_html = links_html + "<a href=\"#{e.url}\" target=\"_blank\"><i class=\"fa fa-youtube-play board-ext-link\"></i></a>"
         end

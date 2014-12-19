@@ -70,6 +70,11 @@
 .eternity-form .textbox-wrap.textbox-wrap-show {
   padding: 10px 20px 10px 15px;
 }
+
+.eternity-form .textbox-wrap.textbox-wrap-ext-links {
+  padding-bottom:5px;
+}
+
 .eternity-form .textbox-wrap .input-group {
   border: 1px solid #e0e0e0;
   background-color: #ffffff;
@@ -85,6 +90,12 @@
   background-color: transparent;
   border: none;
 }
+
+.eternity-form .textbox-wrap .input-group .input-group-addon.tight {
+  padding-right:0px;
+}
+
+
 .eternity-form .textbox-wrap .input-group input,
 .eternity-form .textbox-wrap .input-group .form-control,
 .eternity-form .textbox-wrap .input-group input:focus,

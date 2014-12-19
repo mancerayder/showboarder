@@ -7,7 +7,13 @@ $(function() {
   }
 
   function extLinkPrepend(event) {
-    event.field.find('.url').val(event.field.find('.ext-link-select').val().toLowerCase() + ".com/");
+    var site = event.field.find('.ext-link-select').val()
+    if (site == "Homepage") {
+      event.field.find('.url').val("");
+    }
+    else {
+      event.field.find('.url').val(site.toLowerCase() + ".com/");
+    }
   }
 
   $(document).on('nested:fieldAdded', function (event) {
@@ -25,4 +31,6 @@ $(function() {
       return false
     }
   });
+
+  $("#btn-add-link").click();
 });

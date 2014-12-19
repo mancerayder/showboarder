@@ -3,11 +3,16 @@
   <div class="container">
     <div class="padding-top hidden-xs"></div>
     <div class="row">
-      <div class="col-md-6 col-md-offset-3 text-center" data-scrollreveal="enter left over 1s">
+      <div class="col-md-6 col-md-offset-3 text-center board-header" data-scrollreveal="enter left over 1s">
         <h1><%= @board.name %></h1>
         <p class="board-address">
           <%= link_to "#{@board.stages.first.place.formatted_address}".html_safe, "#map-canvas", :alt => "Map of venue location", :class =>"scrollto address-tooltip", :rel => "tooltip", "data-placement" => "bottom", :title => "Click to see map" %>
         </p>
+        <p class="board-link-header text-enter">
+          Links
+        </p>
+        <hr>
+        
         <p class="ext-links-fontawesomed">
           <% if @board.ext_links.count > 0 %>
             <%= @board.ext_links_fontawesomed %>
@@ -57,5 +62,5 @@
   height="300"
   frameborder="0" style="border:0"
   src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB7grClbBKAv-FBjK8GWXXKjCI0-tHG63s
-    &q=<%= @board.stages.first.place.name.gsub(" ","+") + @board.stages.first.place.formatted_address.gsub(" ", "+")  %>">
+    &q=<%= @board.stages.first.place.name.gsub(" ","+").gsub("&", "") + @board.stages.first.place.formatted_address.gsub(" ", "+").gsub("$", "")  %>">
 </iframe>

@@ -43,5 +43,7 @@ class ActsController < ApplicationController
 
   def show
     @act = Act.find_by(id:params[:id])
+
+    @shows = @act.shows.where("show_at > ?", Date.tomorrow).order(:show_at).limit(8)
   end
 end

@@ -122,13 +122,13 @@
 
                 <%= ff.input :echonest_id, as: :hidden %>
 
-                <div class="textbox-wrap">
+                <div class="textbox-wrap textbox-wrap-ext-links">
                   <%= ff.label :name, "Act Name" %>
                   <div class="input-group">
                     <span class="input-group-addon "><i class="fa fa-music icon-color"></i></span>
                     <%= ff.input :name, :type => "text", :name => "bandinput", :id=> "bandinput", :class=> "form-control", :required=> "required", label: false %>
                   </div>
-                  <span class="help-block text-center">
+                  <span class="help-block text-center" id="echo-tip">
                     Suggestions will drop down as you type
                     <br>
                     Select to auto-fill <%= link_to "echonest", "http://www.echonest.com", :target => "blank" %> data
@@ -146,6 +146,9 @@
                 <% end %>
               <div class="text-center">
                 <button type="button" id="btn-echoclear" class="btn btn-default btn-echoclear btn-echoclear-hide">Clear echonest data</button>
+                <span class="help-block btn-echoclear-hide" id="echo-reminder">
+                  Please check that these links are correct
+                </span>
               </div>
 
               <p class="text-center"><%= ff.link_to_add "<i class=\"fa fa-plus\"></i> Add a link".html_safe, :ext_links, class: "btn btn-success" %></p>

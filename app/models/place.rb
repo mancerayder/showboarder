@@ -1,3 +1,3 @@
 class Place < ActiveRecord::Base
-  belongs_to :stage, dependent: :destroy
+  belongs_to :stage
 end

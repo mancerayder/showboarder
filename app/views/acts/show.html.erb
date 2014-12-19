@@ -16,7 +16,7 @@
       <% if @act.shows.count == 0 %>
         <p>This act currently does not have any shows scheduled.</p>
       <% else %>
-        <% @act.shows.each do |s| %>
+        <% @shows.each do |s| %>
           <div class="row">
             <div class="band-show">
               <%= link_to s.board.name, s.board %> on <%= link_to s.show_at.to_time.strftime('%b %e'), board_show_path(s.board, s), :class => "band-link" %>

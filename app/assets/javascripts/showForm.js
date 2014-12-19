@@ -60,9 +60,13 @@
             success: function (data) {
               var echoField = field.find('.hidden').filter('input');
               var echoButton = field.find('.btn-echoclear');
+              var echoReminder = field.find('#echo-reminder')
+              var echoTip = field.find('#echo-tip')
 
               if (echoButton.hasClass("btn-echoclear-hide")) {
                 echoButton.removeClass("btn-echoclear-hide");
+                echoReminder.removeClass("btn-echoclear-hide");
+                echoTip.addClass("btn-echoclear-hide");
               }
 
               echoButton.click(function() {
@@ -73,10 +77,14 @@
                 if (echoField.val() === "") {
                   if (!echoButton.hasClass("btn-echoclear-hide")) {
                     echoButton.addClass("btn-echoclear-hide");
+                    echoReminder.addClass("btn-echoclear-hide");
+                    echoTip.removeClass("btn-echoclear-hide");
                   }
                 } else {
                   if (echoButton.hasClass("btn-echoclear-hide")) {
                     echoButton.removeClass("btn-echoclear-hide");
+                    echoReminder.removeClass("btn-echoclear-hide");
+                    echoTip.addClass("btn-echoclear-hide");
                   }
                 }              
               });

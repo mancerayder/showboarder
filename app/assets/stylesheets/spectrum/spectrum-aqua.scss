@@ -420,6 +420,15 @@ hr.dark-small {
     border-top: 3px solid #3e444d;
 }
 
+.board-header > hr {
+    margin:0px auto 0px auto;
+    max-width:50px;
+}
+
+p.board-link-header {
+    margin-bottom:0px;
+}
+
 .text-dark {
     color: #3e444d;
 }
@@ -1664,6 +1673,10 @@ div.row.ticket {
     display:inline-block;
     max-width: 400px;
     // margin: 30px 0px 30px 0px;
+}
+
+p.ext-links-fontawesomed > a:hover {
+    color:#52dbeb;
 }
 
 .add-nested-fields {
