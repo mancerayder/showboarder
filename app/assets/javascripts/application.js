@@ -31,7 +31,5 @@
 //= require_tree ./spectrum
 //= require_tree ./eforms
 //= require ./graphista/jquery.scrollto
-//= stub ./spectrum/plugins/retina/retina.min
-//= stub ./spectrum/plugins/retina/retina
 //= stub ./spectrum/contact_me
 // require_tree .
