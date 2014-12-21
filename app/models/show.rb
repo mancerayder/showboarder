@@ -134,15 +134,7 @@ class Show < ActiveRecord::Base
     end
     return attendees
   end
-
-  # def attendees_checked_in # this was from before attendees were normalized in the react code
-  #   attendees = Hash.new { |hash, key| hash[key] = []}
-
-  #   self.tickets.where(state: "used").each do |t|
-  #     attendees[t.ticket_owner.name] = attendees[t.ticket_owner.name] << t
-  #   end
-  # end
-
+  
   def checkin_attendee(id, type)
     tickets = self.tickets.where(ticket_owner_id: id, ticket_owner_type: type, state: "owned")
 
@@ -168,28 +160,4 @@ class Show < ActiveRecord::Base
       t.unuse
     end
   end
-
-  # def tickets_state(state, quantity, buyer_id, buyer_type)
-  #   if self.unsold_count <= quantity
-  #     #go through tickets of state that should be changed by state and change state buyer_id and buyer_type as appropriate via ticket state method 
-  #     self.tickets.each do |t|
-  #       if state == "reserved"
-  #         if t.state == "open"
-  #           t.update_attributes(state:state,ticket_owner_id:buyer_id, ticket_owner_type:buyer_type)
-  #           quantity = quantity - 1
-  #         end
-  #       end
-  #       if state == "owned"
-  #         if t.state == ("open" || "canceled")
-  #           t.update_attributes(state:state,ticket_owner_id:buyer_id, ticket_owner_type:buyer_type)
-  #           quantity = quantity - 1
-  #         end
-  #       end
-  #       break if quantity == 1
-  #     end
-  #   else
-  #     flash[:error] = "Sorry, not enough tickets are available at this time."
-  #     redirect to show_path(@show)
-  #   end
-  # end
 end

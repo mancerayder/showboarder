@@ -20,17 +20,7 @@ class Ticket < ActiveRecord::Base
         self.guid = SecureRandom.random_number(1_000_000_000_000_000_000).to_s(32)
       end
     end
-  end  
-
-  # def buy_or_die
-  #   Rufus::Scheduler.singleton.in '15m' do
-  #     self.reload
-  #     if self.state == "reserved"
-  #       self.reload
-  #       self.make_open("Scheduled reservation expiration")
-  #     end
-  #   end
-  # end
+  end
 
   def expired?
     if (self.reserved_at && (DateTime.now - DateTime.parse(self.reserved_at.to_s)) > (DateTime.now - (DateTime.now - 15.minutes))) || (self.state != "reserved")

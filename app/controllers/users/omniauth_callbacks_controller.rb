@@ -21,7 +21,5 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       flash[:error] = "Please create a Showboarder account before connecting with Stripe."
       redirect_to new_user_registration_url
     end
-
-    # raise request.env["omniauth.auth"].to_yaml
   end  
 end

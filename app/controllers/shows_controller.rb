@@ -15,8 +15,6 @@ class ShowsController < ApplicationController
     @show.tickets_clear_expired_reservations
     if user_signed_in?
       current_user.tickets_clear_expired_reservations
-      # @tickets = Ticket.where(ticket_owner_id:current_user.id, ticket_owner_type:current_user.class.to_s, state:"reserved")
-      # @tickets = current_user.tickets_retrieve_and_clear_expired
       @tickets = current_user.tickets.where(state:"reserved")
       @cards = current_user.cards_sorted
     else
@@ -57,7 +55,6 @@ class ShowsController < ApplicationController
   def create
     @board = Board.find_by_vanity_url(params[:board_id])
     @show = @board.shows.new(show_params)
-    # @act = @show.acts.build(show_params["acts_attributes"])
     @show.show_at = ApplicationController.helpers.date_plus_time(params[:show_date], params[:show_time], @board.timezone)
     @show.door_at = ApplicationController.helpers.date_plus_time(params[:show_date], params[:door_time], @board.timezone)
     @show.stage = @board.stages.first
@@ -100,14 +97,6 @@ class ShowsController < ApplicationController
 
             dupe.shows << @show
 
-            # e.ext_links.each do |l| # update already-saved act with new act links
-            #   link_uora = dupe.ext_links.find_or_create_by(ext_site: l.ext_site) # uora = updated or added
-            #   #TODO - remove ext_links that were previously existing and removed
-            #   link_uora.url = l.url
-
-            #   link_uora.save!
-            # end
-
             dupe.ext_links = e.ext_links
             
             dupe.save!
@@ -126,15 +115,8 @@ class ShowsController < ApplicationController
     end
   end
 
-  # def ticketed
-  #   @board = Board.find_by_vanity_url(params[:board_id])
-  #   @show = Show.find_by(params[:id])
-  # end
-
   def checkin
     @show = Show.find(params[:show_id])
-
-    # @attendees = @show.attendees.sort
   end
 
   def checkin_attendee
@@ -142,11 +124,8 @@ class ShowsController < ApplicationController
     @attendee = params[:attendee]
 
     if @show.checkin_attendee(@attendee["attendee_id"], @attendee["attendee_type"])
-      # format.html { redirect_to @user, notice: 'User was successfully created.' }
-      # format.js   {}
       render :json => { status: :checked_in }
     else
-      # format.html { render action: "new" }
       render :json => { status: :unprocessable_entity }
     end
   end
@@ -156,11 +135,8 @@ class ShowsController < ApplicationController
     @attendee = params[:attendee]
 
     if @show.checkout_attendee(@attendee["attendee_id"], @attendee["attendee_type"])
-      # format.html { redirect_to @user, notice: 'User was successfully created.' }
-      # format.js   {}
       render :json => { status: :checkedOut }
     else
-      # format.html { render action: "new" }
       format.json { render json: {attendee: @attendee["attendee_id"]}, status: :unprocessable_entity }
     end
   end
@@ -171,12 +147,6 @@ class ShowsController < ApplicationController
     attendees = @show.attendees.sort_by do |name|
       name.split(" ").last
     end
-
-    # attendees_checked_in = @show.attendees_checked_in.sort_by do |name|
-    #   name.split(" ").last
-    # end
-
-    # @all_attendees = [attendees, attendees_checked_in]
 
     respond_to do |format|
       format.json   { render :json => attendees.to_json }

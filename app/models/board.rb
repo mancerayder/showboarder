@@ -87,6 +87,5 @@ class Board < ActiveRecord::Base
     place = self.stages.first.place
     result = GoogleTimezone.fetch(place.lat, place.lng, language: 'en', signature: ENV["GOOGLE_KEY"])
     self.update(timezone: result.time_zone_id)
-    # self.update(timezone: ActiveSupport::TimeZone[self.stages.first.place.utc_offset/60].to_s)
   end
 end

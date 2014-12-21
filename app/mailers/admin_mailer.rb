@@ -18,9 +18,4 @@ class AdminMailer < ActionMailer::Base
 
   def past_due(charge_id)
   end
- 
-  # def zoop(user)
-  #   @user = user
-  #   mail(subject: "New beta Signup: #{@user.email}")
-  # end  
 end

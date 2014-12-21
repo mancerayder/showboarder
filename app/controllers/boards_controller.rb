@@ -27,29 +27,8 @@ class BoardsController < ApplicationController
     end
   end
 
-  # def payout
-  #   @board = Board.find_by_vanity_url(params[:board_id])
-
-  #   if current_user && current_user.boarder?(@board)
-
-  #   else
-  #     flash[:error] = "Sorry, you must be logged in to an account with management privileges for this board in order to access this page."
-  #     redirect_to @board
-  #   end
-  # end
-
-  # def ticketed
-  #   @sale = Sale.new
-  #   @amount = 2500
-  #   @board = Board.find_by_vanity_url(params[:board_id])
-  #   @actionee_type = "board"
-  #   if user_signed_in?
-  #     @cards = current_user.cards_sorted
-  #   end
-  # end
-
-  def simple_ticketed
-    #TODO Find out why this is getting called twice 
+  def ticketed
+    #TODO Find out if/why this is getting called twice 
     @board = Board.find_by_vanity_url(params[:board_id])
 
     if user_signed_in? and !current_user.stripe_recipient_id
@@ -71,7 +50,6 @@ class BoardsController < ApplicationController
     puts board_params
     if @board.save
       puts @board.ext_links.count
-      # @stage1.first.name = @board.name
       @board.stages.each do |s|
         s.places_gather
       end
@@ -89,7 +67,6 @@ class BoardsController < ApplicationController
     @board = Board.find_by_vanity_url(params[:id])
 
     @shows = @board.shows.where("show_at > ?", Date.tomorrow).order(:show_at).paginate(page: params[:page])
-    # @shows = @board.shows.where(:show_at > Date.tomorrow).order(:show_at)
   end
 
   def destroy
@@ -100,10 +77,6 @@ class BoardsController < ApplicationController
   end
 
   private
-
-    # def stage_params
-    #   params.require(:stage).permit(:id, :board_id, :name, :places_reference, :capacity, :places_json, :_destroy, :places_formatted_address_short)
-    # end
 
     def board_params
       params.require(:board).permit(:id, :name, :vanity_url, :header_image, :places_reference, :email, :paid_tier, :state, :ext_links_attributes => [:id, :board_id, :ext_site, :url, :linkable_type, :_destroy], :stages_attributes => [:id, :board_id, :name, :places_reference, :capacity, :places_json, :_destroy, :places_formatted_address_short])
