@@ -239,8 +239,8 @@ class Sale < ActiveRecord::Base
   end
 
   def send_receipt
-    # ReceiptMailer.delay.receipt(self.id)
-    # MailchimpWorker.perform_async(guid) if Rails.configuration.mailchimp[:enabled]
+    ReceiptMailer.delay.receipt(self.id)
+    MailchimpWorker.perform_async(guid) if Rails.configuration.mailchimp[:enabled]
   end
 
   def populate_guid

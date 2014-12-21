@@ -4,5 +4,8 @@ class CreateCartsTickets < ActiveRecord::Migration
       t.belongs_to :cart
       t.belongs_to :ticket
     end
+
+    add_index :carts_tickets, :cart_id
+    add_index :carts_tickets, :ticket_id
   end
 end

@@ -7,5 +7,6 @@ class CreateExtLinks < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :ext_links, [:linkable_id, :linkable_type]
   end
 end

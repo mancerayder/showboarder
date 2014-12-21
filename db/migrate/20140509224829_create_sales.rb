@@ -13,5 +13,7 @@ class CreateSales < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :sales, [:actioner_id, :actioner_type]
+    add_index :sales, [:actionee_id, :actionee_type]
   end
 end

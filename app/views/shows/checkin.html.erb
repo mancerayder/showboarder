@@ -172,7 +172,7 @@
     });
    
   React.renderComponent(
-    <CheckInList source="/<%= @show.board.vanity_url %>/shows/<%= @show.id %>/attendees" checkInRoute="/<%= @show.board.vanity_url %>/shows/<%= @show.id %>/checkinattendee" checkOutRoute="/<%= @show.board.vanity_url %>/shows/<%= @show.id %>/checkoutattendee" />,
+    <CheckInList source="/<%= @show.vanity_url %>/shows/<%= @show.id %>/attendees" checkInRoute="/<%= @show.vanity_url %>/shows/<%= @show.id %>/checkinattendee" checkOutRoute="/<%= @show.vanity_url %>/shows/<%= @show.id %>/checkoutattendee" />,
     document.getElementById('react-test')
   );
 </script>

@@ -18,14 +18,12 @@ class Users::SessionsController < Devise::SessionsController
     sign_in(resource_name, resource)
     yield resource if block_given?
     if params[:user][:reserve_code] && params[:user][:reserve_code] != ""
-      puts "froop3"
       @reserve_code = params[:user][:reserve_code]
       if resource.tickets_reserved_assign(@reserve_code)
         ticket = resource.tickets.first
         respond_with resource, location: board_show_checkout_path(ticket.show.board, ticket.show)
       end
     else
-      puts "froop4"
       respond_with resource, location: after_sign_in_path_for(resource)
     end
   end  

@@ -10,10 +10,6 @@ class CreateShows < ActiveRecord::Migration
       t.datetime :show_at
       t.decimal :price_adv, :precision => 8, :scale => 2
       t.decimal :price_door, :precision => 8, :scale => 2
-      # t.boolean :pwyw, :null => false, :default => false
-      # t.boolean :for_sale
-      # t.boolean :rsvp_only
-      # t.boolean :ticketed
       t.string :ticketing_type, :default => "none"
       t.integer :custom_capacity
       t.integer :payer_id
@@ -21,5 +17,8 @@ class CreateShows < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :shows, :board_id
+    add_index :charges, :stage_id
   end
 end

@@ -38,11 +38,11 @@ class Ability
     end
 
     can :crud, Ticket do |ticket|
-      user.user_boards.where(board_id:ticket.show.board_id, role:"owner").length > 0
+      user.user_boards.where(board_id:ticket.board_id, role:"owner").length > 0
     end
 
     can :crud, Ticket do |ticket|
-      user.user_boards.where(board_id:ticket.show.board_id, role:"manager").length > 0
+      user.user_boards.where(board_id:ticket.board_id, role:"manager").length > 0
     end
 
     can :crud, Ticket do |ticket|

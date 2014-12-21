@@ -47,6 +47,7 @@ gem "aws-sdk"
 group :development do
   gem 'sqlite3', '1.3.8'
   gem 'rspec-rails', '3.0.2'
+  gem 'rails_best_practices', '1.15.4'
 end
 
 group :test do

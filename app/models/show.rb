@@ -8,6 +8,7 @@ class Show < ActiveRecord::Base
   has_and_belongs_to_many :acts
   accepts_nested_attributes_for :acts, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :ext_links, :reject_if => :all_blank, :allow_destroy => true
+  delegate :vanity_url, :to => :board, :prefix => true
 
   def destroy
     raise "Cannot delete a show with sold tickets. Email contact@showboarder.com if you need to do this" unless self.tickets_sold == 0

@@ -9,5 +9,9 @@ class CreateCharges < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :charges, :sale_id
+    add_index :charges, [:actionee_id, :actionee_type]
+    add_index :charges, [:actioner_id, :actioner_type]
   end
 end

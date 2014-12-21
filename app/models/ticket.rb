@@ -5,6 +5,7 @@ class Ticket < ActiveRecord::Base
   belongs_to :referral_band
   has_and_belongs_to_many :carts
   has_paper_trail
+  delegate :board, :to => :show, :prefix => true
 
   validates_uniqueness_of :guid
 

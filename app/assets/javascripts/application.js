@@ -23,7 +23,6 @@
 //= require gmaps
 //= require retina_tag
 //= require jquery.countdown
-//= require jquery.payment
 //= require jquery_nested_form
 //= require bootstrap-datepicker
 //= require bootstrap-formhelpers-number
@@ -35,5 +34,4 @@
 //= stub ./spectrum/plugins/retina/retina.min
 //= stub ./spectrum/plugins/retina/retina
 //= stub ./spectrum/contact_me
-//= stub ./eforms/jquery-1.9.1.intellisense
 // require_tree .

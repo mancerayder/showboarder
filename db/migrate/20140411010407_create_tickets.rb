@@ -15,5 +15,7 @@ class CreateTickets < ActiveRecord::Migration
 
       t.timestamps
     end
+    
+    add_index :tickets, [:ticket_owner_id, :ticket_owner_type]
   end
 end

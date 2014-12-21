@@ -10,5 +10,7 @@ class CreateStages < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :stages, :board_id
   end
 end
