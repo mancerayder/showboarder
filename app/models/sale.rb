@@ -47,7 +47,7 @@ class Sale < ActiveRecord::Base
         if actioner.stripe_id #If user has an associated stripe customer, retrieve it
           customer = Stripe::Customer.retrieve(actioner.stripe_id)
 
-          if token_type == "card" #If purchase is being made with saved card 
+          if token_type == "card" #If purchase is being made with saved card. Not currently supported but left it here
             card = customer.cards.retrieve(stripe_token)
           
           else # Else use the token to create the stripe card
@@ -65,24 +65,24 @@ class Sale < ActiveRecord::Base
           actioner.update(stripe_id: customer.id)
         end
 
-        if stripe_remember_card
-          actioner.update(stripe_default_card: card.id)
+        # if stripe_remember_card
+        #   actioner.update(stripe_default_card: card.id)
 
-          if actionee_type == "Board" || token_type == "card"
-            customer.default_card = card.id
-            customer.save
-          end
+        #   if actionee_type == "Board" || token_type == "card"
+        #     customer.default_card = card.id
+        #     customer.save
+        #   end
 
-          if token_type == "token"
-            Card.create(user_id: actioner.id,
-              stripe_id: card.id,
-              last4: card.last4,
-              expiration: Date.new(card.exp_year, card.exp_month, 1),
-              brand: card.type,
-              state: "confirmed"
-              )
-          end
-        end
+        #   if token_type == "token"
+        #     Card.create(user_id: actioner.id,
+        #       stripe_id: card.id,
+        #       last4: card.last4,
+        #       expiration: Date.new(card.exp_year, card.exp_month, 1),
+        #       brand: card.type,
+        #       state: "confirmed"
+        #       )
+        #   end
+        # end
 
       else # Customer and card for guest
         customer = Stripe::Customer.create( # TODO: retrieve guests matched by email if preexisting
@@ -160,7 +160,7 @@ class Sale < ActiveRecord::Base
           end
         end
 
-      else #Creates subscription for boards
+      else #Creates subscription for boards, no longer supported
         # if sub = customer.subscriptions.create(
         #     plan: plan
         #     )
@@ -187,14 +187,14 @@ class Sale < ActiveRecord::Base
       s.actioner = options[:actioner]
       s.actionee = options[:actionee]
       s.stripe_token = options[:stripe_token]
-      s.stripe_remember_card = options[:stripe_remember_card]
+      # s.stripe_remember_card = options[:stripe_remember_card]
       s.am_base = options[:am_base]
       s.am_added = options[:am_added]
       s.am_tip = options[:am_tip]
       s.am_sb = options[:am_sb]
       s.am_charity = options[:am_charity]
     end
-    # t.opt_in = options[:opt_in]
+    # t.opt_in = options[:opt_in] # newsletter and coupon functionality for the future
     #   t.affiliate_id = options[:affiliate].try(:id)
 
     #   if options[:coupon_id]
@@ -208,20 +208,20 @@ class Sale < ActiveRecord::Base
     sale
   end
 
-  def self.create_for_board(options={})
-    sale = new do |s|
-      s.actioner = options[:actioner]
-      s.actionee = options[:actionee]
-      s.stripe_token = options[:stripe_token]
-      s.plan = options[:plan]
-      s.stripe_remember_card = options[:stripe_remember_card]
-    end
+  # def self.create_for_board(options={})
+  #   sale = new do |s|
+  #     s.actioner = options[:actioner]
+  #     s.actionee = options[:actionee]
+  #     s.stripe_token = options[:stripe_token]
+  #     s.plan = options[:plan]
+  #     s.stripe_remember_card = options[:stripe_remember_card]
+  #   end
 
-    sale
-  end
+  #   sale
+  # end
 
-  def self.create_for_show(options={})
-  end
+  # def self.create_for_show(options={})
+  # end
 
   def queue_job!
     PaymentsWorker.perform_async(guid)

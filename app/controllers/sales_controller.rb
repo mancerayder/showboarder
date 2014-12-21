@@ -15,7 +15,7 @@ class SalesController < ApplicationController
     token = params[:stripeToken]
     @board = Board.find_by_vanity_url(params[:board_id])
     @buyer = nil
-    remember = false
+    # remember = false
     @actionee_type = "Cart"
 
     @amount = 0
@@ -51,7 +51,7 @@ class SalesController < ApplicationController
         actioner: @buyer,
         actionee: @cart,
         stripe_token: token,
-        stripe_remember_card: remember,
+        # stripe_remember_card: remember,
         am_base: params[:am_base],
         am_added: params[:am_added],
         am_tip: params[:am_tip],
