@@ -26,7 +26,7 @@
 //= require jquery_nested_form
 //= require bootstrap-datepicker
 //= require bootstrap-formhelpers-number
-//= require react
+//= require react.min
 //= require JSXTransformer
 //= require_tree ./spectrum
 //= require_tree ./eforms
