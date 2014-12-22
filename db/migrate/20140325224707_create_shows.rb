@@ -19,6 +19,6 @@ class CreateShows < ActiveRecord::Migration
     end
 
     add_index :shows, :board_id
-    add_index :charges, :stage_id
+    add_index :shows, :stage_id
   end
 end
