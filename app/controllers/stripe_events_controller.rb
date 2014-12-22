@@ -40,7 +40,7 @@ class StripeEventsController < ApplicationController
   end
 
   def stripe_charge_succeeded(charge)
-    sale = Sale.find_by!(stripe_token: charge.id)
+    sale = Sale.find_by!(stripe_id: charge.id)
     AdminMailer.delay.receipt(sale.id)
     UserMailer.delay.receipt(sale.id)
   end  

@@ -3,6 +3,10 @@ module ApplicationHelper
     return (stored * 100).to_i
   end
 
+  def int_formatted_price(amount)
+    sprintf("$%0.2f", (amount || 0) / 100.0)
+  end
+
   def just_month_year(date)
     jmy = ""
     jmy = jmy + date.month.to_s + "/" + date.year.to_s

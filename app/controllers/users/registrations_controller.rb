@@ -19,6 +19,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     build_resource(sign_up_params)
     reserve_code = ""
     resource_saved = resource.save
+    AdminMailer.delay.new_user(resource.id)
     yield resource if block_given?
     if resource_saved
       if resource.active_for_authentication?

@@ -15,6 +15,12 @@ class UserMailer < ActionMailer::Base
 
   def receipt(guid)
     @sale = Sale.find_by(guid: guid)
+    @tickets = @sale.actionee.tickets
+    @show = @sale.actionee.tickets.first.show
+
+    if @sale
+      mail(to: @sale.actioner.email, subject: "Tickets Purchased").deliver
+    end
   end
 
   def cancellation(subscription_id) 

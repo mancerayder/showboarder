@@ -47,12 +47,12 @@ class Sale < ActiveRecord::Base
         if actioner.stripe_id #If user has an associated stripe customer, retrieve it
           customer = Stripe::Customer.retrieve(actioner.stripe_id)
 
-          if token_type == "card" #If purchase is being made with saved card. Not currently supported but left it here
-            card = customer.cards.retrieve(stripe_token)
+          # if token_type == "card" #If purchase is being made with saved card. Not currently supported but left it here
+          #   card = customer.cards.retrieve(stripe_token)
           
-          else # Else use the token to create the stripe card
+          # else # Else use the token to create the stripe card
             card = customer.cards.create(card:stripe_token)
-          end
+          # end
 
         else #If user does not have an associated stripe customer, create one for it and save it to the user
           customer = Stripe::Customer.create(
@@ -198,8 +198,8 @@ class Sale < ActiveRecord::Base
   end
 
   def send_receipt
-    ReceiptMailer.delay.receipt(self.id)
-    MailchimpWorker.perform_async(guid) if Rails.configuration.mailchimp[:enabled]
+    UserMailer.delay.receipt(guid)
+    AdminMailer.delay.receipt(guid)
   end
 
   def populate_guid
