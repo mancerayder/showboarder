@@ -65,25 +65,6 @@ class Sale < ActiveRecord::Base
           actioner.update(stripe_id: customer.id)
         end
 
-        # if stripe_remember_card
-        #   actioner.update(stripe_default_card: card.id)
-
-        #   if actionee_type == "Board" || token_type == "card"
-        #     customer.default_card = card.id
-        #     customer.save
-        #   end
-
-        #   if token_type == "token"
-        #     Card.create(user_id: actioner.id,
-        #       stripe_id: card.id,
-        #       last4: card.last4,
-        #       expiration: Date.new(card.exp_year, card.exp_month, 1),
-        #       brand: card.type,
-        #       state: "confirmed"
-        #       )
-        #   end
-        # end
-
       else # Customer and card for guest
         customer = Stripe::Customer.create( # TODO: retrieve guests matched by email if preexisting
           email: actioner.email,
@@ -160,16 +141,9 @@ class Sale < ActiveRecord::Base
           end
         end
 
-      else #Creates subscription for boards, no longer supported
-        # if sub = customer.subscriptions.create(
-        #     plan: plan
-        #     )
-
-        #   actioner.board_role_assign(actionee, "owner")
-        #   actionee.update(paid_tier:1, paid_at:Time.now)
-        #   Subscription.create(user_id:actioner.id, board_id:actionee.id, paid_at: DateTime.now, paid_until: DateTime.now + 1.month, plan: plan, stripe_id: sub.id)
-        # end
-      end # TODO : handle new default cards so they don't destroy the old ones - like for subscriptions. NOTE: not necessary unless stripe checkout is ditched
+      else 
+        #Create subscription for boards, no longer supported
+      end
     self.finish!
 
     rescue Stripe::StripeError => e
@@ -207,21 +181,6 @@ class Sale < ActiveRecord::Base
     # actioner.save
     sale
   end
-
-  # def self.create_for_board(options={})
-  #   sale = new do |s|
-  #     s.actioner = options[:actioner]
-  #     s.actionee = options[:actionee]
-  #     s.stripe_token = options[:stripe_token]
-  #     s.plan = options[:plan]
-  #     s.stripe_remember_card = options[:stripe_remember_card]
-  #   end
-
-  #   sale
-  # end
-
-  # def self.create_for_show(options={})
-  # end
 
   def queue_job!
     PaymentsWorker.perform_async(guid)

@@ -10,9 +10,11 @@ class CreateSales < ActiveRecord::Migration
       t.string :guid
       t.string :state
       t.string :plan
+      t.boolean :opt_in, :null => false, :default => false
 
       t.timestamps
     end
+    
     add_index :sales, [:actioner_id, :actioner_type]
     add_index :sales, [:actionee_id, :actionee_type]
   end
