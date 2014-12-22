@@ -4,7 +4,7 @@ class AdminMailer < ActionMailer::Base
 
   def new_user(user)
     @user = User.find_by_id(user)
-    mail(subject: "New user #{@user.email}}")
+    mail(subject: "New user #{@user.email}")
   end
 
   def dispute(charge_id)
