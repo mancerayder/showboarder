@@ -29,7 +29,6 @@
 //= require react.min
 //= require JSXTransformer
 //= require_tree ./spectrum
-//= require_tree ./graphista
 //= require_tree ./eforms
 //= require ./graphista/jquery.scrollto
 //= stub ./spectrum/contact_me
