@@ -42,12 +42,20 @@ gem 'less-rails', '~> 2.6.0'
 gem 'therubyracer', '0.12.1'
 gem 'postrank-uri', '~> 1.0.18'
 gem "paperclip", "~> 4.2"
-gem "aws-sdk"
+gem "aws-sdk", "1.60.1"
 
 group :development do
   gem 'sqlite3', '1.3.8'
   gem 'rspec-rails', '3.0.2'
   gem 'rails_best_practices', '1.15.4'
+  gem 'capistrano', '3.2.1'
+  # rails specific capistrano funcitons
+  gem 'capistrano-rails', '1.1.1'
+  # integrate bundler with capistrano
+  gem 'capistrano-bundler', '1.1.3'
+  # if you are using RVM
+  gem 'capistrano-rvm', '0.1.1'
+  gem 'rvm-capistrano', '1.5.0'
 end
 
 group :test do
@@ -62,4 +70,5 @@ end
 group :production do
   gem 'pg', '0.15.1'
   gem 'rails_12factor', '0.0.2'
+  gem 'unicorn', '4.8.3'
 end

@@ -28,3 +28,15 @@ showboarder.com.key
 /www_showboarder_com
 www_showboarder_com.crt
 /notes.txt
+
+# capistrano
+/config/deploy.rb
+/lib/capistrano/*
+/config/deploy/*
+/Capfile
+
+# custom
+/config/database.yml
+/config/unicorn.rb
+/config/unicorn_init.sh
+/.rufus-scheduler.lock
