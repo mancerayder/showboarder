@@ -496,7 +496,7 @@
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (min-device-pixel-ratio: 1.5) {
   .eternity-form .icheckbox_polaris,
   .eternity-form .iradio_polaris {
-    background-image: <%= asset_path "eforms/polaris@2x.png" %>;
+    background-image: <%= asset_path "eforms/polaris.png" %>;
     -webkit-background-size: 310px 31px;
     background-size: 310px 31px;
   }
@@ -558,7 +558,7 @@
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (min-device-pixel-ratio: 1.5) {
   .eternity-form .icheckbox_square-blue,
   .eternity-form .iradio_square-blue {
-    background-image: <%= asset_path "eforms/blue@2x.pn" %>;
+    background-image: <%= asset_path "eforms/blue.png" %>;
     -webkit-background-size: 240px 24px;
     background-size: 240px 24px;
   }
