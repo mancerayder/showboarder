@@ -78,18 +78,20 @@ Showboarder::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
+
+  config.action_mailer.default_url_options = { :host => ENV['APP_DOMAIN'], :protocol => 'https'}
+  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address:        ENV['SMTP_SERVER_ADDRESS'],
     port:           ENV['SMTP_SERVER_PORT'].to_i,
     user_name:      ENV['SMTP_SERVER_USERNAME'],
     password:       ENV['SMTP_SERVER_PASSWORD'],
-    authentication: 'login',
-    domain:         ENV['SMTP_SERVER_DOMAIN']
+    domain:         ENV['SMTP_SERVER_DOMAIN'],
+    ssl: true,
+    authentication: :plain
   }
 
-  config.action_mailer.default_url_options = {host: ENV['APP_DOMAIN'], protocol: 'https'}
-  config.action_mailer.raise_delivery_errors = true
 
   config.paperclip_defaults = {
     storage: :s3,
