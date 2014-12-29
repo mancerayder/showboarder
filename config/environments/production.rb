@@ -79,7 +79,7 @@ Showboarder::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
 
-  config.action_mailer.default_url_options = { :host => ENV['APP_DOMAIN'], :protocol => 'https'}
+  config.action_mailer.default_url_options = { :host => ENV['APP_DOMAIN'] } # , :protocol => 'https'
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
@@ -88,7 +88,7 @@ Showboarder::Application.configure do
     user_name:      ENV['SMTP_SERVER_USERNAME'],
     password:       ENV['SMTP_SERVER_PASSWORD'],
     domain:         ENV['SMTP_SERVER_DOMAIN'],
-    ssl: true,
+    # ssl: true,
     authentication: :plain
   }
 
