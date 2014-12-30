@@ -3,7 +3,6 @@ class Board < ActiveRecord::Base
   has_many :boarders, through: :user_boards, source: :boarder
   has_many :stages, dependent: :destroy
   has_many :shows, dependent: :destroy
-  has_many :subscriptions, dependent: :destroy
   has_many :ext_links, as: :linkable, dependent: :destroy
   validates :vanity_url, presence: true, length: {minimum:4, maximum:20}
   validates :name, presence: true, length: {minimum:3, maximum:35}
