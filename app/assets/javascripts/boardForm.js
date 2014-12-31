@@ -30,6 +30,12 @@ $(function() {
       $('#map-plz').css("color","red");
       return false
     }
+    
+    if ($('#board_header_image').val() == "") {
+      showError("Please add a showboard header image before continuing");
+      $('#board_header_image').focus();
+      return false
+    }
   });
 
   $("#btn-add-link").click();
