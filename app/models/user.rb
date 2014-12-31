@@ -19,8 +19,9 @@ class User < ActiveRecord::Base
         facebook_url:auth.info.urls.Facebook,
         facebook_uid:auth.uid,
         facebook_image:auth.info.image,
-        facebook_nickname:auth.info.nickname,
-        location:auth.info.location)
+        # location:auth.info.location,
+        facebook_nickname:auth.info.nickname
+        )
       user
     else
       user = User.create(name:auth.info.name,
@@ -31,8 +32,9 @@ class User < ActiveRecord::Base
         email:auth.info.email,
         facebook_image:auth.info.image,
         facebook_nickname:auth.info.nickname,
-        facebook_location:auth.info.location,
+        # facebook_location:auth.info.location,
         password:Devise.friendly_token[0,20])
+      AdminMailer.delay.new_user(user.id)
       user
     end
   end
