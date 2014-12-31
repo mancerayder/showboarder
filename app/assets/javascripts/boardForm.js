@@ -1,9 +1,9 @@
 $(function() {
   map_init(39.850033, -95.6500523, 4, 'pac-input', 'map-canvas');
 
-  function showError(error) {
-    $('#form-errors').html(error);
-    $('#form-errors').show();
+  function showError(error, div) {
+    $(div).html(error);
+    $(div).show();
   }
 
   function extLinkPrepend(event) {
@@ -25,14 +25,14 @@ $(function() {
 
   $('#board-form').submit(function(e) {
     if ($('#board_stages_attributes_0_places_reference').val() == '') {
-      showError("Please select a location on the map before continuing");
+      showError("Please select a location on the map before continuing", "#form-error-map");
       $('#pac-input').focus();
       $('#map-plz').css("color","red");
       return false
     }
-    
+
     if ($('#board_header_image').val() == "") {
-      showError("Please add a showboard header image before continuing");
+      showError("Please add a showboard header image before continuing", "#form-error-header");
       $('#board_header_image').focus();
       return false
     }

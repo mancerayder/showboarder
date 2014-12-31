@@ -9,6 +9,9 @@
           <h3>Create a new Showboard</h3>
         </div>
         <%= simple_nested_form_for @board, html:{id:"board-form"} do |f| %>
+          <%= render 'shared/error_messages', object: f.object %>
+          <div id="form-errors" class="alert alert-warning" style="display:none;">
+          </div>
 
           <div class="clearfix">
             <div class="textbox-wrap">
@@ -31,7 +34,8 @@
                 <%= f.email_field :email, class: "form-control", :placeholder => "My Venue's Contact email (optional)" %>
               </div>
             </div>
-
+            <div id="form-error-header" class="alert alert-warning" style="display:none;">
+            </div>
             <div class="textbox-wrap">
               <%= f.label :header_image, "Showboard Header Image (Recommended 1800px × 780px, < 1MB)" %>
               <br>
@@ -59,7 +63,8 @@
               </div>
 
 
-
+              <div id="form-error-map" class="alert alert-warning" style="display:none;">
+              </div>
               <%= ff.input :places_formatted_address_short, label:'Pin Your Venue\'s Location', :placeholder => "Enter a location", input_html: { :id => "pac-input", :class=>"controls"} %>
               <div id="map-canvas"></div>
               <div id="map-plz">
@@ -67,9 +72,7 @@
               </div>
               <%= ff.input :places_reference, as:"hidden" %>
             <% end %>
-            <%= render 'shared/error_messages', object: f.object %>
-            <div id="form-errors" class="alert alert-warning" style="display:none;">
-            </div>
+
             <%= f.button :submit, :class => "btn btn-primary btn-create-board" %>
           <% end %>
         </div>
