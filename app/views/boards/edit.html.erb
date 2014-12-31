@@ -18,8 +18,8 @@
 
             <div class="textbox-wrap">
               <div class="input-group">
-                <span class="input-group-addon "><i class="fa fa-link fa-vanity"></i>showboarder.com/</span>
-                <%= f.text_field :vanity_url, class: "form-control", :placeholder => "Custom Url" %>
+                <span class="input-group-addon tight"><i class="fa fa-link fa-vanity"></i>showboarder.com/</span>
+                <%= f.text_field :vanity_url, class: "form-control", style: "padding-left:2px;", :placeholder => "Custom Url" %>
               </div>
             </div>
 
@@ -50,7 +50,7 @@
 
             <div class="textbox-wrap">
                 
-                <%= ff.input :capacity, input_html: {class:"form-control bfh-number", data_min: "0", value: "100"}, label: "Capacity (number of tickets available for each show)" %>
+                <%= ff.input :capacity, input_html: {class:"form-control bfh-number", data_min: "0", value: @board.stages.first.capacity}, label: "Capacity (number of tickets available for each show)" %>
               </div> 
             
           <% end %>
