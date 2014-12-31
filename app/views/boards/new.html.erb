@@ -9,9 +9,6 @@
           <h3>Create a new Showboard</h3>
         </div>
         <%= simple_nested_form_for @board, html:{id:"board-form"} do |f| %>
-          <%= render 'shared/error_messages', object: f.object %>
-          <div id="form-errors" class="alert alert-warning" style="display:none;">
-          </div>
 
           <div class="clearfix">
             <div class="textbox-wrap">
@@ -70,7 +67,9 @@
               </div>
               <%= ff.input :places_reference, as:"hidden" %>
             <% end %>
-
+            <%= render 'shared/error_messages', object: f.object %>
+            <div id="form-errors" class="alert alert-warning" style="display:none;">
+            </div>
             <%= f.button :submit, :class => "btn btn-primary btn-create-board" %>
           <% end %>
         </div>
