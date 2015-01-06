@@ -241,10 +241,13 @@ Devise.setup do |config|
   end
 
   if Rails.env.production?
-    config.omniauth :stripe_connect,
-    ENV['STRIPE_CONNECT_CLIENT_ID'],
-    ENV['STRIPE_LIVE_KEY'],
-    :scope => 'read_write' # or :scope => 'read_only'
+    Rails.application.config.middleware.use OmniAuth::Builder do
+      provider :stripe_connect, ENV['STRIPE_CONNECT_CLIENT_ID'], ENV['STRIPE_LIVE_KEY']
+    end
+    # config.omniauth :stripe_connect,
+    # ENV['STRIPE_CONNECT_CLIENT_ID'],
+    # ENV['STRIPE_LIVE_KEY'],
+    # :scope => 'read_write' # or :scope => 'read_only'
   end
 
   #, :scope => 'user,public_repo'
