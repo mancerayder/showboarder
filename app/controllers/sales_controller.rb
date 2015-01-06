@@ -11,7 +11,6 @@ class SalesController < ApplicationController
 
   def checkout
     @show = Show.find(params[:show_id])
-    puts params[:stripeToken]
     token = params[:stripeToken]
     @board = Board.find_by_vanity_url(params[:board_id])
     @buyer = nil

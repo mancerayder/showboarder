@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150106001354) do
+ActiveRecord::Schema.define(version: 20150106010140) do
 
   create_table "acts", force: true do |t|
     t.string   "name"
@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(version: 20150106001354) do
     t.integer  "utc_offset"
     t.string   "vicinity"
     t.string   "website"
-    t.string   "reference"
+    t.text     "reference",                  limit: 255
     t.integer  "stage_id"
     t.datetime "created_at"
     t.datetime "updated_at"

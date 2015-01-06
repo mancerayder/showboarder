@@ -2,6 +2,7 @@ Showboarder::Application.routes.draw do
 
   devise_for :users, :path => '/users', :controllers => { :sessions => "users/sessions", :registrations => "users/registrations", :omniauth_callbacks => "users/omniauth_callbacks" }
   root to: 'static_pages#home'
+  match '/auth/stripe_connect/callback' => 'users/omniauth_callbacks_controller#stripe_connect', :as => :auth_callback, via: [:get, :post]
   match '/about',   to: 'static_pages#about',   via: 'get'
   
   match '/status/:guid'      => 'sales#status',   via: :get,  as: :status

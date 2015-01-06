@@ -13,8 +13,6 @@ class Act < ActiveRecord::Base
   def ext_links_fontawesomed
     links_html = ""
     self.ext_links.each do |e|
-      puts e.ext_site
-      puts e.url
       if e.url? && e.ext_site?
 
         if e.ext_site == "Twitter"
