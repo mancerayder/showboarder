@@ -1,13 +1,12 @@
 Showboarder::Application.routes.draw do
-  devise_scope :user do
-    get '/auth/stripe_connect/callback', to: 'users/omniauth_callbacks#stripe_connect'
-  end
-  
   devise_for :users, :path => '/users', :controllers => { :sessions => "users/sessions", :registrations => "users/registrations", :omniauth_callbacks => "users/omniauth_callbacks" }
   root to: 'static_pages#home'
 
   # devise_scope :user do
   #   match '/auth/stripe_connect/callback' => 'users/omniauth_callbacks#stripe_connect', :as => :auth_callback, via: [:get, :post]
+  # end
+  # devise_scope :user do
+  #   get '/auth/stripe_connect/callback', to: 'users/omniauth_callbacks#stripe_connect'
   # end
 
   match '/about',   to: 'static_pages#about',   via: 'get'

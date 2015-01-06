@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :async,
          :recoverable, :rememberable, :trackable, :validatable #, :confirmable
-  devise :omniauthable, :omniauth_providers => [:stripe_connect] #:facebook, 
+  devise :omniauthable, :omniauth_providers => [:stripe_connect, :facebook]  
   has_many :user_boards, foreign_key: "boarder_id", dependent: :destroy
   has_many :boards, through: :user_boards, source: :board
   has_many :tickets, as: :ticket_owner
