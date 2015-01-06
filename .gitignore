@@ -8,6 +8,8 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+/dump.rdb
+/public/system/boards/*
 
 # Ignore other unneeded files.
 database.yml
