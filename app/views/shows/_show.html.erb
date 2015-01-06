@@ -5,6 +5,15 @@
         <h4 class="show-meta">
           <%= show.show_at.to_time.strftime('%b %e') %>
         </h4>
+        <% if show.ticketing_type == "paid" %>
+          <h4 class="show-meta">
+            <%= number_to_currency(show.price_adv, unit:"$", :precision => 0) %>
+          </h4>
+        <% else %>
+          <h4 class="show-meta">
+            FREE
+          </h4>
+        <% end %>
         <% if show.show_at %>
           <h4 class="show-meta">
             <%= show.show_at.to_time.strftime('%l:%M %p') %>
@@ -29,17 +38,14 @@
               -
             <% end %>          
           <% end %>
-          <% if show.ticketing_type == "free" %>
-            - FREE!
-          <% end %>
         </h3>
       </div><!--
     --><div class="col-sm-3 col-xs-4 col-md-2 vcenter text-right">
           <% if show.ticketing_type == "paid" %>
-            <%= link_to "Buy Tickets #{number_to_currency(show.price_adv, unit:"$", :precision => 0)}", board_show_path(@board, show), class: "btn btn-default" %><!--
+            <%= link_to "Buy Tickets #{number_to_currency(show.price_adv, unit:"$", :precision => 0)}", board_show_path(@board, show), class: "btn btn-default btn-show" %><!--
       --><br>
           <% else %>
-            <%= link_to "Event Details", board_show_path(@board, show), class: "btn btn-default" %><!--
+            <%= link_to "Event Details", board_show_path(@board, show), class: "btn btn-default btn-show" %><!--
         --><br>
           <% end %>
         <% if user_signed_in? && current_user.boarder?(show.board) && current_user.board_role(show.board) == "owner" %>

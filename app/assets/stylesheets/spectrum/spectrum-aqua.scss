@@ -497,6 +497,12 @@ a.light-text:focus {
     color: #b9bfcc;
 }
 
+h4.show-meta {
+    font-size:16px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+}
 
 @media(min-width:767px) {
 
@@ -3272,6 +3278,10 @@ fieldset[disabled] .btn-danger.active {
     -moz-transition: all .3s ease-in-out;
     transition: all .3s ease-in-out;
     -o-transitino: all .3s ease-in-out;
+}
+
+.btn-show {
+    width: 146px;
 }
 
 .btn-xing:hover,

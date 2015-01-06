@@ -18,7 +18,7 @@ Showboarder::Application.routes.draw do
   resources :boards, only: [:create]
 
   resources :boards, except: [:index, :create], path:'' do
-    match '/ticketed'    => 'boards#simple',      via: :get
+    match '/ticketed'    => 'boards#ticketed',      via: :get
     resources :shows do
       match '/checkin', to: 'shows#checkin', via: :get
       match '/checkinattendee', to: 'shows#checkin_attendee', via: :post
