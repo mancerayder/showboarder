@@ -46,19 +46,11 @@
     </h3>
     <br>
 
-
-    <a href="https://twitter.com/share" class="twitter-share-button" data-text="Excited for this show at <%= @show.board.twitter_or_name %> <%= @show.acts_twitter_or_name %>" data-via="showboarder" data-size="large">Tweet</a>
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-
     <h3>
       <% if @show.ext_links.count == 1 %>
         <%= link_to "<i class=\"fa fa-facebook-square\"></i>".html_safe + "  Facebook Event Page", @show.ext_links.first.url, target: "_blank" %>
       <% end %>
     </h3>
-    <% if user_signed_in? %>
-
-    <% end %>
-    <br>
 
     <% if @show.ticketing_type == "Ticketed" || @show.ticketing_type == "paid" %>
       <%= render 'reserve_tickets_button' %>
@@ -66,10 +58,35 @@
       <h3>This show is free!</h3>
     <% end %>
 
+
+    <div class="row text-center">
+      <div class="col-xs-12" style="margin-top:40px;margin-bottom:10px;">
+        Excited? Share this show!
+      </div>
+      <br>
+    </div>
+    <div class="row" >
+      <div class="col-xs-6 text-right">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-text="Excited for this show at <%= @show.board.twitter_or_name %> <%= @show.acts_twitter_or_name %>" data-via="showboarder">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+      </div>
+      <div class="col-xs-6 text-left">
+
+        <div class="fb-share-button" style="padding-left:50px;" data-href="https://www.showboarder.com/<%= @board.vanity_url %>/<%= @show.id %>" data-layout="button"></div>
+
+        <div id="fb-root"></div>
+        <script>(function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1431631563750055&version=v2.0";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+      </div>
+    </div>
+
     <% if user_signed_in? && current_user.boarder?(@show.board) && (current_user.board_role(@show.board) == "owner" || current_user.board_role(@board) == "manager") %>
       <p>
-        <br>
-        <br>
         <%= link_to "Edit show", edit_board_show_path(@board, @show) %>
       </p>
     <% end %>

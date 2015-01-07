@@ -25,7 +25,7 @@ class Show < ActiveRecord::Base
     self.acts.each do |act|
       combined += act.twitter_or_name
       if act != self.acts.last
-        combined += " "
+        combined += ", "
       end
     end
     if combined.length > 2

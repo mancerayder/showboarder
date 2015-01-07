@@ -39,6 +39,10 @@ class Sale < ActiveRecord::Base
     end
   end
 
+  def show
+    actionee.tickets.first.show
+  end
+
   def charge_card
     begin
       if email_subscribe

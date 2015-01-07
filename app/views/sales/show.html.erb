@@ -13,10 +13,32 @@
         <br>
         and reference sale ID <%= @sale.guid %></p>
 
-        <h3>
-        <a href="https://twitter.com/share" class="twitter-share-button" data-text="Excited for this show at <%= @sale.actionee.tickets.first.show.board.twitter_or_name %> <%= @sale.actionee.tickets.first.show.acts_twitter_or_name %>" data-via="showboarder" data-size="large">Tweet</a>
-          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-        </h3>
+
+        <div class="row text-center">
+          <div class="col-xs-12" style="margin-bottom:10px;">
+            Excited? Share this show!
+          </div>
+          <br>
+        </div>
+        <div class="row" style="margin-bottom:30px;">
+          <div class="col-xs-6 text-right">
+            <a href="https://twitter.com/share" class="twitter-share-button" data-text="Excited for this show at <%= @show.board.twitter_or_name %> <%= @show.acts_twitter_or_name %>" data-url="https://www.showboarder.com/<%= @board.vanity_url %>/<%= @show.id %>" data-via="showboarder">Tweet</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+          </div>
+          <div class="col-xs-6 text-left">
+
+            <div class="fb-share-button" style="padding-left:50px;" data-href="https://www.showboarder.com/<%= @board.vanity_url %>/<%= @show.id %>" data-layout="button"></div>
+
+            <div id="fb-root"></div>
+            <script>(function(d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0];
+              if (d.getElementById(id)) return;
+              js = d.createElement(s); js.id = id;
+              js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1431631563750055&version=v2.0";
+              fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));</script>
+          </div>
+        </div>
 
         <p>
           <%= link_to "Return to #{@sale.actionee.tickets.first.show.board.name}'s Showboard", @sale.actionee.tickets.first.show.board, class: "btn btn-primary" %>

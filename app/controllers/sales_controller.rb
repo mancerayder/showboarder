@@ -1,6 +1,8 @@
 class SalesController < ApplicationController
   def show
     @sale = Sale.find_by!(guid: params[:guid])
+    @show = @sale.show
+    @board = @show.board
   end
 
   def status
