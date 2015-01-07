@@ -11,7 +11,7 @@ class Act < ActiveRecord::Base
   accepts_nested_attributes_for :ext_links, :reject_if => :all_blank, :allow_destroy => true
 
   def twitter_or_name
-    if twitter = self.ext_links.where(ext_site: "Twitter")
+    if twitter = self.ext_links.where(ext_site: "Twitter") && twitter.count > 0
       twitter = "@" + twitter.first.url.split("/").last
       return twitter
     else
