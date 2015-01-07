@@ -4,6 +4,9 @@ class ExtLink < ActiveRecord::Base
   before_save { 
     if self.url?
       self.url = PostRank::URI.clean(url)
+      if self.url[self.url.length - 1] == "/"
+        self.url = self.url[0..self.url.length-2]
+      end
     end
   }
   

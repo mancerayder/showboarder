@@ -10,6 +10,15 @@ class Act < ActiveRecord::Base
                     uniqueness: { case_sensitive: false }
   accepts_nested_attributes_for :ext_links, :reject_if => :all_blank, :allow_destroy => true
 
+  def twitter_or_name
+    if twitter = self.ext_links.where(ext_site: "Twitter")
+      twitter = "@" + twitter.first.url.split("/").last
+      return twitter
+    else
+      return name
+    end
+  end
+
   def ext_links_fontawesomed
     links_html = ""
     self.ext_links.each do |e|

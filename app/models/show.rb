@@ -20,6 +20,20 @@ class Show < ActiveRecord::Base
     Sale.create(actioner_id:actioner.id, actioner_type:actioner.class.to_s, actionee_id:self.id, actionee_type:"Show", state_before:state_before, state_after:state_after)
   end
 
+  def acts_twitter_or_name
+    combined = "" 
+    self.acts.each do |act|
+      combined += act.twitter_or_name
+      if act != self.acts.last
+        combined += " "
+      end
+    end
+    if combined.length > 2
+      combined = "featuring " + combined
+    end
+    return combined
+  end
+
   def tickets_make  # needs to account for paid, pwyw, rsvp_only
     if self.ticketing_type == "paid" || self.ticketing_type == "Ticketed"
       if self.custom_capacity?

@@ -30,6 +30,15 @@ class Board < ActiveRecord::Base
     vanity_url
   end
 
+  def twitter_or_name
+    if twitter = self.ext_links.where(ext_site: "Twitter")
+      twitter = "@" + twitter.first.url.split("/").last
+      return twitter
+    else
+      return name
+    end
+  end
+
   def owner
     User.find_by_id(user_boards.find_by(board_id:self.id, role:"owner").boarder_id)
   end
