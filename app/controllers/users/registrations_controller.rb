@@ -52,7 +52,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def resource_params
-    params.require(:user).permit(:name, :reserve_code, :email, :password, :password_confirmation, :provider, :facebook_url, :path_from, :uid, :nickname, :location, :image)
+    params.require(:user).permit(:name, :reserve_code, :email, :password, :password_confirmation, :provider, :facebook_url, :path_from, :uid, :nickname, :location, :image, :email_subscribe)
   end
   private :resource_params
 end

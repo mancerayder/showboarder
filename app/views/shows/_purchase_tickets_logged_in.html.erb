@@ -84,6 +84,15 @@
       </div>
 
       <div class="login-form-action clearfix">
+        <div class="row">
+          <div class="col-xs-10">
+            Get emails about more cool shows at this venue?
+          </div>
+          <div class="col-xs-2">
+            <%= check_box_tag :email_subscribe %>
+          </div>
+        </div>
+        <hr>
         <button id="stripeButton" class="btn btn-success pull-right green-btn">Purchase</button>
         <div class="btn btn-success pull-right" disabled="disabled" style="width: 105px; height: 32px; display:none;" id="spinner-button"><img src="<%= asset_path('green_spinner_2.gif') %>" style="height:20px;" ></div>
       </div>
@@ -189,6 +198,7 @@
                   stripeToken: res.id,
                   name: res.card.name,
                   email: res.email,
+                  email_subscribe: $('#email_subscribe').is(':checked'),
                   am_base: <%= @amount %>,
                   am_added: (parseFloat($("#amount-product").text()) - <%= @amount %>),
                   am_tip: $('#amount-tip').text(),

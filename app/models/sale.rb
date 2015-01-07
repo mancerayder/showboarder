@@ -41,6 +41,9 @@ class Sale < ActiveRecord::Base
 
   def charge_card
     begin
+      if email_subscribe
+        actioner.email_subscribe(actionee.tickets.first.show.board)
+      end
       ################## THE PART THAT SETS THE CUSTOMER AND CARD ###################
       if self.actioner_type == "User" #Customer and card for user
 
@@ -144,6 +147,7 @@ class Sale < ActiveRecord::Base
       else 
         #Create subscription for boards, no longer supported
       end
+
     self.finish!
 
     rescue Stripe::StripeError => e
@@ -167,6 +171,7 @@ class Sale < ActiveRecord::Base
       s.am_tip = options[:am_tip]
       s.am_sb = options[:am_sb]
       s.am_charity = options[:am_charity]
+      s.email_subscribe = options[:email_subscribe]
     end
     # t.opt_in = options[:opt_in] # newsletter and coupon functionality for the future
     #   t.affiliate_id = options[:affiliate].try(:id)

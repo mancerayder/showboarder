@@ -9,6 +9,10 @@ class Guest < ActiveRecord::Base
   has_many :email_subscribeds, :through => :email_subscriptions, source: :board
 
   def email_subscribe(board)
-    email_subscriptions.create(board_id: board.id, email_subscriber_type: "Guest", email_subscriber_id: id)
+    if email_subscriptions.find_by(board_id: board.id, email: email)
+    	# do nothing
+    else
+      email_subscriptions.create(board_id: board.id, email_subscriber_type: "User", email_subscriber_id: id, email: email)
+    end
   end
 end

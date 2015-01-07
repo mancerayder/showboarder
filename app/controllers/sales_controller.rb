@@ -15,6 +15,10 @@ class SalesController < ApplicationController
     @board = Board.find_by_vanity_url(params[:board_id])
     @buyer = nil
     @actionee_type = "Cart"
+    email_subscribe = false
+    if params[:email_subscribe] == true || params[:email_subscribe] == "true"
+      email_subscribe = true
+    end
 
     @amount = 0
 
@@ -53,6 +57,7 @@ class SalesController < ApplicationController
         am_added: params[:am_added],
         am_tip: params[:am_tip],
         am_sb: params[:am_sb],
+        email_subscribe: email_subscribe,
         am_charity: params[:am_charity]
         )
 

@@ -16,7 +16,6 @@ class ShowsController < ApplicationController
     if user_signed_in?
       current_user.tickets_clear_expired_reservations
       @tickets = current_user.tickets.where(state:"reserved")
-      @cards = current_user.cards_sorted
     else
       @reserve_code = ""
       @tickets = []

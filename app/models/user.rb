@@ -74,7 +74,13 @@ class User < ActiveRecord::Base
   end
 
   def email_subscribe(board)
-    email_subscriptions.create(board_id: board.id, email_subscriber_type: "User", email_subscriber_id: id)
+    if existing_sub = email_subscriptions.find_by(board_id: board.id, email: email)
+      if existing_sub.email_subscriber_type == "Guest"
+        existing_sub.update(email_subscriber_type: "User", email_subscriber_id: id) #reassigns email subscription to user with same email
+      end
+    else
+      email_subscriptions.create(board_id: board.id, email_subscriber_type: "User", email_subscriber_id: id, email: email)
+    end
   end
 
   def tickets_clear_expired_reservations
@@ -92,7 +98,7 @@ class User < ActiveRecord::Base
       cart.tickets.each do |t|
         if t && !t.expired?
           t.owner(self)
-          assigned_count +=1
+          assigned_count += 1
         elsif t
           t.make_open("Reservation expired before state change")
         else

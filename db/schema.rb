@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150106225113) do
+ActiveRecord::Schema.define(version: 20150107190326) do
 
   create_table "acts", force: true do |t|
     t.string   "name"
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(version: 20150106225113) do
     t.integer  "board_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "email"
   end
 
   create_table "ext_links", force: true do |t|
@@ -163,6 +164,7 @@ ActiveRecord::Schema.define(version: 20150106225113) do
     t.decimal  "am_tip",               precision: 8, scale: 2
     t.decimal  "am_sb",                precision: 8, scale: 2
     t.decimal  "am_charity",           precision: 8, scale: 2
+    t.boolean  "email_subscribe",                              default: false
   end
 
   create_table "shows", force: true do |t|
