@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   has_many :tickets, as: :ticket_owner
   has_many :sales, as: :actioner
   has_many :charges, as: :actioner
+  has_many :email_subscriptions, :as => :email_subscriber
+  has_many :email_subscribeds, :through => :email_subscriptions, source: :board
 
   attr_accessor :login
 
@@ -69,6 +71,10 @@ class User < ActiveRecord::Base
 
   def board_role_assign(board, role)
     user_boards.find_by(board_id: board.id).update(role: role)
+  end
+
+  def email_subscribe(board)
+    email_subscriptions.create(board_id: board.id, email_subscriber_type: "User", email_subscriber_id: id)
   end
 
   def tickets_clear_expired_reservations

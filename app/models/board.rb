@@ -17,7 +17,10 @@ class Board < ActiveRecord::Base
   validates_with AttachmentSizeValidator, :attributes => :header_image, :less_than => 1.megabytes
   validates_with AttachmentPresenceValidator, :attributes => :header_image
   before_post_process :check_file_size
-  
+  has_many :email_subscriptions, :dependent => :destroy
+  has_many :email_subscribers, :through => :email_subscriptions, :source => :email_subscriber, :source_type => "User"
+  has_many :email_subscribers, :through => :email_subscriptions, :source => :email_subscriber, :source_type => "Guest"
+
   def check_file_size
     valid?
     errors[:image_file_size].blank?
