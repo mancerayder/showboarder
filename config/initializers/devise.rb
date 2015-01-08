@@ -242,7 +242,7 @@ Devise.setup do |config|
 
   if Rails.env.production?
     Rails.application.config.middleware.use OmniAuth::Builder do
-      provider :stripe_connect, ENV['STRIPE_CONNECT_CLIENT_ID'], ENV['STRIPE_LIVE_KEY']
+      provider :stripe_connect, ENV['STRIPE_CONNECT_CLIENT_ID'], ENV['STRIPE_LIVE_KEY'], :scope => 'read_write'
     end
     # config.omniauth :stripe_connect,
     # ENV['STRIPE_CONNECT_CLIENT_ID'],
