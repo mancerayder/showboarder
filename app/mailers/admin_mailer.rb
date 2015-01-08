@@ -15,4 +15,14 @@ class AdminMailer < ActionMailer::Base
 
   def past_due(charge_id)
   end
+
+  def receipt(guid)
+    @sale = Sale.find_by(guid: guid)
+    @tickets = @sale.actionee.tickets
+    @show = @sale.actionee.tickets.first.show
+
+    if @sale
+      mail(subject: "Ticket/s sold!")
+    end
+  end  
 end

@@ -1,12 +1,13 @@
 class StripeEventsController < ApplicationController
   skip_before_action :authenticate_user!
+  protect_from_forgery :except => :create
   before_action :parse_and_validate_event
 
   def create
     if self.class.private_method_defined? event_method
       self.send(event_method, @event.event_object)
     end
-    render :text => '{}', :status => :ok
+    render nothing: true
   end
 
   private

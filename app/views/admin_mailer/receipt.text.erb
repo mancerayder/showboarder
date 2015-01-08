@@ -1,0 +1,3 @@
+Thank you for your ticket purchase!
+You purchased <%= @tickets.count %> to <%= link_to "#{@show.board.name} on #{@show.show_at.to_time.strftime('%b %e')}", @show %>
+Your sale ID is <%= @sale.guid %>
