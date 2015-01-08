@@ -154,6 +154,7 @@ class ShowsController < ApplicationController
 
   def show
     @show = Show.find(params[:id])
+    @board = @show.board
     @acts_stringed = @show.acts_stringed
   end
 

@@ -31,8 +31,8 @@ class Board < ActiveRecord::Base
   end
 
   def twitter_or_name
-    if twitter = self.ext_links.where(ext_site: "Twitter") && twitter.count > 0
-      twitter = "@" + twitter.first.url.split("/").last
+    if self.ext_links.where(ext_site: "Twitter") && self.ext_links.where(ext_site: "Twitter").count > 0
+      twitter = "@" + self.ext_links.where(ext_site: "Twitter").first.url.split("/").last
       return twitter
     else
       return name
