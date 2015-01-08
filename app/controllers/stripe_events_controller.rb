@@ -6,7 +6,7 @@ class StripeEventsController < ApplicationController
     if self.class.private_method_defined? event_method
       self.send(event_method, @event.event_object)
     end
-    render nothing: true
+    render :text => '{}', :status => :ok
   end
 
   private
