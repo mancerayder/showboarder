@@ -76,7 +76,7 @@ class Show < ActiveRecord::Base
         end
       else
         flash[:error] = "Sorry, you cannot adjust capacity below the amount of tickets that have already sold."
-        redirect_to show_path(@show)
+        redirect_to board_show_path(@show.board, @show)
       end
     end
   end
