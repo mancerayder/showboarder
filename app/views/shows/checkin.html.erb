@@ -26,6 +26,18 @@
       )
     }
   });
+
+  var FilterInput = React.createClass({
+    cLog: function() {
+      console.log("child");
+    },
+
+    render: function() {
+      return (
+        <input onChange={this.props.onFilter} id="attendeeName" class="form-control"></input>
+      )
+    }
+  });
    
   var Attendee = React.createClass({
     render: function() {
@@ -67,6 +79,7 @@
      
     componentDidMount: function() {
       this.updateAttendees();
+
     },
    
     normalizeAttendee: function(attendee) {
@@ -83,19 +96,47 @@
         isCheckedIn: isCheckedIn
       };
     },
+
+    filterAttendee: function(attendee, query) {
+      if (attendee.name.toLowerCase().indexOf(query.toLowerCase()) > -1) {
+        return attendee
+      }
+    },
    
     normalizeAttendeeList: function(attendeeList) {
       return attendeeList.map(function(attendee) {
         return this.normalizeAttendee(attendee);
       }.bind(this));
     },
+
+    filterAttendeeList: function(attendeeList, query) {
+      return attendeeList.filter(function(attendee){
+        return this.filterAttendee(attendee, query);
+      }.bind(this));
+    },
      
     updateAttendees: function() {
       $.get(this.props.source, function(result) {
+        var attendeeList = this.normalizeAttendeeList(result)
         this.setState({
-          attendees: this.normalizeAttendeeList(result)
+          attendees: attendeeList
         });
       }.bind(this));
+    },
+
+    updateAttendeesFiltered: function() {
+      $.get(this.props.source, function(result) {
+        var attendeeList = this.normalizeAttendeeList(result)
+        var attendeeName = $('#attendeeName').val()
+        var attendeeListFiltered = this.filterAttendeeList(attendeeList, attendeeName)
+        this.setState({
+          attendees: attendeeListFiltered
+        });
+      }.bind(this));
+    },
+
+    cLog: function() {
+      console.log("parent");
     },
    
     handleCheckIn: function(attendeeGuid, ev) {
@@ -120,7 +161,7 @@
         attendees: modifiedAttendees
       })
  
-      this.updateAttendees();
+      // this.updateAttendees(); // removed because it would snap back
       
     },
    
@@ -146,12 +187,15 @@
         attendees: modifiedAttendees
       })
  
-      this.updateAttendees();
+      // this.updateAttendees(); // removed because it would snap back
     },
    
     render: function() {
       return (
         <div>
+          <br />
+          <label>Filter Attendees by Name</label>
+          <FilterInput onFilter={this.updateAttendeesFiltered} />
           <h2>Attendees</h2>
           {this.state.attendees.filter(function(el) {
             return el.isCheckedIn == false }
