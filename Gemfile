@@ -44,6 +44,7 @@ gem 'therubyracer', '0.12.1'
 gem 'postrank-uri', '~> 1.0.18'
 gem "paperclip", "~> 4.2"
 gem "aws-sdk", "1.60.1"
+gem "sentry-raven", :git => "https://github.com/getsentry/raven-ruby.git"
 
 group :development do
   gem 'sqlite3', '1.3.8'
