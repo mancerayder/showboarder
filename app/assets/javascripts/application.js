@@ -16,6 +16,9 @@
 //= require autocomplete-rails
 //= require bootstrap
 //= require turbolinks
+//= require react
+//= require react_ujs
+//= require components
 //= require jquery.easing
 //= require analytics
 //= require grayscale
@@ -26,8 +29,8 @@
 //= require jquery_nested_form
 //= require bootstrap-datepicker
 //= require bootstrap-formhelpers-number
-//= require react.min
-//= require JSXTransformer
+// require react.min
+// require JSXTransformer
 //= require_tree ./spectrum
 //= require_tree ./eforms
 //= require ./graphista/jquery.scrollto

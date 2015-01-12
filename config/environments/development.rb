@@ -39,6 +39,8 @@ Showboarder::Application.configure do
     domain:         ENV['SMTP_SERVER_DOMAIN']
   }
 
+  config.react.variant = :development
+
   # config.action_mailer.delivery_method = :smtp
   # config.action_mailer.smtp_settings = {
   #   address:              'smtp.gmail.com',

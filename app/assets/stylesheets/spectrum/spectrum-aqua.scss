@@ -59,6 +59,10 @@ aside {
     padding:0 0 20px;
 }
 
+.container.no-section {
+    padding-top:70px;
+}
+
 #main-nav .navbar-brand img{
     margin-right: 15px;
     max-width: 60px;
@@ -875,6 +879,15 @@ h4.show-meta {
 
 .carousel-fade .carousel-control {
     z-index: 2;
+}
+
+@media(max-width:620px) {
+    .btn {
+        font-size:9px;
+    }
+    .btn.btn-default.btn-show {
+        width: auto;
+    }
 }
 
 .btn-scroll-dark,
