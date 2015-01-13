@@ -73,10 +73,16 @@ class Sale < ActiveRecord::Base
         end
 
       else # Customer and card for guest
-        customer = Stripe::Customer.create( # TODO: retrieve guests matched by email if preexisting
-          email: actioner.email,
-          description: "Guest - Actionee type: " + self.actionee_type + " Transaction ID: " + self.guid
-          )
+        if actioner.stripe_id 
+          customer = Stripe::Customer.retrieve(actioner.stripe_id)
+        else
+          customer = Stripe::Customer.create( # TODO: retrieve guests matched by email if preexisting
+            email: actioner.email,
+            description: "Guest - Actionee type: " + self.actionee_type + " Transaction ID: " + self.guid
+            )
+
+          actioner.update(stripe_id: customer.id)
+        end
 
         card = customer.cards.create(card: stripe_token)
       end

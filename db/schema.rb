@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150107190326) do
+ActiveRecord::Schema.define(version: 20150113014605) do
 
   create_table "acts", force: true do |t|
     t.string   "name"
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(version: 20150107190326) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "stripe_id"
   end
 
   add_index "guests", ["email"], name: "index_guests_on_email", unique: true
