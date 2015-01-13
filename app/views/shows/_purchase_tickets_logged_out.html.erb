@@ -214,16 +214,32 @@
         });
       };
 
-      StripeCheckout.open({
-        key:         '<%= ENV["STRIPE_TEST_KEY_PUBLISHABLE"] %>', // TODO - replace with live key in production
-        address:     true,
-        amount:      (totalCalculator() * 100).toString(),
-        currency:    'usd',
-        name:        'Showboarder',
-        description: "<%= @tickets.count %> tickets for $" + totalCalculator().toString() + ".00",
-        panelLabel:  'Checkout',
-        token:       token
-      });
+      <% if Rails.env.production? %>
+        StripeCheckout.open({
+          key:         '<%= ENV["STRIPE_LIVE_KEY_PUBLISHABLE"] %>', // TODO - replace with live key in production
+          address:     true,
+          amount:      (totalCalculator() * 100).toString(),
+          currency:    'usd',
+          name:        'Showboarder',
+          description: "<%= @tickets.count %> tickets for $" + totalCalculator().toString() + ".00",
+          panelLabel:  'Checkout',
+          token:       token
+        });
+      <% elsif Rails.env.development? %>
+
+        StripeCheckout.open({
+          key:         '<%= ENV["STRIPE_TEST_KEY_PUBLISHABLE"] %>', // TODO - replace with live key in production
+          address:     true,
+          amount:      (totalCalculator() * 100).toString(),
+          currency:    'usd',
+          name:        'Showboarder',
+          description: "<%= @tickets.count %> tickets for $" + totalCalculator().toString() + ".00",
+          panelLabel:  'Checkout',
+          token:       token
+        });
+
+        return false;
+      <% end %>
 
       return false;
     });
