@@ -9,6 +9,14 @@ GIT
       react-source (~> 0.12)
 
 GIT
+  remote: git://github.com/seuros/capistrano-sidekiq.git
+  revision: 77573c4ba99272226bff35a15d1126321106396f
+  specs:
+    capistrano-sidekiq (0.4.1)
+      capistrano
+      sidekiq
+
+GIT
   remote: https://github.com/getsentry/raven-ruby.git
   revision: 687fe5a5c1b1858a72c8891ba1e7d1ccd79aa0e1
   specs:
@@ -362,6 +370,7 @@ DEPENDENCIES
   capistrano-bundler (= 1.1.3)
   capistrano-rails (= 1.1.1)
   capistrano-rvm (= 0.1.1)
+  capistrano-sidekiq!
   capybara (= 2.2.0)
   coffee-rails (= 4.0.1)
   devise (= 3.2.3)

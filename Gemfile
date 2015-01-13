@@ -58,6 +58,7 @@ group :development do
   # if you are using RVM
   gem 'capistrano-rvm', '0.1.1'
   gem 'rvm-capistrano', '1.5.0'
+  gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
 end
 
 group :test do

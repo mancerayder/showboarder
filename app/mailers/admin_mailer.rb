@@ -24,5 +24,13 @@ class AdminMailer < ActionMailer::Base
     if @sale
       mail(subject: "Ticket/s sold!")
     end
-  end  
+  end
+
+  def new_board(board)
+    @board = Board.find_by_id(board)
+
+    if @board
+      mail(subject: "New Board!")
+    end
+  end
 end

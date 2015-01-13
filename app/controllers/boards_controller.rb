@@ -49,6 +49,7 @@ class BoardsController < ApplicationController
     @board = Board.new(board_params)
     puts board_params
     if @board.save
+      AdminMailer.delay.new_board(@board.id)
       puts @board.ext_links.count
       @board.stages.each do |s|
         s.places_gather
