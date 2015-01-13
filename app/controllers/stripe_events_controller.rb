@@ -17,13 +17,17 @@ class StripeEventsController < ApplicationController
   end
 
   def parse_and_validate_event
-    @event = StripeEvent.new(stripe_id: params[:id], stripe_type: params[:type])
+    if Rails.env.production? && params[:livemode] == false
+      render nothing: true # test event sent to livemode
+    else
+      @event = StripeEvent.new(stripe_id: params[:id], stripe_type: params[:type])
 
-    unless @event.save
-      if @event.valid?
-        render nothing: true, status: 400 # valid event, try again later
-      else
-        render nothing: true # invalid event, move along
+      unless @event.save
+        if @event.valid?
+          render nothing: true, status: 400 # valid event, try again later
+        else
+          render nothing: true # invalid event, move along
+        end
       end
     end
   end
