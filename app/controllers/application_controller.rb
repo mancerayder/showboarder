@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   respond_to :html, :json
-  protect_from_forgery with: :exception
+  protect_from_forgery with: :null_session
   before_filter :configure_permitted_parameters, if: :devise_controller?
   # check_authorization
 
