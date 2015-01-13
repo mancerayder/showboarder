@@ -19,7 +19,7 @@ class UserMailer < ActionMailer::Base
     @show = @sale.actionee.tickets.first.show
 
     if @sale
-      mail(to: @sale.actioner.email, subject: "Tickets Purchased").deliver
+      mail(to: @sale.actioner.email, subject: "Tickets Purchased")
     end
   end
 
