@@ -43,7 +43,7 @@ class Sale < ActiveRecord::Base
     actionee.tickets.first.show
   end
 
-  def charge_card
+  def charge_card_old
     begin
       if email_subscribe
         actioner.email_subscribe(actionee.tickets.first.show.board)

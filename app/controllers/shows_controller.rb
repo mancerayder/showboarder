@@ -96,8 +96,13 @@ class ShowsController < ApplicationController
 
             dupe.shows << @show
 
-            dupe.ext_links = e.ext_links
-            
+            e.ext_links.each do |l| # update already-saved act with new act links
+              link_uora = dupe.ext_links.find_or_create_by(ext_site:l.ext_site) # uora = updated or added
+              link_uora.url = l.url
+
+              link_uora.save!
+            end
+
             dupe.save!
 
             e.destroy!
