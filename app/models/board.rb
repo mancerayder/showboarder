@@ -15,7 +15,6 @@ class Board < ActiveRecord::Base
   has_attached_file :header_image, :s3_protocol => :https
   validates_attachment :header_image, :content_type => { :content_type => ["image/jpeg", "image/png"] }
   validates_with AttachmentSizeValidator, :attributes => :header_image, :less_than => 1.megabytes
-  validates_with AttachmentPresenceValidator, :attributes => :header_image
   before_post_process :check_file_size
   has_many :email_subscriptions, :dependent => :destroy
   has_many :email_subscribers, :through => :email_subscriptions, :source => :email_subscriber, :source_type => "User"

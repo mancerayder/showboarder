@@ -43,6 +43,10 @@ aside {
     padding: 75px 0;
 }
 
+section#showboard {
+    padding: 0px;
+}
+
 #flash {
     background-color: #f5f5dc;
     position:fixed;
@@ -953,6 +957,35 @@ p.ext-links-fontawesomed {
     font-size:38px;
 }
 
+@media(max-width:600px) {
+    p.ext-links-fontawesomed > a,
+    p.ext-links-fontawesomed {
+        color:white;
+        font-size:18px;
+    }
+
+    h2 {
+        font-size:24px;
+    }
+
+    h3 {
+        font-size:18px;
+    }
+
+    h4.show-meta {
+        font-size:12px;
+    }
+
+    body {
+        font-size:12px;
+    }
+
+    #showboard-title {
+        font-size:22px;
+    }
+}
+
+
 p.ext-links-fontawesomed {
     margin-bottom:0px;
 }
@@ -1731,7 +1764,7 @@ p.ext-links-fontawesomed > a:hover {
 @media(min-width:767px) {
     .bg-parallax-light,
     .bg-parallax-dark {
-        background-attachment: fixed;
+        // background-attachment: fixed;
     }
 }
 

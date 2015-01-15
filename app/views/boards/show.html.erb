@@ -1,5 +1,8 @@
-<!-- This sample uses a basic parallax section as the header instead of one of the built in header's! -->
-<section class="bg-parallax-dark" style="background-image: url(<%= @board.header_image.url %>);padding-bottom:50px;" data-stellar-background-ratio="0.5" data-stellar-vertical-offset="50">
+<% if @board.header_image.exists? %>
+  <section class="bg-parallax-dark" style="background-image: url(<%= @board.header_image.url %>);padding-bottom:50px;" data-stellar-background-ratio="0.5" data-stellar-vertical-offset="50">
+<% else %>
+  <section class="bg-parallax-dark" style="background-image: url(<%= asset_path "general/stockheader3.jpg" %>);padding-bottom:50px;" data-stellar-background-ratio="0.5" data-stellar-vertical-offset="50">
+<% end %>
   <div class="container">
     <div class="padding-top hidden-xs"></div>
     <div class="row">
@@ -27,13 +30,18 @@
   <div class="container">
     <div class="row text-center">
       <div class="col-xs-6 col-xs-offset-3">
-        <h2>Showboard</h2>
+        <h2 id="showboard-title">Showboard</h2>
         <hr class="primary">
         <br>
       </div>
       <div class="col-xs-3">
         <% if user_signed_in? && current_user.boarder?(@board) && (current_user.board_role(@board) == "owner" || current_user.board_role(@board) == "manager") %>
-          <%= link_to "+ Add Show", new_board_show_path(@board), :class => "btn btn-primary btn-add-show" %>
+          <% if !@board.header_image.exists? %>
+            <%= link_to "Header Image", edit_board_path(@board), :class => "btn btn-primary btn-add-show" %>
+            <%= link_to "Add Show", new_board_show_path(@board), :class => "btn btn-primary", :style => "float:right;" %>
+          <% else %>
+            <%= link_to "Add Show", new_board_show_path(@board), :class => "btn btn-primary btn-add-show" %>
+          <% end %>
         <% end %>
       </div>
     </div>
@@ -48,7 +56,9 @@
           </p>          
 
         <% else %>
-          This Showboard currently has no upcoming shows
+          <p class="text-center">
+            This Showboard currently has no upcoming shows
+          </p>    
         <% end %>
           
       </div>

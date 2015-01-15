@@ -30,17 +30,6 @@ $(function() {
       $('#map-plz').css("color","red");
       return false
     }
-
-    if ($('#board_header_image').val() == "") {
-      showError("Please add a showboard header image before continuing", "#form-error-header");
-      $('#board_header_image').focus();
-      $("#board_header_image").change(function() {
-        if ($("#board_header_image") != "") {
-          $("#form-error-header").hide();
-        }
-      })
-      return false
-    }
   });
 
   $("#btn-add-link").click();
