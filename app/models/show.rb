@@ -9,6 +9,7 @@ class Show < ActiveRecord::Base
   accepts_nested_attributes_for :acts, :reject_if => :all_blank, :allow_destroy => true
   accepts_nested_attributes_for :ext_links, :reject_if => :all_blank, :allow_destroy => true
   delegate :vanity_url, :to => :board, :prefix => true
+  before_save :normalize_category
 
   def destroy
     raise "Cannot delete a show with sold tickets. Email contact@showboarder.com if you need to do this" unless self.tickets_sold == 0
@@ -32,6 +33,56 @@ class Show < ActiveRecord::Base
       combined = "featuring " + combined
     end
     return combined
+  end
+
+  def normalize_category
+    if self.category == "Business"
+      self.category = "BusinessEvent"
+      elsif self.category == "Comedy"
+        self.category = "ComedyEvent"
+      elsif self.category == "Dance"
+        self.category = "DanceEvent"
+      elsif self.category == "Food"
+        self.category = "FoodEvent"
+      elsif self.category == "Literary"
+        self.category = "LiteraryEvent"
+      elsif self.category == "Music"
+        self.category = "MusicEvent"
+      elsif self.category == "Sale"
+        self.category = "SaleEvent"
+      elsif self.category == "Social"
+        self.category = "SocialEvent"
+      elsif self.category == "Sports"
+        self.category = "SportsEvent"
+      elsif self.category == "Theater"
+        self.category = "TheaterEvent"
+    end
+  end
+
+  def denormalize_category
+    if self.category == "BusinessEvent"
+      return "Business"
+      elsif self.category == "ComedyEvent"
+        return "Comedy"
+      elsif self.category == "DanceEvent"
+        return "Dance"
+      elsif self.category == "FoodEvent"
+        return "Food"
+      elsif self.category == "LiteraryEvent"
+        return "Literary"
+      elsif self.category == "MusicEvent"
+        return "Music"
+      elsif self.category == "SaleEvent"
+        return "Sale"
+      elsif self.category == "SocialEvent"
+        return "Social"
+      elsif self.category == "SportsEvent"
+        return "Sports"
+      elsif self.category == "TheaterEvent"
+        return "Theater"
+      else
+        return category
+    end
   end
 
   def tickets_make  # needs to account for paid, pwyw, rsvp_only

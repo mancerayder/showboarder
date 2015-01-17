@@ -14,6 +14,14 @@
           <div id="form-errors" class="alert alert-warning" style="display:none;">
           </div>
 
+          <div class="textbox-wrap textbox-wrap-show">
+            <%= f.label "Show type" %>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-unsorted"></i></span>
+              <%= f.select :category, options_for_select(["Music", "Theater", "Comedy", "Dance", "Festival", "Food", "Literary", "Social", "Other"], f.object.denormalize_category), {}, {:class => 'form-control', :id => "category"} %>
+            </div>
+          </div>
+
           <div class="clearfix">
             <div class="textbox-wrap textbox-wrap-show">
               <label for="show-date">Show Date</label> 
